@@ -19,14 +19,21 @@ type Props = {
   index: number;
 };
 
+function resolvePosterUrl(caseStudy: CaseStudy): string | null {
+  if (caseStudy.posterUrl) return caseStudy.posterUrl;
+  if (!caseStudy.poster) return null;
+  const builder = urlForImage(caseStudy.poster);
+  return builder ? builder.width(1200).height(675).url() : null;
+}
+
 export function CaseStudyTile({ caseStudy, index }: Props) {
-  const builder = caseStudy.poster ? urlForImage(caseStudy.poster) : null;
-  const posterUrl = builder ? builder.width(1200).height(675).url() : null;
+  const posterUrl = resolvePosterUrl(caseStudy);
   const paddedIndex = String(index + 1).padStart(2, '0');
+  const href = caseStudy.isPlaceholder ? '/work' : `/work/${caseStudy.slug.current}`;
 
   return (
     <Link
-      href={`/work/${caseStudy.slug.current}`}
+      href={href}
       className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-brass"
     >
       <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-dusk-teal to-texas-umber">

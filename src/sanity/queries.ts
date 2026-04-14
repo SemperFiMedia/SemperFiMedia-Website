@@ -1,9 +1,12 @@
 import { groq } from 'next-sanity';
 import { sanityClient } from './client';
+import { PLACEHOLDER_FEATURED_CASE_STUDIES } from '@/lib/placeholder-case-studies';
 import type { CaseStudy, Testimonial, Client } from './types';
 
 export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
-  if (!sanityClient) return [];
+  if (!sanityClient) {
+    return PLACEHOLDER_FEATURED_CASE_STUDIES.slice(0, limit);
+  }
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && featured == true] | order(publishedAt desc)[0...$limit]{
       _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
@@ -13,7 +16,9 @@ export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
 }
 
 export async function getAllCaseStudies(): Promise<CaseStudy[]> {
-  if (!sanityClient) return [];
+  if (!sanityClient) {
+    return PLACEHOLDER_FEATURED_CASE_STUDIES;
+  }
   return sanityClient.fetch(
     groq`*[_type == "caseStudy"] | order(publishedAt desc){
       _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
