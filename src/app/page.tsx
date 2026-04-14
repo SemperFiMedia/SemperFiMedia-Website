@@ -15,8 +15,6 @@ import {
   getFeaturedClients,
 } from '@/sanity/queries';
 
-const FALLBACK_SHOWREEL_PLAYBACK_ID = process.env.NEXT_PUBLIC_SHOWREEL_PLAYBACK_ID ?? '';
-
 export default async function HomePage() {
   const [caseStudies, testimonials, clients] = await Promise.all([
     getFeaturedCaseStudies(6),
@@ -30,7 +28,7 @@ export default async function HomePage() {
     <>
       <Nav />
       <main>
-        <Hero showreelPlaybackId={FALLBACK_SHOWREEL_PLAYBACK_ID} />
+        <Hero />
         <PositioningStrip />
         {caseStudies.length > 0 && <FeaturedWork caseStudies={caseStudies} />}
         <DualFunnel />

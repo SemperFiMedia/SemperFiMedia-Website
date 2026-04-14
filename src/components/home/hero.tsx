@@ -1,31 +1,34 @@
-import { CinematicVideo } from '@/components/media/cinematic-video';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 
 type Props = {
-  showreelPlaybackId: string;
+  videoSrc?: string;
 };
 
-export function Hero({ showreelPlaybackId }: Props) {
+export function Hero({ videoSrc = '/videos/hero-showreel.mp4' }: Props) {
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-br from-gunpowder via-dusk-teal to-texas-umber film-grain"
+      className="relative overflow-hidden bg-gunpowder film-grain"
       aria-label="Semper Fi Media showreel"
     >
-      <div className="letterbox-top" />
-      {showreelPlaybackId && (
-        <div className="absolute inset-0 -z-10">
-          <CinematicVideo
-            playbackId={showreelPlaybackId}
-            title="Semper Fi Media Showreel"
-            autoPlay
-            muted
-            loop
-            className="h-full w-full opacity-40"
-          />
-        </div>
+      <div className="letterbox-top relative z-20" />
+      {videoSrc && (
+        <video
+          src={videoSrc}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          className="absolute inset-0 h-full w-full object-cover opacity-50"
+          aria-hidden="true"
+        />
       )}
-      <div className="relative mx-auto flex min-h-[720px] max-w-[1440px] flex-col justify-center px-6 py-24 md:px-12">
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-gunpowder/70 via-dusk-teal/40 to-texas-umber/30 pointer-events-none"
+        aria-hidden="true"
+      />
+      <div className="relative z-10 mx-auto flex min-h-[720px] max-w-[1440px] flex-col justify-center px-6 py-24 md:px-12">
         <DataLabel className="mb-6">
           SCENE 001 · TAKE 01 · ROLL A · FORNEY TX · 32.75°N
         </DataLabel>
@@ -45,7 +48,7 @@ export function Hero({ showreelPlaybackId }: Props) {
           </BrassButton>
         </div>
       </div>
-      <div className="letterbox-bottom" />
+      <div className="letterbox-bottom relative z-20" />
     </section>
   );
 }
