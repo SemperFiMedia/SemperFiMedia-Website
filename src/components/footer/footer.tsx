@@ -5,13 +5,13 @@ const SERVICES = [
   { href: '/weddings', label: 'Cinema Weddings' },
   { href: '/corporate/music-videos', label: 'Music Videos' },
   { href: '/corporate/mission-and-tactical', label: 'Mission & Tactical' },
+  { href: '/social-reels', label: 'Social Media Reels' },
   { href: '/pricing', label: 'Pricing' },
 ] as const;
 
 const COMPANY = [
   { href: '/about', label: 'About' },
   { href: '/work', label: 'Work' },
-  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ] as const;
 

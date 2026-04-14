@@ -3,6 +3,8 @@
 import MuxPlayer from '@mux/mux-player-react';
 import { cn } from '@/lib/utils';
 
+type Aspect = 'video' | 'vertical' | 'square';
+
 type Props = {
   playbackId: string;
   title: string;
@@ -12,6 +14,13 @@ type Props = {
   loop?: boolean;
   poster?: string;
   accentColor?: string;
+  aspect?: Aspect;
+};
+
+const ASPECT_CLASS: Record<Aspect, string> = {
+  video: 'aspect-video',
+  vertical: 'aspect-[9/16]',
+  square: 'aspect-square',
 };
 
 export function CinematicVideo({
@@ -23,9 +32,10 @@ export function CinematicVideo({
   loop = false,
   poster,
   accentColor = '#D4A057',
+  aspect = 'video',
 }: Props) {
   return (
-    <div className={cn('relative aspect-video overflow-hidden bg-gunpowder', className)}>
+    <div className={cn('relative overflow-hidden bg-gunpowder', ASPECT_CLASS[aspect], className)}>
       <MuxPlayer
         playbackId={playbackId}
         metadata={{ video_title: title }}

@@ -26,6 +26,7 @@ export const caseStudy = defineType({
           { title: 'Real Estate', value: 'real-estate' },
           { title: 'TV / Broadcast', value: 'tv' },
           { title: 'Events & Conventions', value: 'events' },
+          { title: 'Social Media Reel', value: 'social' },
         ],
       },
       validation: (r) => r.required(),

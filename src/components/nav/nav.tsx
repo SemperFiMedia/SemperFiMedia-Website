@@ -4,8 +4,8 @@ const LINKS = [
   { href: '/work', label: 'Work' },
   { href: '/corporate', label: 'Corporate' },
   { href: '/weddings', label: 'Weddings' },
+  { href: '/social-reels', label: 'Social' },
   { href: '/about', label: 'About' },
-  { href: '/blog', label: 'Blog' },
 ] as const;
 
 export function Nav() {

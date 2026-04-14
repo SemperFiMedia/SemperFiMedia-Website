@@ -8,10 +8,10 @@ const STATIC_ROUTES = [
   '/corporate',
   '/corporate/mission-and-tactical',
   '/weddings',
+  '/social-reels',
   '/pricing',
   '/about',
   '/contact',
-  '/blog',
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

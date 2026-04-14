@@ -26,6 +26,17 @@ export async function getAllCaseStudies(): Promise<CaseStudy[]> {
   );
 }
 
+export async function getSocialReels(limit?: number): Promise<CaseStudy[]> {
+  if (!sanityClient) return [];
+  const slice = limit ? `[0...$limit]` : '';
+  return sanityClient.fetch(
+    groq`*[_type == "caseStudy" && category == "social"] | order(publishedAt desc)${slice}{
+      _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
+    }`,
+    limit ? { limit } : {}
+  );
+}
+
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
   if (!sanityClient) return null;
   return sanityClient.fetch(
