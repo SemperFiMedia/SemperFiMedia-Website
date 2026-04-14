@@ -43,7 +43,7 @@ export function ContactForm() {
   }
 
   const inputClass =
-    'w-full border border-bone/20 bg-transparent px-4 py-3 text-bone placeholder:text-bone-subtle focus:border-brass focus:outline-none';
+    'w-full border border-bone/20 bg-transparent px-4 py-3 text-bone placeholder:text-bone-subtle focus:border-brass focus:outline-none [color-scheme:dark] [&>option]:bg-gunpowder [&>option]:text-bone';
   const labelClass = 'data-label mb-2 block text-bone-muted';
 
   return (
