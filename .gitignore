@@ -36,6 +36,13 @@ yarn-error.log*
 # vercel
 .vercel
 
+# lighthouse audits
+.lighthouse/
+
+# playwright
+/playwright-report/
+/test-results/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
