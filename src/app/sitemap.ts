@@ -15,7 +15,7 @@ const STATIC_ROUTES = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const cases = await getAllCaseStudies();
+  const cases = (await getAllCaseStudies()).filter((cs) => !cs.isPlaceholder);
   const staticEntries = STATIC_ROUTES.map((route) => ({
     url: `${env.siteUrl}${route}`,
     lastModified: new Date(),

@@ -14,7 +14,7 @@ type RouteProps = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
   const all = await getAllCaseStudies();
-  return all.map((cs) => ({ slug: cs.slug.current }));
+  return all.filter((cs) => !cs.isPlaceholder).map((cs) => ({ slug: cs.slug.current }));
 }
 
 export async function generateMetadata({ params }: RouteProps): Promise<Metadata> {
