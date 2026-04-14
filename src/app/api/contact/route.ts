@@ -27,7 +27,7 @@ export async function POST(request: Request) {
   const { name, email, phone, service, eventDate, budget, message } = parsed.data;
 
   const { error } = await resend.emails.send({
-    from: 'Semper Fi Media Website <hello@semperfimedia.llc>',
+    from: env.resend.fromEmail,
     to: env.resend.toEmail,
     replyTo: email,
     subject: `New inquiry: ${service} — ${name}`,

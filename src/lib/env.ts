@@ -14,7 +14,9 @@ export const env = {
   },
   resend: {
     apiKey: process.env.RESEND_API_KEY ?? '',
-    toEmail: process.env.CONTACT_FORM_TO_EMAIL ?? 'hello@semperfimedia.llc',
+    toEmail: process.env.CONTACT_FORM_TO_EMAIL ?? 'semperfimedia.tx@gmail.com',
+    fromEmail:
+      process.env.RESEND_FROM_EMAIL ?? 'Semper Fi Media Website <onboarding@resend.dev>',
   },
   plausible: {
     domain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? 'semperfimedia.llc',
