@@ -13,6 +13,23 @@ export const metadata: Metadata = {
   description:
     'Marine-led cinematic video production serving Dallas–Fort Worth. Corporate films, cinema weddings, music videos. Big-agency quality. Half the overhead.',
   metadataBase: new URL('https://www.semperfimedia.llc'),
+  openGraph: {
+    type: 'website',
+    siteName: 'Semper Fi Media',
+    locale: 'en_US',
+    images: [
+      {
+        url: '/og-default.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Semper Fi Media — Marine-led cinematic video production, Dallas TX',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-default.jpg'],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
