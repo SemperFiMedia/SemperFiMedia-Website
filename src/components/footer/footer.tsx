@@ -5,6 +5,9 @@ const SERVICES = [
   { href: '/weddings', label: 'Cinema Weddings' },
   { href: '/corporate/music-videos', label: 'Music Videos' },
   { href: '/corporate/mission-and-tactical', label: 'Mission & Tactical' },
+  { href: '/corporate/conventions', label: 'Conventions' },
+  { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
+  { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
   { href: '/social-reels', label: 'Social Media Reels' },
   { href: '/pricing', label: 'Pricing' },
 ] as const;

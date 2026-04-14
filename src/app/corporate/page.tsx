@@ -45,6 +45,30 @@ const NICHES = [
       'Artists, labels, and venues. $3,000 anchor price. Fast turnaround. Creative direction that treats your track like it deserves the screen.',
     emphasized: false,
   },
+  {
+    href: '/corporate/conventions',
+    label: 'CROWD ENERGY',
+    title: 'Conventions',
+    description:
+      'Cosplay, horror, comic, gaming, and trade cons. Recap reels that move next year\u2019s tickets. Show-floor discipline with cinema craft.',
+    emphasized: false,
+  },
+  {
+    href: '/corporate/quinceaneras',
+    label: 'TRADITION',
+    title: 'Quinceañeras',
+    description:
+      'Cinema-grade quince films — Mass, court, vals, surprise dance, reception. Filmmakers who respect the tradition and the language.',
+    emphasized: false,
+  },
+  {
+    href: '/corporate/birthday-parties',
+    label: 'MILESTONE',
+    title: 'Birthday Parties',
+    description:
+      '30th, 40th, 50th, 60th. Surprise parties, themed receptions, private dinners. The toast captured clean. The night, remembered right.',
+    emphasized: false,
+  },
 ] as const;
 
 export default function CorporatePage() {
