@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+dist
+.sanity
+tests/e2e
+playwright-report
+test-results
+.lighthouse
+*.log
+.env.local
+.env*.local

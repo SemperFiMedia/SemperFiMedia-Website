@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 import { REDIRECTS } from './src/lib/redirects';
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'cdn.sanity.io' },
