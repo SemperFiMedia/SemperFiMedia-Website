@@ -10,6 +10,8 @@ import { TestimonialFeature } from '@/components/home/testimonial-feature';
 import { LogoWall } from '@/components/home/logo-wall';
 import { CtaCloser } from '@/components/home/cta-closer';
 import { SocialReelsPitch } from '@/components/home/social-reels-pitch';
+import { ProcessSection } from '@/components/home/process-section';
+import { FaqSection } from '@/components/home/faq-section';
 import {
   getFeaturedCaseStudies,
   getFeaturedTestimonials,
@@ -37,9 +39,11 @@ export default async function HomePage() {
         <DualFunnel />
         <SocialReelsPitch reels={socialReels} />
         <FlagshipSpotlight />
+        <ProcessSection />
         {featuredTestimonial && <TestimonialFeature testimonial={featuredTestimonial} />}
         {clients.length > 0 && <LogoWall clients={clients} />}
         <FounderStrip />
+        <FaqSection />
         <CtaCloser />
       </main>
       <Footer />
