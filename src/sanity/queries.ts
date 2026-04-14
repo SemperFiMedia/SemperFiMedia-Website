@@ -41,7 +41,9 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null
   if (!sanityClient) return null;
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && slug.current == $slug][0]{
-      _id, title, slug, client, category, muxPlaybackId, poster, summary, body, publishedAt, featured
+      _id, title, slug, client, category, muxPlaybackId, poster, summary, body,
+      processNotes, behindTheScenes[]{_key, asset, caption, alt},
+      publishedAt, featured
     }`,
     { slug }
   );

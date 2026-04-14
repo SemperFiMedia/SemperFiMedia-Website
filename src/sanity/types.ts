@@ -5,7 +5,16 @@ export type CaseStudyCategory =
   | 'music'
   | 'wedding'
   | 'real-estate'
-  | 'tv';
+  | 'tv'
+  | 'events'
+  | 'social';
+
+export type BehindTheScenesImage = {
+  _key?: string;
+  asset: { _ref: string };
+  caption?: string;
+  alt: string;
+};
 
 export type CaseStudy = {
   _id: string;
@@ -19,6 +28,8 @@ export type CaseStudy = {
   isPlaceholder?: boolean;
   summary?: string;
   body?: unknown;
+  processNotes?: unknown;
+  behindTheScenes?: BehindTheScenesImage[];
   publishedAt?: string;
   featured: boolean;
 };

@@ -12,6 +12,7 @@ import { CtaCloser } from '@/components/home/cta-closer';
 import { SocialReelsPitch } from '@/components/home/social-reels-pitch';
 import { ProcessSection } from '@/components/home/process-section';
 import { FaqSection } from '@/components/home/faq-section';
+import { Reveal } from '@/components/primitives/reveal';
 import {
   getFeaturedCaseStudies,
   getFeaturedTestimonials,
@@ -34,17 +35,39 @@ export default async function HomePage() {
       <Nav />
       <main>
         <Hero />
-        <PositioningStrip />
-        {caseStudies.length > 0 && <FeaturedWork caseStudies={caseStudies} />}
-        <DualFunnel />
+        <Reveal>
+          <PositioningStrip />
+        </Reveal>
+        {caseStudies.length > 0 && (
+          <Reveal>
+            <FeaturedWork caseStudies={caseStudies} />
+          </Reveal>
+        )}
+        <Reveal>
+          <DualFunnel />
+        </Reveal>
         <SocialReelsPitch reels={socialReels} />
-        <FlagshipSpotlight />
+        <Reveal>
+          <FlagshipSpotlight />
+        </Reveal>
         <ProcessSection />
-        {featuredTestimonial && <TestimonialFeature testimonial={featuredTestimonial} />}
-        {clients.length > 0 && <LogoWall clients={clients} />}
-        <FounderStrip />
+        {featuredTestimonial && (
+          <Reveal>
+            <TestimonialFeature testimonial={featuredTestimonial} />
+          </Reveal>
+        )}
+        {clients.length > 0 && (
+          <Reveal>
+            <LogoWall clients={clients} />
+          </Reveal>
+        )}
+        <Reveal>
+          <FounderStrip />
+        </Reveal>
         <FaqSection />
-        <CtaCloser />
+        <Reveal>
+          <CtaCloser />
+        </Reveal>
       </main>
       <Footer />
     </>

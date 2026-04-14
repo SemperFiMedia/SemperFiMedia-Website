@@ -12,6 +12,8 @@ const CATEGORY_LABELS: Record<CaseStudy['category'], string> = {
   wedding: 'WEDDING',
   'real-estate': 'REAL ESTATE',
   tv: 'TV / BROADCAST',
+  events: 'EVENTS & CONVENTIONS',
+  social: 'SOCIAL REEL',
 };
 
 type Props = {
