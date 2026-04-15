@@ -7,10 +7,19 @@ import { usePathname } from 'next/navigation';
 
 const SECTIONS = [
   {
+    label: 'Main',
+    links: [
+      { href: '/work', label: 'Selected Work' },
+      { href: '/about', label: 'About' },
+      { href: '/blog', label: 'The Field Notes' },
+      { href: '/contact', label: 'Contact' },
+    ],
+  },
+  {
     label: 'Services',
     links: [
-      { href: '/corporate', label: 'Corporate Video' },
       { href: '/weddings', label: 'Cinema Weddings' },
+      { href: '/corporate', label: 'Corporate Video' },
       { href: '/social-reels', label: 'Social Media Reels' },
       { href: '/pricing', label: 'Pricing' },
     ],
@@ -25,15 +34,6 @@ const SECTIONS = [
       { href: '/corporate/conventions', label: 'Conventions' },
       { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
       { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
-    ],
-  },
-  {
-    label: 'Company',
-    links: [
-      { href: '/work', label: 'Selected Work' },
-      { href: '/blog', label: 'The Field Notes' },
-      { href: '/about', label: 'About' },
-      { href: '/contact', label: 'Contact' },
     ],
   },
 ] as const;
@@ -135,11 +135,11 @@ export function NavDrawer() {
               </button>
             </div>
 
-            <nav aria-label="Full site" className="flex flex-col gap-8">
+            <nav aria-label="Full site" className="flex flex-col gap-6">
               {SECTIONS.map((section) => (
                 <div key={section.label}>
-                  <div className="data-label mb-3 text-brass">{section.label}</div>
-                  <ul className="flex flex-col gap-2">
+                  <div className="data-label mb-2 text-brass">{section.label}</div>
+                  <ul className="flex flex-col gap-1">
                     {section.links.map((link) => {
                       const active =
                         pathname === link.href || pathname?.startsWith(link.href + '/');
@@ -149,7 +149,7 @@ export function NavDrawer() {
                             href={link.href}
                             onClick={() => setOpen(false)}
                             className={
-                              'block font-serif text-2xl italic transition-colors ' +
+                              'block font-serif text-lg italic transition-colors md:text-xl ' +
                               (active ? 'text-brass' : 'text-bone hover:text-brass')
                             }
                           >
@@ -163,11 +163,11 @@ export function NavDrawer() {
               ))}
             </nav>
 
-            <div className="mt-10 border-t border-brass/15 pt-6">
+            <div className="mt-6 border-t border-brass/15 pt-4">
               <Link
                 href="/contact"
                 onClick={() => setOpen(false)}
-                className="data-label block bg-brass px-5 py-4 text-center font-bold text-gunpowder transition-colors hover:bg-golden-hour"
+                className="data-label block bg-brass px-5 py-3 text-center font-bold text-gunpowder transition-colors hover:bg-golden-hour"
               >
                 Book a Discovery Call
               </Link>
