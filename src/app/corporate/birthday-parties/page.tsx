@@ -4,6 +4,8 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { NicheFeaturedWork } from '@/components/niche/featured-work';
+import { getCaseStudiesByCategory } from '@/sanity/queries';
 
 export const metadata: Metadata = {
   title: 'Birthday Party Videographer Dallas — Milestone & Private Events',
@@ -39,7 +41,8 @@ const WHY = [
   },
 ];
 
-export default function BirthdayPartiesPage() {
+export default async function BirthdayPartiesPage() {
+  const featured = await getCaseStudiesByCategory('events', 4);
   return (
     <>
       <Nav />
@@ -73,6 +76,12 @@ export default function BirthdayPartiesPage() {
             </div>
           </div>
         </section>
+
+        <NicheFeaturedWork
+          eyebrow="BIRTHDAY PARTY WORK · DFW"
+          heading="Recent milestone celebrations."
+          caseStudies={featured}
+        />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2">

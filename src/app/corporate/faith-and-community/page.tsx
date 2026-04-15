@@ -4,6 +4,8 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { NicheFeaturedWork } from '@/components/niche/featured-work';
+import { getCaseStudiesByCategory } from '@/sanity/queries';
 
 export const metadata: Metadata = {
   title: 'Church & Nonprofit Video Production Dallas — Faith & Community',
@@ -39,7 +41,8 @@ const WHY = [
   },
 ];
 
-export default function FaithAndCommunityPage() {
+export default async function FaithAndCommunityPage() {
+  const featured = await getCaseStudiesByCategory('faith', 4);
   return (
     <>
       <Nav />
@@ -72,6 +75,12 @@ export default function FaithAndCommunityPage() {
             </div>
           </div>
         </section>
+
+        <NicheFeaturedWork
+          eyebrow="FAITH & COMMUNITY WORK"
+          heading="Recent ministry & nonprofit films."
+          caseStudies={featured}
+        />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2">

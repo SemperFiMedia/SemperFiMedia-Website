@@ -4,6 +4,8 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { NicheFeaturedWork } from '@/components/niche/featured-work';
+import { getCaseStudiesByCategory } from '@/sanity/queries';
 
 export const metadata: Metadata = {
   title: 'Tactical Video Production Dallas — First Responders, Firearm Brands, Military',
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
     'Marine-led tactical video production in Dallas. Brand films for first responders, police agencies, firearm brands, defense contractors, and veteran-adjacent organizations. Cinema-grade work by a Marine who knows the culture.',
 };
 
-export default function MissionAndTacticalPage() {
+export default async function MissionAndTacticalPage() {
+  const featured = await getCaseStudiesByCategory('tactical', 4);
   return (
     <>
       <Nav />
@@ -39,6 +42,12 @@ export default function MissionAndTacticalPage() {
             </p>
           </div>
         </section>
+
+        <NicheFeaturedWork
+          eyebrow="MISSION & TACTICAL WORK"
+          heading="Recent mission-driven work."
+          caseStudies={featured}
+        />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2">

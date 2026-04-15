@@ -4,6 +4,8 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { NicheFeaturedWork } from '@/components/niche/featured-work';
+import { getCaseStudiesByCategory } from '@/sanity/queries';
 
 export const metadata: Metadata = {
   title: 'Convention Videographer Dallas — Cosplay, Horror, Comic, Gaming Cons',
@@ -39,7 +41,8 @@ const WHY = [
   },
 ];
 
-export default function ConventionsPage() {
+export default async function ConventionsPage() {
+  const featured = await getCaseStudiesByCategory('events', 4);
   return (
     <>
       <Nav />
@@ -72,6 +75,12 @@ export default function ConventionsPage() {
             </div>
           </div>
         </section>
+
+        <NicheFeaturedWork
+          eyebrow="CONVENTION WORK · DFW"
+          heading="Recent conventions covered."
+          caseStudies={featured}
+        />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2">
