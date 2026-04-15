@@ -5,6 +5,8 @@ import { Clarity } from '@/components/analytics/clarity';
 import { LocalBusinessJsonLd } from '@/components/seo/structured-data';
 import './globals.css';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: {
     default: 'Semper Fi Media — Marine-Led Cinematic Video Production, Dallas TX',
