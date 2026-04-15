@@ -42,7 +42,7 @@ const WHY = [
 ];
 
 export default async function BirthdayPartiesPage() {
-  const featured = await getCaseStudiesByCategory('events', 4);
+  const featured = await getCaseStudiesByCategory('birthday', 4);
   return (
     <>
       <Nav />

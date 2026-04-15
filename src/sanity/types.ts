@@ -7,6 +7,8 @@ export type CaseStudyCategory =
   | 'real-estate'
   | 'tv'
   | 'events'
+  | 'convention'
+  | 'birthday'
   | 'quinceanera'
   | 'social';
 
