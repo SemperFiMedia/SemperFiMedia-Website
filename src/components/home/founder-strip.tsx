@@ -11,7 +11,7 @@ export function FounderStrip() {
             src="/images/tj-founder.jpg"
             alt="TJ, founder of Semper Fi Media"
             fill
-            className="object-cover grayscale"
+            className="object-cover"
             sizes="(min-width: 768px) 50vw, 100vw"
           />
         </div>
