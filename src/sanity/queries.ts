@@ -37,6 +37,16 @@ export async function getSocialReels(limit?: number): Promise<CaseStudy[]> {
   );
 }
 
+export async function getHeroCaseStudy(): Promise<CaseStudy | null> {
+  if (!sanityClient) return null;
+  return sanityClient.fetch(
+    groq`*[_type == "caseStudy" && category == "wedding" && featured == true && defined(muxPlaybackId)]
+      | order(publishedAt desc)[0]{
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
+    }`,
+  );
+}
+
 export async function getCaseStudiesByCategory(
   category: string,
   limit = 4,

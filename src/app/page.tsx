@@ -18,23 +18,29 @@ import {
   getFeaturedTestimonials,
   getFeaturedClients,
   getSocialReels,
+  getHeroCaseStudy,
 } from '@/sanity/queries';
+import { urlForImage } from '@/sanity/image';
 
 export default async function HomePage() {
-  const [caseStudies, testimonials, clients, socialReels] = await Promise.all([
+  const [caseStudies, testimonials, clients, socialReels, heroCs] = await Promise.all([
     getFeaturedCaseStudies(6),
     getFeaturedTestimonials(),
     getFeaturedClients(),
     getSocialReels(3),
+    getHeroCaseStudy(),
   ]);
 
   const featuredTestimonial = testimonials[0];
+  const heroPosterUrl = heroCs?.poster
+    ? urlForImage(heroCs.poster)?.width(1920).height(1080).url() ?? undefined
+    : undefined;
 
   return (
     <>
       <Nav />
       <main>
-        <Hero />
+        <Hero muxPlaybackId={heroCs?.muxPlaybackId} posterUrl={heroPosterUrl} />
         <Reveal>
           <PositioningStrip />
         </Reveal>
