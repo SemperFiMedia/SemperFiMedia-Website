@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { NavDrawer } from './nav-drawer';
 
 const LINKS = [
   { href: '/work', label: 'Work' },
@@ -24,7 +25,7 @@ export function Nav() {
         >
           Semper Fi <span className="text-brass">Media</span>
         </Link>
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 md:gap-8">
           <ul className="hidden items-center gap-6 text-sm font-medium md:flex">
             {LINKS.map((link) => (
               <li key={link.href}>
@@ -39,10 +40,11 @@ export function Nav() {
           </ul>
           <Link
             href="/contact"
-            className="data-label bg-brass px-5 py-3 font-bold text-gunpowder transition-colors hover:bg-golden-hour"
+            className="data-label hidden bg-brass px-5 py-3 font-bold text-gunpowder transition-colors hover:bg-golden-hour sm:inline-block"
           >
             Book a Call
           </Link>
+          <NavDrawer />
         </div>
       </nav>
     </header>
