@@ -13,6 +13,7 @@ const CATEGORY_LABELS: Record<CaseStudy['category'], string> = {
   'real-estate': 'REAL ESTATE',
   tv: 'TV / BROADCAST',
   events: 'EVENTS & CONVENTIONS',
+  quinceanera: 'QUINCEAÑERA',
   social: 'SOCIAL REEL',
 };
 

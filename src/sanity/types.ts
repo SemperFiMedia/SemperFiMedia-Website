@@ -7,6 +7,7 @@ export type CaseStudyCategory =
   | 'real-estate'
   | 'tv'
   | 'events'
+  | 'quinceanera'
   | 'social';
 
 export type BehindTheScenesImage = {
