@@ -135,8 +135,7 @@ export function NavDrawer() {
                   <ul className="flex flex-col gap-2">
                     {section.links.map((link) => {
                       const active =
-                        pathname === link.href ||
-                        (link.href !== '/' && pathname?.startsWith(link.href));
+                        pathname === link.href || pathname?.startsWith(link.href + '/');
                       return (
                         <li key={link.href}>
                           <Link
