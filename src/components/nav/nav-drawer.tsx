@@ -102,7 +102,7 @@ export function NavDrawer() {
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-black/70 backdrop-blur-sm"
           />
-          <aside className="absolute right-0 top-0 flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-brass/15 bg-gunpowder px-6 py-6 shadow-2xl md:px-10">
+          <aside className="absolute right-0 top-0 flex h-screen max-h-screen w-full max-w-md flex-col overflow-y-auto border-l border-brass/15 bg-gunpowder px-6 py-6 shadow-2xl md:px-10">
             <div className="mb-8 flex items-center justify-between">
               <Link
                 href="/"
