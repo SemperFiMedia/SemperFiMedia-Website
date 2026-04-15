@@ -15,6 +15,7 @@ const SERVICES = [
 const COMPANY = [
   { href: '/about', label: 'About' },
   { href: '/work', label: 'Work' },
+  { href: '/blog', label: 'The Field Notes' },
   { href: '/contact', label: 'Contact' },
 ] as const;
 

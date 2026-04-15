@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import { sanityClient } from './client';
 import { PLACEHOLDER_FEATURED_CASE_STUDIES } from '@/lib/placeholder-case-studies';
-import type { CaseStudy, Testimonial, Client } from './types';
+import type { CaseStudy, Testimonial, Client, BlogPost } from './types';
 
 export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
   if (!sanityClient) {
@@ -77,6 +77,42 @@ export async function getAllTestimonials(): Promise<Testimonial[]> {
     groq`*[_type == "testimonial"] | order(reviewDate desc){
       _id, quote, author, authorTitle, source, rating, featured, reviewDate
     }`
+  );
+}
+
+export async function getAllBlogPosts(): Promise<BlogPost[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "blogPost" && defined(publishedAt)] | order(featured desc, publishedAt desc){
+      _id, title, slug, excerpt, coverImage, publishedAt, category,
+      author, authorTitle, featured, readingTime
+    }`,
+  );
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  if (!sanityClient) return null;
+  return sanityClient.fetch(
+    groq`*[_type == "blogPost" && slug.current == $slug][0]{
+      _id, title, slug, excerpt, coverImage, body, publishedAt, category,
+      author, authorTitle, featured, readingTime, seoTitle, seoDescription
+    }`,
+    { slug },
+  );
+}
+
+export async function getRelatedBlogPosts(
+  category: string,
+  excludeSlug: string,
+  limit = 3,
+): Promise<BlogPost[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "blogPost" && category == $category && slug.current != $excludeSlug && defined(publishedAt)]
+      | order(publishedAt desc)[0...$limit]{
+      _id, title, slug, excerpt, coverImage, publishedAt, category, readingTime
+    }`,
+    { category, excludeSlug, limit },
   );
 }
 

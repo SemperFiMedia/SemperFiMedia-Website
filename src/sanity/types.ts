@@ -58,3 +58,22 @@ export type Client = {
   featured: boolean;
   order?: number;
 };
+
+export type BlogCategory = 'gear' | 'weddings' | 'bts' | 'industry' | 'how-to';
+
+export type BlogPost = {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  excerpt?: string;
+  coverImage?: { asset: { _ref: string } };
+  body?: unknown;
+  publishedAt: string;
+  category: BlogCategory;
+  author?: string;
+  authorTitle?: string;
+  featured?: boolean;
+  readingTime?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+};

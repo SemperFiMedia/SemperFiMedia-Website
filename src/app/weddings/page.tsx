@@ -6,7 +6,8 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingTier } from '@/components/pricing/pricing-tier';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
-import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { TestimonialsGrid } from '@/components/social-proof/testimonials-grid';
+import { getCaseStudiesByCategory, getAllTestimonials } from '@/sanity/queries';
 
 export const metadata: Metadata = {
   title: 'Netflix Documentary Wedding Films Dallas — Cinema Wedding Videography',
@@ -194,7 +195,10 @@ const WHY = [
 ];
 
 export default async function WeddingsPage() {
-  const featured = await getCaseStudiesByCategory('wedding', 4);
+  const [featured, testimonials] = await Promise.all([
+    getCaseStudiesByCategory('wedding', 4),
+    getAllTestimonials(),
+  ]);
 
   return (
     <>
@@ -376,6 +380,13 @@ export default async function WeddingsPage() {
             </DataLabel>
           </div>
         </section>
+
+        <TestimonialsGrid
+          testimonials={testimonials}
+          eyebrow="MORE REVIEWS"
+          heading="Real couples. Real reviews."
+          limit={6}
+        />
 
         <section className="border-t border-brass/15 bg-black px-6 py-20 md:px-12 md:py-28">
           <div className="mx-auto max-w-[900px]">

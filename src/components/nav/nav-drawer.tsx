@@ -31,6 +31,7 @@ const SECTIONS = [
     label: 'Company',
     links: [
       { href: '/work', label: 'Selected Work' },
+      { href: '/blog', label: 'The Field Notes' },
       { href: '/about', label: 'About' },
       { href: '/contact', label: 'Contact' },
     ],
