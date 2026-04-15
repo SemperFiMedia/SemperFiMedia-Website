@@ -11,7 +11,7 @@ export function FeaturedWork({ caseStudies }: Props) {
     <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-28" aria-label="Featured work">
       <div className="mx-auto max-w-[1440px]">
         <SectionHeader
-          label="RECENT WORK · 2024 – 2026"
+          label="RECENT WORK · 2023 – 2026"
           title="Selected Films"
           action={{ href: '/work', label: 'View All Work' }}
         />
