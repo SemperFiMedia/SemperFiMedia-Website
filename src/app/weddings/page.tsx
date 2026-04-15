@@ -7,6 +7,7 @@ import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { TestimonialsGrid } from '@/components/social-proof/testimonials-grid';
 import { WeddingConfigurator } from '@/components/weddings/wedding-configurator';
+import { ProposalForm } from '@/components/weddings/proposal-form';
 import { getCaseStudiesByCategory, getAllTestimonials } from '@/sanity/queries';
 
 export const metadata: Metadata = {
@@ -170,6 +171,27 @@ export default async function WeddingsPage() {
         </section>
 
         <WeddingConfigurator />
+
+        <section
+          className="border-t border-brass/15 bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 py-20 md:px-12 md:py-28"
+          aria-label="Get a custom AI proposal"
+        >
+          <div className="mx-auto max-w-[900px]">
+            <DataLabel className="mb-4 text-brass">AI-WRITTEN · DELIVERED IN 30 SECONDS</DataLabel>
+            <h2 className="mb-4 font-serif text-4xl italic leading-tight md:text-5xl">
+              Want a personalized proposal,
+              <br />
+              written for your day?
+            </h2>
+            <p className="mb-10 text-lg leading-relaxed text-bone-muted">
+              Tell us about your wedding in a few sentences. Our AI — trained on Semper Fi
+              Media&apos;s pricing, packages, and brand voice — drafts a custom proposal in TJ&apos;s
+              voice and emails it to your inbox. Tier recommendation, add-on suggestions, the
+              specific moments we&apos;ll capture for you. Read it tonight, book the call tomorrow.
+            </p>
+            <ProposalForm />
+          </div>
+        </section>
 
         <section className="border-t border-brass/15 bg-black px-6 py-20 md:px-12 md:py-28">
           <div className="mx-auto max-w-[1200px]">
