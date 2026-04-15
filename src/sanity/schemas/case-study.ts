@@ -35,6 +35,13 @@ export const caseStudy = defineType({
       validation: (r) => r.required(),
     }),
     defineField({ name: 'muxPlaybackId', type: 'string', title: 'Mux Playback ID' }),
+    defineField({
+      name: 'youtubeUrl',
+      type: 'url',
+      title: 'YouTube URL',
+      description:
+        'For client-owned content (music videos, etc.) where the original lives on YouTube. If set, this is used instead of the Mux Playback ID.',
+    }),
     defineField({ name: 'poster', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'summary', type: 'text', rows: 3 }),
     defineField({ name: 'body', type: 'array', of: [{ type: 'block' }] }),

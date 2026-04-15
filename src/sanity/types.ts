@@ -26,6 +26,7 @@ export type CaseStudy = {
   client: string;
   category: CaseStudyCategory;
   muxPlaybackId?: string;
+  youtubeUrl?: string;
   poster?: { asset: { _ref: string } };
   posterUrl?: string;
   isPlaceholder?: boolean;

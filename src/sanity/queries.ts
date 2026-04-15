@@ -9,7 +9,7 @@ export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
   }
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && featured == true] | order(publishedAt desc)[0...$limit]{
-      _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
     }`,
     { limit: limit - 1 }
   );
@@ -21,7 +21,7 @@ export async function getAllCaseStudies(): Promise<CaseStudy[]> {
   }
   return sanityClient.fetch(
     groq`*[_type == "caseStudy"] | order(publishedAt desc){
-      _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
     }`
   );
 }
@@ -31,7 +31,7 @@ export async function getSocialReels(limit?: number): Promise<CaseStudy[]> {
   const slice = limit ? `[0...$limit]` : '';
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && category == "social"] | order(publishedAt desc)${slice}{
-      _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
     }`,
     limit ? { limit } : {}
   );
@@ -44,7 +44,7 @@ export async function getCaseStudiesByCategory(
   if (!sanityClient) return [];
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && category == $category] | order(publishedAt desc)[0...$limit]{
-      _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
     }`,
     { category, limit },
   );
@@ -54,7 +54,7 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null
   if (!sanityClient) return null;
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && slug.current == $slug][0]{
-      _id, title, slug, client, category, muxPlaybackId, poster, summary, body,
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, body,
       processNotes, behindTheScenes[]{_key, asset, caption, alt},
       publishedAt, featured
     }`,

@@ -7,6 +7,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { CinematicVideo } from '@/components/media/cinematic-video';
+import { YouTubeEmbed } from '@/components/media/youtube-embed';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { Reveal } from '@/components/primitives/reveal';
 import { getCaseStudyBySlug, getAllCaseStudies } from '@/sanity/queries';
@@ -62,15 +63,19 @@ export default async function CaseStudyPage({ params }: RouteProps) {
           </div>
         </section>
 
-        {cs.muxPlaybackId && (
+        {(cs.youtubeUrl || cs.muxPlaybackId) && (
           <section className="px-6 py-10 md:px-12">
             <div className="mx-auto max-w-[1200px]">
-              <CinematicVideo
-                playbackId={cs.muxPlaybackId}
-                title={cs.title}
-                poster={posterUrl ?? undefined}
-                aspect="video"
-              />
+              {cs.youtubeUrl ? (
+                <YouTubeEmbed url={cs.youtubeUrl} title={cs.title} />
+              ) : cs.muxPlaybackId ? (
+                <CinematicVideo
+                  playbackId={cs.muxPlaybackId}
+                  title={cs.title}
+                  poster={posterUrl ?? undefined}
+                  aspect="video"
+                />
+              ) : null}
             </div>
           </section>
         )}

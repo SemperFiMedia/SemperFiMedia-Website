@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { CinematicVideo } from '@/components/media/cinematic-video';
+import { YouTubeEmbed } from '@/components/media/youtube-embed';
 import { DataLabel } from '@/components/primitives/data-label';
 import { urlForImage } from '@/sanity/image';
 import type { CaseStudy } from '@/sanity/types';
@@ -30,12 +31,10 @@ export function NicheFeaturedWork({ eyebrow, heading, caseStudies }: Props) {
           <h2 className="font-serif text-4xl italic leading-tight md:text-5xl">{heading}</h2>
         </div>
 
-        <Link
-          href={`/work/${hero.slug.current}`}
-          className="group block"
-          aria-label={`${hero.title} — view case study`}
-        >
-          {hero.muxPlaybackId ? (
+        <div>
+          {hero.youtubeUrl ? (
+            <YouTubeEmbed url={hero.youtubeUrl} title={hero.title} className="rounded" />
+          ) : hero.muxPlaybackId ? (
             <CinematicVideo
               playbackId={hero.muxPlaybackId}
               title={hero.title}
@@ -46,7 +45,11 @@ export function NicheFeaturedWork({ eyebrow, heading, caseStudies }: Props) {
           ) : (
             <div className="aspect-video rounded bg-gradient-to-br from-dusk-teal to-texas-umber" />
           )}
-          <div className="mt-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+          <Link
+            href={`/work/${hero.slug.current}`}
+            className="group mt-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between"
+            aria-label={`${hero.title} — view case study`}
+          >
             <div>
               <DataLabel tone="muted" className="text-[11px]">
                 {hero.client}
@@ -59,8 +62,8 @@ export function NicheFeaturedWork({ eyebrow, heading, caseStudies }: Props) {
             <span className="text-sm font-medium uppercase tracking-wider text-brass transition-colors group-hover:text-golden-hour">
               Watch the case study →
             </span>
-          </div>
-        </Link>
+          </Link>
+        </div>
 
         {rest.length > 0 && (
           <div className="mt-14 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
