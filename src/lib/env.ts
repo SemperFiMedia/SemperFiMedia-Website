@@ -24,6 +24,10 @@ export const env = {
   clarity: {
     projectId: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? '',
   },
+  anthropic: {
+    apiKey: process.env.ANTHROPIC_API_KEY ?? '',
+    model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-4-6',
+  },
   gbp: {
     placeId: process.env.NEXT_PUBLIC_GBP_PLACE_ID ?? 'ChIJ02w-UYGzToYR-HUWwucuIHo',
     reviewUrl: process.env.NEXT_PUBLIC_GBP_REVIEW_URL ?? 'https://g.page/r/Cfh1FsLnLiB6EBM/review',

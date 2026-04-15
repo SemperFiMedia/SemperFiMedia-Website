@@ -3,6 +3,7 @@ import { fraunces, inter, jetbrainsMono } from '@/lib/fonts';
 import { Plausible } from '@/components/analytics/plausible';
 import { Clarity } from '@/components/analytics/clarity';
 import { LocalBusinessJsonLd } from '@/components/seo/structured-data';
+import { ChatWidget } from '@/components/chat/chat-widget';
 import './globals.css';
 
 export const revalidate = 60;
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="bg-gunpowder text-bone font-sans min-h-full flex flex-col">
         {children}
+        <ChatWidget />
         <LocalBusinessJsonLd />
         <Plausible />
         <Clarity />

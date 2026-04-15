@@ -16,6 +16,7 @@
     "lighthouse": "bash scripts/lighthouse-audit.sh"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.89.0",
     "@mux/mux-node": "^12.8.1",
     "@mux/mux-player-react": "^3.11.7",
     "@portabletext/react": "^6.0.3",
