@@ -3,10 +3,10 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
-import { PricingTier } from '@/components/pricing/pricing-tier';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { TestimonialsGrid } from '@/components/social-proof/testimonials-grid';
+import { WeddingConfigurator } from '@/components/weddings/wedding-configurator';
 import { getCaseStudiesByCategory, getAllTestimonials } from '@/sanity/queries';
 
 export const metadata: Metadata = {
@@ -14,113 +14,6 @@ export const metadata: Metadata = {
   description:
     'Your wedding day, filmed like a Netflix documentary. Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Three packages from $3,500 — full transparency, no hidden fees.',
 };
-
-const TIERS = [
-  {
-    label: 'ESSENTIALS',
-    name: 'Essentials',
-    price: '$3,500',
-    priceNote: 'flat',
-    includes: [
-      '6 hours of wedding-day coverage',
-      'Marine Certified Cinematographer (TJ at the helm)',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      'Professional sound (lavs + boom)',
-      'Music licensing for socials & online',
-      '4–5 minute cinematic highlight film',
-      'USB delivery + Free YouTube + Facebook premiere',
-    ],
-  },
-  {
-    label: 'CINEMATIC',
-    name: 'Cinematic',
-    price: '$5,000',
-    priceNote: 'flat',
-    includes: [
-      '8 hours of wedding-day coverage',
-      'Marine Certified Cinematographer + Documentary Certified 2nd shooter',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      'Professional sound (lavs + boom)',
-      'Music licensing for socials & online',
-      '1-minute social teaser film',
-      '6–8 minute cinematic highlight film',
-      'Full ceremony cut',
-      'USB delivery + Free YouTube + Facebook premiere',
-    ],
-    highlighted: true,
-  },
-  {
-    label: 'HEIRLOOM',
-    name: 'Heirloom',
-    price: '$8,000',
-    priceNote: 'flat',
-    includes: [
-      '10 hours of wedding-day coverage',
-      'Marine Certified Cinematographer + Documentary Certified 2nd shooter + assistant',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      'Professional sound (lavs + boom)',
-      'Music licensing for socials & online',
-      '1-minute social teaser film',
-      '8–12 minute Netflix-documentary-style story film',
-      'Full ceremony + reception cut',
-      'Bridesmaid + groomsman interview reel',
-      'Parent USB sets (2 included)',
-      '48-hour wedding teaser for socials',
-      'USB delivery + Free YouTube + Facebook premiere',
-    ],
-  },
-];
-
-const ADD_ONS = [
-  {
-    name: 'Proposal Film',
-    price: '$1,500',
-    body: 'Capture the actual proposal moment — live, hidden cam, or planned. Edit and delivery on your timeline (a week before the wedding, the rehearsal dinner, your anniversary — your call).',
-  },
-  {
-    name: 'Engagement Story Film',
-    price: '$2,500',
-    body: 'A posed engagement session — your favorite Dallas spots, cinematic edit. Plays beautifully at the rehearsal dinner or shares like a film trailer for your wedding.',
-  },
-  {
-    name: 'Wedding Teaser Film (Netflix-Style)',
-    price: '$3,000',
-    body: 'Pre-wedding documentary cut — groom prep, bride prep, bridesmaid + groomsman interviews, rehearsal footage. Builds anticipation for your day. Plays at the reception or live on socials.',
-  },
-  {
-    name: 'Rehearsal Dinner Film',
-    price: '$3,000',
-    body: '4 hours of coverage — the dinner, the speeches, the toasts, the night before everything changes. 45-minute film + speeches included.',
-  },
-  {
-    name: 'One-Minute Teaser Film',
-    price: '$400',
-    body: 'Built for socials — a 60-second cinematic teaser for Instagram, TikTok, and the group chat.',
-  },
-  {
-    name: 'Ceremony Film Edit',
-    price: '$850',
-    body: 'Full multi-camera edit of your ceremony — vows, exchange of rings, first kiss, the walk back down the aisle. The film grandparents will play on repeat.',
-  },
-  {
-    name: 'Storybook Player',
-    price: '$250',
-    body: 'A premium gift-box video player loaded with your wedding film. Perfect for parents, grandparents, or the heirloom shelf.',
-  },
-  {
-    name: 'Hard Drive with Raw Footage',
-    price: '$250',
-    body: 'Every frame we shot, on a hard drive. Edit it later. Reuse for anniversaries. Hand it to the next generation.',
-  },
-  {
-    name: 'Additional Hours',
-    price: '$350/hr',
-    body: 'Day running long? Add coverage hours at the time of booking or on the day itself.',
-  },
-];
 
 const PROCESS = [
   {
@@ -276,79 +169,7 @@ export default async function WeddingsPage() {
           </div>
         </section>
 
-        <section className="bg-black px-6 py-20 md:px-12 md:py-28">
-          <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-4">WEDDING INVESTMENT</DataLabel>
-            <h2 className="mb-3 font-serif text-4xl italic leading-tight md:text-5xl">
-              Three tiers. Flat pricing. No surprises.
-            </h2>
-            <p className="mb-12 max-w-2xl text-bone-muted">
-              Every wedding tier includes USB delivery, free YouTube + Facebook premiere, and
-              full music licensing. Add-ons listed below — bundle discounts available.
-            </p>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {TIERS.map((tier) => (
-                <PricingTier key={tier.name} {...tier} />
-              ))}
-            </div>
-            <p className="mt-10 text-center text-sm text-bone-subtle">
-              Destination weddings outside Dallas–Fort Worth: travel billed at $0.67/mile plus
-              lodging where required. Custom packages available.
-            </p>
-          </div>
-        </section>
-
-        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-28">
-          <div className="mx-auto max-w-[1200px]">
-            <DataLabel className="mb-4">PACKAGE ADD-ONS</DataLabel>
-            <h2 className="mb-3 font-serif text-4xl italic leading-tight md:text-5xl">
-              Build the film you actually want.
-            </h2>
-            <p className="mb-12 max-w-2xl text-bone-muted">
-              Stack any of these onto your tier. Bundle two and we discount the pair — call for a
-              quote on combined add-on packages.
-            </p>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              {ADD_ONS.map((addon) => (
-                <div
-                  key={addon.name}
-                  className="border border-bone/15 bg-gunpowder/80 p-7"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-serif text-xl italic">{addon.name}</h3>
-                    <div className="font-serif text-2xl text-brass">{addon.price}</div>
-                  </div>
-                  <p className="mt-3 text-sm leading-relaxed text-bone-muted">{addon.body}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12 rounded border border-brass/30 bg-black/40 p-8">
-              <DataLabel className="mb-3 text-brass">BUNDLE DISCOUNTS</DataLabel>
-              <h3 className="font-serif text-2xl italic">Save when you stack two films.</h3>
-              <ul className="mt-5 space-y-2 text-bone-muted">
-                <li>
-                  <span className="text-brass">›</span>{' '}
-                  <strong className="text-bone">Proposal + Engagement:</strong> $3,500 (save $500)
-                </li>
-                <li>
-                  <span className="text-brass">›</span>{' '}
-                  <strong className="text-bone">Proposal + Wedding Teaser:</strong> $4,000 (save
-                  $500)
-                </li>
-                <li>
-                  <span className="text-brass">›</span>{' '}
-                  <strong className="text-bone">Engagement + Wedding Teaser:</strong> $5,000 (save
-                  $500)
-                </li>
-              </ul>
-              <p className="mt-5 text-sm text-bone-subtle">
-                Bundle pricing applied when added to any wedding tier — ask on your discovery
-                call.
-              </p>
-            </div>
-          </div>
-        </section>
+        <WeddingConfigurator />
 
         <section className="border-t border-brass/15 bg-black px-6 py-20 md:px-12 md:py-28">
           <div className="mx-auto max-w-[1200px]">

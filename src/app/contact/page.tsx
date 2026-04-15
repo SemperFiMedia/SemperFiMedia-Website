@@ -33,7 +33,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+        <section id="book" className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-16 md:grid-cols-2">
             <div>
               <DataLabel className="mb-6">BOOK A DISCOVERY CALL</DataLabel>

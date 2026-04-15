@@ -1,12 +1,34 @@
 'use client';
-import { useState, type FormEvent } from 'react';
+import { useState, useEffect, Suspense, type FormEvent } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { DataLabel } from '@/components/primitives/data-label';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
 export function ContactForm() {
+  return (
+    <Suspense fallback={<div className="text-bone-muted">Loading form…</div>}>
+      <ContactFormInner />
+    </Suspense>
+  );
+}
+
+function ContactFormInner() {
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const searchParams = useSearchParams();
+  const prefillService = searchParams?.get('service') ?? '';
+  const prefillBudget = searchParams?.get('budget') ?? '';
+  const prefillMessage = searchParams?.get('message') ?? '';
+  const [serviceValue, setServiceValue] = useState(prefillService);
+  const [budgetValue, setBudgetValue] = useState(prefillBudget);
+  const [messageValue, setMessageValue] = useState(prefillMessage);
+
+  useEffect(() => {
+    if (prefillService) setServiceValue(prefillService);
+    if (prefillBudget) setBudgetValue(prefillBudget);
+    if (prefillMessage) setMessageValue(prefillMessage);
+  }, [prefillService, prefillBudget, prefillMessage]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -71,7 +93,14 @@ export function ContactForm() {
           <label htmlFor="service" className={labelClass}>
             Service *
           </label>
-          <select id="service" name="service" required defaultValue="" className={inputClass}>
+          <select
+            id="service"
+            name="service"
+            required
+            value={serviceValue}
+            onChange={(e) => setServiceValue(e.target.value)}
+            className={inputClass}
+          >
             <option value="">Select…</option>
             <option value="corporate">Corporate Video</option>
             <option value="wedding">Cinema Wedding</option>
@@ -90,7 +119,13 @@ export function ContactForm() {
           <label htmlFor="budget" className={labelClass}>
             Budget
           </label>
-          <select id="budget" name="budget" defaultValue="" className={inputClass}>
+          <select
+            id="budget"
+            name="budget"
+            value={budgetValue}
+            onChange={(e) => setBudgetValue(e.target.value)}
+            className={inputClass}
+          >
             <option value="">Select…</option>
             <option value="under-3k">Under $3,000</option>
             <option value="3k-5k">$3,000 – $5,000</option>
@@ -109,7 +144,9 @@ export function ContactForm() {
           name="message"
           required
           minLength={10}
-          rows={5}
+          rows={messageValue ? 12 : 5}
+          value={messageValue}
+          onChange={(e) => setMessageValue(e.target.value)}
           className={inputClass}
         />
       </div>
