@@ -1,16 +1,13 @@
 import Link from 'next/link';
-import { NavDrawer } from './nav-drawer';
 
 const LINKS = [
-  { href: '/work', label: 'Work' },
-  { href: '/corporate', label: 'Corporate' },
-  { href: '/weddings', label: 'Weddings' },
-  { href: '/social-reels', label: 'Social' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/about', label: 'About' },
+  { href: '/es/weddings', label: 'Bodas' },
+  { href: '/es/quinceaneras', label: 'Quinceañeras' },
+  { href: '/es/about', label: 'Nosotros' },
+  { href: '/', label: 'EN' },
 ] as const;
 
-export function Nav() {
+export function NavEs() {
   return (
     <header
       className="sticky top-0 z-50 border-b border-bone/10 bg-gunpowder/85 backdrop-blur-md"
@@ -18,10 +15,10 @@ export function Nav() {
     >
       <nav
         className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-4 md:px-12 md:py-5"
-        aria-label="Primary"
+        aria-label="Principal"
       >
         <Link
-          href="/"
+          href="/es"
           className="font-serif text-xl italic font-bold tracking-tight md:text-2xl"
         >
           Semper Fi <span className="text-brass">Media</span>
@@ -40,19 +37,11 @@ export function Nav() {
             ))}
           </ul>
           <Link
-            href="/es"
-            className="hidden text-xs font-medium uppercase tracking-wider text-bone-muted transition-colors hover:text-bone md:inline-block"
-            aria-label="Ver el sitio en español"
+            href="/es/contact"
+            className="data-label bg-brass px-5 py-3 font-bold text-gunpowder transition-colors hover:bg-golden-hour"
           >
-            ES
+            Reservar
           </Link>
-          <Link
-            href="/contact"
-            className="data-label hidden bg-brass px-5 py-3 font-bold text-gunpowder transition-colors hover:bg-golden-hour sm:inline-block"
-          >
-            Book a Call
-          </Link>
-          <NavDrawer />
         </div>
       </nav>
     </header>
