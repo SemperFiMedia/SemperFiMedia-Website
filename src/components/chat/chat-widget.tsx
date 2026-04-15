@@ -1,11 +1,22 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { BookingCard, BookingModal } from './booking-modal';
+
+const BOOK_TOKEN = '[[BOOK]]';
+const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
 };
+
+function stripBookToken(content: string): { text: string; book: boolean } {
+  if (content.includes(BOOK_TOKEN)) {
+    return { text: content.split(BOOK_TOKEN).join('').trim(), book: true };
+  }
+  return { text: content, book: false };
+}
 
 const GREETING: Message = {
   role: 'assistant',
@@ -47,8 +58,18 @@ function renderInline(text: string): React.ReactNode {
   return out;
 }
 
-function MessageBubble({ message }: { message: Message }) {
+function MessageBubble({
+  message,
+  onBook,
+}: {
+  message: Message;
+  onBook: () => void;
+}) {
   const isUser = message.role === 'user';
+  const { text, book } = isUser
+    ? { text: message.content, book: false }
+    : stripBookToken(message.content);
+
   return (
     <div
       className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
@@ -62,11 +83,12 @@ function MessageBubble({ message }: { message: Message }) {
             : 'bg-black/60 text-bone-muted ring-1 ring-brass/20')
         }
       >
-        {message.content.split('\n').map((line, i) => (
+        {text.split('\n').map((line, i) => (
           <p key={i} className={i > 0 ? 'mt-2' : undefined}>
             {renderInline(line)}
           </p>
         ))}
+        {!isUser && book && <BookingCard onOpen={onBook} />}
       </div>
     </div>
   );
@@ -78,6 +100,7 @@ export function ChatWidget() {
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [bookingOpen, setBookingOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -231,7 +254,7 @@ export function ChatWidget() {
             className="flex flex-1 flex-col gap-3 overflow-y-auto p-4"
           >
             {messages.map((m, i) => (
-              <MessageBubble key={i} message={m} />
+              <MessageBubble key={i} message={m} onBook={() => setBookingOpen(true)} />
             ))}
             {busy && messages[messages.length - 1]?.role === 'user' && (
               <div className="text-xs text-bone-subtle">Concierge is typing…</div>
@@ -273,6 +296,11 @@ export function ChatWidget() {
           </div>
         </div>
       )}
+      <BookingModal
+        open={bookingOpen}
+        onClose={() => setBookingOpen(false)}
+        calLink={CAL_LINK}
+      />
     </>
   );
 }
