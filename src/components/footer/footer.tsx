@@ -100,7 +100,7 @@ export function Footer() {
       </div>
       <div className="mx-auto mt-12 flex max-w-[1440px] items-center justify-between border-t border-brass/10 pt-6 data-label text-[10px]">
         <span>Semper Fi Media · Forney TX · {year}</span>
-        <span>Semper Fidelis · Est. MMXX</span>
+        <span>Semper Fi Media · Established 2020</span>
       </div>
     </footer>
   );
