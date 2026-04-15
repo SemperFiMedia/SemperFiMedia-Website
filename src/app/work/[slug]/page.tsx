@@ -57,9 +57,17 @@ export default async function CaseStudyPage({ params }: RouteProps) {
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-5">CASE STUDY · {cs.category.toUpperCase()}</DataLabel>
             <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">{cs.title}</h1>
-            <DataLabel tone="muted" className="mt-6">
-              {cs.client}
-            </DataLabel>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+              <DataLabel tone="muted">{cs.client}</DataLabel>
+              {bts.length > 0 && (
+                <a
+                  href={`/work/${cs.slug.current}/cinematic`}
+                  className="inline-flex items-center gap-2 rounded border border-brass/40 bg-brass/10 px-4 py-2 text-xs font-bold uppercase tracking-wider text-brass transition-colors hover:bg-brass hover:text-gunpowder"
+                >
+                  ▶ Watch Cinematic Edit
+                </a>
+              )}
+            </div>
           </div>
         </section>
 
