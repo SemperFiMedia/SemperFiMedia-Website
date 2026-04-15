@@ -4,6 +4,8 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { NicheFeaturedWork } from '@/components/niche/featured-work';
+import { getCaseStudiesByCategory } from '@/sanity/queries';
 
 export const metadata: Metadata = {
   title: 'Small Business Video Production Dallas — Brand Films from $1,500',
@@ -39,7 +41,8 @@ const WHY = [
   },
 ];
 
-export default function SmallBusinessPage() {
+export default async function SmallBusinessPage() {
+  const featured = await getCaseStudiesByCategory('small-business', 4);
   return (
     <>
       <Nav />
@@ -74,6 +77,12 @@ export default function SmallBusinessPage() {
             </div>
           </div>
         </section>
+
+        <NicheFeaturedWork
+          eyebrow="SMALL BUSINESS WORK · DFW"
+          heading="Recent brand films from Dallas independents."
+          caseStudies={featured}
+        />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2">

@@ -37,6 +37,19 @@ export async function getSocialReels(limit?: number): Promise<CaseStudy[]> {
   );
 }
 
+export async function getCaseStudiesByCategory(
+  category: string,
+  limit = 4,
+): Promise<CaseStudy[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "caseStudy" && category == $category] | order(publishedAt desc)[0...$limit]{
+      _id, title, slug, client, category, muxPlaybackId, poster, summary, publishedAt, featured
+    }`,
+    { category, limit },
+  );
+}
+
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
   if (!sanityClient) return null;
   return sanityClient.fetch(
