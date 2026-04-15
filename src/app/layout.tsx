@@ -4,6 +4,7 @@ import { Plausible } from '@/components/analytics/plausible';
 import { Clarity } from '@/components/analytics/clarity';
 import { LocalBusinessJsonLd } from '@/components/seo/structured-data';
 import { ChatWidget } from '@/components/chat/chat-widget';
+import { SocialFollowWidget } from '@/components/social-proof/social-follow-widget';
 import './globals.css';
 
 export const revalidate = 60;
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="bg-gunpowder text-bone font-sans min-h-full flex flex-col">
         {children}
+        <SocialFollowWidget />
         <ChatWidget />
         <LocalBusinessJsonLd />
         <Plausible />
