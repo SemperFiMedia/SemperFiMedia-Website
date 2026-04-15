@@ -12,52 +12,73 @@ export const metadata: Metadata = {
 
 const WEDDING_TIERS = [
   {
-    label: 'STORY PACKAGE',
-    name: 'Story',
-    price: '$3,000',
-    priceNote: '+ tax',
+    label: 'ESSENTIALS',
+    name: 'Essentials',
+    price: '$3,500',
+    priceNote: 'flat',
     includes: [
-      '8 hours of coverage',
-      '1 Certified CinemaStory Cinematographer',
-      '1 Certified Assistant Cinematographer',
-      'HD/4K cinematic cameras + drone',
-      'Professional sound recording & design',
-      'Music licensing for all online platforms',
-      '4–5 minute story film in HD',
+      '6 hours of wedding-day coverage',
+      'Marine Certified Cinematographer (TJ at the helm)',
+      '4K cinema cameras + cinema primes',
+      'Drone aerials (where permitted)',
+      'Professional sound (lavs + boom)',
+      'Music licensing for socials & online',
+      '4–5 minute cinematic highlight film',
+      'USB delivery + Free YouTube + Facebook premiere',
     ],
   },
   {
-    label: 'SIGNATURE PACKAGE',
-    name: 'Signature',
+    label: 'CINEMATIC',
+    name: 'Cinematic',
     price: '$5,000',
-    priceNote: '+ tax',
+    priceNote: 'flat',
     includes: [
-      '10 hours of coverage',
-      '1 Certified CinemaStory Cinematographer',
-      '1 Certified Assistant Cinematographer',
-      'HD/4K cinematic cameras + drone',
-      'Professional sound recording & design',
-      'Music licensing for all online platforms',
-      '1-minute teaser film',
-      '5–6 minute story film in HD',
+      '8 hours of wedding-day coverage',
+      'Marine Certified Cinematographer + Documentary Certified 2nd shooter',
+      '4K cinema cameras + cinema primes',
+      'Drone aerials (where permitted)',
+      'Professional sound (lavs + boom)',
+      'Music licensing for socials & online',
+      '1-minute social teaser film',
+      '6–8 minute cinematic highlight film',
+      'Full ceremony cut',
+      'USB delivery + Free YouTube + Facebook premiere',
     ],
     highlighted: true,
   },
   {
-    label: 'CINEMA PACKAGE',
-    name: 'Cinema',
-    price: '$7,200',
-    priceNote: '+ tax',
+    label: 'HEIRLOOM',
+    name: 'Heirloom',
+    price: '$8,000',
+    priceNote: 'flat',
     includes: [
-      '12 hours of coverage',
-      '2 Certified CinemaStory Cinematographers',
-      'Sony 4K cinematic cameras + drone',
-      'Professional sound recording & design',
-      'Music licensing for all online platforms',
-      '1-minute teaser film',
-      '8–10 minute story film in 4K',
+      '10 hours of wedding-day coverage',
+      'Marine Certified Cinematographer + Documentary Certified 2nd shooter + assistant',
+      '4K cinema cameras + cinema primes',
+      'Drone aerials (where permitted)',
+      'Professional sound (lavs + boom)',
+      'Music licensing for socials & online',
+      '1-minute social teaser film',
+      '8–12 minute Netflix-documentary-style story film',
+      'Full ceremony + reception cut',
+      'Bridesmaid + groomsman interview reel',
+      'Parent USB sets (2 included)',
+      '48-hour wedding teaser for socials',
+      'USB delivery + Free YouTube + Facebook premiere',
     ],
   },
+];
+
+const WEDDING_ADDONS = [
+  { name: 'Proposal Film', price: '$1,500', note: 'Capture the actual proposal moment.' },
+  { name: 'Engagement Story Film', price: '$2,500', note: 'Posed engagement session, cinematic edit.' },
+  { name: 'Wedding Teaser Film (Netflix-Style)', price: '$3,000', note: 'Pre-wedding doc with prep + interviews.' },
+  { name: 'Rehearsal Dinner Film', price: '$3,000', note: '4 hrs coverage, 45-min film + speeches.' },
+  { name: 'One-Minute Teaser Film', price: '$400', note: 'Built for socials.' },
+  { name: 'Ceremony Film Edit', price: '$850', note: 'Full multi-cam ceremony cut.' },
+  { name: 'Storybook Player', price: '$250', note: 'Premium gift-box video player.' },
+  { name: 'Hard Drive with Raw Footage', price: '$250', note: 'Every frame, on a drive.' },
+  { name: 'Additional Hours', price: '$350/hr', note: 'Day running long? Add coverage.' },
 ];
 
 const CORPORATE_TIERS = [
@@ -144,10 +165,38 @@ export default function PricingPage() {
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-10">CINEMA WEDDINGS</DataLabel>
+            <DataLabel className="mb-3">CINEMA WEDDINGS · NETFLIX-DOCUMENTARY STYLE</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Three tiers, flat pricing, every package includes USB delivery + free YouTube +
+              Facebook premiere + full music licensing.
+            </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {WEDDING_TIERS.map((tier) => (
                 <PricingTier key={tier.name} {...tier} href="/weddings" />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">WEDDING ADD-ONS</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Stack any of these onto your tier. Bundle Proposal + Engagement, Proposal + Wedding
+              Teaser, or Engagement + Wedding Teaser and save $500 per pair.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {WEDDING_ADDONS.map((addon) => (
+                <div
+                  key={addon.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{addon.name}</h3>
+                    <div className="font-serif text-xl text-brass">{addon.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{addon.note}</p>
+                </div>
               ))}
             </div>
           </div>
