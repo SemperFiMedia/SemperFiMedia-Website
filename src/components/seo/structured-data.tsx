@@ -41,11 +41,13 @@ export function LocalBusinessJsonLd() {
       'Rockwall, TX',
     ],
     sameAs: [
-      'https://www.instagram.com/semperfimediallc/',
       'https://www.facebook.com/SemperFiMedia',
-      'https://www.youtube.com/channel/UC0lvEKU7FPlCy-pjIfyAorA',
+      'https://www.instagram.com/semperfimediallc/',
+      'https://www.youtube.com/@SemperFiMedia',
+      'https://x.com/SemperFiMediaTX',
       'https://www.tiktok.com/@semperfimedia',
-      'https://twitter.com/SemperFiMediaTX',
+      'https://www.linkedin.com/in/antonio-gutierrez-/',
+      'https://vimeo.com/semperfimedia',
       env.gbp.profileUrl,
     ],
     openingHoursSpecification: [

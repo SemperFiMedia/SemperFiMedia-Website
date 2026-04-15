@@ -92,10 +92,10 @@ export default async function SocialReelsPage() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {reels.map((reel) => {
                   const posterUrl = reel.poster
-                    ? urlForImage(reel.poster)?.width(540).height(960).url() ?? undefined
+                    ? urlForImage(reel.poster)?.width(1280).height(720).url() ?? undefined
                     : undefined;
                   return (
                     <figure key={reel._id} className="flex flex-col gap-3">
@@ -103,12 +103,12 @@ export default async function SocialReelsPage() {
                         <CinematicVideo
                           playbackId={reel.muxPlaybackId}
                           title={reel.title}
-                          aspect="vertical"
+                          aspect="video"
                           poster={posterUrl}
                           className="rounded"
                         />
                       ) : (
-                        <div className="aspect-[9/16] rounded bg-gradient-to-br from-dusk-teal to-texas-umber" />
+                        <div className="aspect-video rounded bg-gradient-to-br from-dusk-teal to-texas-umber" />
                       )}
                       <figcaption>
                         <DataLabel tone="muted" className="text-[11px]">

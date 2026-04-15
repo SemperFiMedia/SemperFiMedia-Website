@@ -19,11 +19,13 @@ const COMPANY = [
 ] as const;
 
 const SOCIAL = [
-  { href: 'https://www.instagram.com/semperfimediallc/', label: 'Instagram' },
-  { href: 'https://www.youtube.com/channel/UC0lvEKU7FPlCy-pjIfyAorA', label: 'YouTube' },
-  { href: 'https://www.tiktok.com/@semperfimedia', label: 'TikTok' },
   { href: 'https://www.facebook.com/SemperFiMedia', label: 'Facebook' },
-  { href: 'https://twitter.com/SemperFiMediaTX', label: 'X / Twitter' },
+  { href: 'https://www.instagram.com/semperfimediallc/', label: 'Instagram' },
+  { href: 'https://www.youtube.com/@SemperFiMedia', label: 'YouTube' },
+  { href: 'https://x.com/SemperFiMediaTX', label: 'X' },
+  { href: 'https://www.tiktok.com/@semperfimedia', label: 'TikTok' },
+  { href: 'https://www.linkedin.com/in/antonio-gutierrez-/', label: 'LinkedIn' },
+  { href: 'https://vimeo.com/semperfimedia', label: 'Vimeo' },
 ] as const;
 
 export function Footer() {

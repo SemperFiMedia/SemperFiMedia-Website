@@ -69,8 +69,7 @@ export default async function CaseStudyPage({ params }: RouteProps) {
                 playbackId={cs.muxPlaybackId}
                 title={cs.title}
                 poster={posterUrl ?? undefined}
-                aspect={cs.category === 'social' ? 'vertical' : 'video'}
-                className={cs.category === 'social' ? 'mx-auto max-w-[480px]' : undefined}
+                aspect="video"
               />
             </div>
           </section>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { DataLabel } from '@/components/primitives/data-label';
 import { CinematicVideo } from '@/components/media/cinematic-video';
 import { urlForImage } from '@/sanity/image';
+import { cn } from '@/lib/utils';
 import type { CaseStudy } from '@/sanity/types';
 
 type Props = {
@@ -35,27 +36,30 @@ export function SocialReelsPitch({ reels }: Props) {
               See reel work →
             </Link>
           </div>
-          <div className="grid grid-cols-3 gap-3 sm:gap-4">
-            {reels.slice(0, 3).map((reel) => {
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
+            {reels.slice(0, 3).map((reel, i) => {
               const posterUrl = reel.poster
-                ? urlForImage(reel.poster)?.width(360).height(640).url() ?? undefined
+                ? urlForImage(reel.poster)?.width(960).height(540).url() ?? undefined
                 : undefined;
               return reel.muxPlaybackId ? (
                 <CinematicVideo
                   key={reel._id}
                   playbackId={reel.muxPlaybackId}
                   title={reel.title}
-                  aspect="vertical"
+                  aspect="video"
                   poster={posterUrl}
                   autoPlay
                   muted
                   loop
-                  className="rounded"
+                  className={cn('rounded', i === 2 && 'sm:col-span-2')}
                 />
               ) : (
                 <div
                   key={reel._id}
-                  className="aspect-[9/16] rounded bg-gradient-to-br from-dusk-teal to-texas-umber"
+                  className={cn(
+                    'aspect-video rounded bg-gradient-to-br from-dusk-teal to-texas-umber',
+                    i === 2 && 'sm:col-span-2',
+                  )}
                 />
               );
             })}
