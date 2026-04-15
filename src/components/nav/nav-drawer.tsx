@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -38,7 +39,12 @@ const SECTIONS = [
 
 export function NavDrawer() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     setOpen(false);
@@ -83,7 +89,7 @@ export function NavDrawer() {
         </svg>
       </button>
 
-      {open && (
+      {open && mounted && createPortal(
         <div
           className="fixed inset-0 z-[60]"
           role="dialog"
@@ -166,7 +172,8 @@ export function NavDrawer() {
               </Link>
             </div>
           </aside>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );
