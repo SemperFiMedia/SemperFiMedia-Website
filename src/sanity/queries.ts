@@ -43,7 +43,7 @@ export async function getCaseStudiesByCategory(
 ): Promise<CaseStudy[]> {
   if (!sanityClient) return [];
   return sanityClient.fetch(
-    groq`*[_type == "caseStudy" && category == $category] | order(publishedAt desc)[0...$limit]{
+    groq`*[_type == "caseStudy" && category == $category] | order(featured desc, publishedAt desc)[0...$limit]{
       _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
     }`,
     { category, limit },
