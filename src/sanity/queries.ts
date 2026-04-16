@@ -15,6 +15,16 @@ export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
   );
 }
 
+export async function getRecentShoots(limit = 12): Promise<CaseStudy[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "caseStudy" && defined(publishedAt)] | order(publishedAt desc)[0...$limit]{
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
+    }`,
+    { limit },
+  );
+}
+
 export async function getAllCaseStudies(): Promise<CaseStudy[]> {
   if (!sanityClient) {
     return PLACEHOLDER_FEATURED_CASE_STUDIES;

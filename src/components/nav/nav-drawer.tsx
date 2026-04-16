@@ -10,8 +10,10 @@ const SECTIONS = [
     label: 'Main',
     links: [
       { href: '/work', label: 'Selected Work' },
+      { href: '/shoots', label: 'Recent Shoots' },
       { href: '/about', label: 'About' },
       { href: '/blog', label: 'The Field Notes' },
+      { href: '/refer', label: 'Refer & Earn $200' },
       { href: '/contact', label: 'Contact' },
     ],
   },

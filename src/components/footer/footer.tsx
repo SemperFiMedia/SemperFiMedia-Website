@@ -15,7 +15,9 @@ const SERVICES = [
 const COMPANY = [
   { href: '/about', label: 'About' },
   { href: '/work', label: 'Work' },
+  { href: '/shoots', label: 'Recent Shoots' },
   { href: '/blog', label: 'The Field Notes' },
+  { href: '/refer', label: 'Refer & Earn $200' },
   { href: '/contact', label: 'Contact' },
 ] as const;
 
