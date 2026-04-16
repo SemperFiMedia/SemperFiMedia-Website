@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity';
+import { portableTextBlock } from './portable-text';
 
 export const caseStudy = defineType({
   name: 'caseStudy',
@@ -44,14 +45,14 @@ export const caseStudy = defineType({
     }),
     defineField({ name: 'poster', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'summary', type: 'text', rows: 3 }),
-    defineField({ name: 'body', type: 'array', of: [{ type: 'block' }] }),
+    defineField({ name: 'body', type: 'array', of: [portableTextBlock] }),
     defineField({
       name: 'processNotes',
       title: 'Process Notes',
       description:
         'Behind-the-scenes commentary. Short structured prose — "The Challenge", "The Approach", "Craft Notes", etc. Shows up on the case study detail page in a dedicated section.',
       type: 'array',
-      of: [{ type: 'block' }],
+      of: [portableTextBlock],
     }),
     defineField({
       name: 'behindTheScenes',

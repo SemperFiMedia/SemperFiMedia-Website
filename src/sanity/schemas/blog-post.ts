@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity';
+import { portableTextBlock } from './portable-text';
 
 export const blogPost = defineType({
   name: 'blogPost',
@@ -22,7 +23,7 @@ export const blogPost = defineType({
     defineField({
       name: 'body',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
+      of: [portableTextBlock, { type: 'image', options: { hotspot: true } }],
     }),
     defineField({ name: 'publishedAt', type: 'datetime', validation: (r) => r.required() }),
     defineField({
