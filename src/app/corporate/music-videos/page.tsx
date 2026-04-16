@@ -3,7 +3,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
-import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 
@@ -50,6 +50,11 @@ export default async function MusicVideosPage() {
         description="Single-day cinematic music video production for independent and signed artists in Dallas–Fort Worth. $3,000 flat with 14-day delivery."
         url="https://www.semperfimedia.llc/corporate/music-videos"
       />
+      <BreadcrumbJsonLd items={[
+        { name: 'Home', href: '/' },
+        { name: 'Corporate', href: '/corporate' },
+        { name: 'Music Videos', href: '/corporate/music-videos' },
+      ]} />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">

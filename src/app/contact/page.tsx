@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   title: 'Contact — Book a Discovery Call',
   description:
     'Book a free 30-minute discovery call with Semper Fi Media. Dallas video production, cinema weddings, music videos, tactical brand films.',
+  alternates: {
+    canonical: 'https://www.semperfimedia.llc/contact',
+    languages: { 'es-US': 'https://www.semperfimedia.llc/es/contact' },
+  },
 };
 
 const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';

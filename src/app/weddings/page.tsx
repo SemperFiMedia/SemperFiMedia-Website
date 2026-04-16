@@ -14,6 +14,10 @@ export const metadata: Metadata = {
   title: 'Netflix Documentary Wedding Films Dallas — Cinema Wedding Videography',
   description:
     'Your wedding day, filmed like a Netflix documentary. Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Three packages from $3,500 — full transparency, no hidden fees.',
+  alternates: {
+    canonical: 'https://www.semperfimedia.llc/weddings',
+    languages: { 'es-US': 'https://www.semperfimedia.llc/es/weddings' },
+  },
 };
 
 const PROCESS = [

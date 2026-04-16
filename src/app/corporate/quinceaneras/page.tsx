@@ -3,7 +3,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
-import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 
@@ -51,6 +51,11 @@ export default async function QuinceanerasPage() {
         description="Cinematic quinceañera videography in Dallas–Fort Worth. Cinema-grade quince films covering the Mass, court choreography, surprise dance, and reception."
         url="https://www.semperfimedia.llc/corporate/quinceaneras"
       />
+      <BreadcrumbJsonLd items={[
+        { name: 'Home', href: '/' },
+        { name: 'Corporate', href: '/corporate' },
+        { name: 'Quinceañeras', href: '/corporate/quinceaneras' },
+      ]} />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">

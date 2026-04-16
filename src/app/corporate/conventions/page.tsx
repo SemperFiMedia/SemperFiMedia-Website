@@ -3,7 +3,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
-import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 
@@ -51,6 +51,11 @@ export default async function ConventionsPage() {
         description="Cinematic convention coverage in Dallas–Fort Worth for cosplay, horror, comic, gaming, and trade conventions. Recap reels, walkthroughs, promo cuts with social deliverables."
         url="https://www.semperfimedia.llc/corporate/conventions"
       />
+      <BreadcrumbJsonLd items={[
+        { name: 'Home', href: '/' },
+        { name: 'Corporate', href: '/corporate' },
+        { name: 'Conventions', href: '/corporate/conventions' },
+      ]} />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">

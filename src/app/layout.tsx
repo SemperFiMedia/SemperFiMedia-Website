@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { fraunces, inter, jetbrainsMono } from '@/lib/fonts';
 import { Plausible } from '@/components/analytics/plausible';
 import { Clarity } from '@/components/analytics/clarity';
-import { LocalBusinessJsonLd } from '@/components/seo/structured-data';
+import { LocalBusinessJsonLd, AggregateRatingJsonLd } from '@/components/seo/structured-data';
 import { ChatWidget } from '@/components/chat/chat-widget';
 import { SocialFollowWidget } from '@/components/social-proof/social-follow-widget';
 import './globals.css';
@@ -34,6 +34,13 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     images: ['/og-default.jpg'],
   },
+  alternates: {
+    canonical: 'https://www.semperfimedia.llc',
+    languages: {
+      'en-US': 'https://www.semperfimedia.llc',
+      'es-US': 'https://www.semperfimedia.llc/es',
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SocialFollowWidget />
         <ChatWidget />
         <LocalBusinessJsonLd />
+        <AggregateRatingJsonLd ratingValue={5.0} reviewCount={30} />
         <Plausible />
         <Clarity />
       </body>

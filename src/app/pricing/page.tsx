@@ -3,6 +3,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { PricingTier } from '@/components/pricing/pricing-tier';
+import { OfferCatalogJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video Production',
@@ -142,10 +143,20 @@ const MUSIC_VIDEO = {
   ],
 };
 
+const PRICING_OFFERS = [
+  { name: 'Essentials Wedding Package', description: '6 hours coverage, 4-5 min highlight film, drone, USB delivery', price: '3500', url: '/weddings' },
+  { name: 'Cinematic Wedding Package', description: '8 hours coverage, 2 shooters, 6-8 min highlight + ceremony cut', price: '5000', url: '/weddings' },
+  { name: 'Heirloom Wedding Package', description: '10 hours coverage, full crew, Netflix-documentary-style story film', price: '8000', url: '/weddings' },
+  { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: '1500', url: '/corporate' },
+  { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: '3500', url: '/corporate' },
+  { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
+];
+
 export default function PricingPage() {
   return (
     <>
       <Nav />
+      <OfferCatalogJsonLd offers={PRICING_OFFERS} />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
