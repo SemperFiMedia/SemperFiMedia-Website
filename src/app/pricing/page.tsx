@@ -8,7 +8,7 @@ import { OfferCatalogJsonLd } from '@/components/seo/structured-data';
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video Production',
   description:
-    'Published pricing for cinema weddings, corporate video production, music videos, and event videography in Dallas–Fort Worth.',
+    'Published pricing for cinema weddings, corporate video production, music videos, film production day rates, and event videography in Dallas–Fort Worth.',
 };
 
 const WEDDING_TIERS = [
@@ -143,6 +143,88 @@ const MUSIC_VIDEO = {
   ],
 };
 
+const FILM_PRODUCTION_TIERS = [
+  {
+    label: 'SOLO',
+    name: 'Solo Operator Day',
+    price: '$1,500',
+    priceNote: '10-hour day',
+    includes: [
+      'TJ as DP / operator — 10 hours on location',
+      'Sony FX3 or A7S III + SmallRig cinema cage + Sigma Art lens set',
+      'Rode NTG shotgun + wireless lavalier + pro monitor',
+      'SmallRig RC 260B LED lighting kit + stands',
+      'Owned slider for steady-motion coverage',
+      'Hollyland wireless client monitoring',
+    ],
+  },
+  {
+    label: 'POPULAR',
+    name: 'B-Cam Day',
+    price: '$2,500',
+    priceNote: '10-hour day',
+    includes: [
+      'TJ as DP + 1 freelance camera operator',
+      'Dual Sony package (FX3 + A7S III, color-matched)',
+      'Full Rode audio kit (wireless lavs + boom + shotgun)',
+      'SmallRig LED lighting kit (owned)',
+      'Slider + gimbal for motion work',
+      'Hollyland dual-channel client monitoring',
+      '10-hour day',
+    ],
+    highlighted: true,
+  },
+  {
+    label: 'FULL CREW',
+    name: 'Full Crew Day',
+    price: '$5,500',
+    priceNote: '10-hour day',
+    includes: [
+      'TJ as DP + 1st AC + Sound Mixer + Gaffer',
+      'Dual Sony FX3 + A7S III, matte box, follow focus, shoulder rigs',
+      'Pro audio mixer kit (lavs + boom + 32-bit recorder)',
+      'SmallRig lighting package (owned) led by Gaffer',
+      'Slider + gimbal + DJI drone available',
+      'Hollyland multi-channel client monitoring',
+      'HMI / SkyPanel packages optional à la carte',
+    ],
+  },
+];
+
+const FILM_PRODUCTION_CREW = [
+  { name: 'DP / Cinematographer (TJ)', price: '$1,500', note: '10-hour day. Sony FX3/A7S III cinema kit included.' },
+  { name: 'Camera Operator', price: '$800', note: '10-hour day. DFW freelance roster.' },
+  { name: '1st AC', price: '$650', note: 'Focus puller, camera build, media management.' },
+  { name: '2nd AC', price: '$475', note: 'Slate, batteries, camera support.' },
+  { name: 'Sound Mixer (w/ kit)', price: '$900', note: 'Mixer, wireless lavs, boom, recorder.' },
+  { name: 'Boom Op', price: '$550', note: 'Dedicated boom operator for dialogue scenes.' },
+  { name: 'Gaffer', price: '$650', note: 'Lead lighting, meter reads, power management.' },
+  { name: 'Key Grip', price: '$600', note: 'Lead grip: stands, flags, dolly, rigging.' },
+  { name: 'Grip / Electric', price: '$475', note: 'Day-player grip or electric support.' },
+  { name: 'PA', price: '$200', note: 'Runner, set support, craft logistics.' },
+  { name: 'Drone Pilot (Part 107)', price: '$1,200', note: 'FAA-licensed pilot + DJI drone package.' },
+];
+
+const FILM_PRODUCTION_KITS = [
+  { name: 'Sony A7S III Kit', price: '$175', note: 'Body + Sigma Art primes + monitor + media.' },
+  { name: 'Sony FX3 Kit', price: '$225', note: 'Body + Sigma Art primes + monitor + media.' },
+  { name: 'Dual Sony Package', price: '$350', note: 'FX3 + A7S III, matched color, full lens set.' },
+  { name: 'Small Lighting Package', price: '$250', note: 'SmallRig RC 260B + stands + diffusion (owned).' },
+  { name: 'Mid Lighting Package', price: '$1,200', note: 'SkyPanels + HMI + grip cable (rental pass-through).' },
+  { name: 'Large Lighting Package', price: '$2,500', note: '3-ton truck, multi-HMI, dolly (rental pass-through).' },
+];
+
+const FILM_PRODUCTION_LOGISTICS = [
+  { name: 'Overtime', price: '1.5× / 2×', note: '1.5× after 10 hrs, 2× after 12 hrs.' },
+  { name: 'Meal Penalty', price: '$35', note: 'Per crew member, per half-hour past the 6-hour mark.' },
+  { name: 'Prep Day / Tech Scout', price: '50%', note: 'Half rate for prep, scout, or wrap-only days.' },
+  { name: 'Travel Day', price: '50%', note: 'Half rate for days spent traveling to location.' },
+  { name: 'Mileage (beyond 30 mi)', price: '$0.75/mi', note: 'Beyond the 30-mile downtown Dallas zone.' },
+  { name: 'Per Diem (multi-day)', price: '$75/day', note: 'M&IE only. Lodging billed at cost.' },
+  { name: 'Rush Delivery', price: 'Quoted', note: 'Faster than the 2–4 week standard turnaround.' },
+  { name: 'Raw Footage Buyout', price: '100%', note: 'Of project cost. Transfers all media rights.' },
+];
+
 const PRICING_OFFERS = [
   { name: 'Essentials Wedding Package', description: '6 hours coverage, 4-5 min highlight film, drone, USB delivery', price: '3500', url: '/weddings' },
   { name: 'Cinematic Wedding Package', description: '8 hours coverage, 2 shooters, 6-8 min highlight + ceremony cut', price: '5000', url: '/weddings' },
@@ -150,6 +232,9 @@ const PRICING_OFFERS = [
   { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: '1500', url: '/corporate' },
   { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: '3500', url: '/corporate' },
   { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
+  { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/contact' },
+  { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/contact' },
+  { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/contact' },
 ];
 
 export default function PricingPage() {
@@ -229,6 +314,142 @@ export default function PricingPage() {
             <DataLabel className="mb-10">MUSIC VIDEOS · FAST TURNAROUND</DataLabel>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <PricingTier {...MUSIC_VIDEO} highlighted href="/corporate/music-videos" />
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">FILM PRODUCTION · DAY RATES &amp; CREW-FOR-HIRE</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Transparent day rates for networks, production companies, agencies, and directors
+              hiring a DFW local crew. Sony hybrid cinema kit (same sensor family as the
+              Netflix-approved FX6), Marine-certified DP, DaVinci Resolve color pipeline, and a
+              full freelance roster on call.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {FILM_PRODUCTION_TIERS.map((tier) => (
+                <PricingTier key={tier.name} {...tier} href="/contact" />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">À LA CARTE · CREW DAY RATES</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Build your own crew. Every role priced transparently per 10-hour day. DFW local,
+              right-to-work, non-union (IATSE-adjacent by request).
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {FILM_PRODUCTION_CREW.map((role) => (
+                <div
+                  key={role.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{role.name}</h3>
+                    <div className="font-serif text-xl text-brass">{role.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{role.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">À LA CARTE · CAMERA &amp; LIGHTING</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Sony FX3 and A7S III — same sensor family as the Netflix-approved FX6, S-Log3, 4K
+              120p, DaVinci pipeline. Small lighting is our owned SmallRig kit; mid and large are
+              transparent rental pass-through.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {FILM_PRODUCTION_KITS.map((kit) => (
+                <div
+                  key={kit.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{kit.name}</h3>
+                    <div className="font-serif text-xl text-brass">{kit.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{kit.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">FILM PRODUCTION · LOGISTICS &amp; ADD-ONS</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Standard production-industry conventions, published openly. Overtime, travel, and
+              per-diem line items every line producer expects to see on a quote.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+              {FILM_PRODUCTION_LOGISTICS.map((item) => (
+                <div
+                  key={item.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{item.name}</h3>
+                    <div className="font-serif text-xl text-brass">{item.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{item.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-10">INSURANCE · COVERAGE &amp; COI POLICY</DataLabel>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">STANDARD COVERAGE</DataLabel>
+                <h3 className="font-serif text-2xl italic">$1M General Liability</h3>
+                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                  $1M per occurrence / $2M aggregate general liability, plus inland marine
+                  equipment coverage. Included on every shoot day — no production fee markup for
+                  standard coverage.
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">COI CERTIFICATES</DataLabel>
+                <h3 className="font-serif text-2xl italic">Free · 24-hour turnaround</h3>
+                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                  Additional-insured certificates issued within 24 hours with zero admin fee.
+                  Most DFW shops charge $25–$75 per cert. We don&apos;t — producing a piece of
+                  paper shouldn&apos;t be a profit center.
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">UPGRADED COVERAGE</DataLabel>
+                <h3 className="font-serif text-2xl italic">$2M / $4M available on request</h3>
+                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                  Some network, agency, and venue contracts require $2M per occurrence / $4M
+                  aggregate. Quoted per production — tell us on the discovery call and the
+                  upgrade is in the quote.
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">CREWED SHOOTS</DataLabel>
+                <h3 className="font-serif text-2xl italic">Workers&apos; Comp included</h3>
+                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                  Workers compensation coverage included on every shoot day we crew. No
+                  pass-through, no mystery fee, no production that walks away uncovered.
+                </p>
+              </div>
             </div>
           </div>
         </section>
