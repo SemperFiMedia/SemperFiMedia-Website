@@ -325,7 +325,8 @@ export default function PricingPage() {
               Transparent day rates for networks, production companies, agencies, and directors
               hiring a DFW local crew. Sony hybrid cinema kit (same sensor family as the
               Netflix-approved FX6), Marine-certified DP, DaVinci Resolve color pipeline, and a
-              full freelance roster on call.
+              full freelance roster on call. Production insurance is billed transparently as a
+              per-shoot pass-through — see the insurance section below.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {FILM_PRODUCTION_TIERS.map((tier) => (
@@ -410,15 +411,41 @@ export default function PricingPage() {
 
         <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-10">INSURANCE · COVERAGE &amp; COI POLICY</DataLabel>
+            <DataLabel className="mb-3">INSURANCE · COVERAGE &amp; COI POLICY</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Production insurance billed transparently per shoot day — no hidden markup, no
+              mystery fees. Equipment coverage is always on us. Upgraded network-grade limits
+              available on request.
+            </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
-                <DataLabel className="mb-3">STANDARD COVERAGE</DataLabel>
-                <h3 className="font-serif text-2xl italic">$1M General Liability</h3>
+                <DataLabel className="mb-3">PER-PRODUCTION INSURANCE</DataLabel>
+                <h3 className="font-serif text-2xl italic">$175–$295 / shoot day</h3>
                 <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  $1M per occurrence / $2M aggregate general liability, plus inland marine
-                  equipment coverage. Included on every shoot day — no production fee markup for
-                  standard coverage.
+                  Covers $1M per occurrence / $2M aggregate general liability plus workers&apos;
+                  comp for the shoot day. Pass-through pricing — Solo Day $175, B-Cam Day $225,
+                  Full Crew Day $295. Your production pays actual cost; we don&apos;t mark it up.
+                  $2M / $4M network-grade upgrade available (+$100–$150/day).
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">EQUIPMENT COVERAGE</DataLabel>
+                <h3 className="font-serif text-2xl italic">Always included</h3>
+                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                  Semper Fi Media carries year-round inland marine coverage on all owned cameras,
+                  lighting, audio, and grip gear. Your production doesn&apos;t pay extra for gear
+                  protection — that&apos;s on us.
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">WORKERS&apos; COMP</DataLabel>
+                <h3 className="font-serif text-2xl italic">Included on crewed shoots</h3>
+                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                  Workers compensation coverage bundled into the per-production policy on every
+                  shoot day we crew. No additional pass-through, no mystery fee, no production
+                  that walks away uncovered.
                 </p>
               </div>
 
@@ -426,28 +453,9 @@ export default function PricingPage() {
                 <DataLabel className="mb-3">COI CERTIFICATES</DataLabel>
                 <h3 className="font-serif text-2xl italic">Free · 24-hour turnaround</h3>
                 <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Additional-insured certificates issued within 24 hours with zero admin fee.
-                  Most DFW shops charge $25–$75 per cert. We don&apos;t — producing a piece of
-                  paper shouldn&apos;t be a profit center.
-                </p>
-              </div>
-
-              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
-                <DataLabel className="mb-3">UPGRADED COVERAGE</DataLabel>
-                <h3 className="font-serif text-2xl italic">$2M / $4M available on request</h3>
-                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Some network, agency, and venue contracts require $2M per occurrence / $4M
-                  aggregate. Quoted per production — tell us on the discovery call and the
-                  upgrade is in the quote.
-                </p>
-              </div>
-
-              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
-                <DataLabel className="mb-3">CREWED SHOOTS</DataLabel>
-                <h3 className="font-serif text-2xl italic">Workers&apos; Comp included</h3>
-                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Workers compensation coverage included on every shoot day we crew. No
-                  pass-through, no mystery fee, no production that walks away uncovered.
+                  Additional-insured certificates issued within 24 hours of booking confirmation
+                  with zero admin fee. Most DFW shops charge $25–$75 per cert. We don&apos;t —
+                  producing a piece of paper shouldn&apos;t be a profit center.
                 </p>
               </div>
             </div>
