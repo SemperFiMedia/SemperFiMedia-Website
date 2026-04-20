@@ -195,11 +195,12 @@ const TRAILER_EDITING_TIERS = [
 
 const WEBSITE_TIERS = [
   {
-    label: 'RECON',
-    name: 'Recon',
+    label: 'MISSION CRITICAL',
+    name: 'Mission Critical',
     price: '$4,500',
     priceNote: 'starting',
     includes: [
+      'For small businesses who need a site NOW',
       '8–10 pages on Wix Studio',
       'Custom HTML/CSS coded (NEVER templates)',
       'Contact forms, galleries, service pages',
@@ -212,11 +213,12 @@ const WEBSITE_TIERS = [
     ],
   },
   {
-    label: 'POPULAR',
-    name: 'Command',
+    label: 'ENLISTED · POPULAR',
+    name: 'Enlisted',
     price: '$7,500',
     priceNote: 'starting',
     includes: [
+      'The backbone — E1 through E9 workhorses',
       '7–10 pages, fully custom-coded',
       'GitHub + Railway deployment (code-owned)',
       'Interactive galleries, custom forms with file upload',
@@ -229,11 +231,12 @@ const WEBSITE_TIERS = [
     highlighted: true,
   },
   {
-    label: 'E-COMMERCE',
-    name: 'Overwatch',
+    label: 'WARRANT OFFICER',
+    name: 'Warrant Officer',
     price: '$18,000',
     priceNote: 'starting',
     includes: [
+      'Technical specialists — W1 through W5',
       '15+ pages including product catalog',
       'Fully custom-coded storefront',
       'Stripe or GoDaddy Commerce integration',
@@ -245,11 +248,12 @@ const WEBSITE_TIERS = [
     ],
   },
   {
-    label: 'ENTERPRISE',
-    name: 'Mission Critical',
+    label: 'COMMISSIONED',
+    name: 'Commissioned',
     price: '$22,500',
     priceNote: 'starting',
     includes: [
+      'Company grade, field grade, general officers — O1 through O10',
       '15+ pages, enterprise-grade custom build',
       'Next.js + TypeScript + Tailwind foundation',
       'Sanity CMS for self-service content updates',
@@ -265,22 +269,22 @@ const WEBSITE_TIERS = [
 
 const WEBSITE_BUNDLES = [
   {
-    name: 'Brand Launch Suite — Recon',
-    items: 'Brand Film ($3,500) + Recon Wix Site ($4,500)',
+    name: 'Brand Launch — Mission Critical',
+    items: 'Brand Film ($3,500) + Mission Critical Wix Site ($4,500)',
     price: '$7,500',
     savings: 'Save $500',
     note: 'The Forney starter package. Cinematic brand film + custom-HTML-coded Wix site, bundled.',
   },
   {
-    name: 'Brand Launch Suite — Custom',
-    items: 'Brand Film ($3,500) + Command Site ($7,500)',
+    name: 'Brand Launch — Enlisted',
+    items: 'Brand Film ($3,500) + Enlisted Custom Site ($7,500)',
     price: '$9,500',
     savings: 'Save $1,500',
     note: 'Cinematic brand film paired with a fully code-owned custom portfolio site.',
   },
   {
-    name: 'Authority Launch',
-    items: 'Full Production Day ($5,500) + Mission Critical Site ($22,500)',
+    name: 'Commissioned Launch',
+    items: 'Full Production Day ($5,500) + Commissioned Site ($22,500)',
     price: '$25,000',
     savings: 'Save $3,000',
     note: 'For brands going all-in. Enterprise-grade cinematic production + enterprise-grade website build.',
@@ -434,12 +438,12 @@ const PRICING_OFFERS = [
   { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: '1500', url: '/corporate/trailer-editing' },
   { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: '2500', url: '/corporate/trailer-editing' },
   { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: '3500', url: '/corporate/trailer-editing' },
-  { name: 'Recon — Wix Custom HTML Website', description: '8-10 page Wix Studio build with custom HTML/CSS (never templates), 3-week turnaround', price: '4500', url: '/corporate/website-design' },
-  { name: 'Command — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: '7500', url: '/corporate/website-design' },
-  { name: 'Overwatch — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: '18000', url: '/corporate/website-design' },
-  { name: 'Mission Critical — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
-  { name: 'Brand Launch Suite — Recon Bundle', description: 'Brand Film + Recon Wix custom-HTML website bundled', price: '7500', url: '/corporate/website-design' },
-  { name: 'Brand Launch Suite — Custom Bundle', description: 'Brand Film + Command custom website bundled', price: '9500', url: '/corporate/website-design' },
+  { name: 'Mission Critical — Wix Custom HTML Website', description: '8-10 page Wix Studio build with custom HTML/CSS (never templates), 3-week turnaround', price: '4500', url: '/corporate/website-design' },
+  { name: 'Enlisted — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: '7500', url: '/corporate/website-design' },
+  { name: 'Warrant Officer — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: '18000', url: '/corporate/website-design' },
+  { name: 'Commissioned — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
+  { name: 'Brand Launch — Mission Critical Bundle', description: 'Brand Film + Mission Critical Wix custom-HTML website bundled', price: '7500', url: '/corporate/website-design' },
+  { name: 'Brand Launch — Enlisted Bundle', description: 'Brand Film + Enlisted custom website bundled', price: '9500', url: '/corporate/website-design' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/contact' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/contact' },
   { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/contact' },

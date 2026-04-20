@@ -58,7 +58,7 @@ const NICHES = [
     label: 'DIGITAL PRESENCE',
     title: 'Website Design',
     description:
-      'Custom-HTML coded sites — never templates. Four tiers from $4,500 (Recon Wix) to $22,500 (Mission Critical). Client-owned domains, optional managed hosting at $399/mo. Bundle with a brand film and save.',
+      'Custom-HTML coded sites — never templates. Four Marine-themed tiers walking the rank ladder: Mission Critical ($4,500), Enlisted ($7,500), Warrant Officer ($18,000), Commissioned ($22,500). Client-owned domains, optional managed hosting at $399/mo.',
     emphasized: false,
   },
   {
