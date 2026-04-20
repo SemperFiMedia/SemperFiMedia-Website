@@ -58,7 +58,7 @@ const NICHES = [
     label: 'DIGITAL PRESENCE',
     title: 'Website Design',
     description:
-      'Wix to enterprise custom-code. Client-owned domains, optional managed hosting at $399/mo. Four tiers from $2,500 (Wix Starter) to $22,500 (Mission Critical). Bundle with a brand film and save.',
+      'Custom-HTML coded sites — never templates. Four tiers from $4,500 (Recon Wix) to $22,500 (Mission Critical). Client-owned domains, optional managed hosting at $399/mo. Bundle with a brand film and save.',
     emphasized: false,
   },
   {

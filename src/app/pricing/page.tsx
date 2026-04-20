@@ -195,18 +195,20 @@ const TRAILER_EDITING_TIERS = [
 
 const WEBSITE_TIERS = [
   {
-    label: 'WIX STARTER',
-    name: 'Wix Starter',
-    price: '$2,500',
+    label: 'RECON',
+    name: 'Recon',
+    price: '$4,500',
     priceNote: 'starting',
     includes: [
-      '5–8 pages on Wix Studio',
-      'Custom styling + mobile responsive',
-      'Contact form + basic SEO setup',
-      'Stock imagery + Google Fonts',
+      '8–10 pages on Wix Studio',
+      'Custom HTML/CSS coded (NEVER templates)',
+      'Contact forms, galleries, service pages',
+      'Booking integration + social proof widgets',
+      'Mobile-responsive + basic SEO setup',
       '3-week turnaround',
       '2 rounds of revisions',
       'Client-owned Wix account + domain',
+      'Recent builds: highbarroofing.com, totalproroofingllc.net, visionstoexcellence.com',
     ],
   },
   {
@@ -263,11 +265,11 @@ const WEBSITE_TIERS = [
 
 const WEBSITE_BUNDLES = [
   {
-    name: 'Brand Launch Suite — Wix',
-    items: 'Brand Film ($3,500) + Wix Starter Site ($2,500)',
-    price: '$5,500',
+    name: 'Brand Launch Suite — Recon',
+    items: 'Brand Film ($3,500) + Recon Wix Site ($4,500)',
+    price: '$7,500',
     savings: 'Save $500',
-    note: 'The Forney sweet-spot starter package. Professional brand film + polished Wix site, bundled.',
+    note: 'The Forney starter package. Cinematic brand film + custom-HTML-coded Wix site, bundled.',
   },
   {
     name: 'Brand Launch Suite — Custom',
@@ -432,11 +434,11 @@ const PRICING_OFFERS = [
   { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: '1500', url: '/corporate/trailer-editing' },
   { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: '2500', url: '/corporate/trailer-editing' },
   { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: '3500', url: '/corporate/trailer-editing' },
-  { name: 'Wix Starter Website', description: '5-8 page Wix Studio build, 3-week turnaround, client-owned', price: '2500', url: '/corporate/website-design' },
+  { name: 'Recon — Wix Custom HTML Website', description: '8-10 page Wix Studio build with custom HTML/CSS (never templates), 3-week turnaround', price: '4500', url: '/corporate/website-design' },
   { name: 'Command — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: '7500', url: '/corporate/website-design' },
   { name: 'Overwatch — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: '18000', url: '/corporate/website-design' },
   { name: 'Mission Critical — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
-  { name: 'Brand Launch Suite — Wix Bundle', description: 'Brand Film + Wix Starter website bundled', price: '5500', url: '/corporate/website-design' },
+  { name: 'Brand Launch Suite — Recon Bundle', description: 'Brand Film + Recon Wix custom-HTML website bundled', price: '7500', url: '/corporate/website-design' },
   { name: 'Brand Launch Suite — Custom Bundle', description: 'Brand Film + Command custom website bundled', price: '9500', url: '/corporate/website-design' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/contact' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/contact' },
@@ -506,13 +508,23 @@ export default function PricingPage() {
 
         <section id="website-design" className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
+            <div className="mb-12 border-l-4 border-brass bg-texas-umber/15 px-8 py-6">
+              <DataLabel className="mb-3">OUR ONE RULE · NO TEMPLATES, EVER</DataLabel>
+              <p className="max-w-3xl text-lg leading-relaxed text-bone">
+                Every Semper Fi Media website — even on Wix Studio — is custom-coded HTML from
+                scratch. You won&apos;t find a pre-built Wix template, a drag-and-drop page
+                builder, or a reused layout on any site we deliver. Your build is yours, line by
+                line, pixel by pixel.
+              </p>
+            </div>
+
             <DataLabel className="mb-3">WEBSITE DESIGN · FOUR TIERS · CLIENT-OWNED DOMAINS</DataLabel>
             <p className="mb-10 max-w-3xl text-bone-muted">
-              From budget Wix builds to enterprise-grade custom code on Next.js + Sanity + Mux.
+              From custom-HTML Wix Studio builds to enterprise-grade Next.js + Sanity + Mux.
               Four tiers covering every small-business to enterprise need. Client owns the domain
-              (via Cloudflare), Semper Fi Media handles the backend (Railway + GitHub). At contract
-              end, you get the full code, the full keys, and a step-by-step migration guide — no
-              ransom, no lock-in.
+              (via Cloudflare), Semper Fi Media handles the backend (Railway + GitHub on custom
+              tiers; Wix-managed on Recon). At contract end, you get the full code, the full keys,
+              and a step-by-step migration guide — no ransom, no lock-in.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
               {WEBSITE_TIERS.map((tier) => (

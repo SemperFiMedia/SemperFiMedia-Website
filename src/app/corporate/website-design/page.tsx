@@ -6,19 +6,19 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
-  title: 'Website Design Dallas — Custom Code & Wix | From $2,500',
+  title: 'Website Design Dallas — Custom HTML, No Templates | From $4,500',
   description:
-    'Dallas website design from Semper Fi Media. Four tiers: Wix Starter ($2,500), Command Custom Portfolio ($7,500), Overwatch Custom E-Commerce ($18,000), Mission Critical Enterprise ($22,500). Client-owned domains via Cloudflare, optional managed hosting, full handoff at contract end.',
+    'Dallas website design from Semper Fi Media. Four tiers: Recon Wix custom-HTML ($4,500), Command Custom Portfolio ($7,500), Overwatch Custom E-Commerce ($18,000), Mission Critical Enterprise ($22,500). NO templates, ever — custom HTML on every build. Client-owned domains via Cloudflare, optional managed hosting, full handoff at contract end.',
 };
 
 const TIERS = [
   {
-    name: 'Wix Starter',
-    price: '$2,500',
-    label: 'BUDGET TIER',
+    name: 'Recon',
+    price: '$4,500',
+    label: 'CUSTOM HTML ON WIX',
     turnaround: '3 weeks',
-    description: 'Wix Studio base with custom styling. 5–8 pages, mobile-responsive, contact form, basic SEO. Best for service businesses that need a professional-looking site without the custom-dev price tag.',
-    example: null,
+    description: 'Wix Studio platform with custom HTML/CSS coded from scratch — never templates. 8–10 pages, booking integration, galleries, service pages, social proof widgets. Best for service businesses that want professional-grade custom code at an accessible entry price.',
+    example: { label: 'Recent builds', name: 'highbarroofing.com · totalproroofingllc.net · visionstoexcellence.com', url: 'https://www.highbarroofing.com' },
   },
   {
     name: 'Command',
@@ -135,15 +135,33 @@ export default function WebsiteDesignPage() {
               your mission.
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
-              Four tiers from Wix Starter to Mission Critical Enterprise. Client-owned domains via
-              Cloudflare, optional 24-month managed hosting at $399/mo, complete handoff at contract
-              end. No lock-in, no ransom, no agency markup.
+              Four tiers from Recon custom-HTML Wix to Mission Critical Enterprise. Client-owned
+              domains via Cloudflare, optional 24-month managed hosting at $399/mo, complete
+              handoff at contract end. No templates, no lock-in, no ransom, no agency markup.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Book a discovery call</BrassButton>
               <BrassButton href="/pricing#website-design" variant="outline">
                 See full pricing
               </BrassButton>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-gunpowder px-6 py-16 md:px-12 md:py-20">
+          <div className="mx-auto max-w-[1200px]">
+            <div className="border-l-4 border-brass bg-texas-umber/20 px-8 py-8">
+              <DataLabel className="mb-4">OUR ONE RULE · NO TEMPLATES, EVER</DataLabel>
+              <h2 className="font-serif text-3xl italic leading-tight md:text-4xl">
+                Every site we deliver is custom HTML from scratch.
+              </h2>
+              <p className="mt-6 max-w-3xl text-lg leading-relaxed text-bone">
+                Even our entry-tier Wix Studio builds are custom-coded HTML from line one — never
+                templates, never drag-and-drop page builders, never reused layouts. Your build is
+                yours, pixel by pixel. It&apos;s the reason our sites look different from every
+                other Wix site in DFW, and it&apos;s the reason our pricing reflects real code —
+                not template tweaks.
+              </p>
             </div>
           </div>
         </section>
@@ -248,10 +266,10 @@ export default function WebsiteDesignPage() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
                 <DataLabel className="mb-3">SAVE $500</DataLabel>
-                <h3 className="font-serif text-xl italic">Brand Launch — Wix</h3>
-                <div className="mt-4 font-serif text-3xl text-brass">$5,500</div>
+                <h3 className="font-serif text-xl italic">Brand Launch — Recon</h3>
+                <div className="mt-4 font-serif text-3xl text-brass">$7,500</div>
                 <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Brand Film ($3,500) + Wix Starter ($2,500). The Forney sweet-spot starter.
+                  Brand Film ($3,500) + Recon custom-HTML Wix site ($4,500). Forney starter package.
                 </p>
               </div>
               <div className="flex flex-col border border-brass bg-texas-umber/25 p-8">
