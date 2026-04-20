@@ -22,8 +22,9 @@ const SECTIONS = [
     links: [
       { href: '/weddings', label: 'Cinema Weddings' },
       { href: '/corporate', label: 'Corporate Video' },
+      { href: '/film-production', label: 'Film Production Day Rates' },
       { href: '/social-reels', label: 'Social Media Reels' },
-      { href: '/pricing', label: 'Pricing' },
+      { href: '/pricing', label: 'Pricing Overview' },
     ],
   },
   {

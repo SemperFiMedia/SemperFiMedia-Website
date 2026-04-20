@@ -3,6 +3,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
+import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
@@ -98,6 +99,24 @@ const PROCESS = [
   },
 ];
 
+const ADDONS = [
+  { name: 'Logo Design', price: '$500', note: 'Custom logo concept + 3 variations. Delivered in AI/EPS/PNG/SVG.' },
+  { name: 'Brand Identity Package', price: '$1,500', note: 'Logo + color palette + typography system + brand style guide.' },
+  { name: 'Copywriting (per page)', price: '$250', note: 'Professional copy for hero + about + services + contact pages.' },
+  { name: 'Photography Session', price: '$1,500', note: 'Half-day on-location shoot for website hero + team + product shots.' },
+  { name: 'SEO + GBP Optimization', price: '$750', note: 'On-site SEO setup + Google Business Profile audit + keyword strategy.' },
+  { name: 'Rush Delivery', price: '+25%', note: 'Cut standard turnaround in half. Plan ahead when you can.' },
+];
+
+const SECTIONS = [
+  { id: 'tiers', label: 'Tiers' },
+  { id: 'why', label: 'Why SFM' },
+  { id: 'hosting', label: 'Hosting' },
+  { id: 'process', label: 'Process' },
+  { id: 'bundles', label: 'Bundles' },
+  { id: 'addons', label: 'Add-ons' },
+];
+
 const DOMAIN_OWNERSHIP = [
   {
     title: 'Client owns the domain.',
@@ -153,6 +172,8 @@ export default function WebsiteDesignPage() {
           </div>
         </section>
 
+        <PricingJumpNav sections={SECTIONS} />
+
         <section className="bg-gunpowder px-6 py-16 md:px-12 md:py-20">
           <div className="mx-auto max-w-[1200px]">
             <div className="border-l-4 border-brass bg-texas-umber/20 px-8 py-8">
@@ -171,7 +192,7 @@ export default function WebsiteDesignPage() {
           </div>
         </section>
 
-        <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+        <section id="tiers" className="scroll-mt-32 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-10">FOUR TIERS · TRANSPARENT PRICING</DataLabel>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -216,7 +237,7 @@ export default function WebsiteDesignPage() {
           </div>
         </section>
 
-        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+        <section id="why" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 md:grid-cols-2">
             <div>
               <DataLabel className="mb-5">WHY SEMPER FI FOR YOUR WEBSITE</DataLabel>
@@ -249,7 +270,57 @@ export default function WebsiteDesignPage() {
           </div>
         </section>
 
-        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+        <section id="hosting" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">MANAGED HOSTING PLAN</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Every website build includes a free first month of Semper Fi Media-managed hosting.
+              If you want to keep us driving the backend after that, we offer an optional 24-month
+              managed hosting contract. If you&apos;d rather take the keys yourself, we hand
+              everything over with a complete migration guide.
+            </p>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">MONTH 1 · TRIAL</DataLabel>
+                <h3 className="font-serif text-3xl italic">FREE</h3>
+                <p className="mt-2 text-sm text-bone-subtle">included with every build</p>
+                <p className="mt-6 text-bone-muted leading-relaxed">
+                  First month of managed hosting included free with every new website build. Test
+                  the service, see how fast updates land, measure the uptime. No obligation to
+                  continue.
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-brass bg-texas-umber/25 p-8">
+                <DataLabel className="mb-3">MANAGED · POPULAR</DataLabel>
+                <h3 className="font-serif text-3xl italic">$399</h3>
+                <p className="mt-2 text-sm text-bone-subtle">/ month · 24-month contract</p>
+                <div className="mt-6 space-y-2 text-sm text-bone-muted">
+                  <div className="flex gap-2"><span className="text-brass">›</span><span>Railway hosting covered (SFM pays infrastructure)</span></div>
+                  <div className="flex gap-2"><span className="text-brass">›</span><span>GitHub private repo management</span></div>
+                  <div className="flex gap-2"><span className="text-brass">›</span><span>Security patches + dependency updates</span></div>
+                  <div className="flex gap-2"><span className="text-brass">›</span><span>Minor content updates (text, images, swaps)</span></div>
+                  <div className="flex gap-2"><span className="text-brass">›</span><span>99.9% uptime target + monitoring</span></div>
+                  <div className="flex gap-2"><span className="text-brass">›</span><span>Monthly performance report</span></div>
+                </div>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">HANDOFF OPTION</DataLabel>
+                <h3 className="font-serif text-3xl italic">$0</h3>
+                <p className="mt-2 text-sm text-bone-subtle">after trial or at contract end</p>
+                <p className="mt-6 text-bone-muted leading-relaxed">
+                  Prefer to manage your own hosting? We hand over the GitHub repo, Railway project
+                  config, domain DNS records, and a complete step-by-step migration guide. Your
+                  site, your keys, fully transferred.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="process" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-10">THE PROCESS · DISCOVERY TO HANDOFF</DataLabel>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
@@ -264,7 +335,7 @@ export default function WebsiteDesignPage() {
           </div>
         </section>
 
-        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+        <section id="bundles" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-3">BUNDLE OPTIONS · FILM + WEBSITE</DataLabel>
             <p className="mb-10 max-w-3xl text-bone-muted">
@@ -297,6 +368,30 @@ export default function WebsiteDesignPage() {
                   across the board.
                 </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="addons" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">ADD-ONS</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Stack any of these onto your website tier. All add-ons are billed transparently up
+              front — no mystery line items on the final invoice.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {ADDONS.map((addon) => (
+                <div
+                  key={addon.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{addon.name}</h3>
+                    <div className="font-serif text-xl text-brass">{addon.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{addon.note}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

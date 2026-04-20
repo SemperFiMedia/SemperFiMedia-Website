@@ -4,6 +4,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
+import { PricingTier } from '@/components/pricing/pricing-tier';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
@@ -87,6 +88,51 @@ const NICHES = [
   },
 ] as const;
 
+const CORPORATE_TIERS = [
+  {
+    label: 'ENTRY',
+    name: 'Spotlight',
+    price: '$1,500',
+    priceNote: 'starting',
+    includes: [
+      'Half-day shoot (up to 4 hours)',
+      '1 cinematographer',
+      'Single location',
+      '60–90 second finished film',
+      '2 rounds of revisions',
+    ],
+  },
+  {
+    label: 'POPULAR',
+    name: 'Brand Film',
+    price: '$3,500',
+    priceNote: 'starting',
+    includes: [
+      'Full-day shoot (up to 8 hours)',
+      '1 cinematographer + 1 assistant',
+      'Up to 2 locations',
+      '2–3 minute finished film',
+      'B-roll package + social cutdowns',
+      '2 rounds of revisions',
+    ],
+    highlighted: true,
+  },
+  {
+    label: 'FULL PRODUCTION',
+    name: 'Full Production',
+    price: 'Custom',
+    priceNote: 'quoted',
+    includes: [
+      'Multi-day or multi-location shoots',
+      'Full crew (DP + 2nd shooter + sound + drone)',
+      'Pre-production + concept development',
+      'Licensed music + custom color grade',
+      'Case study-grade finish',
+      'Rush delivery available',
+    ],
+  },
+];
+
 export default function CorporatePage() {
   return (
     <>
@@ -134,6 +180,37 @@ export default function CorporatePage() {
                 </DataLabel>
               </Link>
             ))}
+          </div>
+        </section>
+
+        <section id="pricing" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">CORPORATE &amp; BRAND FILMS · PRICING</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Three tiers from half-day Spotlight brand films to full-production multi-day
+              shoots. Every niche above plays inside this pricing — Mission &amp; Tactical,
+              Small Business, Faith &amp; Community, Conventions, Quinceañeras, Birthdays all
+              scope here. Music Videos have their own dedicated pricing page.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {CORPORATE_TIERS.map((tier) => (
+                <PricingTier key={tier.name} {...tier} href="/contact" />
+              ))}
+            </div>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <BrassButton href="/corporate/music-videos" variant="outline">
+                Music Video Pricing →
+              </BrassButton>
+              <BrassButton href="/corporate/trailer-editing" variant="outline">
+                Trailer Editing Pricing →
+              </BrassButton>
+              <BrassButton href="/corporate/website-design" variant="outline">
+                Website Design Pricing →
+              </BrassButton>
+              <BrassButton href="/film-production" variant="outline">
+                Film Production Day Rates →
+              </BrassButton>
+            </div>
           </div>
         </section>
 

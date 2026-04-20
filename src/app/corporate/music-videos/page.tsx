@@ -119,6 +119,52 @@ export default async function MusicVideosPage() {
           </div>
         </section>
 
+        <section id="pricing" className="scroll-mt-32 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1200px]">
+            <DataLabel className="mb-3">PRICING · FLAT $3,000</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              One tier, one flat rate. No agency markup, no per-location fees. The music video your
+              track deserves, priced like an indie can afford.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="flex flex-col border border-brass bg-texas-umber/25 p-8 md:col-span-2">
+                <DataLabel className="mb-3">MUSIC VIDEO · FAST TURNAROUND</DataLabel>
+                <h3 className="font-serif text-4xl italic">$3,000</h3>
+                <p className="mt-2 text-sm text-bone-subtle">flat · 14-day delivery</p>
+                <div className="mt-6 space-y-2 text-bone-muted">
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>Single-day shoot (up to 8 hours)</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>1 cinematographer + drone (where permitted)</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>Single location</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>3–4 minute finished music video</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>Color graded to track mood</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>2 rounds of revisions</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>14-day delivery</span></div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6">
+                  <DataLabel className="mb-2">ADD-ON</DataLabel>
+                  <h3 className="font-serif text-xl italic">9:16 Social Cuts</h3>
+                  <div className="mt-2 font-serif text-2xl text-brass">$500</div>
+                  <p className="mt-2 text-sm text-bone-muted">5× vertical cutdowns, color-matched.</p>
+                </div>
+                <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6">
+                  <DataLabel className="mb-2">ADD-ON</DataLabel>
+                  <h3 className="font-serif text-xl italic">Additional Location</h3>
+                  <div className="mt-2 font-serif text-2xl text-brass">$750</div>
+                  <p className="mt-2 text-sm text-bone-muted">Per location beyond the first.</p>
+                </div>
+                <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6">
+                  <DataLabel className="mb-2">ADD-ON</DataLabel>
+                  <h3 className="font-serif text-xl italic">Rush Delivery</h3>
+                  <div className="mt-2 font-serif text-2xl text-brass">+25%</div>
+                  <p className="mt-2 text-sm text-bone-muted">Faster than 14 days. Quoted per release window.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="font-serif text-4xl italic md:text-5xl">Release date locked in?</h2>
