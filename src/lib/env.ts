@@ -14,7 +14,10 @@ export const env = {
   },
   resend: {
     apiKey: process.env.RESEND_API_KEY ?? '',
-    toEmail: process.env.CONTACT_FORM_TO_EMAIL ?? 'semperfimedia.tx@gmail.com',
+    toEmail: (process.env.CONTACT_FORM_TO_EMAIL ?? 'semperfimedia.tx@gmail.com')
+      .split(',')
+      .map((address) => address.trim())
+      .filter((address) => address.length > 0),
     fromEmail:
       process.env.RESEND_FROM_EMAIL ?? 'Semper Fi Media Website <onboarding@resend.dev>',
   },
