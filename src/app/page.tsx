@@ -8,6 +8,7 @@ import { FlagshipSpotlight } from '@/components/home/flagship-spotlight';
 import { FounderStrip } from '@/components/home/founder-strip';
 import { TestimonialFeature } from '@/components/home/testimonial-feature';
 import { LogoWall } from '@/components/home/logo-wall';
+import { DroneShowcase } from '@/components/home/drone-showcase';
 import { CtaCloser } from '@/components/home/cta-closer';
 import { SocialReelsPitch } from '@/components/home/social-reels-pitch';
 import { ProcessSection } from '@/components/home/process-section';
@@ -53,6 +54,9 @@ export default async function HomePage() {
         <SocialReelsPitch reels={socialReels} />
         <Reveal>
           <FlagshipSpotlight />
+        </Reveal>
+        <Reveal>
+          <DroneShowcase />
         </Reveal>
         <ProcessSection />
         {featuredTestimonial && (
