@@ -40,18 +40,6 @@ const CLIENTS: Client[] = [
     builtBySFM: false,
   },
   {
-    name: 'NOVA Photography',
-    logo: '/images/clients/nova-photography.png',
-    website: null,
-    builtBySFM: false,
-  },
-  {
-    name: 'Fleming Photos',
-    logo: '/images/clients/fleming-photos.png',
-    website: null,
-    builtBySFM: false,
-  },
-  {
     name: 'Retire Guides',
     logo: '/images/clients/retire-guides.png',
     website: null,
