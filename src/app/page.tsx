@@ -16,17 +16,15 @@ import { Reveal } from '@/components/primitives/reveal';
 import {
   getFeaturedCaseStudies,
   getFeaturedTestimonials,
-  getFeaturedClients,
   getSocialReels,
   getHeroCaseStudy,
 } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
 
 export default async function HomePage() {
-  const [caseStudies, testimonials, clients, socialReels, heroCs] = await Promise.all([
+  const [caseStudies, testimonials, socialReels, heroCs] = await Promise.all([
     getFeaturedCaseStudies(6),
     getFeaturedTestimonials(),
-    getFeaturedClients(),
     getSocialReels(3),
     getHeroCaseStudy(),
   ]);
@@ -62,11 +60,9 @@ export default async function HomePage() {
             <TestimonialFeature testimonial={featuredTestimonial} />
           </Reveal>
         )}
-        {clients.length > 0 && (
-          <Reveal>
-            <LogoWall clients={clients} />
-          </Reveal>
-        )}
+        <Reveal>
+          <LogoWall />
+        </Reveal>
         <Reveal>
           <FounderStrip />
         </Reveal>
