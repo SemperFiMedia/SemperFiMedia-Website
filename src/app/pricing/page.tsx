@@ -193,6 +193,107 @@ const TRAILER_EDITING_TIERS = [
   },
 ];
 
+const WEBSITE_TIERS = [
+  {
+    label: 'WIX STARTER',
+    name: 'Wix Starter',
+    price: '$2,500',
+    priceNote: 'starting',
+    includes: [
+      '5–8 pages on Wix Studio',
+      'Custom styling + mobile responsive',
+      'Contact form + basic SEO setup',
+      'Stock imagery + Google Fonts',
+      '3-week turnaround',
+      '2 rounds of revisions',
+      'Client-owned Wix account + domain',
+    ],
+  },
+  {
+    label: 'POPULAR',
+    name: 'Command',
+    price: '$7,500',
+    priceNote: 'starting',
+    includes: [
+      '7–10 pages, fully custom-coded',
+      'GitHub + Railway deployment (code-owned)',
+      'Interactive galleries, custom forms with file upload',
+      'Before/after sliders + categorized filtering',
+      'SEO foundation + JSON-LD structured data',
+      '4-week turnaround',
+      '2 rounds of revisions',
+      'Client-owned domain via Cloudflare',
+    ],
+    highlighted: true,
+  },
+  {
+    label: 'E-COMMERCE',
+    name: 'Overwatch',
+    price: '$18,000',
+    priceNote: 'starting',
+    includes: [
+      '15+ pages including product catalog',
+      'Fully custom-coded storefront',
+      'Stripe or GoDaddy Commerce integration',
+      'Custom product configurators + diagnostic quizzes',
+      'Comparison tools + financing integration (Klarna/Affirm)',
+      'Cart + checkout + payment flows',
+      '10–14 week turnaround',
+      '2 rounds of revisions',
+    ],
+  },
+  {
+    label: 'ENTERPRISE',
+    name: 'Mission Critical',
+    price: '$22,500',
+    priceNote: 'starting',
+    includes: [
+      '15+ pages, enterprise-grade custom build',
+      'Next.js + TypeScript + Tailwind foundation',
+      'Sanity CMS for self-service content updates',
+      'Mux video hosting integration',
+      'Multi-language (ES/EN) with locale routing',
+      'Advanced SEO + JSON-LD + breadcrumbs',
+      'Performance-optimized (Core Web Vitals)',
+      '12–16 week turnaround',
+      'Post-launch training session included',
+    ],
+  },
+];
+
+const WEBSITE_BUNDLES = [
+  {
+    name: 'Brand Launch Suite — Wix',
+    items: 'Brand Film ($3,500) + Wix Starter Site ($2,500)',
+    price: '$5,500',
+    savings: 'Save $500',
+    note: 'The Forney sweet-spot starter package. Professional brand film + polished Wix site, bundled.',
+  },
+  {
+    name: 'Brand Launch Suite — Custom',
+    items: 'Brand Film ($3,500) + Command Site ($7,500)',
+    price: '$9,500',
+    savings: 'Save $1,500',
+    note: 'Cinematic brand film paired with a fully code-owned custom portfolio site.',
+  },
+  {
+    name: 'Authority Launch',
+    items: 'Full Production Day ($5,500) + Mission Critical Site ($22,500)',
+    price: '$25,000',
+    savings: 'Save $3,000',
+    note: 'For brands going all-in. Enterprise-grade cinematic production + enterprise-grade website build.',
+  },
+];
+
+const WEBSITE_ADDONS = [
+  { name: 'Logo Design', price: '$500', note: 'Custom logo concept + 3 variations. Delivered in AI/EPS/PNG/SVG.' },
+  { name: 'Brand Identity Package', price: '$1,500', note: 'Logo + color palette + typography system + brand style guide.' },
+  { name: 'Copywriting (per page)', price: '$250', note: 'Professional copy for hero + about + services + contact pages.' },
+  { name: 'Photography Session', price: '$1,500', note: 'Half-day on-location shoot for website hero + team + product shots.' },
+  { name: 'SEO + GBP Optimization', price: '$750', note: 'On-site SEO setup + Google Business Profile audit + keyword strategy.' },
+  { name: 'Rush Delivery', price: '+25%', note: 'Cut standard turnaround in half. Plan ahead when you can.' },
+];
+
 const TRAILER_SOURCE_CONDITIONS = [
   {
     condition: 'Already Color-Graded',
@@ -331,6 +432,12 @@ const PRICING_OFFERS = [
   { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: '1500', url: '/corporate/trailer-editing' },
   { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: '2500', url: '/corporate/trailer-editing' },
   { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: '3500', url: '/corporate/trailer-editing' },
+  { name: 'Wix Starter Website', description: '5-8 page Wix Studio build, 3-week turnaround, client-owned', price: '2500', url: '/corporate/website-design' },
+  { name: 'Command — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: '7500', url: '/corporate/website-design' },
+  { name: 'Overwatch — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: '18000', url: '/corporate/website-design' },
+  { name: 'Mission Critical — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
+  { name: 'Brand Launch Suite — Wix Bundle', description: 'Brand Film + Wix Starter website bundled', price: '5500', url: '/corporate/website-design' },
+  { name: 'Brand Launch Suite — Custom Bundle', description: 'Brand Film + Command custom website bundled', price: '9500', url: '/corporate/website-design' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/contact' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/contact' },
   { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/contact' },
@@ -382,6 +489,142 @@ export default function PricingPage() {
             </p>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {WEDDING_ADDONS.map((addon) => (
+                <div
+                  key={addon.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{addon.name}</h3>
+                    <div className="font-serif text-xl text-brass">{addon.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{addon.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="website-design" className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">WEBSITE DESIGN · FOUR TIERS · CLIENT-OWNED DOMAINS</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              From budget Wix builds to enterprise-grade custom code on Next.js + Sanity + Mux.
+              Four tiers covering every small-business to enterprise need. Client owns the domain
+              (via Cloudflare), Semper Fi Media handles the backend (Railway + GitHub). At contract
+              end, you get the full code, the full keys, and a step-by-step migration guide — no
+              ransom, no lock-in.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {WEBSITE_TIERS.map((tier) => (
+                <PricingTier key={tier.name} {...tier} href="/corporate/website-design" />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">WEBSITE DESIGN · MANAGED HOSTING PLAN</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Every website build includes a free first month of Semper Fi Media-managed hosting.
+              If you want to keep us driving the backend after that, we offer an optional 24-month
+              managed hosting contract. If you&apos;d rather take the keys yourself, we hand
+              everything over with a complete migration guide.
+            </p>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">MONTH 1 · TRIAL</DataLabel>
+                <h3 className="font-serif text-3xl italic">FREE</h3>
+                <p className="mt-2 text-sm text-bone-subtle">included with every build</p>
+                <p className="mt-6 text-bone-muted leading-relaxed">
+                  First month of managed hosting included free with every new website build. Test
+                  the service, see how fast updates land, measure the uptime. No obligation to
+                  continue.
+                </p>
+              </div>
+
+              <div className="flex flex-col border border-brass bg-texas-umber/25 p-8">
+                <DataLabel className="mb-3">MANAGED HOSTING · POPULAR</DataLabel>
+                <h3 className="font-serif text-3xl italic">$399</h3>
+                <p className="mt-2 text-sm text-bone-subtle">/ month · 24-month contract</p>
+                <div className="mt-6 space-y-2 text-sm text-bone-muted">
+                  <div className="flex gap-2">
+                    <span className="text-brass">›</span>
+                    <span>Railway hosting covered (SFM pays infrastructure)</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-brass">›</span>
+                    <span>GitHub private repo management</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-brass">›</span>
+                    <span>Security patches + dependency updates</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-brass">›</span>
+                    <span>Minor content updates (text, images, swaps)</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-brass">›</span>
+                    <span>99.9% uptime target + monitoring</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="text-brass">›</span>
+                    <span>Monthly performance report</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                <DataLabel className="mb-3">HANDOFF OPTION</DataLabel>
+                <h3 className="font-serif text-3xl italic">$0</h3>
+                <p className="mt-2 text-sm text-bone-subtle">after trial or at contract end</p>
+                <p className="mt-6 text-bone-muted leading-relaxed">
+                  Prefer to manage your own hosting? We hand over the GitHub repo, Railway project
+                  config, domain DNS records, and a complete step-by-step migration guide. Your
+                  site, your keys, fully transferred.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">BUNDLE PRICING · FILM + WEBSITE</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Most small businesses need both a brand film AND a website. Bundle them and save.
+              One decision, one vendor, one invoice.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {WEBSITE_BUNDLES.map((bundle) => (
+                <div key={bundle.name} className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
+                  <DataLabel className="mb-3">{bundle.savings}</DataLabel>
+                  <h3 className="font-serif text-2xl italic">{bundle.name}</h3>
+                  <div className="mt-4 flex items-baseline gap-2">
+                    <span className="font-serif text-4xl text-brass">{bundle.price}</span>
+                    <span className="text-sm text-bone-subtle">bundled</span>
+                  </div>
+                  <p className="mt-4 text-xs text-bone-subtle uppercase tracking-wider">
+                    {bundle.items}
+                  </p>
+                  <p className="mt-6 text-sm leading-relaxed text-bone-muted">{bundle.note}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">WEBSITE DESIGN · ADD-ONS</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Stack any of these onto your website tier. All add-ons are billed transparently up
+              front — no mystery line items on the final invoice.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {WEBSITE_ADDONS.map((addon) => (
                 <div
                   key={addon.name}
                   className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
