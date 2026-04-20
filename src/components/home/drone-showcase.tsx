@@ -15,6 +15,8 @@ const PHOTOS = [
 const VIDEOS = [
   { id: 'imv8CNdnC14', title: 'Aerial cinematography reel' },
   { id: 'uES_vIiFok4', title: 'Aerial cinematography reel 2' },
+  { id: '3eG-EdrT2jQ', title: 'Aerial cinematography reel 3' },
+  { id: 'nlCM9sTIoCg', title: 'Aerial cinematography reel 4' },
 ];
 
 const PRICING = [
