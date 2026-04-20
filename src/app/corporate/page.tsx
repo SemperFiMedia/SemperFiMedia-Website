@@ -46,6 +46,14 @@ const NICHES = [
     emphasized: false,
   },
   {
+    href: '/corporate/trailer-editing',
+    label: 'POST-ONLY',
+    title: 'Trailer Editing',
+    description:
+      'Short films, features, and pitch reels. You shot the film — we cut the trailer that gets it seen. Post-production only, from $1,500.',
+    emphasized: false,
+  },
+  {
     href: '/corporate/conventions',
     label: 'CROWD ENERGY',
     title: 'Conventions',
@@ -92,7 +100,7 @@ export default function CorporatePage() {
               mission.
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
-              Big-agency cinematic quality. Solo-creator loyalty. Four niches where Semper Fi
+              Big-agency cinematic quality. Solo-creator loyalty. The niches where Semper Fi
               Media does its best work.
             </p>
           </div>

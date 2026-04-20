@@ -143,6 +143,65 @@ const MUSIC_VIDEO = {
   ],
 };
 
+const TRAILER_EDITING_TIERS = [
+  {
+    label: 'TEASER CUT',
+    name: 'Teaser Cut',
+    price: '$1,500',
+    priceNote: 'starting',
+    includes: [
+      'Up to :30 finished teaser',
+      'Footage intake + full screening of source material',
+      'Creative cut direction (beats, pacing, reveal structure)',
+      'Music sync + basic sound design',
+      '2 title cards with basic graphics',
+      '2 rounds of revisions via Vidflow',
+      'Delivery in hero cut + 9:16 social version',
+    ],
+  },
+  {
+    label: 'POPULAR',
+    name: 'Trailer Cut',
+    price: '$2,500',
+    priceNote: 'starting',
+    includes: [
+      ':30–2:00 finished trailer',
+      'Footage intake + full screening of source material',
+      'Full sound design (atmospheric layers, impact hits, transitions)',
+      'Motion graphics + logo animation',
+      'Licensed music sourcing (track licensing billed at cost)',
+      '2 rounds of revisions via Vidflow',
+      'Delivery in hero cut + :15 cutdown + 9:16 social version',
+    ],
+    highlighted: true,
+  },
+  {
+    label: 'FESTIVAL-READY',
+    name: 'Premium Trailer',
+    price: '$3,500+',
+    priceNote: 'starting',
+    includes: [
+      'Feature-length source (60+ minutes)',
+      'Custom title sequence',
+      'Advanced SFX layering + sound mix',
+      'Color consistency pass across trailer',
+      'Festival-ready delivery formats (DCP on request)',
+      'Licensed music sourcing (track licensing billed at cost)',
+      '2 rounds of revisions via Vidflow',
+      'Multiple cutdowns on request',
+    ],
+  },
+];
+
+const TRAILER_EDITING_ADDONS = [
+  { name: 'Full Color Grade', price: '$500–$1,500', note: 'Quoted on source-footage condition. Trailers often cut uncolored first.' },
+  { name: 'Voiceover Direction', price: '$250', note: 'VO casting guidance + placement in edit. Talent fees billed separately.' },
+  { name: 'Rush Delivery', price: '+25%', note: 'Under 7 days from locked footage handoff. Plan ahead when you can.' },
+  { name: 'Additional Cutdown', price: '$500', note: ':15 TV spot, :06 bumper, or alternate edit — each.' },
+  { name: 'Title / Logo Card', price: '$250', note: 'Beyond the 2 cards included in each tier.' },
+  { name: 'Raw Deliverable Export', price: '$150', note: 'ProRes master or DNxHR master on request.' },
+];
+
 const FILM_PRODUCTION_TIERS = [
   {
     label: 'SOLO',
@@ -232,6 +291,9 @@ const PRICING_OFFERS = [
   { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: '1500', url: '/corporate' },
   { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: '3500', url: '/corporate' },
   { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
+  { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: '1500', url: '/corporate/trailer-editing' },
+  { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: '2500', url: '/corporate/trailer-editing' },
+  { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: '3500', url: '/corporate/trailer-editing' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/contact' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/contact' },
   { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/contact' },
@@ -314,6 +376,47 @@ export default function PricingPage() {
             <DataLabel className="mb-10">MUSIC VIDEOS · FAST TURNAROUND</DataLabel>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <PricingTier {...MUSIC_VIDEO} highlighted href="/corporate/music-videos" />
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">TRAILER EDITING · POST-PRODUCTION ONLY</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              You shot the film. We cut the trailer that gets it seen. Client-provided footage
+              cut into a theatrical-style teaser or trailer — no shoot required. Built for
+              filmmakers, producers, and indie studios who need a festival-ready cut from
+              existing material.
+            </p>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {TRAILER_EDITING_TIERS.map((tier) => (
+                <PricingTier key={tier.name} {...tier} href="/corporate/trailer-editing" />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">TRAILER EDITING · ADD-ONS</DataLabel>
+            <p className="mb-10 max-w-2xl text-bone-muted">
+              Stack any of these onto a trailer tier. Typical turnaround is 10–14 days from locked
+              footage handoff — rush delivery available at a 25% premium.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {TRAILER_EDITING_ADDONS.map((addon) => (
+                <div
+                  key={addon.name}
+                  className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="font-serif text-lg italic">{addon.name}</h3>
+                    <div className="font-serif text-xl text-brass">{addon.price}</div>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-bone-muted">{addon.note}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

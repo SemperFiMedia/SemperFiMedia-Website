@@ -8,6 +8,7 @@ const STATIC_ROUTES = [
   '/corporate',
   '/corporate/mission-and-tactical',
   '/corporate/music-videos',
+  '/corporate/trailer-editing',
   '/corporate/small-business',
   '/corporate/faith-and-community',
   '/corporate/conventions',
