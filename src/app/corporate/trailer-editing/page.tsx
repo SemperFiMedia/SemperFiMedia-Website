@@ -38,6 +38,14 @@ const WHY = [
   },
 ];
 
+const SOURCE_CONDITIONS = [
+  { condition: 'Already Color-Graded', note: 'Finished film — no color work needed.', teaser: '+$0', trailer: '+$0', premium: '+$0' },
+  { condition: 'Dailies Color Pass', note: 'Rec. 709 normalization + consistency. Not a hero grade.', teaser: '+$150', trailer: '+$250', premium: '+$400' },
+  { condition: 'Log / Flat Footage', note: 'S-Log3, LogC, etc. Quick hero grade from flat source.', teaser: '+$300', trailer: '+$500', premium: '+$800' },
+  { condition: 'Raw / Ungraded', note: 'Full hero color grade from scratch.', teaser: '+$750', trailer: '+$1,200', premium: '+$2,000' },
+  { condition: 'Mixed / Problem Sources', note: 'Multiple cameras, exposure issues, restoration needed.', teaser: '+$1,000', trailer: '+$1,500', premium: '+$2,500+' },
+];
+
 const PROCESS = [
   {
     step: '01',
@@ -133,10 +141,69 @@ export default function TrailerEditingPage() {
               </div>
             </div>
             <div className="mt-10">
-              <BrassButton href="/pricing#trailer-editing" variant="outline">
+              <BrassButton href="/pricing#trailer-source-conditions" variant="outline">
                 See full tier breakdown + add-ons →
               </BrassButton>
             </div>
+          </div>
+        </section>
+
+        <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1200px]">
+            <DataLabel className="mb-3">COLOR WORK · PRICED BY SOURCE CONDITION</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Color work scales with the condition of your footage. Already-graded film adds $0.
+              Raw S-Log3 straight off the camera adds a hero-grade premium. Most trailers
+              don&apos;t need the full hero grade — a Dailies Pass is often the right call.
+            </p>
+
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[680px] border-collapse">
+                <thead>
+                  <tr className="border-b border-brass/30 text-left">
+                    <th className="py-4 pr-6 font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Source Condition
+                    </th>
+                    <th className="py-4 px-3 text-right font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Teaser
+                    </th>
+                    <th className="py-4 px-3 text-right font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Trailer
+                    </th>
+                    <th className="py-4 pl-3 text-right font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Premium
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {SOURCE_CONDITIONS.map((row) => (
+                    <tr key={row.condition} className="border-b border-bone/10 align-top">
+                      <td className="py-5 pr-6">
+                        <div className="font-serif text-lg italic text-bone">{row.condition}</div>
+                        <div className="mt-1 max-w-md text-sm text-bone-muted">{row.note}</div>
+                      </td>
+                      <td className="py-5 px-3 text-right font-serif text-lg text-brass">
+                        {row.teaser}
+                      </td>
+                      <td className="py-5 px-3 text-right font-serif text-lg text-brass">
+                        {row.trailer}
+                      </td>
+                      <td className="py-5 pl-3 text-right font-serif text-lg text-brass">
+                        {row.premium}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mt-8 max-w-3xl text-sm text-bone-subtle">
+              <span className="text-bone">Dailies Pass vs Hero Grade:</span> A Dailies Pass applies
+              a baseline Rec. 709 LUT and matches clip-to-clip consistency — it makes the trailer
+              look clean, not cinematic. A Hero Grade is full creative color direction (mood,
+              film-emulation, stylization). Most trailers cut from already-finished films only
+              need the Dailies Pass.
+            </p>
           </div>
         </section>
 

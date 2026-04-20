@@ -193,8 +193,45 @@ const TRAILER_EDITING_TIERS = [
   },
 ];
 
+const TRAILER_SOURCE_CONDITIONS = [
+  {
+    condition: 'Already Color-Graded',
+    note: 'Finished film or already-graded footage. No color work needed.',
+    teaser: '+$0',
+    trailer: '+$0',
+    premium: '+$0',
+  },
+  {
+    condition: 'Dailies Color Pass',
+    note: 'Rec. 709 normalization + clip-to-clip consistency. NOT a hero grade — just makes the trailer look clean and matched.',
+    teaser: '+$150',
+    trailer: '+$250',
+    premium: '+$400',
+  },
+  {
+    condition: 'Log / Flat Footage',
+    note: 'Shot in S-Log3, LogC, or similar. Quick hero grade from flat source.',
+    teaser: '+$300',
+    trailer: '+$500',
+    premium: '+$800',
+  },
+  {
+    condition: 'Raw / Ungraded',
+    note: 'Full hero color grade from scratch. Orange-teal, bleach bypass, film emulation — whatever mood the trailer calls for.',
+    teaser: '+$750',
+    trailer: '+$1,200',
+    premium: '+$2,000',
+  },
+  {
+    condition: 'Mixed / Problem Sources',
+    note: 'Multiple cameras, exposure issues, blown highlights, mixed color temps. Each clip needs individual restoration work.',
+    teaser: '+$1,000',
+    trailer: '+$1,500',
+    premium: '+$2,500+',
+  },
+];
+
 const TRAILER_EDITING_ADDONS = [
-  { name: 'Full Color Grade', price: '$500–$1,500', note: 'Quoted on source-footage condition. Trailers often cut uncolored first.' },
   { name: 'Voiceover Direction', price: '$250', note: 'VO casting guidance + placement in edit. Talent fees billed separately.' },
   { name: 'Rush Delivery', price: '+25%', note: 'Under 7 days from locked footage handoff. Plan ahead when you can.' },
   { name: 'Additional Cutdown', price: '$500', note: ':15 TV spot, :06 bumper, or alternate edit — each.' },
@@ -394,6 +431,79 @@ export default function PricingPage() {
                 <PricingTier key={tier.name} {...tier} href="/corporate/trailer-editing" />
               ))}
             </div>
+          </div>
+        </section>
+
+        <section id="trailer-source-conditions" className="border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1440px]">
+            <DataLabel className="mb-3">TRAILER EDITING · SOURCE FOOTAGE CONDITION</DataLabel>
+            <p className="mb-10 max-w-3xl text-bone-muted">
+              Color work is priced on the condition of the footage you hand us. If your film is
+              already graded, there&apos;s no color premium. If it&apos;s raw S-Log3 straight off
+              the FX3, we grade from scratch. Add the relevant premium to any tier above — a
+              Trailer Cut of raw footage is <span className="text-brass">$2,500 + $1,200 =
+              $3,700</span>.
+            </p>
+
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[720px] border-collapse">
+                <thead>
+                  <tr className="border-b border-brass/30 text-left">
+                    <th className="py-4 pr-6 font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Source Condition
+                    </th>
+                    <th className="py-4 px-4 text-right font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Teaser Cut
+                      <div className="text-xs font-sans not-italic normal-case text-bone-subtle">
+                        ($1,500 base)
+                      </div>
+                    </th>
+                    <th className="py-4 px-4 text-right font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Trailer Cut
+                      <div className="text-xs font-sans not-italic normal-case text-bone-subtle">
+                        ($2,500 base)
+                      </div>
+                    </th>
+                    <th className="py-4 pl-4 text-right font-serif text-sm italic text-bone uppercase tracking-wider">
+                      Premium
+                      <div className="text-xs font-sans not-italic normal-case text-bone-subtle">
+                        ($3,500+ base)
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {TRAILER_SOURCE_CONDITIONS.map((row) => (
+                    <tr
+                      key={row.condition}
+                      className="border-b border-bone/10 align-top"
+                    >
+                      <td className="py-5 pr-6">
+                        <div className="font-serif text-lg italic text-bone">{row.condition}</div>
+                        <div className="mt-1 max-w-md text-sm text-bone-muted">{row.note}</div>
+                      </td>
+                      <td className="py-5 px-4 text-right font-serif text-xl text-brass">
+                        {row.teaser}
+                      </td>
+                      <td className="py-5 px-4 text-right font-serif text-xl text-brass">
+                        {row.trailer}
+                      </td>
+                      <td className="py-5 pl-4 text-right font-serif text-xl text-brass">
+                        {row.premium}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mt-8 max-w-3xl text-sm text-bone-subtle">
+              <span className="text-bone">Dailies Color Pass vs Hero Grade:</span> A Dailies Pass
+              applies a baseline Rec. 709 LUT and matches clip-to-clip consistency — it makes the
+              trailer look clean, not cinematic. A Hero Grade is full creative color direction —
+              mood, stylization, film-emulation, day-for-night, the whole craft. Most trailers
+              don&apos;t need a full hero grade; the Dailies Pass is often the right call.
+            </p>
           </div>
         </section>
 
