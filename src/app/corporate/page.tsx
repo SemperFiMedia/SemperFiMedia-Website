@@ -47,6 +47,14 @@ const NICHES = [
     emphasized: false,
   },
   {
+    href: '/corporate/drone',
+    label: 'AERIAL',
+    title: 'Drone Work',
+    description:
+      'Cinematic aerial footage and drone photography. Roofing condition reports, real estate listings, brand-film exteriors, event recaps. Owner-operated DJI kit. From $100 photos, $500 video, $575 bundle.',
+    emphasized: false,
+  },
+  {
     href: '/corporate/trailer-editing',
     label: 'POST-ONLY',
     title: 'Trailer Editing',

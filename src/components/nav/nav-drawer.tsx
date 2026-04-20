@@ -31,6 +31,7 @@ const SECTIONS = [
     label: 'Niches',
     links: [
       { href: '/corporate/music-videos', label: 'Music Videos' },
+      { href: '/corporate/drone', label: 'Drone Work' },
       { href: '/corporate/trailer-editing', label: 'Trailer Editing' },
       { href: '/corporate/website-design', label: 'Website Design' },
       { href: '/corporate/mission-and-tactical', label: 'Mission & Tactical' },
