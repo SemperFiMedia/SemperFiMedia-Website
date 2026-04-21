@@ -73,7 +73,7 @@ const FILM_PRODUCTION_CREW = [
   { name: 'Key Grip', price: '$600', note: 'Lead grip: stands, flags, dolly, rigging.' },
   { name: 'Grip / Electric', price: '$475', note: 'Day-player grip or electric support.' },
   { name: 'PA', price: '$200', note: 'Runner, set support, craft logistics.' },
-  { name: 'Drone Pilot (Part 107)', price: '$1,200', note: 'FAA-licensed pilot + DJI drone package.' },
+  { name: 'Drone Operator', price: '$1,200', note: 'DJI cinema drone + operator. Flown in approved airspace outside restricted zones.' },
 ];
 
 const FILM_PRODUCTION_KITS = [

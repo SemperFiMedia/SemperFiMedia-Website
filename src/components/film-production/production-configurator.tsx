@@ -84,7 +84,7 @@ const ADD_ONS: readonly AddOn[] = [
   { id: 'key-grip', name: 'Key Grip', price: 600, blurb: 'Stands, flags, dolly, rigging.', category: 'crew' },
   { id: 'grip-electric', name: 'Grip / Electric', price: 475, blurb: 'Day-player grip or electric support.', category: 'crew' },
   { id: 'pa', name: 'PA', price: 200, blurb: 'Runner, set support, craft logistics.', category: 'crew' },
-  { id: 'drone-pilot', name: 'Drone Pilot', price: 1200, blurb: 'Licensed pilot + DJI drone package.', category: 'crew' },
+  { id: 'drone-pilot', name: 'Drone Operator', price: 1200, blurb: 'DJI cinema drone + operator. Approved airspace only.', category: 'crew' },
   // Kits
   { id: 'kit-a7s3', name: 'Sony A7S III Kit', price: 175, blurb: 'Body + Sigma Art primes + monitor + media.', category: 'kit' },
   { id: 'kit-fx3', name: 'Sony FX3 Kit', price: 225, blurb: 'Body + Sigma Art primes + monitor + media.', category: 'kit' },
