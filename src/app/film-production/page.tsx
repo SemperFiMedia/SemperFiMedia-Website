@@ -5,6 +5,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingTier } from '@/components/pricing/pricing-tier';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
+import { ProductionConfigurator } from '@/components/film-production/production-configurator';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
@@ -97,10 +98,9 @@ const FILM_PRODUCTION_LOGISTICS = [
 
 const SECTIONS = [
   { id: 'day-rates', label: 'Day Rates' },
-  { id: 'crew-rates', label: 'Crew' },
-  { id: 'kits', label: 'Kits' },
-  { id: 'logistics', label: 'Logistics' },
+  { id: 'a-la-carte', label: 'À la Carte' },
   { id: 'insurance', label: 'Insurance' },
+  { id: 'configure', label: 'Configure' },
 ];
 
 export default function FilmProductionPage() {
@@ -161,12 +161,29 @@ export default function FilmProductionPage() {
           </div>
         </section>
 
-        <section id="crew-rates" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+        <section id="a-la-carte" className="scroll-mt-32 border-t-2 border-brass/40 bg-black px-6 py-20 md:px-12 md:py-28">
+          <div className="mx-auto max-w-[1200px]">
+            <DataLabel className="mb-4 text-brass">À LA CARTE MENU</DataLabel>
+            <h2 className="font-serif text-4xl italic leading-tight md:text-6xl">
+              Or build it à la carte.
+            </h2>
+            <p className="mt-6 max-w-2xl text-lg text-bone-muted">
+              The three tiers above are the standard bundles. If your production needs something
+              specific — extra crew, a particular camera kit, a freelance sound mixer — mix and
+              match from the menu below. Every line item priced transparently, same as the tiers.
+            </p>
+          </div>
+        </section>
+
+        <section id="crew-rates" className="scroll-mt-32 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-3">À LA CARTE · CREW DAY RATES</DataLabel>
+            <DataLabel className="mb-3 text-brass">01 · CREW DAY RATES</DataLabel>
+            <h3 className="mb-4 font-serif text-3xl italic leading-tight md:text-4xl">
+              Build your own crew.
+            </h3>
             <p className="mb-10 max-w-2xl text-bone-muted">
-              Build your own crew. Every role priced transparently per 10-hour day. DFW local,
-              right-to-work, non-union (IATSE-adjacent by request).
+              Every role priced transparently per 10-hour day. DFW local, right-to-work,
+              non-union (IATSE-adjacent by request).
             </p>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {FILM_PRODUCTION_CREW.map((role) => (
@@ -187,9 +204,12 @@ export default function FilmProductionPage() {
 
         <section id="kits" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-3">À LA CARTE · CAMERA &amp; LIGHTING</DataLabel>
+            <DataLabel className="mb-3 text-brass">02 · CAMERA &amp; LIGHTING</DataLabel>
+            <h3 className="mb-4 font-serif text-3xl italic leading-tight md:text-4xl">
+              Pick your camera. Pick your lighting.
+            </h3>
             <p className="mb-10 max-w-2xl text-bone-muted">
-              Sony FX3 and A7S III — same sensor family as the Netflix-approved FX6, S-Log3, 4K
+              Sony FX3 and A7S III — same sensor family as the Netflix-approved FX6. S-Log3, 4K
               120p, DaVinci pipeline. Small lighting is our owned SmallRig kit; mid and large are
               transparent rental pass-through.
             </p>
@@ -212,7 +232,10 @@ export default function FilmProductionPage() {
 
         <section id="logistics" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-3">LOGISTICS &amp; ADD-ONS</DataLabel>
+            <DataLabel className="mb-3 text-brass">03 · LOGISTICS &amp; ADD-ONS</DataLabel>
+            <h3 className="mb-4 font-serif text-3xl italic leading-tight md:text-4xl">
+              The line items every line producer expects.
+            </h3>
             <p className="mb-10 max-w-2xl text-bone-muted">
               Standard production-industry conventions, published openly. Overtime, travel, and
               per-diem line items every line producer expects to see on a quote.
@@ -286,6 +309,8 @@ export default function FilmProductionPage() {
             </div>
           </div>
         </section>
+
+        <ProductionConfigurator />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-4xl text-center">
