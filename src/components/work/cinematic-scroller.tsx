@@ -21,6 +21,7 @@ type BTSImage = {
 type Props = {
   title: string;
   client: string;
+  clientWebsite?: string;
   category: string;
   summary?: string;
   posterUrl?: string | null;
@@ -97,7 +98,18 @@ export function CinematicScroller(props: Props) {
               {props.title}
             </h1>
             <DataLabel tone="muted" className="mt-8">
-              {props.client}
+              {props.clientWebsite ? (
+                <a
+                  href={props.clientWebsite}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-4 transition-colors hover:text-brass hover:underline"
+                >
+                  {props.client} ↗
+                </a>
+              ) : (
+                props.client
+              )}
             </DataLabel>
             <div className="mt-16 flex animate-pulse flex-col items-center gap-2 text-xs uppercase tracking-[0.3em] text-bone-muted">
               <span>Scroll to enter</span>

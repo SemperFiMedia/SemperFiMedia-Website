@@ -4,7 +4,7 @@ import type { PortableTextBlock } from '@portabletext/types';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { CinematicScroller } from '@/components/work/cinematic-scroller';
-import { getCaseStudyBySlug, getAllCaseStudies } from '@/sanity/queries';
+import { getCaseStudyBySlug, getAllCaseStudies, getClientByName } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
 
 type RouteProps = { params: Promise<{ slug: string }> };
@@ -58,12 +58,16 @@ export default async function CinematicCaseStudyPage({ params }: RouteProps) {
     ? (cs.processNotes as PortableTextBlock[])
     : null;
 
+  const clientDoc = cs.client ? await getClientByName(cs.client) : null;
+  const clientWebsite = clientDoc?.website ?? undefined;
+
   return (
     <>
       <Nav />
       <CinematicScroller
         title={cs.title}
         client={cs.client}
+        clientWebsite={clientWebsite}
         category={cs.category}
         summary={cs.summary}
         posterUrl={posterUrl}

@@ -36,7 +36,7 @@ const CLIENTS: Client[] = [
   {
     name: 'Fleming Photos',
     logo: '/images/clients/fleming-photos.jpg',
-    website: null,
+    website: 'https://fleming-photos.smugmug.com',
     builtBySFM: false,
   },
   {
@@ -78,7 +78,13 @@ function LogoCell({ client }: { client: Client }) {
     </div>
   );
 
-  if (client.builtBySFM && client.website) {
+  const sfmLabel = client.builtBySFM ? (
+    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brass group-hover:underline">
+      Designed by SFM →
+    </span>
+  ) : null;
+
+  if (client.website) {
     return (
       <a
         href={client.website}
@@ -87,9 +93,7 @@ function LogoCell({ client }: { client: Client }) {
         className="group flex h-28 w-60 flex-shrink-0 flex-col items-center justify-between opacity-80 transition-opacity hover:opacity-100"
       >
         {logoBlock}
-        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-brass group-hover:underline">
-          Designed by SFM →
-        </span>
+        {sfmLabel}
       </a>
     );
   }

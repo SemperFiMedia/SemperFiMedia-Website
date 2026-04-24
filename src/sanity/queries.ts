@@ -144,3 +144,13 @@ export async function getFeaturedClients(): Promise<Client[]> {
     }`
   );
 }
+
+export async function getClientByName(name: string): Promise<Client | null> {
+  if (!sanityClient) return null;
+  return sanityClient.fetch(
+    groq`*[_type == "client" && name == $name][0]{
+      _id, name, logo, logoDark, website, featured, order
+    }`,
+    { name },
+  );
+}
