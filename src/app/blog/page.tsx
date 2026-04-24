@@ -8,6 +8,8 @@ import { getAllBlogPosts } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
 import type { BlogCategory } from '@/sanity/types';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'The Field Notes — Cinema, Gear, and Craft from Semper Fi Media',
   description:

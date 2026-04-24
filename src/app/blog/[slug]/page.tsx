@@ -15,6 +15,8 @@ import type { BlogCategory } from '@/sanity/types';
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
+export const revalidate = 60;
+
 const CATEGORY_LABELS: Record<BlogCategory, string> = {
   gear: 'GEAR & CAMERAS',
   weddings: 'WEDDING GUIDES',

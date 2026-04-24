@@ -21,6 +21,8 @@ import {
 } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
 
+export const revalidate = 60;
+
 export default async function HomePage() {
   const [caseStudies, testimonials, socialReels, heroCs] = await Promise.all([
     getFeaturedCaseStudies(6),

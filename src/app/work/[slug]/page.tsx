@@ -15,6 +15,8 @@ import { urlForImage } from '@/sanity/image';
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const all = await getAllCaseStudies();
   return all.filter((cs) => !cs.isPlaceholder).map((cs) => ({ slug: cs.slug.current }));

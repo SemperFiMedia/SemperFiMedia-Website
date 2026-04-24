@@ -5,6 +5,8 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { CaseStudyTile } from '@/components/home/case-study-tile';
 import { getAllCaseStudies } from '@/sanity/queries';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Work — Films & Case Studies',
   description:

@@ -9,6 +9,8 @@ import { getRecentShoots } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
 import type { CaseStudyCategory } from '@/sanity/types';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Recent Shoots — What We\'ve Been Filming | Semper Fi Media',
   description:
