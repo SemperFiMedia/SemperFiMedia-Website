@@ -34,6 +34,12 @@ const CLIENTS: Client[] = [
     builtBySFM: true,
   },
   {
+    name: 'Fleming Photos',
+    logo: '/images/clients/fleming-photos.jpg',
+    website: null,
+    builtBySFM: false,
+  },
+  {
     name: 'Elite 2A Pay',
     logo: '/images/clients/elite-2a-pay.png',
     website: null,
