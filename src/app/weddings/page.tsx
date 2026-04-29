@@ -148,7 +148,7 @@ const WEDDING_ADDONS = [
 const WHY = [
   {
     title: 'Marine-led, owner-operator.',
-    body: 'TJ is on every shoot — never handed off to a junior, never bounced through an account manager. United States Marine veteran. Every wedding handled with the respect we\'d give our own family.',
+    body: 'TJ is on every shoot — never handed off to a junior, never bounced through an account manager. United States Marine Corps veteran. Every wedding handled with the respect we\'d give our own family.',
   },
   {
     title: 'Documentary-first, not highlight-reel.',

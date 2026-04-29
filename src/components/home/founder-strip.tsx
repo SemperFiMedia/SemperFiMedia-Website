@@ -24,8 +24,8 @@ export function FounderStrip() {
           </h2>
           <div className="mt-6 space-y-4 text-bone-muted leading-relaxed">
             <p>
-              TJ Gutierrez — former United States Marine, cinematographer, and founder of Semper
-              Fi Media.
+              TJ Gutierrez — United States Marine Corps veteran, cinematographer, and founder of
+              Semper Fi Media.
             </p>
             <p>
               What started in 2020 as a small Dallas marketing agency has grown into a full-fledged

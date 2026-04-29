@@ -102,7 +102,7 @@ export default async function MissionAndTacticalPage() {
                   could.
                 </p>
                 <p>
-                  TJ is a United States Marine veteran. He brings operator-level respect to every
+                  TJ is a United States Marine Corps veteran. He brings operator-level respect to every
                   mission-driven project —{' '}
                   <em className="font-serif not-italic">Semper Fidelis</em>, always faithful, to
                   the people whose work we&apos;re honored to film.

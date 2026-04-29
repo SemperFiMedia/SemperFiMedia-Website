@@ -1,7 +1,11 @@
 import { DataLabel } from '@/components/primitives/data-label';
 
 const BEATS = [
-  { index: '001', heading: 'One Marine.', body: 'Former USMC. The founder answers every call.' },
+  {
+    index: '001',
+    heading: 'One Marine.',
+    body: 'Marine Corps veteran. The founder answers every call.',
+  },
   {
     index: '002',
     heading: 'One Camera.',
