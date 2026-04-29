@@ -23,6 +23,7 @@ function ContactFormInner() {
   const [serviceValue, setServiceValue] = useState(prefillService);
   const [budgetValue, setBudgetValue] = useState(prefillBudget);
   const [messageValue, setMessageValue] = useState(prefillMessage);
+  const [loadedAt] = useState(() => Date.now());
 
   useEffect(() => {
     if (prefillService) setServiceValue(prefillService);
@@ -70,6 +71,21 @@ function ContactFormInner() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden opacity-0"
+      >
+        <label htmlFor="website">Website (leave this empty)</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
+      <input type="hidden" name="loadedAt" value={loadedAt} readOnly />
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>

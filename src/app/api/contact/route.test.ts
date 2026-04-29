@@ -27,6 +27,9 @@ function makeRequest(body: unknown): Request {
   });
 }
 
+// 5 seconds before "now" — clears the 3s time-trap.
+const humanLoadedAt = () => Date.now() - 5000;
+
 describe('POST /api/contact', () => {
   beforeEach(() => {
     sendMock.mockReset();
@@ -44,6 +47,7 @@ describe('POST /api/contact', () => {
       email: 'jane@example.com',
       service: 'corporate',
       message: 'I need a corporate video for my company.',
+      loadedAt: humanLoadedAt(),
     };
     const res = await POST(makeRequest(payload));
     expect(res.status).toBe(200);
@@ -59,8 +63,51 @@ describe('POST /api/contact', () => {
       email: 'jane@example.com',
       service: 'wedding',
       message: 'Wedding inquiry test message content.',
+      loadedAt: humanLoadedAt(),
     };
     const res = await POST(makeRequest(payload));
     expect(res.status).toBe(500);
+  });
+
+  it('silently drops submissions where the honeypot is filled', async () => {
+    const payload = {
+      name: 'xUkGJgFMibkUDUrmzBWHM',
+      email: 'spam@example.com',
+      service: 'corporate',
+      message: 'mfSaoEbBWiwHeyzFrOa more text to clear length minimum',
+      loadedAt: humanLoadedAt(),
+      website: 'http://spammer.example.com',
+    };
+    const res = await POST(makeRequest(payload));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it('silently drops submissions that arrive faster than a human can fill the form', async () => {
+    const payload = {
+      name: 'Bot McBotface',
+      email: 'bot@example.com',
+      service: 'corporate',
+      message: 'This message arrived under 3 seconds after page load.',
+      loadedAt: Date.now() - 500,
+    };
+    const res = await POST(makeRequest(payload));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMock).not.toHaveBeenCalled();
+  });
+
+  it('silently drops submissions with no loadedAt timestamp at all', async () => {
+    const payload = {
+      name: 'Bot McBotface',
+      email: 'bot@example.com',
+      service: 'corporate',
+      message: 'No loadedAt at all — likely scripted, no JS execution.',
+    };
+    const res = await POST(makeRequest(payload));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(sendMock).not.toHaveBeenCalled();
   });
 });

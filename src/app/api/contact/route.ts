@@ -19,12 +19,24 @@ export async function POST(request: Request) {
     );
   }
 
+  const { name, email, phone, service, eventDate, budget, message, website, loadedAt } =
+    parsed.data;
+
+  // Silent bot drop: fake-success 200 so bots don't iterate or retry.
+  // Honeypot: invisible field that humans never fill.
+  // Time-trap: real humans take >3s to fill the form; missing timestamp = no JS = likely bot.
+  const honeypotFilled = typeof website === 'string' && website.trim() !== '';
+  const submittedTooFast =
+    typeof loadedAt !== 'number' || !Number.isFinite(loadedAt) || Date.now() - loadedAt < 3000;
+  if (honeypotFilled || submittedTooFast) {
+    return NextResponse.json({ ok: true });
+  }
+
   if (!env.resend.apiKey) {
     return NextResponse.json({ error: 'Email service not configured' }, { status: 500 });
   }
 
   const resend = new Resend(env.resend.apiKey);
-  const { name, email, phone, service, eventDate, budget, message } = parsed.data;
 
   const { error } = await resend.emails.send({
     from: env.resend.fromEmail,
