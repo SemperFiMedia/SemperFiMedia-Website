@@ -3,6 +3,7 @@ import { Resend } from 'resend';
 import { env } from '@/lib/env';
 import { PROPOSAL_SYSTEM_PROMPT } from '@/lib/proposal-system-prompt';
 import { checkRateLimit, getClientKey } from '@/lib/rate-limit';
+import { looksLikeBot } from '@/lib/bot-defense';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -179,6 +180,19 @@ export async function POST(request: Request) {
     );
   }
 
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: 'Invalid JSON.' }, { status: 400 });
+  }
+
+  // Silent bot drop (BEFORE rate limit + Anthropic call): honeypot + time-trap.
+  // Fake-success 200 so bots don't iterate, retry, or burn API credits.
+  if (looksLikeBot(body)) {
+    return Response.json({ ok: true });
+  }
+
   const clientKey = getClientKey(request);
   const limit = checkRateLimit(`proposal:${clientKey}`, 3, 60 * 60_000);
   if (!limit.ok) {
@@ -186,13 +200,6 @@ export async function POST(request: Request) {
       { error: 'You\'ve hit the proposal request limit for this hour. Reach out at /contact directly.' },
       { status: 429 },
     );
-  }
-
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: 'Invalid JSON.' }, { status: 400 });
   }
 
   if (!isValidPayload(body)) {

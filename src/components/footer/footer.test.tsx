@@ -15,8 +15,8 @@ describe('Footer', () => {
     expect(screen.getByRole('link', { name: /music videos/i })).toBeInTheDocument();
   });
 
-  it('shows the Semper Fidelis brand mark', () => {
+  it('shows the Always Faithful brand mark', () => {
     render(<Footer />);
-    expect(screen.getByText(/Semper Fidelis/i)).toBeInTheDocument();
+    expect(screen.getByText(/Always Faithful/i)).toBeInTheDocument();
   });
 });

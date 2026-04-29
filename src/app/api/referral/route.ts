@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 import { env } from '@/lib/env';
 import { checkRateLimit, getClientKey } from '@/lib/rate-limit';
+import { looksLikeBot } from '@/lib/bot-defense';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -46,6 +47,18 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Email service is not configured.' }, { status: 503 });
   }
 
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return Response.json({ error: 'Invalid JSON.' }, { status: 400 });
+  }
+
+  // Silent bot drop (BEFORE rate limit + email send): honeypot + time-trap.
+  if (looksLikeBot(body)) {
+    return Response.json({ ok: true });
+  }
+
   const clientKey = getClientKey(request);
   const limit = checkRateLimit(`referral:${clientKey}`, 5, 60 * 60_000);
   if (!limit.ok) {
@@ -53,13 +66,6 @@ export async function POST(request: Request) {
       { error: 'You\'ve hit the referral submission limit for this hour. Try again later.' },
       { status: 429 },
     );
-  }
-
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: 'Invalid JSON.' }, { status: 400 });
   }
 
   if (!isValid(body)) {

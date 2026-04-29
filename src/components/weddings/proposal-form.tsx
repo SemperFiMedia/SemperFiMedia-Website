@@ -8,6 +8,7 @@ type Status = 'idle' | 'submitting' | 'success' | 'error';
 export function ProposalForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loadedAt] = useState(() => Date.now());
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -57,6 +58,21 @@ export function ProposalForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden opacity-0"
+      >
+        <label htmlFor="proposal-website">Website (leave this empty)</label>
+        <input
+          id="proposal-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
+      </div>
+      <input type="hidden" name="loadedAt" value={loadedAt} readOnly />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div>
           <label htmlFor="proposal-name" className={labelClass}>

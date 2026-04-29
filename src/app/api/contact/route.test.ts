@@ -37,7 +37,8 @@ describe('POST /api/contact', () => {
   });
 
   it('rejects invalid payload', async () => {
-    const res = await POST(makeRequest({ name: 'x' }));
+    // loadedAt is set so the request gets past the bot defense and reaches Zod.
+    const res = await POST(makeRequest({ name: 'x', loadedAt: humanLoadedAt() }));
     expect(res.status).toBe(400);
   });
 
