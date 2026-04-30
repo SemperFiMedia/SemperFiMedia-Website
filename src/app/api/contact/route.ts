@@ -57,5 +57,51 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 
+  // Server-side Meta Lead via CAPI (deduped against client-side Lead via event_id).
+  if (
+    env.analytics.enabled &&
+    env.analytics.metaPixelId &&
+    env.analytics.metaCapiAccessToken &&
+    parsed.data.event_id
+  ) {
+    try {
+      const { buildCapiPayload, postCapiEvent } = await import('@/lib/analytics/meta-capi');
+      const ip =
+        (request.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim() || '0.0.0.0';
+      const ua = request.headers.get('user-agent') ?? '';
+      const url = new URL(request.url);
+      const sourceUrl = request.headers.get('referer') ?? `${url.origin}/contact`;
+
+      const capiPayload = await buildCapiPayload({
+        event_name: 'Lead',
+        event_id: parsed.data.event_id,
+        event_time: Math.floor(Date.now() / 1000),
+        event_source_url: sourceUrl,
+        custom_data: {
+          value: env.analytics.leadValueUsd,
+          currency: 'USD',
+          content_name: parsed.data.service,
+        },
+        user_data: {
+          em: parsed.data.email,
+          ph: parsed.data.phone ?? '',
+          fn: parsed.data.name.split(' ')[0] ?? '',
+          ln: parsed.data.name.split(' ').slice(1).join(' '),
+        },
+        ip,
+        ua,
+      });
+
+      await postCapiEvent({
+        pixelId: env.analytics.metaPixelId,
+        accessToken: env.analytics.metaCapiAccessToken,
+        event: capiPayload,
+        testEventCode: env.analytics.metaCapiTestCode || undefined,
+      });
+    } catch {
+      /* never fail the contact submit because of analytics */
+    }
+  }
+
   return NextResponse.json({ ok: true });
 }

@@ -14,6 +14,9 @@ vi.mock('@/lib/env', () => ({
       apiKey: 'test-key',
       toEmail: 'hello@semperfimedia.llc',
     },
+    analytics: {
+      enabled: false,
+    },
   },
 }));
 
