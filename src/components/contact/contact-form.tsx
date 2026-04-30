@@ -1,7 +1,9 @@
 'use client';
-import { useState, useEffect, Suspense, type FormEvent } from 'react';
+import { useState, useEffect, useRef, Suspense, type FormEvent } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DataLabel } from '@/components/primitives/data-label';
+import { track } from '@/lib/analytics/track';
+import { normalizeAndHash, hashPhone } from '@/lib/analytics/hash';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -25,6 +27,35 @@ function ContactFormInner() {
   const [messageValue, setMessageValue] = useState(prefillMessage);
   const [loadedAt] = useState(() => Date.now());
 
+  const startedRef = useRef(false);
+  const dirtyRef = useRef(false);
+  const submittedRef = useRef(false);
+  const eventIdRef = useRef<string | null>(null);
+
+  function onFieldFocus() {
+    if (!startedRef.current) {
+      startedRef.current = true;
+      void track('form_start', { location: 'contact' });
+    }
+  }
+
+  function onFieldBlur(field: string, value: string) {
+    if (value && value.trim().length > 0) {
+      dirtyRef.current = true;
+      void track('form_progress', { field, location: 'contact' });
+    }
+  }
+
+  useEffect(() => {
+    function onUnload() {
+      if (dirtyRef.current && !submittedRef.current) {
+        void track('form_abandon', { location: 'contact' });
+      }
+    }
+    window.addEventListener('beforeunload', onUnload);
+    return () => window.removeEventListener('beforeunload', onUnload);
+  }, []);
+
   useEffect(() => {
     if (prefillService) setServiceValue(prefillService);
     if (prefillBudget) setBudgetValue(prefillBudget);
@@ -38,10 +69,32 @@ function ContactFormInner() {
     const payload = Object.fromEntries(formData.entries());
 
     try {
+      const email = String(payload.email ?? '');
+      const phone = String(payload.phone ?? '');
+      const fullName = String(payload.name ?? '');
+      const [firstName, ...rest] = fullName.split(' ');
+      const lastName = rest.join(' ');
+      const [em, ph, fn, ln] = await Promise.all([
+        normalizeAndHash(email),
+        hashPhone(phone),
+        normalizeAndHash(firstName ?? ''),
+        normalizeAndHash(lastName ?? ''),
+      ]);
+      const eventId = await track('Lead', {
+        value: 500,
+        currency: 'USD',
+        content_name: String(payload.service ?? ''),
+        em,
+        ph,
+        fn,
+        ln,
+      });
+      submittedRef.current = true;
+      eventIdRef.current = eventId;
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, event_id: eventId }),
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
@@ -91,19 +144,42 @@ function ContactFormInner() {
           <label htmlFor="name" className={labelClass}>
             Name *
           </label>
-          <input id="name" name="name" required minLength={2} className={inputClass} />
+          <input
+            id="name"
+            name="name"
+            required
+            minLength={2}
+            className={inputClass}
+            onFocus={onFieldFocus}
+            onBlur={(e) => onFieldBlur('name', e.currentTarget.value)}
+          />
         </div>
         <div>
           <label htmlFor="email" className={labelClass}>
             Email *
           </label>
-          <input id="email" name="email" type="email" required className={inputClass} />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            className={inputClass}
+            onFocus={onFieldFocus}
+            onBlur={(e) => onFieldBlur('email', e.currentTarget.value)}
+          />
         </div>
         <div>
           <label htmlFor="phone" className={labelClass}>
             Phone
           </label>
-          <input id="phone" name="phone" type="tel" className={inputClass} />
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            className={inputClass}
+            onFocus={onFieldFocus}
+            onBlur={(e) => onFieldBlur('phone', e.currentTarget.value)}
+          />
         </div>
         <div>
           <label htmlFor="service" className={labelClass}>
@@ -116,6 +192,8 @@ function ContactFormInner() {
             value={serviceValue}
             onChange={(e) => setServiceValue(e.target.value)}
             className={inputClass}
+            onFocus={onFieldFocus}
+            onBlur={(e) => onFieldBlur('service', e.currentTarget.value)}
           >
             <option value="">Select…</option>
             <option value="corporate">Corporate Video</option>
@@ -129,7 +207,14 @@ function ContactFormInner() {
           <label htmlFor="eventDate" className={labelClass}>
             Event Date
           </label>
-          <input id="eventDate" name="eventDate" type="date" className={inputClass} />
+          <input
+            id="eventDate"
+            name="eventDate"
+            type="date"
+            className={inputClass}
+            onFocus={onFieldFocus}
+            onBlur={(e) => onFieldBlur('eventDate', e.currentTarget.value)}
+          />
         </div>
         <div>
           <label htmlFor="budget" className={labelClass}>
@@ -141,6 +226,8 @@ function ContactFormInner() {
             value={budgetValue}
             onChange={(e) => setBudgetValue(e.target.value)}
             className={inputClass}
+            onFocus={onFieldFocus}
+            onBlur={(e) => onFieldBlur('budget', e.currentTarget.value)}
           >
             <option value="">Select…</option>
             <option value="under-3k">Under $3,000</option>
@@ -164,6 +251,8 @@ function ContactFormInner() {
           value={messageValue}
           onChange={(e) => setMessageValue(e.target.value)}
           className={inputClass}
+          onFocus={onFieldFocus}
+          onBlur={(e) => onFieldBlur('message', e.currentTarget.value)}
         />
       </div>
       {status === 'error' && <DataLabel className="text-red-400">ERROR · {errorMessage}</DataLabel>}
