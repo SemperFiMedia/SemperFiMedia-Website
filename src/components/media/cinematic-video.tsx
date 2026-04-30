@@ -1,7 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
 import MuxPlayer from '@mux/mux-player-react';
 import { cn } from '@/lib/utils';
+import { track } from '@/lib/analytics/track';
 
 type Aspect = 'video' | 'vertical' | 'square';
 
@@ -23,6 +25,8 @@ const ASPECT_CLASS: Record<Aspect, string> = {
   square: 'aspect-square',
 };
 
+const PROGRESS_THRESHOLDS = [25, 50, 75];
+
 export function CinematicVideo({
   playbackId,
   title,
@@ -34,6 +38,9 @@ export function CinematicVideo({
   accentColor = '#D4A057',
   aspect = 'video',
 }: Props) {
+  const playedRef = useRef(false);
+  const firedRef = useRef<Set<number>>(new Set());
+
   return (
     <div className={cn('relative overflow-hidden bg-gunpowder', ASPECT_CLASS[aspect], className)}>
       <MuxPlayer
@@ -46,6 +53,39 @@ export function CinematicVideo({
         playsInline
         poster={poster}
         style={{ width: '100%', height: '100%' }}
+        onPlay={() => {
+          if (playedRef.current) return;
+          playedRef.current = true;
+          void track('video_play', {
+            video_title: title,
+            video_id: playbackId,
+            video_provider: 'mux',
+          });
+        }}
+        onTimeUpdate={(e) => {
+          const el = e.target as HTMLMediaElement;
+          if (!el.duration || el.duration === Infinity) return;
+          const pct = Math.floor((el.currentTime / el.duration) * 100);
+          for (const t of PROGRESS_THRESHOLDS) {
+            if (pct >= t && !firedRef.current.has(t)) {
+              firedRef.current.add(t);
+              void track('video_progress', {
+                percent: t,
+                video_title: title,
+                video_id: playbackId,
+                video_duration: el.duration,
+                video_provider: 'mux',
+              });
+            }
+          }
+        }}
+        onEnded={() =>
+          void track('video_complete', {
+            video_title: title,
+            video_id: playbackId,
+            video_provider: 'mux',
+          })
+        }
       />
     </div>
   );
