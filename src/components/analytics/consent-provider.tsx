@@ -18,6 +18,7 @@ import {
   writeConsentCookie,
   type ConsentState,
 } from '@/lib/analytics/consent';
+import { setConsent as setTrackerConsent } from '@/lib/analytics/track';
 
 type ConsentContextValue = {
   state: ConsentState;
@@ -41,6 +42,7 @@ declare global {
 
 function pushConsentToProviders(state: ConsentState) {
   if (typeof window === 'undefined') return;
+  setTrackerConsent(state);
   const params = toGoogleConsentParams(state);
   // Google Consent Mode v2
   window.dataLayer = window.dataLayer || [];
