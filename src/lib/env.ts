@@ -3,6 +3,15 @@ const fallback = (value: string | undefined, fallbackValue: string): string =>
 
 export const env = {
   siteUrl: fallback(process.env.NEXT_PUBLIC_SITE_URL, 'https://www.semperfimedia.llc'),
+  analytics: {
+    enabled: (process.env.NEXT_PUBLIC_ANALYTICS_ENABLED ?? 'false') === 'true',
+    debug: (process.env.NEXT_PUBLIC_GA4_DEBUG ?? 'false') === 'true',
+    ga4MeasurementId: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? '',
+    metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '',
+    metaCapiAccessToken: process.env.META_CAPI_ACCESS_TOKEN ?? '',
+    metaCapiTestCode: process.env.META_CAPI_TEST_CODE ?? '',
+    leadValueUsd: Number(process.env.NEXT_PUBLIC_LEAD_VALUE_USD ?? '500'),
+  },
   mux: {
     tokenId: process.env.MUX_TOKEN_ID ?? '',
     tokenSecret: process.env.MUX_TOKEN_SECRET ?? '',
