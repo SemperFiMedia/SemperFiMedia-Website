@@ -68,6 +68,9 @@ function ContactFormInner() {
     const formData = new FormData(e.currentTarget);
     const payload = Object.fromEntries(formData.entries());
 
+    submittedRef.current = true;
+
+    let eventId: string | undefined;
     try {
       const email = String(payload.email ?? '');
       const phone = String(payload.phone ?? '');
@@ -80,7 +83,7 @@ function ContactFormInner() {
         normalizeAndHash(firstName ?? ''),
         normalizeAndHash(lastName ?? ''),
       ]);
-      const eventId = await track('Lead', {
+      eventId = await track('Lead', {
         value: 500,
         currency: 'USD',
         content_name: String(payload.service ?? ''),
@@ -89,12 +92,19 @@ function ContactFormInner() {
         fn,
         ln,
       });
-      submittedRef.current = true;
       eventIdRef.current = eventId;
+    } catch {
+      /* analytics must never block form submit */
+    }
+
+    try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ...payload, event_id: eventId }),
+        body: JSON.stringify({
+          ...payload,
+          ...(eventId ? { event_id: eventId } : {}),
+        }),
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => ({}))) as { error?: string };
