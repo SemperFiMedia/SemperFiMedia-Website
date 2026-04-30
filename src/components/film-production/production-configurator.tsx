@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DataLabel } from '@/components/primitives/data-label';
+import { track } from '@/lib/analytics/track';
 
 type Tier = {
   id: 'solo' | 'b-cam' | 'full-crew';
@@ -106,6 +107,9 @@ export function ProductionConfigurator() {
   const [addOns, setAddOns] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
+  const dirtyRef = useRef(false);
+  const submittedRef = useRef(false);
+
   const tier = TIERS.find((t) => t.id === tierId)!;
 
   const breakdown = useMemo(() => {
@@ -118,10 +122,49 @@ export function ProductionConfigurator() {
     return { addOnTotal, subtotal, total };
   }, [tier.price, tier.insurance, addOns]);
 
+  // configurator_open on mount
+  useEffect(() => {
+    void track('configurator_open', { location: 'film-production' });
+  }, []);
+
+  // configurator_quote whenever the breakdown changes after at least one selection
+  useEffect(() => {
+    if (!dirtyRef.current) return;
+    void track('configurator_quote', {
+      value: breakdown.total,
+      currency: 'USD',
+      content_name: tier.name,
+      content_ids: [tier.id, ...addOns],
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [breakdown.total]);
+
+  // abandonment
+  useEffect(() => {
+    function onUnload() {
+      if (dirtyRef.current && !submittedRef.current) {
+        void track('configurator_abandon', {
+          value: breakdown.total,
+          currency: 'USD',
+          content_ids: [tier.id, ...addOns],
+        });
+      }
+    }
+    window.addEventListener('beforeunload', onUnload);
+    return () => window.removeEventListener('beforeunload', onUnload);
+  }, [breakdown.total, tier.id, addOns]);
+
   function toggleAddOn(id: string) {
-    setAddOns((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
+    setAddOns((prev) => {
+      const has = prev.includes(id);
+      dirtyRef.current = true;
+      void track('configurator_change', {
+        addOnId: id,
+        action: has ? 'remove' : 'add',
+        location: 'film-production',
+      });
+      return has ? prev.filter((x) => x !== id) : [...prev, id];
+    });
   }
 
   function continueToBooking() {
@@ -160,6 +203,7 @@ export function ProductionConfigurator() {
       breakdown.total >= 10000 ? '10k-plus' : breakdown.total >= 5000 ? '5k-10k' : '3k-5k',
     );
     params.set('message', lines.join('\n'));
+    submittedRef.current = true;
     router.push(`/contact?${params.toString()}#book`);
   }
 
@@ -198,7 +242,15 @@ export function ProductionConfigurator() {
                     <button
                       key={t.id}
                       type="button"
-                      onClick={() => setTierId(t.id)}
+                      onClick={() => {
+                        setTierId(t.id);
+                        dirtyRef.current = true;
+                        void track('configurator_change', {
+                          tier: t.id,
+                          action: 'add',
+                          location: 'film-production',
+                        });
+                      }}
                       aria-pressed={selected}
                       className={
                         'flex flex-col gap-2 rounded-lg border-2 p-5 text-left transition-all ' +
