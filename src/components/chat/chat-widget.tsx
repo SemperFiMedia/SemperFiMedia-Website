@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { BookingCard, BookingModal } from './booking-modal';
+import { track } from '@/lib/analytics/track';
 
 const BOOK_TOKEN = '[[BOOK]]';
 const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';
@@ -122,6 +123,7 @@ export function ChatWidget() {
     setMessages(next);
     setInput('');
     setBusy(true);
+    void track('chat_message_sent', { message_count: next.filter((m) => m.role === 'user').length });
     setError(null);
 
     const apiPayload = next
@@ -188,7 +190,10 @@ export function ChatWidget() {
       {!open && (
         <button
           type="button"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setOpen(true);
+            void track('chat_open');
+          }}
           aria-label="Open Semper Fi Media chat"
           className="fixed bottom-5 right-5 z-[55] inline-flex items-center gap-2 rounded-full bg-brass px-5 py-3 font-medium text-gunpowder shadow-2xl transition-colors hover:bg-golden-hour focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brass"
         >
