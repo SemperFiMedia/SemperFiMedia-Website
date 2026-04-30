@@ -24,9 +24,11 @@ function PageTrackerInner() {
     captureUtmIfFirstTouch(window.location.href);
   }, []);
 
-  // page_view on every nav
+  // page_view on every nav. Depend on the stringified search-params so the dep
+  // is a primitive (immune to future Next.js changes returning fresh URLSearchParams).
+  const qs = searchParams?.toString() ?? '';
   useEffect(() => {
-    const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : '');
+    const url = pathname + (qs ? `?${qs}` : '');
     if (lastPath.current === url) return;
     lastPath.current = url;
     scrollFired.current = new Set();
@@ -39,7 +41,7 @@ function PageTrackerInner() {
     );
 
     return () => timersRef.current.forEach((id) => window.clearTimeout(id));
-  }, [pathname, searchParams]);
+  }, [pathname, qs]);
 
   // Scroll depth
   useEffect(() => {
