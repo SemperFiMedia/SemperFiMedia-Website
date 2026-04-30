@@ -55,4 +55,10 @@ describe('track', () => {
     await track('scroll_depth', { percent: 25 });
     expect(fetchSpy).not.toHaveBeenCalled();
   });
+
+  it('fires page_view to GA4 even when analytics denied (cookieless ping)', async () => {
+    _setConsentForTest({ decided: true, analytics: false, ads: false });
+    await track('page_view');
+    expect(gtagSpy).toHaveBeenCalledWith('event', 'page_view', expect.any(Object));
+  });
 });

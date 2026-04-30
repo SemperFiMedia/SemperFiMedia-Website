@@ -24,6 +24,9 @@ export function _resetTrackerForTest(): void {
 export function setConsent(next: ConsentState): void {
   const wasDecided = consent.decided;
   consent = next;
+  // setConsent only flushes on undecided→decided transition. A re-entrant
+  // flush during an in-flight one is impossible by construction (the
+  // post-transition consent.decided is always true).
   if (!wasDecided && next.decided) {
     void flushQueue();
   }
@@ -79,11 +82,11 @@ async function fireMetaCapi(name: EventName, params: EventParams, eventId: strin
     user_data: {
       fbp: readCookie('_fbp'),
       fbc: readCookie('_fbc'),
-      em: (params as { em?: string }).em,
-      ph: (params as { ph?: string }).ph,
-      fn: (params as { fn?: string }).fn,
-      ln: (params as { ln?: string }).ln,
-      zp: (params as { zp?: string }).zp,
+      em: params.em,
+      ph: params.ph,
+      fn: params.fn,
+      ln: params.ln,
+      zp: params.zp,
     },
   };
   try {

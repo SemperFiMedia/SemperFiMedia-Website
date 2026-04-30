@@ -65,6 +65,11 @@ export const EventParamsSchema = z
     page_path: z.string().optional(),
     page_title: z.string().optional(),
     page_referrer: z.string().optional(),
+    em: z.string().optional(),
+    ph: z.string().optional(),
+    fn: z.string().optional(),
+    ln: z.string().optional(),
+    zp: z.string().optional(),
   })
   .passthrough();
 
