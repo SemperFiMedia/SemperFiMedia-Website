@@ -76,6 +76,7 @@ export async function postCapiEvent(args: {
   accessToken: string;
   event: CapiEvent;
   testEventCode?: string;
+  signal?: AbortSignal;
 }): Promise<{ ok: boolean; status: number; bodyText: string }> {
   const url = `https://graph.facebook.com/v21.0/${args.pixelId}/events?access_token=${encodeURIComponent(
     args.accessToken,
@@ -88,6 +89,7 @@ export async function postCapiEvent(args: {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(body),
+    signal: args.signal,
   });
   return { ok: res.ok, status: res.status, bodyText: await res.text() };
 }
