@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { sha256Hex, normalizeAndHash } from './hash';
+import { sha256Hex, normalizeAndHash, hashPhone } from './hash';
 
 describe('sha256Hex', () => {
   it('produces a stable hex digest', async () => {
@@ -23,5 +23,25 @@ describe('normalizeAndHash', () => {
   it('returns empty string for empty/whitespace', async () => {
     expect(await normalizeAndHash('')).toBe('');
     expect(await normalizeAndHash('   ')).toBe('');
+  });
+});
+
+describe('hashPhone', () => {
+  it('strips non-digits and prepends US country code for 10-digit inputs', async () => {
+    const formatted = await hashPhone('(512) 555-0100');
+    const e164 = await hashPhone('15125550100');
+    expect(formatted).toBe(e164);
+    expect(formatted).toHaveLength(64);
+  });
+
+  it('passes through inputs that already have a country code', async () => {
+    const withPlus = await hashPhone('+15125550100');
+    const withoutPlus = await hashPhone('15125550100');
+    expect(withPlus).toBe(withoutPlus);
+  });
+
+  it('returns empty string for empty input', async () => {
+    expect(await hashPhone('')).toBe('');
+    expect(await hashPhone('   ')).toBe('');
   });
 });

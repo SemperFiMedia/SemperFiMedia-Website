@@ -15,9 +15,11 @@ export async function normalizeAndHash(value: string): Promise<string> {
   return sha256Hex(trimmed);
 }
 
-// Phone-specific normalization: digits only.
+// Phone normalization: digits only, with US country code prefix added when missing.
+// Meta CAPI expects E.164 digits-only (e.g. 15125550100 for a US number).
 export async function hashPhone(phone: string): Promise<string> {
   const digits = (phone ?? '').replace(/\D/g, '');
   if (!digits) return '';
-  return sha256Hex(digits);
+  const normalized = digits.length === 10 ? `1${digits}` : digits;
+  return sha256Hex(normalized);
 }
