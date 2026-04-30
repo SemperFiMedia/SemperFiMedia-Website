@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { TrackedLink } from '@/components/analytics/tracked-link';
+import { PrivacyChoicesLink } from '@/components/analytics/consent-banner';
 
 const SERVICES = [
   { href: '/corporate', label: 'Corporate Video' },
@@ -76,14 +78,24 @@ export function Footer() {
           <div className="data-label mb-4 text-brass">Contact</div>
           <ul className="space-y-2 text-sm">
             <li>
-              <a href="tel:+18172392664" className="hover:text-bone">
+              <TrackedLink
+                href="tel:+18172392664"
+                className="hover:text-bone"
+                trackEvent="Contact"
+                trackParams={{ method: 'tel', location: 'footer' }}
+              >
                 817.239.2664
-              </a>
+              </TrackedLink>
             </li>
             <li>
-              <a href="mailto:hello@semperfimedia.llc" className="hover:text-bone">
+              <TrackedLink
+                href="mailto:hello@semperfimedia.llc"
+                className="hover:text-bone"
+                trackEvent="Contact"
+                trackParams={{ method: 'mailto', location: 'footer' }}
+              >
                 hello@semperfimedia.llc
-              </a>
+              </TrackedLink>
             </li>
             <li className="pt-3 data-label flex flex-wrap gap-3 text-[10px]">
               {SOCIAL.map((s) => (
@@ -101,8 +113,9 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="mx-auto mt-12 flex max-w-[1440px] items-center justify-between border-t border-brass/10 pt-6 data-label text-[10px]">
+      <div className="mx-auto mt-12 flex max-w-[1440px] flex-wrap items-center justify-between gap-3 border-t border-brass/10 pt-6 data-label text-[10px]">
         <span>Semper Fi Media · Forney TX · {year}</span>
+        <PrivacyChoicesLink className="hover:text-bone underline" />
         <span>Semper Fi Media · Established 2020</span>
       </div>
     </footer>

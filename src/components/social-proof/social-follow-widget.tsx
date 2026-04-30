@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { TrackedLink } from '@/components/analytics/tracked-link';
 
 const STORAGE_KEY = 'sfm-social-follow-dismissed-until';
 const DISMISS_DAYS = 30;
@@ -171,15 +172,17 @@ export function SocialFollowWidget() {
           <ul className="mt-4 flex flex-wrap items-center gap-2">
             {SOCIALS.map((s) => (
               <li key={s.label}>
-                <a
+                <TrackedLink
                   href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Follow Semper Fi Media on ${s.label}`}
                   className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-bone-muted ring-1 ring-brass/20 transition-colors hover:bg-brass hover:text-gunpowder"
+                  trackEvent="social_follow_click"
+                  trackParams={{ network: s.label.toLowerCase() }}
                 >
                   <span className="block h-4 w-4">{s.icon}</span>
-                </a>
+                </TrackedLink>
               </li>
             ))}
           </ul>
