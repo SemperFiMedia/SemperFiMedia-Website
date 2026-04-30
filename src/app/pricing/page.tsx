@@ -6,6 +6,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { OfferCatalogJsonLd } from '@/components/seo/structured-data';
+import { ViewContent } from '@/components/analytics/view-content';
 
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
@@ -166,6 +167,7 @@ const JUMP_SECTIONS = [
 export default function PricingPage() {
   return (
     <>
+      <ViewContent contentType="pricing" contentName="Pricing page" />
       <Nav />
       <OfferCatalogJsonLd offers={PRICING_OFFERS} />
       <main>

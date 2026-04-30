@@ -4,6 +4,7 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { CaseStudyTile } from '@/components/home/case-study-tile';
 import { getAllCaseStudies } from '@/sanity/queries';
+import { ViewContent } from '@/components/analytics/view-content';
 
 export const revalidate = 60;
 
@@ -18,6 +19,7 @@ export default async function WorkPage() {
 
   return (
     <>
+      <ViewContent contentType="work_index" />
       <Nav />
       <main>
         <section className="bg-gradient-to-br from-gunpowder to-dusk-teal px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">

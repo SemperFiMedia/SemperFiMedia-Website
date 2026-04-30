@@ -12,6 +12,7 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { Reveal } from '@/components/primitives/reveal';
 import { getCaseStudyBySlug, getAllCaseStudies } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
+import { ViewContent } from '@/components/analytics/view-content';
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
@@ -53,6 +54,11 @@ export default async function CaseStudyPage({ params }: RouteProps) {
 
   return (
     <>
+      <ViewContent
+        contentType="work_detail"
+        contentIds={[slug]}
+        contentName={cs.title}
+      />
       <Nav />
       <main>
         <section className="bg-black px-6 pt-28 pb-10 md:px-12 md:pt-36">

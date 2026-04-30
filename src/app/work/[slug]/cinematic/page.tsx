@@ -6,6 +6,7 @@ import { Footer } from '@/components/footer/footer';
 import { CinematicScroller } from '@/components/work/cinematic-scroller';
 import { getCaseStudyBySlug, getAllCaseStudies, getClientByName } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
+import { ViewContent } from '@/components/analytics/view-content';
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
@@ -63,6 +64,11 @@ export default async function CinematicCaseStudyPage({ params }: RouteProps) {
 
   return (
     <>
+      <ViewContent
+        contentType="work_detail_cinematic"
+        contentIds={[slug]}
+        contentName={cs.title}
+      />
       <Nav />
       <CinematicScroller
         title={cs.title}
