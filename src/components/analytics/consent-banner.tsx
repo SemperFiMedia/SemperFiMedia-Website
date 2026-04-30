@@ -117,7 +117,13 @@ export function ConsentBanner() {
 }
 
 // Re-openable from a footer link.
-export function PrivacyChoicesLink({ className }: { className?: string }) {
+export function PrivacyChoicesLink({
+  className,
+  label = 'Privacy choices',
+}: {
+  className?: string;
+  label?: string;
+}) {
   const { openBanner } = useConsent();
   return (
     <button
@@ -125,7 +131,7 @@ export function PrivacyChoicesLink({ className }: { className?: string }) {
       onClick={openBanner}
       className={className ?? 'text-bone-subtle hover:text-bone underline'}
     >
-      Privacy choices
+      {label}
     </button>
   );
 }

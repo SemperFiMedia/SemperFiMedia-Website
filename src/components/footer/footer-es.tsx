@@ -106,7 +106,7 @@ export function FooterEs() {
       </div>
       <div className="mx-auto mt-12 flex max-w-[1440px] flex-wrap items-center justify-between gap-3 border-t border-brass/10 pt-6 data-label text-[10px]">
         <span>Semper Fi Media · Forney TX · {year}</span>
-        <PrivacyChoicesLink className="hover:text-bone underline" />
+        <PrivacyChoicesLink className="hover:text-bone underline" label="Opciones de privacidad" />
         <span>Semper Fi Media · Establecido 2020</span>
       </div>
     </footer>
