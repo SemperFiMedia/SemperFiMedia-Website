@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { parseUtmFromUrl, persistUtm, readUtm, UTM_KEYS } from './utm';
+import { captureUtmIfFirstTouch, parseUtmFromUrl, persistUtm, readUtm, UTM_KEYS } from './utm';
 
 describe('parseUtmFromUrl', () => {
   it('returns empty object for url without utm/click ids', () => {
@@ -46,5 +46,28 @@ describe('UTM_KEYS', () => {
     expect(UTM_KEYS).toContain('utm_source');
     expect(UTM_KEYS).toContain('gclid');
     expect(UTM_KEYS).toContain('fbclid');
+  });
+});
+
+describe('captureUtmIfFirstTouch', () => {
+  beforeEach(() => {
+    document.cookie = 'sfm_utm=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+    sessionStorage.clear();
+  });
+
+  it('persists when URL has utm and nothing stored', () => {
+    captureUtmIfFirstTouch('https://example.com/?utm_source=fb');
+    expect(readUtm()).toEqual({ utm_source: 'fb' });
+  });
+
+  it('does not overwrite an existing record', () => {
+    persistUtm({ utm_source: 'first' });
+    captureUtmIfFirstTouch('https://example.com/?utm_source=second');
+    expect(readUtm().utm_source).toBe('first');
+  });
+
+  it('no-ops when URL has no utm params', () => {
+    captureUtmIfFirstTouch('https://example.com/');
+    expect(readUtm()).toEqual({});
   });
 });
