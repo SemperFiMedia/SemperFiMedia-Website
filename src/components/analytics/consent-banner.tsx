@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useConsent } from './consent-provider';
 
 export function ConsentBanner() {
@@ -8,6 +8,15 @@ export function ConsentBanner() {
   const [customizeOpen, setCustomizeOpen] = useState(false);
   const [analyticsOn, setAnalyticsOn] = useState(state.analytics);
   const [adsOn, setAdsOn] = useState(state.ads);
+
+  // Resync local toggles + reset to default view whenever the banner is (re)opened.
+  useEffect(() => {
+    if (bannerOpen) {
+      setAnalyticsOn(state.analytics);
+      setAdsOn(state.ads);
+      setCustomizeOpen(false);
+    }
+  }, [bannerOpen, state.analytics, state.ads]);
 
   if (!bannerOpen) return null;
 
