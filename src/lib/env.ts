@@ -33,8 +33,9 @@ export const env = {
   plausible: {
     domain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? 'semperfimedia.llc',
   },
-  clarity: {
-    projectId: process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID ?? '',
+  posthog: {
+    key: process.env.NEXT_PUBLIC_POSTHOG_KEY ?? '',
+    host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',
   },
   anthropic: {
     apiKey: process.env.ANTHROPIC_API_KEY ?? '',
