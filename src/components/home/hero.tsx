@@ -21,24 +21,24 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
   const [mountVideo, setMountVideo] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
 
-  // Mount video on first real user gesture. `scroll` and `mousemove` are
-  // omitted because Lighthouse's full-page-screenshot pass fires them
-  // synthetically — listening to them lets the audit pull Mux chunks.
-  // touchstart/pointerdown/keydown/click are user-only.
+  // Mount video on first real user gesture. Filter by event.isTrusted so
+  // Lighthouse's synthetic events (which fire scroll/click/etc during the
+  // audit) don't trigger Mux. Real user-generated events have isTrusted=true.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const events = ['touchstart', 'pointerdown', 'keydown', 'click'] as const;
+    const events = ['touchstart', 'pointerdown', 'keydown', 'click', 'wheel'] as const;
     let done = false;
     const cleanup = () => {
       for (const ev of events) window.removeEventListener(ev, trigger);
     };
-    const trigger = () => {
+    const trigger = (e: Event) => {
       if (done) return;
+      if (!e.isTrusted) return;
       done = true;
       setMountVideo(true);
       cleanup();
     };
-    const opts: AddEventListenerOptions = { passive: true, once: true };
+    const opts: AddEventListenerOptions = { passive: true };
     for (const ev of events) window.addEventListener(ev, trigger, opts);
     return cleanup;
   }, []);
