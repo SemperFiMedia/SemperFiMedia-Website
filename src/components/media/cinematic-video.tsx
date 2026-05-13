@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MuxPlayer from '@mux/mux-player-react';
 import { cn } from '@/lib/utils';
 import { track } from '@/lib/analytics/track';
@@ -40,9 +40,54 @@ export function CinematicVideo({
 }: Props) {
   const playedRef = useRef(false);
   const firedRef = useRef<Set<number>>(new Set());
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  // Autoplay videos defer mount until they intersect the viewport. Real
+  // users see autoplay as the section scrolls in; headless Lighthouse
+  // never scrolls, so those players never mount and never pull chunks.
+  const [shouldMount, setShouldMount] = useState(!autoPlay);
+
+  useEffect(() => {
+    if (!autoPlay) return;
+    if (typeof window === 'undefined') return;
+    if (typeof IntersectionObserver === 'undefined') {
+      setShouldMount(true);
+      return;
+    }
+    const node = containerRef.current;
+    if (!node) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setShouldMount(true);
+            observer.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.25, rootMargin: '0px 0px -10% 0px' },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [autoPlay]);
 
   return (
-    <div className={cn('relative overflow-hidden bg-gunpowder', ASPECT_CLASS[aspect], className)}>
+    <div
+      ref={containerRef}
+      className={cn('relative overflow-hidden bg-gunpowder', ASPECT_CLASS[aspect], className)}
+    >
+      {!shouldMount && poster && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={poster}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+      {shouldMount && (
       <MuxPlayer
         playbackId={playbackId}
         metadata={{ video_title: title }}
@@ -87,6 +132,7 @@ export function CinematicVideo({
           })
         }
       />
+      )}
     </div>
   );
 }
