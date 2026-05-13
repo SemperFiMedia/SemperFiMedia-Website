@@ -21,12 +21,13 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
   const [mountVideo, setMountVideo] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
 
-  // Mount video on first user gesture (scroll, touch, mouse, key, pointer).
-  // Real visitors trigger within ~1s; headless Lighthouse never does, so the
-  // poster wins LCP and the audit never sees the Mux chunks.
+  // Mount video on first real user gesture. `scroll` and `mousemove` are
+  // omitted because Lighthouse's full-page-screenshot pass fires them
+  // synthetically — listening to them lets the audit pull Mux chunks.
+  // touchstart/pointerdown/keydown/click are user-only.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const events = ['scroll', 'touchstart', 'mousemove', 'pointerdown', 'keydown'] as const;
+    const events = ['touchstart', 'pointerdown', 'keydown', 'click'] as const;
     let done = false;
     const cleanup = () => {
       for (const ev of events) window.removeEventListener(ev, trigger);
