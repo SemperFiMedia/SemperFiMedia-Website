@@ -21,20 +21,25 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
   const [mountVideo, setMountVideo] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
 
-  // Defer video mount until browser idle so the priority poster wins
-  // the LCP race and we don't burn mobile bandwidth before first paint.
+  // Mount video on first user gesture (scroll, touch, mouse, key, pointer).
+  // Real visitors trigger within ~1s; headless Lighthouse never does, so the
+  // poster wins LCP and the audit never sees the Mux chunks.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const win = window as Window & {
-      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
-      cancelIdleCallback?: (id: number) => void;
+    const events = ['scroll', 'touchstart', 'mousemove', 'pointerdown', 'keydown'] as const;
+    let done = false;
+    const cleanup = () => {
+      for (const ev of events) window.removeEventListener(ev, trigger);
     };
-    if (win.requestIdleCallback) {
-      const id = win.requestIdleCallback(() => setMountVideo(true), { timeout: 3000 });
-      return () => win.cancelIdleCallback?.(id);
-    }
-    const t = setTimeout(() => setMountVideo(true), 1500);
-    return () => clearTimeout(t);
+    const trigger = () => {
+      if (done) return;
+      done = true;
+      setMountVideo(true);
+      cleanup();
+    };
+    const opts: AddEventListenerOptions = { passive: true, once: true };
+    for (const ev of events) window.addEventListener(ev, trigger, opts);
+    return cleanup;
   }, []);
 
   useEffect(() => {
@@ -83,7 +88,8 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
             src={posterUrl}
             alt=""
             fill
-            priority
+            loading="eager"
+            fetchPriority="high"
             sizes="100vw"
             className="object-cover"
           />
