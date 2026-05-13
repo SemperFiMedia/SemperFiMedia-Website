@@ -30,9 +30,6 @@ export const env = {
     fromEmail:
       process.env.RESEND_FROM_EMAIL ?? 'Semper Fi Media Website <onboarding@resend.dev>',
   },
-  plausible: {
-    domain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? 'semperfimedia.llc',
-  },
   posthog: {
     key: process.env.NEXT_PUBLIC_POSTHOG_KEY ?? '',
     host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? 'https://us.i.posthog.com',

@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import { fraunces, inter, jetbrainsMono } from '@/lib/fonts';
-import { Plausible } from '@/components/analytics/plausible';
 import { PostHog } from '@/components/analytics/posthog';
 import { ConsentDefault } from '@/components/analytics/consent-default';
 import { ConsentProvider } from '@/components/analytics/consent-provider';
@@ -76,7 +75,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ChatWidget />
           <LocalBusinessJsonLd />
           <AggregateRatingJsonLd ratingValue={5.0} reviewCount={30} />
-          <Plausible />
           <PostHog />
           <GA4 />
           <MetaPixel />
