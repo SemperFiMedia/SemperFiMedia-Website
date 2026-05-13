@@ -129,7 +129,7 @@ export default function TrailerEditingPage() {
 
         <section id="tiers" className="scroll-mt-32 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1200px]">
-            <DataLabel className="mb-10">THREE TIERS · TRANSPARENT PRICING</DataLabel>
+            <DataLabel as="h2" className="mb-10">THREE TIERS · TRANSPARENT PRICING</DataLabel>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               <div className="flex flex-col border border-bone/15 bg-black/40 p-8">
                 <DataLabel className="mb-3">TEASER CUT</DataLabel>

@@ -48,7 +48,6 @@ export function NicheFeaturedWork({ eyebrow, heading, caseStudies }: Props) {
           <Link
             href={`/work/${hero.slug.current}`}
             className="group mt-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between"
-            aria-label={`${hero.title} — view case study`}
           >
             <div>
               <DataLabel tone="muted" className="text-[11px]">
@@ -76,7 +75,6 @@ export function NicheFeaturedWork({ eyebrow, heading, caseStudies }: Props) {
                   key={cs._id}
                   href={`/work/${cs.slug.current}`}
                   className="group block"
-                  aria-label={`${cs.title} — view case study`}
                 >
                   {tilePoster ? (
                     <div className="relative aspect-video overflow-hidden rounded">

@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 type Props = {
   children: React.ReactNode;
-  as?: 'div' | 'span' | 'p';
+  as?: 'div' | 'span' | 'p' | 'h2' | 'h3' | 'h4';
   className?: string;
   tone?: 'brass' | 'muted';
 };

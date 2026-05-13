@@ -191,7 +191,7 @@ export default function PricingPage() {
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-3">SERVICES · JUMP TO FULL PRICING</DataLabel>
+            <DataLabel as="h2" className="mb-3">SERVICES · JUMP TO FULL PRICING</DataLabel>
             <p className="mb-10 max-w-3xl text-bone-muted">
               Each service has its own dedicated pricing section on its service page. Faster
               loading, easier to share with a specific prospect, mobile-friendly — instead of
@@ -225,7 +225,7 @@ export default function PricingPage() {
 
         <section id="bundles" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-3">BUNDLE PRICING · FILM + WEBSITE</DataLabel>
+            <DataLabel as="h2" className="mb-3">BUNDLE PRICING · FILM + WEBSITE</DataLabel>
             <p className="mb-10 max-w-3xl text-bone-muted">
               Most small businesses need both a brand film AND a website. Bundle them and save.
               One decision, one vendor, one invoice.
@@ -251,7 +251,7 @@ export default function PricingPage() {
 
         <section id="hourly" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-3">HOURLY SERVICES &amp; UNIVERSAL ADD-ONS</DataLabel>
+            <DataLabel as="h2" className="mb-3">HOURLY SERVICES &amp; UNIVERSAL ADD-ONS</DataLabel>
             <p className="mb-10 max-w-2xl text-bone-muted">
               These apply across every service. Consulting for pre-production work, raw footage
               buyouts, extra revisions beyond the included rounds, and rush delivery.

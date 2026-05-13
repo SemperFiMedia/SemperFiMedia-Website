@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import MuxPlayer from '@mux/mux-player-react';
 import type MuxPlayerElement from '@mux/mux-player';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -17,6 +18,24 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
   const fallbackRef = useRef<HTMLVideoElement | null>(null);
   const [muted, setMuted] = useState(true);
   const [interacted, setInteracted] = useState(false);
+  const [mountVideo, setMountVideo] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+
+  // Defer video mount until browser idle so the priority poster wins
+  // the LCP race and we don't burn mobile bandwidth before first paint.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const win = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (win.requestIdleCallback) {
+      const id = win.requestIdleCallback(() => setMountVideo(true), { timeout: 3000 });
+      return () => win.cancelIdleCallback?.(id);
+    }
+    const t = setTimeout(() => setMountVideo(true), 1500);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     if (!muxRef.current) return;
@@ -45,6 +64,8 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
     setMuted((m) => !m);
   }
 
+  const tintOpacity = muted ? 0.5 : 0.85;
+
   return (
     <section
       className="relative overflow-hidden bg-gunpowder film-grain"
@@ -52,10 +73,27 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
     >
       <div className="letterbox-top relative z-20" />
 
-      {muxPlaybackId ? (
+      {posterUrl && (
         <div
-          className="absolute inset-0 transition-opacity duration-500 [&_mux-player]:h-full [&_mux-player]:w-full [&_mux-player]:[--controls:none] [&_mux-player]:[--media-object-fit:cover]"
-          style={{ opacity: muted ? 0.5 : 0.85 }}
+          className="absolute inset-0 transition-opacity duration-700"
+          style={{ opacity: videoPlaying ? 0 : tintOpacity }}
+          aria-hidden="true"
+        >
+          <Image
+            src={posterUrl}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+      )}
+
+      {mountVideo && muxPlaybackId ? (
+        <div
+          className="absolute inset-0 transition-opacity duration-700 [&_mux-player]:h-full [&_mux-player]:w-full [&_mux-player]:[--controls:none] [&_mux-player]:[--media-object-fit:cover]"
+          style={{ opacity: videoPlaying ? tintOpacity : 0 }}
           aria-hidden="true"
         >
           <MuxPlayer
@@ -66,11 +104,13 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
             loop
             playsInline
             streamType="on-demand"
-            poster={posterUrl}
             accentColor="#D4A057"
+            maxResolution="720p"
+            preload="metadata"
+            onPlaying={() => setVideoPlaying(true)}
           />
         </div>
-      ) : (
+      ) : mountVideo && !muxPlaybackId ? (
         <video
           ref={fallbackRef}
           src={videoSrc}
@@ -78,12 +118,13 @@ export function Hero({ muxPlaybackId, posterUrl, videoSrc = '/videos/hero-showre
           muted
           loop
           playsInline
-          preload="auto"
-          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500"
-          style={{ opacity: muted ? 0.5 : 0.85 }}
+          preload="metadata"
+          className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
+          style={{ opacity: videoPlaying ? tintOpacity : 0 }}
           aria-hidden="true"
+          onPlaying={() => setVideoPlaying(true)}
         />
-      )}
+      ) : null}
 
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-500"
