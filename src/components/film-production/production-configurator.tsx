@@ -11,6 +11,10 @@ type Tier = {
   name: string;
   price: number;
   insurance: number;
+  /** Number of crew members on the day — drives per-diem head count. */
+  crewCount: number;
+  /** Add-on ids already bundled in this tier — locked out of Step 2/3. */
+  includedAddOnIds: readonly string[];
   blurb: string;
   bullets: string[];
 };
@@ -20,8 +24,10 @@ type AddOn = {
   name: string;
   price: number;
   blurb: string;
-  category: 'crew' | 'kit' | 'logistics';
+  category: 'crew' | 'kit';
 };
+
+const PER_DIEM_RATE = 75;
 
 const TIERS: readonly Tier[] = [
   {
@@ -30,6 +36,8 @@ const TIERS: readonly Tier[] = [
     name: 'Solo Operator Day',
     price: 1500,
     insurance: 175,
+    crewCount: 1,
+    includedAddOnIds: ['kit-dual'],
     blurb: '10-hour day · TJ as DP · Sony FX3/A7S III cinema kit',
     bullets: [
       'TJ as DP / operator (10 hours on location)',
@@ -46,6 +54,8 @@ const TIERS: readonly Tier[] = [
     name: 'B-Cam Day',
     price: 2500,
     insurance: 225,
+    crewCount: 2,
+    includedAddOnIds: ['camera-op', 'kit-dual'],
     blurb: '10-hour day · TJ + freelance operator · dual Sony package',
     bullets: [
       'TJ as DP + 1 freelance camera operator',
@@ -62,6 +72,8 @@ const TIERS: readonly Tier[] = [
     name: 'Full Crew Day',
     price: 5500,
     insurance: 295,
+    crewCount: 4,
+    includedAddOnIds: ['first-ac', 'sound-mixer', 'gaffer', 'kit-dual'],
     blurb: '10-hour day · TJ + 1st AC + Sound Mixer + Gaffer',
     bullets: [
       'TJ as DP + 1st AC + Sound Mixer + Gaffer',
@@ -93,8 +105,6 @@ const ADD_ONS: readonly AddOn[] = [
   { id: 'kit-small-light', name: 'Small Lighting Package', price: 250, blurb: 'SmallRig RC 260B + stands + diffusion (owned).', category: 'kit' },
   { id: 'kit-mid-light', name: 'Mid Lighting Package', price: 1200, blurb: 'SkyPanels + HMI + grip cable (pass-through).', category: 'kit' },
   { id: 'kit-large-light', name: 'Large Lighting Package', price: 2500, blurb: '3-ton truck, multi-HMI, dolly (pass-through).', category: 'kit' },
-  // Logistics
-  { id: 'per-diem', name: 'Per Diem (1 day)', price: 75, blurb: 'M&IE only — multi-day quoted on call.', category: 'logistics' },
 ];
 
 function formatPrice(n: number): string {
@@ -112,15 +122,24 @@ export function ProductionConfigurator() {
 
   const tier = TIERS.find((t) => t.id === tierId)!;
 
+  // Per diem is mandatory and priced per head on set: base-tier crew + any crew added in Step 2.
+  const perDiemHeads = useMemo(() => {
+    const addedCrew = addOns.filter(
+      (id) => ADD_ONS.find((a) => a.id === id)?.category === 'crew',
+    ).length;
+    return tier.crewCount + addedCrew;
+  }, [tier.crewCount, addOns]);
+  const perDiemTotal = perDiemHeads * PER_DIEM_RATE;
+
   const breakdown = useMemo(() => {
     const addOnTotal = addOns.reduce((sum, id) => {
       const a = ADD_ONS.find((x) => x.id === id);
       return sum + (a?.price ?? 0);
     }, 0);
     const subtotal = tier.price + addOnTotal;
-    const total = subtotal + tier.insurance;
+    const total = subtotal + tier.insurance + perDiemTotal;
     return { addOnTotal, subtotal, total };
-  }, [tier.price, tier.insurance, addOns]);
+  }, [tier.price, tier.insurance, addOns, perDiemTotal]);
 
   // configurator_open on mount
   useEffect(() => {
@@ -155,6 +174,8 @@ export function ProductionConfigurator() {
   }, [breakdown.total, tier.id, addOns]);
 
   function toggleAddOn(id: string) {
+    // Bundled-in add-ons are locked — never togglable.
+    if (tier.includedAddOnIds.includes(id)) return;
     setAddOns((prev) => {
       const has = prev.includes(id);
       dirtyRef.current = true;
@@ -175,11 +196,11 @@ export function ProductionConfigurator() {
       ``,
       `Base Tier: ${tier.name} — ${formatPrice(tier.price)}`,
       `Per-production insurance (auto): ${formatPrice(tier.insurance)}`,
+      `Per diem (auto, ${perDiemHeads} crew × ${formatPrice(PER_DIEM_RATE)}): ${formatPrice(perDiemTotal)}`,
     ];
     if (selectedObjs.length > 0) {
       const crew = selectedObjs.filter((a) => a.category === 'crew');
       const kits = selectedObjs.filter((a) => a.category === 'kit');
-      const logistics = selectedObjs.filter((a) => a.category === 'logistics');
       if (crew.length > 0) {
         lines.push(``, `Additional Crew:`);
         for (const a of crew) lines.push(`  • ${a.name} — ${formatPrice(a.price)}`);
@@ -187,10 +208,6 @@ export function ProductionConfigurator() {
       if (kits.length > 0) {
         lines.push(``, `Camera / Lighting Kits:`);
         for (const a of kits) lines.push(`  • ${a.name} — ${formatPrice(a.price)}`);
-      }
-      if (logistics.length > 0) {
-        lines.push(``, `Logistics:`);
-        for (const a of logistics) lines.push(`  • ${a.name} — ${formatPrice(a.price)}`);
       }
     }
     lines.push(``, `Estimated day total: ${formatPrice(breakdown.total)}`);
@@ -209,7 +226,6 @@ export function ProductionConfigurator() {
 
   const crewAddOns = ADD_ONS.filter((a) => a.category === 'crew');
   const kitAddOns = ADD_ONS.filter((a) => a.category === 'kit');
-  const logisticsAddOns = ADD_ONS.filter((a) => a.category === 'logistics');
 
   return (
     <section
@@ -224,9 +240,10 @@ export function ProductionConfigurator() {
             Configure your day. See the price live.
           </h2>
           <p className="mt-4 max-w-2xl text-bone-muted">
-            Pick a base tier, stack the crew, kits, and logistics you need. Insurance auto-adds
-            based on tier. When you&apos;re ready, hit continue and your production spec pre-fills
-            on the booking form.
+            Pick a base tier, then stack the extra crew and kits you need. Anything already
+            bundled in your tier is locked so you&apos;re never double-charged. Insurance and
+            per diem auto-add based on your day. When you&apos;re ready, hit continue and your
+            production spec pre-fills on the booking form.
           </p>
         </div>
 
@@ -244,6 +261,8 @@ export function ProductionConfigurator() {
                       type="button"
                       onClick={() => {
                         setTierId(t.id);
+                        // Drop any add-ons the new tier already bundles, so they can't double-charge.
+                        setAddOns((prev) => prev.filter((id) => !t.includedAddOnIds.includes(id)));
                         dirtyRef.current = true;
                         void track('configurator_change', {
                           tier: t.id,
@@ -294,9 +313,16 @@ export function ProductionConfigurator() {
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {crewAddOns.map((a) => {
+                  const included = tier.includedAddOnIds.includes(a.id);
                   const selected = addOns.includes(a.id);
                   return (
-                    <AddOnCheckbox key={a.id} addon={a} selected={selected} onToggle={toggleAddOn} />
+                    <AddOnCheckbox
+                      key={a.id}
+                      addon={a}
+                      selected={selected}
+                      included={included}
+                      onToggle={toggleAddOn}
+                    />
                   );
                 })}
               </div>
@@ -310,9 +336,16 @@ export function ProductionConfigurator() {
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {kitAddOns.map((a) => {
+                  const included = tier.includedAddOnIds.includes(a.id);
                   const selected = addOns.includes(a.id);
                   return (
-                    <AddOnCheckbox key={a.id} addon={a} selected={selected} onToggle={toggleAddOn} />
+                    <AddOnCheckbox
+                      key={a.id}
+                      addon={a}
+                      selected={selected}
+                      included={included}
+                      onToggle={toggleAddOn}
+                    />
                   );
                 })}
               </div>
@@ -322,16 +355,35 @@ export function ProductionConfigurator() {
             <div>
               <DataLabel className="mb-1">STEP 4 · LOGISTICS</DataLabel>
               <p className="mb-5 text-sm text-bone-muted">
-                Multi-day per diem, travel days, prep days, and raw footage buyout quoted on the
-                discovery call.
+                Per diem is required on every shoot day — one day, per crew member. Travel days,
+                prep days, and raw footage buyout are quoted on the discovery call.
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                {logisticsAddOns.map((a) => {
-                  const selected = addOns.includes(a.id);
-                  return (
-                    <AddOnCheckbox key={a.id} addon={a} selected={selected} onToggle={toggleAddOn} />
-                  );
-                })}
+                <div
+                  aria-disabled="true"
+                  className="flex items-start gap-3 rounded-md border border-brass/30 bg-brass/5 p-4 text-left select-none"
+                >
+                  <div
+                    className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded border-2 border-brass bg-brass text-gunpowder"
+                    aria-hidden="true"
+                  >
+                    <CheckIcon />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-baseline justify-between gap-2">
+                      <div className="font-serif text-base italic">
+                        Per Diem (1 day · per crew member)
+                      </div>
+                      <div className="font-serif text-sm text-brass">
+                        +{formatPrice(perDiemTotal)}
+                      </div>
+                    </div>
+                    <p className="mt-1 text-xs text-bone-muted">
+                      Required · {perDiemHeads} crew × {formatPrice(PER_DIEM_RATE)} (M&amp;IE).
+                      Multi-day quoted on call.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -360,6 +412,18 @@ export function ProductionConfigurator() {
               </div>
 
               <div className="mb-4 border-b border-bone/10 pb-4">
+                <div className="data-label text-bone-subtle">PER DIEM (AUTO)</div>
+                <div className="mt-1 flex items-baseline justify-between text-sm">
+                  <span className="text-bone-muted">
+                    {perDiemHeads} crew × {formatPrice(PER_DIEM_RATE)}
+                  </span>
+                  <span className="font-serif text-base text-bone">
+                    +{formatPrice(perDiemTotal)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mb-4 border-b border-bone/10 pb-4">
                 <div className="data-label text-bone-subtle">ADD-ONS</div>
                 {addOns.length === 0 ? (
                   <p className="mt-2 text-sm text-bone-muted">None selected</p>
@@ -382,7 +446,7 @@ export function ProductionConfigurator() {
                 </div>
                 <p className="mt-2 text-[11px] text-bone-subtle">
                   Final quote confirmed on your production call. Overtime, travel beyond 30 mi,
-                  per diem (multi-day), and raw footage buyout quoted separately.
+                  multi-day per diem, and raw footage buyout quoted separately.
                 </p>
               </div>
 
@@ -405,15 +469,58 @@ export function ProductionConfigurator() {
   );
 }
 
+function CheckIcon() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
 function AddOnCheckbox({
   addon,
   selected,
+  included,
   onToggle,
 }: {
   addon: AddOn;
   selected: boolean;
+  included: boolean;
   onToggle: (id: string) => void;
 }) {
+  // Already bundled into the chosen tier — show it as locked-on, not selectable.
+  if (included) {
+    return (
+      <div
+        aria-disabled="true"
+        className="flex cursor-not-allowed select-none items-start gap-3 rounded-md border border-bone/10 bg-gunpowder/20 p-4 text-left opacity-50"
+      >
+        <div
+          className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded border-2 border-brass/50 bg-brass/30 text-brass"
+          aria-hidden="true"
+        >
+          <CheckIcon />
+        </div>
+        <div className="flex-1">
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="font-serif text-base italic">{addon.name}</div>
+            <div className="data-label text-[10px] text-brass">INCLUDED</div>
+          </div>
+          <p className="mt-1 text-xs text-bone-muted">Already in your base tier.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <button
       type="button"
@@ -433,20 +540,7 @@ function AddOnCheckbox({
         }
         aria-hidden="true"
       >
-        {selected && (
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        )}
+        {selected && <CheckIcon />}
       </div>
       <div className="flex-1">
         <div className="flex items-baseline justify-between gap-2">
