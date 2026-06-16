@@ -7,6 +7,7 @@ const LINKS = [
   { href: '/weddings', label: 'Weddings' },
   { href: '/social-reels', label: 'Social' },
   { href: '/blog', label: 'Blog' },
+  { href: '/reel-recon', label: 'Reel Recon' },
   { href: '/about', label: 'About' },
 ] as const;
 

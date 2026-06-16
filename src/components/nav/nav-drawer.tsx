@@ -13,6 +13,7 @@ const SECTIONS = [
       { href: '/shoots', label: 'Recent Shoots' },
       { href: '/about', label: 'About' },
       { href: '/blog', label: 'The Field Notes' },
+      { href: '/reel-recon', label: 'Reel Recon — Movie Reviews' },
       { href: '/refer', label: 'Refer & Earn $200' },
       { href: '/contact', label: 'Contact' },
     ],
