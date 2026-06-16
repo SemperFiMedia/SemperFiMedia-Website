@@ -21,6 +21,7 @@ export function formatScore(value: number | undefined): string {
 export function buildReelReconJsonLd(
   review: ReelReconReview,
   siteUrl: string,
+  imageUrl?: string | null,
 ): Record<string, unknown> {
   const url = `${siteUrl}/reel-recon/${review.slug.current}`;
   const author = { '@type': 'Person', name: review.author ?? 'TJ Gutierrez' };
@@ -37,17 +38,21 @@ export function buildReelReconJsonLd(
         ...(review.director
           ? { director: { '@type': 'Person', name: review.director } }
           : {}),
+        ...(imageUrl ? { image: imageUrl } : {}),
       },
       reviewRating: {
         '@type': 'Rating',
         ratingValue: review.overallRating,
+        // Scale is 0–10 (the Sanity field allows a minimum of 0), so worstRating
+        // must be 0 — a 0/10 review would otherwise sit below the declared minimum.
         bestRating: 10,
-        worstRating: 1,
+        worstRating: 0,
       },
       author,
       publisher,
       datePublished: review.publishedAt,
       ...(review.excerpt ? { reviewBody: review.excerpt } : {}),
+      ...(imageUrl ? { image: imageUrl } : {}),
       url,
     };
   }
@@ -60,6 +65,7 @@ export function buildReelReconJsonLd(
     datePublished: review.publishedAt,
     author,
     publisher,
+    ...(imageUrl ? { image: [imageUrl] } : {}),
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
   };
 }

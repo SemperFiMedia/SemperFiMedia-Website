@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import { urlForImage } from '@/sanity/image';
 
+// Intentionally forked from the blog's inline Portable Text config rather than
+// shared: Reel Recon review bodies are expected to diverge (e.g. inline Mux clips,
+// review-specific callouts) without disturbing the blog's rendering. Keep separate.
 export const reelReconPortableComponents = {
   types: {
     image: ({ value }: { value: { asset?: { _ref: string }; alt?: string } }) => {

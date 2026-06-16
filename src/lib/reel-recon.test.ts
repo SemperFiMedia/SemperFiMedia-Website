@@ -59,8 +59,19 @@ describe('buildReelReconJsonLd', () => {
     expect(ld['@type']).toBe('Review');
     expect((ld.reviewRating as Record<string, unknown>).ratingValue).toBe(8);
     expect((ld.reviewRating as Record<string, unknown>).bestRating).toBe(10);
+    expect((ld.reviewRating as Record<string, unknown>).worstRating).toBe(0);
     expect((ld.itemReviewed as Record<string, unknown>)['@type']).toBe('Movie');
     expect(ld.url).toBe('https://example.com/reel-recon/test-film');
+  });
+  it('threads an image into the reviewed Movie when provided', () => {
+    const ld = buildReelReconJsonLd(
+      base,
+      'https://example.com',
+      'https://cdn.example.com/poster.jpg',
+    ) as Record<string, unknown>;
+    expect((ld.itemReviewed as Record<string, unknown>).image).toBe(
+      'https://cdn.example.com/poster.jpg',
+    );
   });
   it('emits an Article with no rating when anticipated', () => {
     const anticipated: ReelReconReview = {

@@ -24,10 +24,13 @@ type RouteProps = { params: Promise<{ slug: string }> };
 export const revalidate = 60;
 
 function formatDate(iso: string) {
+  // releaseDate is a Sanity `date` (no time component). Parsed as UTC midnight,
+  // so format in UTC to avoid rendering one day early in US timezones.
   return new Date(iso).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 }
 
@@ -66,7 +69,9 @@ export default async function ReelReconReviewPage({ params }: RouteProps) {
   const related = await getRelatedReelReconReviews(slug, 3);
   const body = Array.isArray(review.body) ? (review.body as PortableTextBlock[]) : null;
   const posterUrl = review.poster ? urlForImage(review.poster)?.width(800).url() : null;
-  const jsonLd = buildReelReconJsonLd(review, env.siteUrl);
+  const jsonLdImage = review.coverImage ?? review.poster;
+  const jsonLdImageUrl = jsonLdImage ? urlForImage(jsonLdImage)?.width(1200).url() ?? null : null;
+  const jsonLd = buildReelReconJsonLd(review, env.siteUrl, jsonLdImageUrl);
 
   const meta = [
     review.releaseDate ? formatDate(review.releaseDate) : null,

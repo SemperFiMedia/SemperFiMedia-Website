@@ -160,7 +160,7 @@ export async function getAllReelReconReviews(): Promise<ReelReconReview[]> {
   return sanityClient.fetch(
     groq`*[_type == "reelReconReview" && defined(publishedAt)] | order(featured desc, publishedAt desc){
       _id, filmTitle, slug, status, poster, coverImage, releaseDate, runtime, director, genres,
-      whereToWatch, overallRating, subRatings, verdict, excerpt, publishedAt, featured, readingTime
+      whereToWatch, overallRating, verdict, excerpt, publishedAt, featured, readingTime
     }`,
   );
 }
@@ -185,7 +185,7 @@ export async function getRelatedReelReconReviews(
   return sanityClient.fetch(
     groq`*[_type == "reelReconReview" && slug.current != $excludeSlug && defined(publishedAt)]
       | order(publishedAt desc)[0...$limit]{
-      _id, filmTitle, slug, status, poster, coverImage, overallRating, verdict, excerpt, publishedAt
+      _id, filmTitle, slug, status, poster, overallRating, verdict, excerpt, publishedAt
     }`,
     { excludeSlug, limit },
   );
