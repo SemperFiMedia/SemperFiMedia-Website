@@ -13,7 +13,6 @@ import { reelReconPortableComponents } from '@/components/reel-recon/portable-co
 import { CommentsSection } from '@/components/reel-recon/comments/comments-section';
 import {
   getReelReconReviewBySlug,
-  getAllReelReconReviews,
   getRelatedReelReconReviews,
 } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
@@ -22,7 +21,10 @@ import { env } from '@/lib/env';
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
-export const revalidate = 60;
+// The root layout reads cookies() (consent state) — a dynamic API — which makes
+// static rendering impossible. Render this route dynamically so it never attempts
+// static generation (which throws DYNAMIC_SERVER_USAGE when built with no reviews).
+export const dynamic = 'force-dynamic';
 
 function formatDate(iso: string) {
   // releaseDate is a Sanity `date` (no time component). Parsed as UTC midnight,
@@ -33,11 +35,6 @@ function formatDate(iso: string) {
     year: 'numeric',
     timeZone: 'UTC',
   });
-}
-
-export async function generateStaticParams() {
-  const reviews = await getAllReelReconReviews();
-  return reviews.map((r) => ({ slug: r.slug.current }));
 }
 
 export async function generateMetadata({ params }: RouteProps): Promise<Metadata> {
