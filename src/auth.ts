@@ -31,24 +31,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       });
       return true;
     },
-    async jwt({ token, profile, user }) {
-      const sub = profile?.sub ?? user?.id ?? token.sub;
-      if (sub) {
-        token.userId = sub;
-        // Re-read role/blocked from the DB on every token refresh so a block or
-        // role change takes effect immediately. Guarded + try/caught so a missing
-        // or briefly-unavailable DB falls back to existing claims instead of
-        // throwing on every authenticated request.
-        if (hasDb) {
-          try {
-            const record = await getUserById(sub);
-            token.role = record?.role ?? 'user';
-            token.isBlocked = record?.isBlocked ?? false;
-          } catch {
-            token.role = (token.role as string) ?? 'user';
-            token.isBlocked = Boolean(token.isBlocked);
-          }
-        } else {
+    async jwt({ token, profile }) {
+      // Lock in the stable Google account id (sub) as our user id ONCE, at sign-in.
+      // Never fall back to token.sub on later calls — Auth.js sets token.sub to its
+      // own generated UUID, which would overwrite our id and break the users FK
+      // (and drop the admin role) on every authenticated request after sign-in.
+      if (profile?.sub) {
+        token.userId = profile.sub;
+      }
+      const uid = token.userId as string | undefined;
+      // Refresh role/blocked from the DB each request so a block or role change takes
+      // effect immediately. Guarded + try/caught so a DB hiccup falls back to claims.
+      if (uid && hasDb) {
+        try {
+          const record = await getUserById(uid);
+          token.role = record?.role ?? 'user';
+          token.isBlocked = record?.isBlocked ?? false;
+        } catch {
           token.role = (token.role as string) ?? 'user';
           token.isBlocked = Boolean(token.isBlocked);
         }
