@@ -90,7 +90,27 @@ export const reelReconReview = defineType({
     defineField({
       name: 'body',
       type: 'array',
-      of: [portableTextBlock, { type: 'image', options: { hotspot: true } }],
+      of: [
+        portableTextBlock,
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt text',
+              description: 'Describe the image for SEO and screen readers.',
+            }),
+            defineField({
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+              description: 'Optional caption shown beneath the image.',
+            }),
+          ],
+        },
+      ],
     }),
     defineField({ name: 'publishedAt', type: 'datetime', validation: (r) => r.required() }),
     defineField({
