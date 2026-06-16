@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import { env } from '@/lib/env';
+import { hasDb } from '@/lib/db';
 import { upsertUserOnSignIn, getUserById } from '@/lib/comments/service';
 import { isAdminEmail } from '@/lib/comments/validation';
 
@@ -18,6 +19,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, profile }) {
       const sub = profile?.sub ?? user.id;
       if (!sub || !user.email) return false;
+      // Allow login even if no database is configured (mirrors the data layer's
+      // DB-less invariant); without a DB there is just nothing to persist.
+      if (!hasDb) return true;
       await upsertUserOnSignIn({
         id: sub,
         email: user.email,
@@ -31,9 +35,23 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const sub = profile?.sub ?? user?.id ?? token.sub;
       if (sub) {
         token.userId = sub;
-        const record = await getUserById(sub);
-        token.role = record?.role ?? 'user';
-        token.isBlocked = record?.isBlocked ?? false;
+        // Re-read role/blocked from the DB on every token refresh so a block or
+        // role change takes effect immediately. Guarded + try/caught so a missing
+        // or briefly-unavailable DB falls back to existing claims instead of
+        // throwing on every authenticated request.
+        if (hasDb) {
+          try {
+            const record = await getUserById(sub);
+            token.role = record?.role ?? 'user';
+            token.isBlocked = record?.isBlocked ?? false;
+          } catch {
+            token.role = (token.role as string) ?? 'user';
+            token.isBlocked = Boolean(token.isBlocked);
+          }
+        } else {
+          token.role = (token.role as string) ?? 'user';
+          token.isBlocked = Boolean(token.isBlocked);
+        }
       }
       return token;
     },

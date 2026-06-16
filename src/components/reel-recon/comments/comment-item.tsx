@@ -4,7 +4,7 @@ export type CommentView = {
   id: string;
   parentId: string | null;
   userId: string;
-  body: string;
+  body: string | null; // null when the comment is soft-deleted (server strips the text)
   isDeleted: boolean;
   createdAt: string;
   authorName: string | null;
