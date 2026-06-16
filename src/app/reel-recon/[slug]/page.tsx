@@ -10,6 +10,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { RatingPanel } from '@/components/reel-recon/rating-panel';
 import { reelReconPortableComponents } from '@/components/reel-recon/portable-components';
+import { CommentsSection } from '@/components/reel-recon/comments/comments-section';
 import {
   getReelReconReviewBySlug,
   getAllReelReconReviews,
@@ -134,6 +135,7 @@ export default async function ReelReconReviewPage({ params }: RouteProps) {
             </div>
           </section>
         )}
+        <CommentsSection slug={review.slug.current} />
 
         {related.length > 0 && (
           <section className="border-t border-brass/15 bg-black px-6 py-20 md:px-12 md:py-24">
