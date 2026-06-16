@@ -6,7 +6,11 @@ import { urlForImage } from '@/sanity/image';
 // review-specific callouts) without disturbing the blog's rendering. Keep separate.
 export const reelReconPortableComponents = {
   types: {
-    image: ({ value }: { value: { asset?: { _ref: string }; alt?: string } }) => {
+    image: ({
+      value,
+    }: {
+      value: { asset?: { _ref: string }; alt?: string; caption?: string };
+    }) => {
       if (!value?.asset) return null;
       const url = urlForImage(value)?.width(1600).url();
       if (!url) return null;
@@ -21,6 +25,11 @@ export const reelReconPortableComponents = {
               className="object-cover"
             />
           </div>
+          {value.caption && (
+            <figcaption className="mt-2 text-center text-sm italic text-bone-subtle">
+              {value.caption}
+            </figcaption>
+          )}
         </figure>
       );
     },
