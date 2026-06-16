@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import { sanityClient } from './client';
 import { PLACEHOLDER_FEATURED_CASE_STUDIES } from '@/lib/placeholder-case-studies';
-import type { CaseStudy, Testimonial, Client, BlogPost } from './types';
+import type { CaseStudy, Testimonial, Client, BlogPost, ReelReconReview } from './types';
 
 export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
   if (!sanityClient) {
@@ -152,5 +152,41 @@ export async function getClientByName(name: string): Promise<Client | null> {
       _id, name, logo, logoDark, website, featured, order
     }`,
     { name },
+  );
+}
+
+export async function getAllReelReconReviews(): Promise<ReelReconReview[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "reelReconReview" && defined(publishedAt)] | order(featured desc, publishedAt desc){
+      _id, filmTitle, slug, status, poster, coverImage, releaseDate, runtime, director, genres,
+      whereToWatch, overallRating, subRatings, verdict, excerpt, publishedAt, featured, readingTime
+    }`,
+  );
+}
+
+export async function getReelReconReviewBySlug(slug: string): Promise<ReelReconReview | null> {
+  if (!sanityClient) return null;
+  return sanityClient.fetch(
+    groq`*[_type == "reelReconReview" && slug.current == $slug][0]{
+      _id, filmTitle, slug, status, poster, coverImage, releaseDate, runtime, director, genres,
+      whereToWatch, overallRating, subRatings, verdict, excerpt, body, publishedAt, featured,
+      author, authorTitle, readingTime, seoTitle, seoDescription
+    }`,
+    { slug },
+  );
+}
+
+export async function getRelatedReelReconReviews(
+  excludeSlug: string,
+  limit = 3,
+): Promise<ReelReconReview[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "reelReconReview" && slug.current != $excludeSlug && defined(publishedAt)]
+      | order(publishedAt desc)[0...$limit]{
+      _id, filmTitle, slug, status, poster, coverImage, overallRating, verdict, excerpt, publishedAt
+    }`,
+    { excludeSlug, limit },
   );
 }
