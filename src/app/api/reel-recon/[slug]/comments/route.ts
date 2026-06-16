@@ -23,7 +23,14 @@ export async function POST(request: Request, { params }: Ctx) {
   if (!hasDb) return Response.json({ error: 'Comments unavailable.' }, { status: 503 });
   const { slug } = await params;
 
-  const user = await getSessionUser();
+  let user;
+  try {
+    user = await getSessionUser();
+  } catch (e) {
+    console.error('[comments POST] getSessionUser threw:', e);
+    return Response.json({ error: 'Could not post comment.' }, { status: 500 });
+  }
+  console.error('[comments POST] session userId=', user?.id, 'role=', user?.role);
   if (!user) return Response.json({ error: 'Sign in to comment.' }, { status: 401 });
   if (user.isBlocked) return Response.json({ error: 'Your account cannot post.' }, { status: 403 });
 
@@ -55,6 +62,7 @@ export async function POST(request: Request, { params }: Ctx) {
     if (e instanceof ReplyDepthError) {
       return Response.json({ error: 'Replies are one level deep.' }, { status: 400 });
     }
+    console.error('[comments POST] createComment failed for userId=' + user.id + ':', e);
     return Response.json({ error: 'Could not post comment.' }, { status: 500 });
   }
 }
