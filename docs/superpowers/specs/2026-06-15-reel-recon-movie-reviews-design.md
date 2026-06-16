@@ -12,8 +12,9 @@ lens. It is intentionally **separate** from the existing cinematography `/blog` 
 two feeds never mix. Goal: recurring, opinionated, SEO-friendly content that drives
 organic film-related search traffic to the domain.
 
-The launch post is an **anticipation/preview** of *Spider-Man: Brand New Day* (unreleased
-as of 2026-06-15), with the rating shown as pending until release.
+The launch post is a **full review** (`status = reviewed`) of *The Punisher: One Last Kill*
+— a Marvel Television Special that released on Disney+ in 2026 — with TJ's real scores and
+verdict live from day one. *Spider-Man: Brand New Day* becomes a later `anticipated` post.
 
 **Out of scope for this project** (deferred to a separate design cycle): the discussion /
 comments system, Google sign-in, user accounts, and any database. This project is
@@ -118,17 +119,29 @@ Add matching TypeScript types in `src/sanity/types.ts`.
 - Per-page `metadata` from `seoTitle`/`seoDescription` with poster as the OG image.
 - Include `/reel-recon` and `/reel-recon/[slug]` URLs in the sitemap.
 
-### 5. Launch content — Spider-Man: Brand New Day
+### 5. Launch content — The Punisher: One Last Kill
 
-- Document: `status = anticipated`, `overallRating`/`subRatings` empty, `verdict =
-  "Pending — full review on release."`, `releaseDate` set, poster uploaded.
-- Title (working): **"Spider-Man: Brand New Day — A Cinematographer's First Look."**
-- Body (~600–900 words) drafted by Claude in TJ's voice; TJ edits before publishing.
-  Angle: Marine + cinematographer reading of the trailer — action staging, practical vs.
-  CGI, how web-swinging is shot, lighting/lensing tells, what TJ is watching for. Tuned
-  for pre-release search intent.
-- Post-release follow-up (future, not this project): flip `status` to `reviewed`, fill in
-  scores + verdict, which upgrades the JSON-LD to a `Review` with stars.
+Factual grounding (verified via web search, 2026-06-15): Marvel Television Special
+Presentation on **Disney+**; Jon Bernthal returns as Frank Castle (also co-writer);
+directed by **Reinaldo Marcus Green** (*King Richard*, *Bob Marley: One Love*); cast
+includes Jason R. Moore, Judith Light, Chelsea Brea. Ties to the Netflix series / MCU.
+
+- Document: `status = reviewed`, `whereToWatch = "Disney+"`, `releaseDate` set, poster
+  uploaded, `director`/`genres`/`runtime` filled from confirmed metadata.
+- **Ratings are TJ's** — `overallRating`, the four `subRatings`, and `verdict` come from
+  TJ's actual viewing, not invented. Claude drafts prose around the numbers TJ supplies.
+- Title (working): **"The Punisher: One Last Kill — A Marine Cinematographer's Verdict."**
+- Body (~600–900 words) drafted by Claude in TJ's voice from TJ's notes/scores; TJ edits
+  before publishing. Angle: former-Marine + cinematographer read on Bernthal's Frank
+  Castle — combat realism/gun handling, how the action is staged and shot, lighting and
+  tone, what lands and what doesn't. Tuned for post-release search ("Punisher One Last
+  Kill review", etc.).
+- **Content-integrity rule:** Claude must not fabricate specific shot/plot details it
+  cannot verify. Where TJ hasn't supplied a specific observation, keep prose general or
+  flag a `[TJ: confirm]` placeholder for him to fill.
+
+**Future post (not this project):** *Spider-Man: Brand New Day* as an `anticipated`
+preview — trailer breakdown, rating pending until release.
 
 ## Data Flow
 
