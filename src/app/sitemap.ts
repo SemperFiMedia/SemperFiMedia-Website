@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { env } from '@/lib/env';
-import { getAllCaseStudies, getAllBlogPosts } from '@/sanity/queries';
+import { getAllCaseStudies, getAllBlogPosts, getAllReelReconReviews } from '@/sanity/queries';
 
 const STATIC_ROUTES = [
   '',
@@ -23,6 +23,7 @@ const STATIC_ROUTES = [
   '/about',
   '/contact',
   '/blog',
+  '/reel-recon',
   '/shoots',
   '/refer',
 ];
@@ -36,9 +37,10 @@ const SPANISH_ROUTES = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [cases, posts] = await Promise.all([
+  const [cases, posts, reviews] = await Promise.all([
     getAllCaseStudies().then((cs) => cs.filter((c) => !c.isPlaceholder)),
     getAllBlogPosts(),
+    getAllReelReconReviews(),
   ]);
 
   const staticEntries = STATIC_ROUTES.map((route) => ({
@@ -69,5 +71,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...spanishEntries, ...caseEntries, ...blogEntries];
+  const reelReconEntries = reviews.map((review) => ({
+    url: `${env.siteUrl}/reel-recon/${review.slug.current}`,
+    lastModified: review.publishedAt ? new Date(review.publishedAt) : new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...spanishEntries, ...caseEntries, ...blogEntries, ...reelReconEntries];
 }

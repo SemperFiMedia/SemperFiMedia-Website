@@ -77,3 +77,38 @@ export type BlogPost = {
   seoTitle?: string;
   seoDescription?: string;
 };
+
+export type ReelReconStatus = 'anticipated' | 'reviewed';
+
+export type ReelReconSubRatings = {
+  cinematography?: number;
+  actionRealism?: number;
+  story?: number;
+  sound?: number;
+};
+
+export type ReelReconReview = {
+  _id: string;
+  filmTitle: string;
+  slug: { current: string };
+  status: ReelReconStatus;
+  poster?: { asset: { _ref: string } };
+  coverImage?: { asset: { _ref: string } };
+  releaseDate?: string;
+  runtime?: number;
+  director?: string;
+  genres?: string[];
+  whereToWatch?: string;
+  overallRating?: number;
+  subRatings?: ReelReconSubRatings;
+  verdict?: string;
+  excerpt?: string;
+  body?: unknown;
+  publishedAt: string;
+  featured?: boolean;
+  author?: string;
+  authorTitle?: string;
+  readingTime?: number;
+  seoTitle?: string;
+  seoDescription?: string;
+};
