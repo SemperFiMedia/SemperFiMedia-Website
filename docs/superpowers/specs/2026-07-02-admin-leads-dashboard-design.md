@@ -97,8 +97,8 @@ No schema changes; no new migration. Uses the existing
 
 ## Error handling
 
-- No `DATABASE_URL` configured: pages render a "Leads unavailable" notice; API
-  returns 503 (existing convention).
+- No `DATABASE_URL` configured: the list page renders a "Leads unavailable"
+  notice, the detail page 404s, and the API returns 503 (existing convention).
 - DB query failures on pages surface Next's error boundary; the status PATCH
   returns 500 with a generic message.
 
