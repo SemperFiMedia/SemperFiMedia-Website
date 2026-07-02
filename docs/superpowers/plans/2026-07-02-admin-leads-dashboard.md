@@ -685,7 +685,7 @@ export default async function AdminLeadDetailPage({ params }: { params: Params }
     {
       label: 'Phone',
       value: lead.phone ? (
-        <a href={`tel:${lead.phone}`} className="text-brass underline">
+        <a href={`tel:${lead.phone.replace(/[^+\d]/g, '')}`} className="text-brass underline">
           {lead.phone}
         </a>
       ) : (
@@ -709,7 +709,7 @@ export default async function AdminLeadDetailPage({ params }: { params: Params }
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
             <h1 className="text-2xl text-bone-muted">{lead.name}</h1>
-            <LeadStatusControl leadId={lead.id} status={lead.status} />
+            <LeadStatusControl key={`${lead.id}-${lead.status}`} leadId={lead.id} status={lead.status} />
           </div>
 
           <dl className="mt-6 space-y-3 border-b border-bone/10 pb-8">
