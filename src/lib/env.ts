@@ -36,7 +36,9 @@ export const env = {
   },
   anthropic: {
     apiKey: process.env.ANTHROPIC_API_KEY ?? '',
-    model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-4-6',
+    // Fable 5 through ~Jul 15 (smartest available), then switch to Opus 4.6.
+    // Override per environment with ANTHROPIC_MODEL — no code change needed.
+    model: process.env.ANTHROPIC_MODEL ?? 'claude-fable-5',
   },
   db: {
     url: process.env.DATABASE_URL ?? '',

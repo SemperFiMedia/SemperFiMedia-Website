@@ -8,6 +8,13 @@
       "when": 1781581098290,
       "tag": "0000_material_moonstone",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1782960826063,
+      "tag": "0001_fat_iron_monger",
+      "breakpoints": true
     }
   ]
 }

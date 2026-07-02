@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { BookingCard, BookingModal } from './booking-modal';
 import { track } from '@/lib/analytics/track';
 
@@ -19,11 +20,97 @@ function stripBookToken(content: string): { text: string; book: boolean } {
   return { text: content, book: false };
 }
 
-const GREETING: Message = {
+const DEFAULT_GREETING: Message = {
   role: 'assistant',
   content:
-    "Howdy — I'm the Semper Fi Media concierge. Ask me about wedding packages, pricing, our process, gear, anything. How can I help you tonight?",
+    "Howdy — I'm the Semper Fi Media concierge. Ask me about any of our services, pricing, or process. What can I help you find?",
 };
+
+// Exit-intent: shown once when the visitor's cursor bolts for the tab bar.
+const EXIT_INTENT: Message = {
+  role: 'assistant',
+  content:
+    "Hey — before you head out: want me to send over our full pricing sheet or a link to recent work? Drop your name and the best email or number and I'll get it to you, and have TJ follow up personally. No pressure.",
+};
+
+const AFTER_HOURS_NOTE =
+  " Quick heads-up — it's after hours here in Texas, so TJ's off the clock. Leave your info and he'll follow up first thing, by 9 AM.";
+
+// Outside Mon–Fri 9 AM–6 PM Central.
+function isAfterHoursCentral(): boolean {
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/Chicago',
+      weekday: 'short',
+      hour: '2-digit',
+      hour12: false,
+    }).formatToParts(new Date());
+    const weekday = parts.find((p) => p.type === 'weekday')?.value ?? '';
+    const hour = Number(parts.find((p) => p.type === 'hour')?.value ?? '12');
+    return weekday === 'Sat' || weekday === 'Sun' || hour < 9 || hour >= 18;
+  } catch {
+    return false;
+  }
+}
+
+// Tailored opening hook based on the page the visitor is on. Most specific
+// paths first so /corporate/music-videos wins over /corporate.
+function pageOpener(pathname: string): string {
+  const p = pathname || '/';
+  const map: Array<[string, string]> = [
+    [
+      '/corporate/music-videos',
+      "Music video? The standard package is $3,000 flat with 14-day delivery — or we build something custom. Want me to walk you through it?",
+    ],
+    [
+      '/corporate/mission-and-tactical',
+      "First responder, firearm, or veteran-owned brand? That's dead-center in our wheelhouse. Tell me about the project and I'll point you to the right package.",
+    ],
+    [
+      '/corporate/faith-and-community',
+      "Filming for a church, ministry, or nonprofit? Tell me about your story and I'll break down what a brand film runs.",
+    ],
+    [
+      '/corporate/small-business',
+      "Small-business brand films start at $1,500. Tell me what you're building and I'll find the right fit.",
+    ],
+    [
+      '/corporate/conventions',
+      "Covering a convention or event? I can scope coverage and pricing — what's the event, and when?",
+    ],
+    [
+      '/corporate/birthday-parties',
+      "Filming a birthday party? Give me the vibe and the date and I'll walk you through coverage options.",
+    ],
+    [
+      '/corporate/quinceaneras',
+      "Planning a quinceañera film? Let's talk about your day — I can break down coverage and pricing.",
+    ],
+    [
+      '/corporate',
+      "Working on a brand film or commercial? Tell me about your project and I'll break down which tier fits.",
+    ],
+    [
+      '/weddings',
+      "Looking at wedding films? I can break down the three packages, check if your date's open, or talk through what matters most for your day. Where do you want to start?",
+    ],
+    [
+      '/social-reels',
+      "Need vertical reels cut from your footage? I'll walk you through turnaround and pricing — what are you working with?",
+    ],
+    [
+      '/pricing',
+      "You're on the pricing page — want me to help you figure out which package actually fits what you need?",
+    ],
+  ];
+  for (const [prefix, text] of map) {
+    if (p === prefix || p.startsWith(prefix + '/')) return text;
+  }
+  if (p === '/') {
+    return "Howdy — I'm the Semper Fi Media concierge. Marine-led cinematic video and custom websites out of DFW: weddings, brand films, events, music videos, sites. What brought you in today?";
+  }
+  return DEFAULT_GREETING.content;
+}
 
 function renderInline(text: string): React.ReactNode {
   const out: React.ReactNode[] = [];
@@ -96,14 +183,17 @@ function MessageBubble({
 }
 
 export function ChatWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([GREETING]);
+  const [messages, setMessages] = useState<Message[]>([DEFAULT_GREETING]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bookingOpen, setBookingOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const initializedRef = useRef(false);
+  const exitFiredRef = useRef(false);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -114,6 +204,46 @@ export function ChatWidget() {
   useEffect(() => {
     if (open) inputRef.current?.focus();
   }, [open]);
+
+  // Set the page-aware + after-hours opener on mount (client only, so the
+  // time-based text can't cause a hydration mismatch). Only replaces the
+  // untouched default greeting — never clobbers a real conversation.
+  useEffect(() => {
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+    const opener = pageOpener(pathname ?? '/') + (isAfterHoursCentral() ? AFTER_HOURS_NOTE : '');
+    setMessages((prev) =>
+      prev.length === 1 && prev[0]?.role === 'assistant'
+        ? [{ role: 'assistant', content: opener }]
+        : prev,
+    );
+  }, [pathname]);
+
+  // Exit-intent: cursor leaves through the top of the viewport → open the panel
+  // and make one last offer. Fires at most once per browser session.
+  useEffect(() => {
+    function onMouseOut(e: MouseEvent) {
+      if (exitFiredRef.current) return;
+      if (e.clientY > 0 || e.relatedTarget) return;
+      try {
+        if (sessionStorage.getItem('sfm_exit_shown')) {
+          exitFiredRef.current = true;
+          return;
+        }
+        sessionStorage.setItem('sfm_exit_shown', '1');
+      } catch {
+        /* private mode — still fire once via the ref */
+      }
+      exitFiredRef.current = true;
+      setOpen(true);
+      setMessages((prev) =>
+        prev.some((m) => m.content === EXIT_INTENT.content) ? prev : [...prev, EXIT_INTENT],
+      );
+      void track('chat_exit_intent');
+    }
+    document.addEventListener('mouseout', onMouseOut);
+    return () => document.removeEventListener('mouseout', onMouseOut);
+  }, []);
 
   async function send() {
     const text = input.trim();
@@ -126,15 +256,19 @@ export function ChatWidget() {
     void track('chat_message_sent', { message_count: next.filter((m) => m.role === 'user').length });
     setError(null);
 
-    const apiPayload = next
-      .filter((m, i) => !(i === 0 && m.role === 'assistant'))
-      .map((m) => ({ role: m.role, content: m.content }));
+    // Send history starting at the first real user turn — drops the opener and
+    // any exit-intent message so the API always sees a user message first.
+    const firstUser = next.findIndex((m) => m.role === 'user');
+    const apiPayload = (firstUser === -1 ? [] : next.slice(firstUser)).map((m) => ({
+      role: m.role,
+      content: m.content,
+    }));
 
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: apiPayload }),
+        body: JSON.stringify({ messages: apiPayload, pagePath: pathname ?? '/' }),
       });
 
       if (!res.ok) {
