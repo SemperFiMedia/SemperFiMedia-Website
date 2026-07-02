@@ -325,7 +325,7 @@ export function LeadStatusControl({ leadId, status }: { leadId: string; status: 
   const [value, setValue] = useState(status);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(false);
-  const [, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   async function onChange(next: LeadStatus) {
     setError(false);
@@ -351,7 +351,7 @@ export function LeadStatusControl({ leadId, status }: { leadId: string; status: 
     <span className="inline-flex items-center gap-2">
       <select
         value={value}
-        disabled={saving}
+        disabled={saving || isPending}
         onChange={(e) => void onChange(e.target.value as LeadStatus)}
         aria-label="Lead status"
         className="rounded border border-bone/20 bg-black px-2 py-1 text-sm text-bone-muted disabled:opacity-50"
@@ -362,7 +362,7 @@ export function LeadStatusControl({ leadId, status }: { leadId: string; status: 
           </option>
         ))}
       </select>
-      {error ? <span className="text-xs text-red-400">save failed</span> : null}
+      {error ? <span role="status" className="text-xs text-red-400">save failed</span> : null}
     </span>
   );
 }
