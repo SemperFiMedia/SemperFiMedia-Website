@@ -7,6 +7,7 @@ import { isAdmin } from '@/lib/auth/session';
 import { hasDb } from '@/lib/db';
 import { LEADS_PAGE_SIZE, distinctClientSlugs, listLeads } from '@/lib/chatbot/leads-admin';
 import { LEAD_STATUSES, isLeadStatus, type LeadStatus } from '@/lib/chatbot/lead-status';
+import { fmtLeadDate } from '@/lib/chatbot/format';
 import { LeadStatusControl } from '@/components/admin/lead-status-control';
 
 export const dynamic = 'force-dynamic';
@@ -20,10 +21,6 @@ function href(params: { status?: string; client?: string; page?: number }) {
   if (params.page && params.page > 1) q.set('page', String(params.page));
   const s = q.toString();
   return s ? `/admin/leads?${s}` : '/admin/leads';
-}
-
-function fmtDate(d: Date) {
-  return new Date(d).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
 }
 
 export default async function AdminLeadsPage({ searchParams }: { searchParams: Search }) {
@@ -80,6 +77,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
                 <Link
                   key={t.label}
                   href={href({ status: t.value, client })}
+                  aria-current={active ? 'page' : undefined}
                   className={
                     active
                       ? 'rounded border border-brass px-3 py-1 text-sm text-brass'
@@ -97,6 +95,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
             <div className="mb-6 flex flex-wrap gap-2">
               <Link
                 href={href({ status })}
+                aria-current={!client ? 'page' : undefined}
                 className={
                   !client
                     ? 'rounded border border-brass px-3 py-1 text-xs text-brass'
@@ -109,6 +108,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
                 <Link
                   key={s}
                   href={href({ status, client: s })}
+                  aria-current={client === s ? 'page' : undefined}
                   className={
                     client === s
                       ? 'rounded border border-brass px-3 py-1 text-xs text-brass'
@@ -129,19 +129,19 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
               <table className="hidden w-full border-collapse text-left text-sm md:table">
                 <thead>
                   <tr className="border-b border-bone/20 text-bone-subtle">
-                    <th className="py-2 pr-4 font-normal">Received</th>
-                    <th className="py-2 pr-4 font-normal">Name</th>
-                    <th className="py-2 pr-4 font-normal">Contact</th>
-                    <th className="py-2 pr-4 font-normal">Service</th>
-                    <th className="py-2 pr-4 font-normal">Tier</th>
-                    <th className="py-2 pr-4 font-normal">Page</th>
-                    <th className="py-2 font-normal">Status</th>
+                    <th scope="col" className="py-2 pr-4 font-normal">Received</th>
+                    <th scope="col" className="py-2 pr-4 font-normal">Name</th>
+                    <th scope="col" className="py-2 pr-4 font-normal">Contact</th>
+                    <th scope="col" className="py-2 pr-4 font-normal">Service</th>
+                    <th scope="col" className="py-2 pr-4 font-normal">Tier</th>
+                    <th scope="col" className="py-2 pr-4 font-normal">Page</th>
+                    <th scope="col" className="py-2 font-normal">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {rows.map((l) => (
                     <tr key={l.id} className="border-b border-bone/10 align-top">
-                      <td className="py-3 pr-4 whitespace-nowrap text-bone-subtle">{fmtDate(l.createdAt)}</td>
+                      <td className="py-3 pr-4 whitespace-nowrap text-bone-subtle">{fmtLeadDate(l.createdAt)}</td>
                       <td className="py-3 pr-4">
                         <Link href={`/admin/leads/${l.id}`} className="text-brass underline">
                           {l.name}
@@ -156,7 +156,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
                       <td className="py-3 pr-4 text-bone-muted">{l.tierRecommended ?? '—'}</td>
                       <td className="py-3 pr-4 text-bone-subtle">{l.pagePath ?? '—'}</td>
                       <td className="py-3">
-                        <LeadStatusControl leadId={l.id} status={l.status} />
+                        <LeadStatusControl key={`${l.id}-${l.status}`} leadId={l.id} status={l.status} />
                       </td>
                     </tr>
                   ))}
@@ -171,7 +171,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
                       <Link href={`/admin/leads/${l.id}`} className="text-brass underline">
                         {l.name}
                       </Link>
-                      <LeadStatusControl leadId={l.id} status={l.status} />
+                      <LeadStatusControl key={`${l.id}-${l.status}`} leadId={l.id} status={l.status} />
                     </div>
                     <div className="mt-1 text-sm text-bone-muted">
                       {l.service}
@@ -180,7 +180,7 @@ export default async function AdminLeadsPage({ searchParams }: { searchParams: S
                     <div className="mt-1 text-sm text-bone-muted">
                       {[l.email, l.phone].filter(Boolean).join(' · ')}
                     </div>
-                    <div className="mt-1 text-xs text-bone-subtle">{fmtDate(l.createdAt)}</div>
+                    <div className="mt-1 text-xs text-bone-subtle">{fmtLeadDate(l.createdAt)}</div>
                   </li>
                 ))}
               </ul>
