@@ -71,6 +71,7 @@ export const EventParamsSchema = z
     fn: z.string().optional(),
     ln: z.string().optional(),
     zp: z.string().optional(),
+    surface: z.enum(['desktop', 'mobile']).optional(),
   })
   .passthrough();
 
