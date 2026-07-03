@@ -64,11 +64,12 @@ export type ChatbotClientConfig = {
   };
 
   /**
-   * High-value triggers — when a lead matches one of these, fire a VIP SMS to
-   * the owner (Phase 6). Stored here now so the value lives with the client.
+   * High-value triggers — when a lead matches one of these, fire an instant
+   * owner alert (Phase 6). Stored here now so the value lives with the client.
    */
   vip: {
-    smsEnabled: boolean;
+    /** Owner alert channel. 'sms' is a stub until a resold client needs it. */
+    channel: 'telegram' | 'sms' | 'none';
     thresholds: string[];
   };
 
@@ -251,7 +252,7 @@ export const semperFiConfig: ChatbotClientConfig = {
     toEmail: 'hello@semperfimedia.llc',
   },
   vip: {
-    smsEnabled: false, // Phase 6
+    channel: 'telegram', // Phase 6 live: @SemperFiLeadsBot → TJ's phone
     thresholds: [
       'Wedding Heirloom tier ($8,000)',
       'Full Production (custom-quoted corporate)',

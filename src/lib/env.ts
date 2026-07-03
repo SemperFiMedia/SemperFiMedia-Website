@@ -43,6 +43,10 @@ export const env = {
   cal: {
     apiKey: process.env.CAL_API_KEY ?? '',
   },
+  telegram: {
+    botToken: process.env.TELEGRAM_BOT_TOKEN ?? '',
+    chatId: process.env.TELEGRAM_CHAT_ID ?? '',
+  },
   db: {
     url: process.env.DATABASE_URL ?? '',
   },

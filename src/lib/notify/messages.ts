@@ -16,9 +16,12 @@ export type LeadAlertInput = {
 };
 
 export function leadAlertText(i: LeadAlertInput): string {
+  // Code-point slice — a plain .slice() can split an emoji's surrogate pair
+  // at the cap and produce a lone surrogate Telegram renders as �.
+  const detailChars = i.projectDetails ? [...i.projectDetails] : null;
   const details =
-    i.projectDetails && i.projectDetails.length > DETAILS_CAP
-      ? `${i.projectDetails.slice(0, DETAILS_CAP)}…`
+    detailChars && detailChars.length > DETAILS_CAP
+      ? `${detailChars.slice(0, DETAILS_CAP).join('')}…`
       : i.projectDetails;
   return [
     i.isVip ? `🔥 VIP LEAD — ${i.name}` : `📥 New lead — ${i.name}`,
