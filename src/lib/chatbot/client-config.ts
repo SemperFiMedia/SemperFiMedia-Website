@@ -42,6 +42,11 @@ export type ChatbotClientConfig = {
      * a booking path it can't complete.
      */
     dualBooking: boolean;
+    /** Cal.com v2 event-type IDs for the in-chat picker (Phase 5). */
+    calEventTypes: {
+      zoom: number;
+      phone: number;
+    };
   };
 
   /** Business hours — used by after-hours mode (Phase 4). */
@@ -232,7 +237,11 @@ export const semperFiConfig: ChatbotClientConfig = {
   ],
   booking: {
     path: '/contact',
-    dualBooking: false, // flip to true once /api/book/cal + /api/book/gcal ship (Phase 5)
+    dualBooking: false, // flipped to true in the final Phase 5 task
+    calEventTypes: {
+      zoom: 5352597, // "Discovery Call" — Cal Video, 30 min
+      phone: 6196905, // "Phone Call" — attendee phone, 15 min
+    },
   },
   hours: {
     label: 'Monday–Friday, 9 AM–6 PM Central',

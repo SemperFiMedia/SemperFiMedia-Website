@@ -538,7 +538,7 @@ In `semperFiConfig.booking` (leave `dualBooking: false` for now; update its comm
 - [ ] **Step 2: Write the failing slots-route test** at `src/app/api/book/slots/route.test.ts`:
 
 ```ts
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
 const getSlots = vi.fn();
 
@@ -552,8 +552,16 @@ import { GET } from './route';
 const req = (type: string) =>
   new Request(`http://localhost/api/book/slots?type=${type}`);
 
+// The route keeps a module-level 60s cache keyed by `type`, shared across
+// every test in this file. Fake timers let later tests advance past the TTL
+// so each test's cache state is exactly what it declares, without reordering
+// the tests or touching the route's caching behavior itself.
 beforeEach(() => {
   getSlots.mockReset();
+  vi.useFakeTimers();
+});
+afterEach(() => {
+  vi.useRealTimers();
 });
 
 describe('GET /api/book/slots', () => {
@@ -579,11 +587,13 @@ describe('GET /api/book/slots', () => {
   });
 
   it('502 when Cal errors', async () => {
+    vi.advanceTimersByTime(61_000); // past the zoom cache set two tests ago
     getSlots.mockRejectedValue(new Error('Cal slots request failed: 500'));
     expect((await GET(req('zoom'))).status).toBe(502);
   });
 
   it('caches within the TTL (second call does not hit Cal)', async () => {
+    vi.advanceTimersByTime(61_000); // past the phone cache set earlier in the file
     getSlots.mockResolvedValue({ '2026-07-06': [{ start: 'x' }] });
     await GET(req('phone'));
     await GET(req('phone'));
@@ -592,7 +602,7 @@ describe('GET /api/book/slots', () => {
 });
 ```
 
-Note on the cache test: the route module keeps a module-level cache, so this test relies on `type=phone` not being cached by earlier tests in the same file — the `zoom` tests above use different cache keys. Do not reorder the tests.
+Note on the cache test: the route module keeps a module-level cache, so without the fake-timer advances above, the `502` test would silently hit the `zoom` entry cached two tests earlier (returning 200 instead of 502), and the final test would find `phone` already cached from the `uses the phone event type` test (0 calls instead of 1) — this was caught by actually running the suite, not just reading the code. Do not reorder the tests; the timer advances assume this exact order.
 
 - [ ] **Step 3: Run and verify FAIL**, then create `src/app/api/book/slots/route.ts`:
 
@@ -751,6 +761,11 @@ describe('POST /api/book', () => {
     expect((await POST(req({ ...valid, phone: undefined }))).status).toBe(400);
   });
 
+  it('400 on absurdly long fields', async () => {
+    expect((await POST(req({ ...valid, name: 'x'.repeat(201) }))).status).toBe(400);
+    expect((await POST(req({ ...valid, phone: '1'.repeat(41) }))).status).toBe(400);
+  });
+
   it('books, notifies, returns meetingUrl', async () => {
     createBooking.mockResolvedValue({ ok: true, uid: 'u1', meetingUrl: 'https://cal.com/v/u1' });
     const res = await POST(req(valid));
@@ -822,13 +837,17 @@ export async function POST(req: Request) {
   }
   const name = typeof body?.name === 'string' ? body.name.trim() : '';
   if (!name) return Response.json({ error: 'Name required.' }, { status: 400 });
+  if (name.length > 200) return Response.json({ error: 'Name too long.' }, { status: 400 });
   const email = typeof body?.email === 'string' ? body.email.trim() : '';
   if (!EMAIL_RE.test(email)) return Response.json({ error: 'Valid email required.' }, { status: 400 });
+  if (email.length > 320) return Response.json({ error: 'Email too long.' }, { status: 400 });
   const phone = typeof body?.phone === 'string' && body.phone.trim() ? body.phone.trim() : undefined;
   if (type === 'phone' && !phone) {
     return Response.json({ error: 'Phone number required for a phone call.' }, { status: 400 });
   }
-  const notes = typeof body?.notes === 'string' ? body.notes.trim() || undefined : undefined;
+  if (phone && phone.length > 40) return Response.json({ error: 'Phone too long.' }, { status: 400 });
+  // Model-influenced prefill values are unbounded — cap rather than reject notes.
+  const notes = typeof body?.notes === 'string' ? body.notes.trim().slice(0, 500) || undefined : undefined;
 
   try {
     const result = await createBooking({
@@ -860,7 +879,7 @@ export async function POST(req: Request) {
 }
 ```
 
-- [ ] **Step 7: Run and verify PASS** — `npx vitest run src/app/api/book` → 12 tests pass. `npm run typecheck` clean.
+- [ ] **Step 7: Run and verify PASS** — `npx vitest run src/app/api/book` → 13 tests pass (5 slots + 8 book, the book route carrying an added length-cap test from code review). `npm run typecheck` clean.
 
 - [ ] **Step 8: Commit**
 
