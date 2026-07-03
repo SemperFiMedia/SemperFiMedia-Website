@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { BookingCard, BookingModal } from './booking-modal';
+import { BookingModal } from './booking-modal';
+import { SlotPickerCard } from './slot-picker-card';
+import { parseBookToken, type BookPrefill } from '@/lib/chatbot/book-token';
 import { track } from '@/lib/analytics/track';
 import { getChatStrings } from '@/lib/chatbot/openers';
 import { FLICK_WINDOW_MS, isExitFlick, type ScrollSample } from './exit-flick';
@@ -14,13 +16,6 @@ type Message = {
   role: 'user' | 'assistant';
   content: string;
 };
-
-function stripBookToken(content: string): { text: string; book: boolean } {
-  if (content.includes(BOOK_TOKEN)) {
-    return { text: content.split(BOOK_TOKEN).join('').trim(), book: true };
-  }
-  return { text: content, book: false };
-}
 
 // Outside Mon–Fri 9 AM–6 PM Central.
 function isAfterHoursCentral(): boolean {
@@ -75,15 +70,35 @@ function renderInline(text: string): React.ReactNode {
 
 function MessageBubble({
   message,
+  streaming,
   onBook,
 }: {
   message: Message;
+  streaming: boolean;
   onBook: () => void;
 }) {
   const isUser = message.role === 'user';
-  const { text, book } = isUser
-    ? { text: message.content, book: false }
-    : stripBookToken(message.content);
+  const tokenIdx = message.content.indexOf(BOOK_TOKEN);
+
+  let text: string;
+  let book: boolean;
+  let prefill: BookPrefill;
+
+  if (isUser) {
+    text = message.content;
+    book = false;
+    prefill = {};
+  } else if (streaming && tokenIdx !== -1) {
+    // Mid-stream with the token already emitted: the JSON prefill payload may
+    // not have finished arriving yet, so truncate at the token (hiding any
+    // partial `{"name":"Ja...` fragment) and hold off on mounting the picker
+    // until the content settles and `prefill` is final.
+    text = message.content.slice(0, tokenIdx).trim();
+    book = false;
+    prefill = {};
+  } else {
+    ({ text, book, prefill } = parseBookToken(message.content, BOOK_TOKEN));
+  }
 
   return (
     <div
@@ -103,7 +118,7 @@ function MessageBubble({
             {renderInline(line)}
           </p>
         ))}
-        {!isUser && book && <BookingCard onOpen={onBook} />}
+        {!isUser && book && !streaming && <SlotPickerCard prefill={prefill} onOpenEmbed={onBook} />}
       </div>
     </div>
   );
@@ -427,7 +442,12 @@ export function ChatWidget() {
             className="flex flex-1 flex-col gap-3 overflow-y-auto p-4"
           >
             {messages.map((m, i) => (
-              <MessageBubble key={i} message={m} onBook={() => setBookingOpen(true)} />
+              <MessageBubble
+                key={i}
+                message={m}
+                streaming={busy && i === messages.length - 1}
+                onBook={() => setBookingOpen(true)}
+              />
             ))}
             {busy && messages[messages.length - 1]?.role === 'user' && (
               <div className="text-xs text-bone-subtle">Concierge is typing…</div>

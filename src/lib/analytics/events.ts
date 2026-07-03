@@ -24,6 +24,7 @@ export const EVENTS = {
   chat_open: { ga4: 'chat_open', meta: null, capi: false },
   chat_message_sent: { ga4: 'chat_message_sent', meta: null, capi: false },
   chat_exit_intent: { ga4: 'chat_exit_intent', meta: null, capi: false },
+  chat_booking_confirmed: { ga4: 'chat_booking_confirmed', meta: null, capi: false },
   social_follow_click: { ga4: 'social_follow_click', meta: null, capi: false },
   page_timing: { ga4: 'page_timing', meta: null, capi: false },
   rage_click: { ga4: 'rage_click', meta: null, capi: false },

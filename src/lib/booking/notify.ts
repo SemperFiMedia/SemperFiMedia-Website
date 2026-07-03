@@ -25,7 +25,7 @@ export async function notifyBooking(
       from: env.resend.fromEmail,
       to: [config.notify.toEmail],
       replyTo: b.email,
-      subject: `New chatbot booking: ${b.type === 'zoom' ? 'video call' : 'phone call'} — ${b.name}`,
+      subject: `New chatbot booking: ${b.type === 'zoom' ? 'video call' : 'phone call'} — ${b.name.replace(/\s+/g, ' ')}`,
       text: [
         `The ${config.businessName} chatbot just booked a meeting.`,
         '---',

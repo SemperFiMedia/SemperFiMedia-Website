@@ -1210,7 +1210,7 @@ describe('SlotPickerCard', () => {
 
 (`2026-07-06T14:00:00.000Z` renders as 9:00 AM Central. If `userEvent` isn't already a devDependency, use `fireEvent.click` from RTL instead — check `package.json` first.)
 
-- [ ] **Step 4: Wire into `src/components/chat/chat-widget.tsx`**
+- [x] **Step 4: Wire into `src/components/chat/chat-widget.tsx`**
 
 Imports — remove nothing yet; add/replace:
 
@@ -1222,20 +1222,40 @@ import { parseBookToken, type BookPrefill } from '@/lib/chatbot/book-token';
 
 (the old import was `{ BookingCard, BookingModal }` — `BookingCard` goes away.)
 
-Replace the local `stripBookToken` function and its use in `MessageBubble`:
+**Amendment (streaming correctness, from Task 2 code review):** the widget re-renders `MessageBubble` chunk-by-chunk while streaming. Two problems with wiring `parseBookToken` in directly: (a) mid-stream, before the JSON payload's closing `}` has arrived, the raw `{"name":"Ja...` fragment would render as visible text; (b) `prefill` would be captured by the picker's `useState` one chunk before the payload is complete, permanently freezing it at `{}`. Fix: `ChatWidget` passes a `streaming` prop (`streaming={busy && i === messages.length - 1}`) and `MessageBubble` gates on it — truncate at the token index while streaming (no picker mount), only run `parseBookToken` and mount `<SlotPickerCard>` once streaming is false and content is final:
 
 ```tsx
 function MessageBubble({
   message,
+  streaming,
   onBook,
 }: {
   message: Message;
+  streaming: boolean;
   onBook: () => void;
 }) {
   const isUser = message.role === 'user';
-  const { text, book, prefill } = isUser
-    ? { text: message.content, book: false, prefill: {} as BookPrefill }
-    : parseBookToken(message.content, BOOK_TOKEN);
+  const tokenIdx = message.content.indexOf(BOOK_TOKEN);
+
+  let text: string;
+  let book: boolean;
+  let prefill: BookPrefill;
+
+  if (isUser) {
+    text = message.content;
+    book = false;
+    prefill = {};
+  } else if (streaming && tokenIdx !== -1) {
+    // Mid-stream with the token already emitted: the JSON prefill payload may
+    // not have finished arriving yet, so truncate at the token (hiding any
+    // partial `{"name":"Ja...` fragment) and hold off on mounting the picker
+    // until the content settles and `prefill` is final.
+    text = message.content.slice(0, tokenIdx).trim();
+    book = false;
+    prefill = {};
+  } else {
+    ({ text, book, prefill } = parseBookToken(message.content, BOOK_TOKEN));
+  }
 
   return (
     <div
@@ -1255,25 +1275,40 @@ function MessageBubble({
             {renderInline(line)}
           </p>
         ))}
-        {!isUser && book && <SlotPickerCard prefill={prefill} onOpenEmbed={onBook} />}
+        {!isUser && book && !streaming && <SlotPickerCard prefill={prefill} onOpenEmbed={onBook} />}
       </div>
     </div>
   );
 }
 ```
 
+And the render loop passes the new prop:
+
+```tsx
+{messages.map((m, i) => (
+  <MessageBubble
+    key={i}
+    message={m}
+    streaming={busy && i === messages.length - 1}
+    onBook={() => setBookingOpen(true)}
+  />
+))}
+```
+
 Delete the old `stripBookToken` function entirely. Everything else in the widget (booking modal state, `onBook={() => setBookingOpen(true)}`) stays as-is — the modal is now the fallback path.
 
-- [ ] **Step 5: Delete `BookingCard`** from `src/components/chat/booking-modal.tsx` (the `CardProps` type and `BookingCard` export at the bottom of the file). Grep first: `grep -rn "BookingCard" src` must show no remaining references after the widget change.
+- [x] **Step 5: Delete `BookingCard`** from `src/components/chat/booking-modal.tsx` (the `CardProps` type and `BookingCard` export at the bottom of the file). Grep first: `grep -rn "BookingCard" src` must show no remaining references after the widget change.
 
-- [ ] **Step 6: Verify** — `npm run typecheck && npm test` (expect prior 124 + ~25 new ≈ 149, exact count reported by vitest) and `npm run build` succeeds.
+- [x] **Step 6: Verify** — `npm run typecheck && npm test` (151 prior + 3 new picker tests = 154, matches vitest output) and `npm run build` succeeds.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
-git add src/components/chat/slot-picker-card.tsx src/components/chat/slot-picker-card.test.tsx src/components/chat/chat-widget.tsx src/components/chat/booking-modal.tsx src/lib/analytics/events.ts
+git add src/components/chat/slot-picker-card.tsx src/components/chat/slot-picker-card.test.tsx src/components/chat/chat-widget.tsx src/components/chat/booking-modal.tsx src/lib/analytics/events.ts src/lib/booking/notify.ts docs/superpowers/plans/2026-07-02-chatbot-dual-booking.md
 git commit -m "feat(chat): in-chat slot picker replaces booking card; embed becomes fallback"
 ```
+
+**Rider (from Task 3 review):** `src/lib/booking/notify.ts` sanitizes the model-prefilled name into the subject line — `b.name.replace(/\s+/g, ' ')` — so a newline in a prefilled name can't inject spoofed header lines. Body lines are unchanged.
 
 ---
 
