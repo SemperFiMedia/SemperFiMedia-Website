@@ -213,7 +213,7 @@ const ES_EXIT_INTENT =
   'Oye — antes de que te vayas: ¿quieres que te mande la lista completa de precios o ejemplos de nuestro trabajo? Déjame tu nombre y tu correo o número, y TJ te contacta personalmente. Sin compromiso.';
 
 const ES_AFTER_HOURS_NOTE =
-  ' Un aviso rápido — ya es fuera de horario aquí en Texas, así que TJ no está disponible ahora mismo. Déjame tus datos y te contacta mañana a primera hora, para las 9 AM.';
+  ' Un aviso rápido — ya estamos fuera de horario aquí en Texas, así que TJ no está disponible ahora mismo. Déjame tus datos y te contacta mañana a primera hora, para las 9 AM.';
 
 const ES_TEASER = 'Antes de irte — ¿te mando los precios?';
 
@@ -366,6 +366,7 @@ Expected: FAIL — cannot resolve `./exit-flick`.
 // address bar / back button) after the visitor has gone at least one viewport
 // deep. Pure math over scroll samples so it's unit-testable; the widget hook
 // feeds it a ring buffer of recent positions.
+// Samples must be time-ordered, oldest first.
 
 export type ScrollSample = { y: number; t: number };
 
@@ -615,7 +616,12 @@ Add the effect after the desktop exit-intent effect:
     let maxYSeen = 0;
 
     function onScroll() {
-      const y = window.scrollY;
+      const maxScroll = Math.max(
+        0,
+        (document.scrollingElement?.scrollHeight ?? 0) - window.innerHeight,
+      );
+      if (window.scrollY > maxScroll) return; // iOS bottom rubber-band — skip sample
+      const y = Math.max(0, window.scrollY);
       const t = performance.now();
       maxYSeen = Math.max(maxYSeen, y);
       buf.push({ y, t });

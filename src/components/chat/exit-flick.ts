@@ -2,6 +2,7 @@
 // address bar / back button) after the visitor has gone at least one viewport
 // deep. Pure math over scroll samples so it's unit-testable; the widget hook
 // feeds it a ring buffer of recent positions.
+// Samples must be time-ordered, oldest first.
 
 export type ScrollSample = { y: number; t: number };
 

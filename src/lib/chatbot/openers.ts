@@ -106,7 +106,7 @@ const ES_EXIT_INTENT =
   'Oye — antes de que te vayas: ¿quieres que te mande la lista completa de precios o ejemplos de nuestro trabajo? Déjame tu nombre y tu correo o número, y TJ te contacta personalmente. Sin compromiso.';
 
 const ES_AFTER_HOURS_NOTE =
-  ' Un aviso rápido — ya es fuera de horario aquí en Texas, así que TJ no está disponible ahora mismo. Déjame tus datos y te contacta mañana a primera hora, para las 9 AM.';
+  ' Un aviso rápido — ya estamos fuera de horario aquí en Texas, así que TJ no está disponible ahora mismo. Déjame tus datos y te contacta mañana a primera hora, para las 9 AM.';
 
 const ES_TEASER = 'Antes de irte — ¿te mando los precios?';
 

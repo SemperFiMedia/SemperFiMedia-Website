@@ -59,4 +59,8 @@ describe('getChatStrings', () => {
     expect(s.afterHoursNote).toMatch(/after hours/i);
     expect(s.teaser).toMatch(/before you go/i);
   });
+
+  it('paths that merely start with "es" are not Spanish', () => {
+    expect(getChatStrings('/espanol').defaultGreeting).toMatch(/concierge/i);
+  });
 });
