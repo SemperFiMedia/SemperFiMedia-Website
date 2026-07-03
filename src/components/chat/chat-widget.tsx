@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { BookingCard, BookingModal } from './booking-modal';
 import { track } from '@/lib/analytics/track';
+import { getChatStrings } from '@/lib/chatbot/openers';
+import { isExitFlick, type ScrollSample } from './exit-flick';
 
 const BOOK_TOKEN = '[[BOOK]]';
 const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';
@@ -20,22 +22,6 @@ function stripBookToken(content: string): { text: string; book: boolean } {
   return { text: content, book: false };
 }
 
-const DEFAULT_GREETING: Message = {
-  role: 'assistant',
-  content:
-    "Howdy — I'm the Semper Fi Media concierge. Ask me about any of our services, pricing, or process. What can I help you find?",
-};
-
-// Exit-intent: shown once when the visitor's cursor bolts for the tab bar.
-const EXIT_INTENT: Message = {
-  role: 'assistant',
-  content:
-    "Hey — before you head out: want me to send over our full pricing sheet or a link to recent work? Drop your name and the best email or number and I'll get it to you, and have TJ follow up personally. No pressure.",
-};
-
-const AFTER_HOURS_NOTE =
-  " Quick heads-up — it's after hours here in Texas, so TJ's off the clock. Leave your info and he'll follow up first thing, by 9 AM.";
-
 // Outside Mon–Fri 9 AM–6 PM Central.
 function isAfterHoursCentral(): boolean {
   try {
@@ -51,65 +37,6 @@ function isAfterHoursCentral(): boolean {
   } catch {
     return false;
   }
-}
-
-// Tailored opening hook based on the page the visitor is on. Most specific
-// paths first so /corporate/music-videos wins over /corporate.
-function pageOpener(pathname: string): string {
-  const p = pathname || '/';
-  const map: Array<[string, string]> = [
-    [
-      '/corporate/music-videos',
-      "Music video? The standard package is $3,000 flat with 14-day delivery — or we build something custom. Want me to walk you through it?",
-    ],
-    [
-      '/corporate/mission-and-tactical',
-      "First responder, firearm, or veteran-owned brand? That's dead-center in our wheelhouse. Tell me about the project and I'll point you to the right package.",
-    ],
-    [
-      '/corporate/faith-and-community',
-      "Filming for a church, ministry, or nonprofit? Tell me about your story and I'll break down what a brand film runs.",
-    ],
-    [
-      '/corporate/small-business',
-      "Small-business brand films start at $1,500. Tell me what you're building and I'll find the right fit.",
-    ],
-    [
-      '/corporate/conventions',
-      "Covering a convention or event? I can scope coverage and pricing — what's the event, and when?",
-    ],
-    [
-      '/corporate/birthday-parties',
-      "Filming a birthday party? Give me the vibe and the date and I'll walk you through coverage options.",
-    ],
-    [
-      '/corporate/quinceaneras',
-      "Planning a quinceañera film? Let's talk about your day — I can break down coverage and pricing.",
-    ],
-    [
-      '/corporate',
-      "Working on a brand film or commercial? Tell me about your project and I'll break down which tier fits.",
-    ],
-    [
-      '/weddings',
-      "Looking at wedding films? I can break down the three packages, check if your date's open, or talk through what matters most for your day. Where do you want to start?",
-    ],
-    [
-      '/social-reels',
-      "Need vertical reels cut from your footage? I'll walk you through turnaround and pricing — what are you working with?",
-    ],
-    [
-      '/pricing',
-      "You're on the pricing page — want me to help you figure out which package actually fits what you need?",
-    ],
-  ];
-  for (const [prefix, text] of map) {
-    if (p === prefix || p.startsWith(prefix + '/')) return text;
-  }
-  if (p === '/') {
-    return "Howdy — I'm the Semper Fi Media concierge. Marine-led cinematic video and custom websites out of DFW: weddings, brand films, events, music videos, sites. What brought you in today?";
-  }
-  return DEFAULT_GREETING.content;
 }
 
 function renderInline(text: string): React.ReactNode {
@@ -185,7 +112,9 @@ function MessageBubble({
 export function ChatWidget() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([DEFAULT_GREETING]);
+  const [messages, setMessages] = useState<Message[]>([
+    { role: 'assistant', content: getChatStrings('/').defaultGreeting },
+  ]);
   const [input, setInput] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -194,6 +123,13 @@ export function ChatWidget() {
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const initializedRef = useRef(false);
   const exitFiredRef = useRef(false);
+  const [teaserVisible, setTeaserVisible] = useState(false);
+  const openRef = useRef(open);
+  const conversationStartedRef = useRef(false);
+  const pathnameRef = useRef(pathname);
+  openRef.current = open;
+  conversationStartedRef.current = messages.some((m) => m.role === 'user');
+  pathnameRef.current = pathname;
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -211,7 +147,8 @@ export function ChatWidget() {
   useEffect(() => {
     if (initializedRef.current) return;
     initializedRef.current = true;
-    const opener = pageOpener(pathname ?? '/') + (isAfterHoursCentral() ? AFTER_HOURS_NOTE : '');
+    const s = getChatStrings(pathname ?? '/');
+    const opener = s.opener + (isAfterHoursCentral() ? s.afterHoursNote : '');
     setMessages((prev) =>
       prev.length === 1 && prev[0]?.role === 'assistant'
         ? [{ role: 'assistant', content: opener }]
@@ -219,31 +156,91 @@ export function ChatWidget() {
     );
   }, [pathname]);
 
-  // Exit-intent: cursor leaves through the top of the viewport → open the panel
-  // and make one last offer. Fires at most once per browser session.
+  // Claims the one-per-session exit slot shared by desktop mouseout and the
+  // mobile teaser. Returns false if some surface already used it.
+  function claimExitSlot(): boolean {
+    if (exitFiredRef.current) return false;
+    try {
+      if (sessionStorage.getItem('sfm_exit_shown')) {
+        exitFiredRef.current = true;
+        return false;
+      }
+      sessionStorage.setItem('sfm_exit_shown', '1');
+    } catch {
+      /* private mode — still fire once via the ref */
+    }
+    exitFiredRef.current = true;
+    return true;
+  }
+
+  function appendExitIntentMessage() {
+    // pathnameRef (added in Step 4) keeps this correct across client-side
+    // navigations — the effects below capture this function once, and a plain
+    // `pathname` closure would go stale after a language-switch nav.
+    const exitIntent = getChatStrings(pathnameRef.current ?? '/').exitIntent;
+    setMessages((prev) =>
+      prev.some((m) => m.content === exitIntent)
+        ? prev
+        : [...prev, { role: 'assistant', content: exitIntent }],
+    );
+  }
+
+  // Desktop exit-intent: cursor leaves through the top of the viewport → open
+  // the panel and make one last offer.
   useEffect(() => {
     function onMouseOut(e: MouseEvent) {
-      if (exitFiredRef.current) return;
       if (e.clientY > 0 || e.relatedTarget) return;
-      try {
-        if (sessionStorage.getItem('sfm_exit_shown')) {
-          exitFiredRef.current = true;
-          return;
-        }
-        sessionStorage.setItem('sfm_exit_shown', '1');
-      } catch {
-        /* private mode — still fire once via the ref */
-      }
-      exitFiredRef.current = true;
+      if (!claimExitSlot()) return;
       setOpen(true);
-      setMessages((prev) =>
-        prev.some((m) => m.content === EXIT_INTENT.content) ? prev : [...prev, EXIT_INTENT],
-      );
-      void track('chat_exit_intent');
+      appendExitIntentMessage();
+      void track('chat_exit_intent', { surface: 'desktop' });
     }
     document.addEventListener('mouseout', onMouseOut);
     return () => document.removeEventListener('mouseout', onMouseOut);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Mobile exit-intent: touch devices get a compact teaser bubble on a fast
+  // scroll flick toward the top — never an auto-opened panel (SEO-safe).
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!window.matchMedia?.('(pointer: coarse)').matches) return;
+
+    const buf: ScrollSample[] = [];
+    let maxYSeen = 0;
+
+    function onScroll() {
+      const maxScroll = Math.max(
+        0,
+        (document.scrollingElement?.scrollHeight ?? 0) - window.innerHeight,
+      );
+      if (window.scrollY > maxScroll) return; // iOS bottom rubber-band — skip sample
+      const y = Math.max(0, window.scrollY);
+      const t = performance.now();
+      maxYSeen = Math.max(maxYSeen, y);
+      buf.push({ y, t });
+      // Keep the buffer to samples that can matter (2× the window is plenty).
+      while (buf.length > 1 && t - buf[0]!.t > 300) buf.shift();
+
+      if (exitFiredRef.current) return;
+      if (openRef.current || conversationStartedRef.current) return;
+      if (!isExitFlick(buf, window.innerHeight, maxYSeen)) return;
+      if (!claimExitSlot()) return;
+      setTeaserVisible(true);
+      void track('chat_exit_intent', { surface: 'mobile' });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function openFromTeaser() {
+    setTeaserVisible(false);
+    setOpen(true);
+    appendExitIntentMessage();
+    void track('chat_open');
+  }
 
   async function send() {
     const text = input.trim();
@@ -321,10 +318,44 @@ export function ChatWidget() {
 
   return (
     <>
+      {!open && teaserVisible && (
+        <div className="fixed bottom-20 right-5 z-[55] flex max-w-[260px] items-start gap-2 rounded-xl border border-brass/30 bg-gunpowder px-4 py-3 shadow-2xl">
+          <button
+            type="button"
+            onClick={openFromTeaser}
+            className="text-left text-sm leading-snug text-bone-muted"
+          >
+            {getChatStrings(pathname ?? '/').teaser}
+          </button>
+          <button
+            type="button"
+            onClick={() => setTeaserVisible(false)}
+            aria-label="Dismiss"
+            className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-bone-subtle transition-colors hover:text-bone"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="6" y1="6" x2="18" y2="18" />
+              <line x1="6" y1="18" x2="18" y2="6" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {!open && (
         <button
           type="button"
           onClick={() => {
+            setTeaserVisible(false);
             setOpen(true);
             void track('chat_open');
           }}
