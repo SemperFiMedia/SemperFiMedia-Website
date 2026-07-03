@@ -2,6 +2,8 @@ import { Resend } from 'resend';
 import { db } from '@/lib/db';
 import { leads } from '@/lib/db/schema';
 import { env } from '@/lib/env';
+import { sendOwnerAlert } from '@/lib/notify/channel';
+import { leadAlertText } from '@/lib/notify/messages';
 import type { ChatbotClientConfig } from './client-config';
 
 export type LeadInput = {
@@ -11,6 +13,7 @@ export type LeadInput = {
   service?: unknown;
   projectDetails?: unknown;
   tierRecommended?: unknown;
+  isVip?: unknown;
 };
 
 export type LeadContext = {
@@ -37,6 +40,7 @@ export async function captureLead(raw: LeadInput, ctx: LeadContext): Promise<Cap
   const service = clean(raw.service) ?? 'General inquiry';
   const projectDetails = clean(raw.projectDetails);
   const tierRecommended = clean(raw.tierRecommended);
+  const isVip = raw.isVip === true;
 
   if (!name || (!email && !phone)) {
     return { ok: false, reason: 'need a name and at least a phone or email' };
@@ -124,6 +128,21 @@ export async function captureLead(raw: LeadInput, ctx: LeadContext): Promise<Cap
       }
     }
   }
+
+  // 3. Instant owner alert (best-effort, independent of DB and Resend).
+  await sendOwnerAlert(
+    leadAlertText({
+      name,
+      service,
+      tierRecommended,
+      phone,
+      email,
+      pagePath: ctx.pagePath,
+      projectDetails,
+      isVip,
+    }),
+    ctx.config,
+  );
 
   return { ok: true, id };
 }

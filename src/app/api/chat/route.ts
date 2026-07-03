@@ -31,6 +31,10 @@ const CAPTURE_LEAD_TOOL: Anthropic.Tool = {
         description: 'Short summary of what they need (date, venue, scope, etc.)',
       },
       tierRecommended: { type: 'string', description: 'The package/tier you recommended, if any' },
+      isVip: {
+        type: 'boolean',
+        description: `true if this lead matches any high-value threshold: ${semperFiConfig.vip.thresholds.join('; ')}. When unsure, false.`,
+      },
     },
     required: ['name', 'service'],
   },

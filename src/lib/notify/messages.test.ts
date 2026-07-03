@@ -42,6 +42,14 @@ describe('leadAlertText', () => {
     expect(line.length).toBe('📝 '.length + 300 + 1); // 300 chars + '…'
     expect(line.endsWith('…')).toBe(true);
   });
+
+  it('does not split an emoji at the truncation boundary', () => {
+    // 299 ASCII chars then an emoji (2 UTF-16 units) straddling the cap.
+    const t = leadAlertText({ ...base, projectDetails: 'x'.repeat(299) + '🔥🔥🔥' });
+    const line = t.split('\n').find((l) => l.startsWith('📝'))!;
+    expect(line).not.toMatch(/[\uD800-\uDBFF]…$/); // no lone surrogate before the ellipsis
+    expect(line.endsWith('🔥…')).toBe(true); // cap lands after the 300th code POINT
+  });
 });
 
 describe('bookingAlertText', () => {

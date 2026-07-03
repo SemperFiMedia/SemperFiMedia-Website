@@ -1,6 +1,8 @@
 import { Resend } from 'resend';
 import { env } from '@/lib/env';
 import { fmtLeadDate } from '@/lib/chatbot/format';
+import { sendOwnerAlert } from '@/lib/notify/channel';
+import { bookingAlertText } from '@/lib/notify/messages';
 import type { ChatbotClientConfig } from '@/lib/chatbot/client-config';
 
 export type BookingNotifyInput = {
@@ -18,6 +20,12 @@ export async function notifyBooking(
   b: BookingNotifyInput,
   config: ChatbotClientConfig,
 ): Promise<void> {
+  // Instant owner alert — independent of Resend config, self-catching.
+  await sendOwnerAlert(
+    bookingAlertText({ type: b.type, start: b.start, name: b.name, email: b.email, phone: b.phone }),
+    config,
+  );
+
   if (!env.resend.apiKey) return;
   try {
     const resend = new Resend(env.resend.apiKey);

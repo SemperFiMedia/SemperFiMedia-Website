@@ -300,7 +300,9 @@ describe('sendOwnerAlert', () => {
 
   it('swallows adapter throws', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    sendTelegram.mockRejectedValue(new Error('boom'));
+    sendTelegram.mockImplementationOnce(async () => {
+      throw new Error('boom');
+    });
     await expect(sendOwnerAlert('x', cfg('telegram'))).resolves.toBeUndefined();
     warn.mockRestore();
   });
