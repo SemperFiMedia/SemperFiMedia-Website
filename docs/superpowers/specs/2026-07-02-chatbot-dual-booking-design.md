@@ -28,16 +28,22 @@ becomes a scheduling middleman — timezone phrasing, ambiguous replies, retries
 all land in the conversation; revisit as polish later) and dual embeds
 (visitor leaves the chat; already ruled out).
 
-## Prerequisites (TJ, Cal.com dashboard — before deploy verification)
+## Prerequisites — COMPLETED 2026-07-02 (verified live against Cal v2 API)
 
-1. Generate an API key (Settings → Developer → API Keys). Note: v1 API is
-   decommissioned; the integration targets **API v2** (Bearer auth). The
-   existing `CAL_API_KEY=` line in `.env.local` is an empty placeholder.
-2. Create a second event type: phone call (e.g. "Phone Call — 15 min",
-   location = phone). The Zoom/video type is the existing
-   `semperfimedia/discovery` event.
-3. Confirm Google Calendar is connected in Cal.com (sync + conflict blocking).
-4. Put the key in Railway env + `.env.local` as `CAL_API_KEY`.
+1. ✅ API key generated (never-expires), saved to `.env.local` as
+   `CAL_API_KEY`. Integration targets **API v2** (Bearer auth +
+   `cal-api-version` header); v1 is decommissioned.
+2. ✅ Event types (IDs go in `client-config.ts` `booking.calEventTypes`):
+   - video/Cal Video "Discovery Call", 30 min — **id 5352597**, slug `discovery`
+   - "Phone Call" (attendee phone), 15 min — **id 6196905**, slug `phone-call`
+   (both: 240-min minimum notice, 10-min buffers)
+3. ✅ Google Calendar connected in Cal.com (`semperfimedia.tx@gmail.com`).
+4. ⏳ Add `CAL_API_KEY` to Railway variables before deploy.
+
+Slots API verified returning real Central-time availability for both types
+(`GET /v2/slots`, `cal-api-version: 2024-09-04`; event-types endpoint uses
+`2024-06-14`). Note the Discovery Call location is Cal Video (not Zoom brand) —
+visitor-facing copy should say "video call".
 
 ## Components
 
