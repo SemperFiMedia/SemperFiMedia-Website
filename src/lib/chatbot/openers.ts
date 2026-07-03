@@ -148,9 +148,14 @@ function lookupOpener(map: Array<[string, string]>, p: string, fallback: string)
   return fallback;
 }
 
+export function isSpanishPath(pathname: string): boolean {
+  const p = pathname || '/';
+  return p === '/es' || p.startsWith('/es/');
+}
+
 export function getChatStrings(pathname: string): ChatStrings {
   const p = pathname || '/';
-  const isSpanish = p === '/es' || p.startsWith('/es/');
+  const isSpanish = isSpanishPath(p);
   if (isSpanish) {
     const rest = p === '/es' ? '/' : p.slice('/es'.length);
     return {
