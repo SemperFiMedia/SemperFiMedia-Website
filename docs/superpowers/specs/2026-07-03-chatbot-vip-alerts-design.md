@@ -85,7 +85,10 @@ telegram: {
   DB + email steps, compose and fire:
   - VIP: `🔥 VIP LEAD — {name}` / non-VIP: `📥 New lead — {name}`
   - body lines: service (+ tier when present), phone, email, page path,
-    first line of projectDetails when present.
+    then the visitor's details in full: `📝 {projectDetails}` truncated at
+    300 chars with an ellipsis (TJ wants any special/free-form info the
+    visitor typed to reach the alert — the capture tool's projectDetails is
+    that vehicle, and the email keeps the untruncated version).
   `LeadInput` gains `isVip?: unknown` (boolean-coerced like the other
   fields).
 - **`notifyBooking()`** (`src/lib/booking/notify.ts`): after the email,
