@@ -237,7 +237,7 @@ export const semperFiConfig: ChatbotClientConfig = {
   ],
   booking: {
     path: '/contact',
-    dualBooking: false, // flipped to true in the final Phase 5 task
+    dualBooking: true, // Phase 5 live: /api/book/slots + /api/book + in-chat picker
     calEventTypes: {
       zoom: 5352597, // "Discovery Call" — Cal Video, 30 min
       phone: 6196905, // "Phone Call" — attendee phone, 15 min
