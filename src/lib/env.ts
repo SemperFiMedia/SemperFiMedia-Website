@@ -40,6 +40,9 @@ export const env = {
     // Override per environment with ANTHROPIC_MODEL — no code change needed.
     model: process.env.ANTHROPIC_MODEL ?? 'claude-fable-5',
   },
+  cal: {
+    apiKey: process.env.CAL_API_KEY ?? '',
+  },
   db: {
     url: process.env.DATABASE_URL ?? '',
   },
