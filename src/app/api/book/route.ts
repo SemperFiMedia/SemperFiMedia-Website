@@ -8,6 +8,18 @@ export const dynamic = 'force-dynamic';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Cal.com requires E.164 for the attendee phone (it becomes the meeting
+// location on phone-type events). US-biased: bare 10-digit numbers get +1.
+function toE164Us(phone: string): string | null {
+  const digits = phone.replace(/\D/g, '');
+  if (phone.trim().startsWith('+') && digits.length >= 8 && digits.length <= 15) {
+    return `+${digits}`;
+  }
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return null;
+}
+
 export async function POST(req: Request) {
   const rate = checkRateLimit(`book:${getClientKey(req)}`, 5, 60_000);
   if (!rate.ok) return Response.json({ error: 'Slow down a moment.' }, { status: 429 });
@@ -40,6 +52,10 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Phone number required for a phone call.' }, { status: 400 });
   }
   if (phone && phone.length > 40) return Response.json({ error: 'Phone too long.' }, { status: 400 });
+  const e164Phone = phone ? toE164Us(phone) : undefined;
+  if (type === 'phone' && !e164Phone) {
+    return Response.json({ error: 'Valid US phone number required.' }, { status: 400 });
+  }
   const notes = typeof body?.notes === 'string' ? body.notes.trim().slice(0, 500) || undefined : undefined;
 
   try {
@@ -48,7 +64,7 @@ export async function POST(req: Request) {
       start,
       name,
       email,
-      phone,
+      phone: e164Phone ?? undefined,
       notes,
     });
     if (!result.ok) {
@@ -57,7 +73,8 @@ export async function POST(req: Request) {
       }
       return Response.json({ ok: false, reason: 'error' }, { status: 502 });
     }
-    // Best-effort — never fails the booking.
+    // Best-effort — never fails the booking. Uses the original visitor-typed
+    // phone string so the owner alert shows what they actually entered.
     await notifyBooking(
       { type, start, name, email, phone, notes, meetingUrl: result.meetingUrl },
       semperFiConfig,

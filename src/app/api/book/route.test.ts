@@ -96,4 +96,23 @@ describe('POST /api/book', () => {
     createBooking.mockResolvedValue({ ok: false, reason: 'error' });
     expect((await POST(req(valid))).status).toBe(502);
   });
+
+  it('normalizes US phone formats to E.164 for Cal', async () => {
+    createBooking.mockResolvedValue({ ok: true, uid: 'u3', meetingUrl: null });
+    const res = await POST(req({ ...valid, phone: '(210) 555-0142' }));
+    expect(res.status).toBe(200);
+    expect(createBooking.mock.calls[0]![0]).toMatchObject({ phone: '+12105550142' });
+    expect(notifyBooking.mock.calls[0]![0]).toMatchObject({ phone: '(210) 555-0142' });
+  });
+
+  it('400 on an un-normalizable phone for phone-type bookings', async () => {
+    expect((await POST(req({ ...valid, phone: '555-01' }))).status).toBe(400);
+    expect(createBooking).not.toHaveBeenCalled();
+  });
+
+  it('passes through international numbers', async () => {
+    createBooking.mockResolvedValue({ ok: true, uid: 'u4', meetingUrl: null });
+    await POST(req({ ...valid, phone: '+52 81 1234 5678' }));
+    expect(createBooking.mock.calls[0]![0]).toMatchObject({ phone: '+528112345678' });
+  });
 });

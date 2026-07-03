@@ -804,8 +804,29 @@ describe('POST /api/book', () => {
     createBooking.mockResolvedValue({ ok: false, reason: 'error' });
     expect((await POST(req(valid))).status).toBe(502);
   });
+
+  it('normalizes US phone formats to E.164 for Cal', async () => {
+    createBooking.mockResolvedValue({ ok: true, uid: 'u3', meetingUrl: null });
+    const res = await POST(req({ ...valid, phone: '(210) 555-0142' }));
+    expect(res.status).toBe(200);
+    expect(createBooking.mock.calls[0]![0]).toMatchObject({ phone: '+12105550142' });
+    expect(notifyBooking.mock.calls[0]![0]).toMatchObject({ phone: '(210) 555-0142' });
+  });
+
+  it('400 on an un-normalizable phone for phone-type bookings', async () => {
+    expect((await POST(req({ ...valid, phone: '555-01' }))).status).toBe(400);
+    expect(createBooking).not.toHaveBeenCalled();
+  });
+
+  it('passes through international numbers', async () => {
+    createBooking.mockResolvedValue({ ok: true, uid: 'u4', meetingUrl: null });
+    await POST(req({ ...valid, phone: '+52 81 1234 5678' }));
+    expect(createBooking.mock.calls[0]![0]).toMatchObject({ phone: '+528112345678' });
+  });
 });
 ```
+
+(`valid.phone` is `'210-555-1234'` — 10 digits — and normalizes to `+12105551234`; no existing assertion pins the raw phone on `createBooking`, so nothing else needed updating.)
 
 - [ ] **Step 6: Run and verify FAIL**, then create `src/app/api/book/route.ts`:
 
@@ -819,6 +840,18 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Cal.com requires E.164 for the attendee phone (it becomes the meeting
+// location on phone-type events). US-biased: bare 10-digit numbers get +1.
+function toE164Us(phone: string): string | null {
+  const digits = phone.replace(/\D/g, '');
+  if (phone.trim().startsWith('+') && digits.length >= 8 && digits.length <= 15) {
+    return `+${digits}`;
+  }
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith('1')) return `+${digits}`;
+  return null;
+}
 
 export async function POST(req: Request) {
   const rate = checkRateLimit(`book:${getClientKey(req)}`, 5, 60_000);
@@ -852,6 +885,10 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Phone number required for a phone call.' }, { status: 400 });
   }
   if (phone && phone.length > 40) return Response.json({ error: 'Phone too long.' }, { status: 400 });
+  const e164Phone = phone ? toE164Us(phone) : undefined;
+  if (type === 'phone' && !e164Phone) {
+    return Response.json({ error: 'Valid US phone number required.' }, { status: 400 });
+  }
   // Model-influenced prefill values are unbounded — cap rather than reject notes.
   const notes = typeof body?.notes === 'string' ? body.notes.trim().slice(0, 500) || undefined : undefined;
 
@@ -861,7 +898,7 @@ export async function POST(req: Request) {
       start,
       name,
       email,
-      phone,
+      phone: e164Phone ?? undefined,
       notes,
     });
     if (!result.ok) {
@@ -870,7 +907,8 @@ export async function POST(req: Request) {
       }
       return Response.json({ ok: false, reason: 'error' }, { status: 502 });
     }
-    // Best-effort — never fails the booking.
+    // Best-effort — never fails the booking. Uses the original visitor-typed
+    // phone string so the owner alert shows what they actually entered.
     await notifyBooking(
       { type, start, name, email, phone, notes, meetingUrl: result.meetingUrl },
       semperFiConfig,
@@ -885,7 +923,7 @@ export async function POST(req: Request) {
 }
 ```
 
-- [ ] **Step 7: Run and verify PASS** — `npx vitest run src/app/api/book` → 13 tests pass (5 slots + 8 book, the book route carrying an added length-cap test from code review). `npm run typecheck` clean.
+- [ ] **Step 7: Run and verify PASS** — `npx vitest run src/app/api/book` → 16 tests pass (5 slots + 11 book — the book route carrying an added length-cap test from code review plus 3 phone-normalization tests from a prod-bug fix: bare US phone formats were sent to Cal as-is, and Cal's phone event type requires E.164 since the attendee number becomes the meeting location). `npm run typecheck` clean.
 
 - [ ] **Step 8: Commit**
 
