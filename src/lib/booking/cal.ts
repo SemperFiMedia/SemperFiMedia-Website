@@ -2,7 +2,9 @@
 // invites, Zoom/Cal-Video links, and Google Calendar sync are Cal's job.
 import { env } from '@/lib/env';
 
-export class CalUnavailableError extends Error {}
+export class CalUnavailableError extends Error {
+  override name = 'CalUnavailableError';
+}
 
 const CAL_BASE = 'https://api.cal.com/v2';
 const DEFAULT_TZ = 'America/Chicago';
@@ -37,12 +39,16 @@ export async function getSlots(
   timeZone: string = DEFAULT_TZ,
 ): Promise<SlotsByDay> {
   const key = requireKey();
-  const url =
-    `${CAL_BASE}/slots?eventTypeId=${eventTypeId}` +
-    `&start=${from}&end=${to}&timeZone=${encodeURIComponent(timeZone)}`;
-  const res = await fetch(url, {
+  const query = new URLSearchParams({
+    eventTypeId: String(eventTypeId),
+    start: from,
+    end: to,
+    timeZone,
+  });
+  const res = await fetch(`${CAL_BASE}/slots?${query}`, {
     headers: { Authorization: `Bearer ${key}`, 'cal-api-version': '2024-09-04' },
     cache: 'no-store',
+    signal: AbortSignal.timeout(10_000),
   });
   if (!res.ok) throw new Error(`Cal slots request failed: ${res.status}`);
   const json = (await res.json()) as {
@@ -65,6 +71,7 @@ export async function createBooking(input: CreateBookingInput): Promise<BookingR
       'content-type': 'application/json',
     },
     cache: 'no-store',
+    signal: AbortSignal.timeout(20_000),
     body: JSON.stringify({
       eventTypeId: input.eventTypeId,
       start: input.start,
@@ -96,10 +103,11 @@ export async function createBooking(input: CreateBookingInput): Promise<BookingR
   if (
     res.status === 409 ||
     msg.includes('no longer available') ||
-    msg.includes('already') ||
-    msg.includes('booked')
+    msg.includes('already has booking') ||
+    msg.includes('already booked')
   ) {
     return { ok: false, reason: 'slot_taken' };
   }
+  console.warn('[cal] booking failed:', res.status, json?.error?.message ?? '(no message)');
   return { ok: false, reason: 'error' };
 }

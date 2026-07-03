@@ -86,6 +86,13 @@ describe('createBooking', () => {
     expect(await createBooking(input)).toEqual({ ok: false, reason: 'slot_taken' });
   });
 
+  it('maps non-409 already-has-booking messages to slot_taken', async () => {
+    fetchMock.mockResolvedValue(
+      jsonResponse(400, { status: 'error', error: { message: 'User already has booking at this time or is not available' } }),
+    );
+    expect(await createBooking(input)).toEqual({ ok: false, reason: 'slot_taken' });
+  });
+
   it('maps other failures to error', async () => {
     fetchMock.mockResolvedValue(jsonResponse(500, { status: 'error' }));
     expect(await createBooking(input)).toEqual({ ok: false, reason: 'error' });
