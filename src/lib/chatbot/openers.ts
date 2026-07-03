@@ -110,22 +110,29 @@ const ES_AFTER_HOURS_NOTE =
 
 const ES_TEASER = 'Antes de irte — ¿te mando los precios?';
 
+// Keyed on the path with the '/es' language prefix stripped — getChatStrings
+// normalizes '/es' → '/' and '/es/x' → '/x' before lookup, so the '/'-exact-only
+// guard in lookupOpener protects the Spanish home entry the same way as English.
 const ES_OPENERS: Array<[string, string]> = [
   [
-    '/es/weddings',
+    '/weddings',
     '¿Buscas video para tu boda? Tenemos tres paquetes desde $3,500. Te puedo explicar cada uno o revisar si tu fecha está libre. ¿Por dónde empezamos?',
   ],
   [
-    '/es/quinceaneras',
+    '/quinceaneras',
     '¿Planeando los quince? Cuéntame de tu celebración y te explico la cobertura y los precios — filmamos tu día como una película.',
   ],
   [
-    '/es/about',
+    '/about',
     'Esa es nuestra historia — un Marine detrás de cada cámara, en cada proyecto. ¿Qué te trae por aquí? Te puedo orientar sobre servicios y precios.',
   ],
   [
-    '/es/contact',
+    '/contact',
     '¿Listo para hablar con TJ? Antes de reservar, te puedo responder preguntas de precios o pasarle los detalles de tu proyecto. ¿Qué estás planeando?',
+  ],
+  [
+    '/',
+    '¡Hola! Soy el conserje de Semper Fi Media. Video cinematográfico dirigido por un veterano de la Marina, aquí en DFW — bodas, quinceañeras, videos para tu negocio o tu música. ¿En qué te puedo ayudar?',
   ],
 ];
 
@@ -140,8 +147,9 @@ export function getChatStrings(pathname: string): ChatStrings {
   const p = pathname || '/';
   const isSpanish = p === '/es' || p.startsWith('/es/');
   if (isSpanish) {
+    const rest = p === '/es' ? '/' : p.slice('/es'.length);
     return {
-      opener: lookupOpener(ES_OPENERS, p, ES_DEFAULT_GREETING),
+      opener: lookupOpener(ES_OPENERS, rest, ES_DEFAULT_GREETING),
       defaultGreeting: ES_DEFAULT_GREETING,
       exitIntent: ES_EXIT_INTENT,
       afterHoursNote: ES_AFTER_HOURS_NOTE,

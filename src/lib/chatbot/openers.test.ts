@@ -41,6 +41,12 @@ describe('getChatStrings', () => {
     expect(s.teaser).toMatch(/precios/i);
   });
 
+  it('/es home gets the tailored Spanish home opener, not the default', () => {
+    const s = getChatStrings('/es');
+    expect(s.opener).toMatch(/veterano/i);
+    expect(s.opener).not.toBe(s.defaultGreeting);
+  });
+
   it('unmapped /es path falls back to the Spanish default greeting', () => {
     const s = getChatStrings('/es/unmapped-page');
     expect(s.opener).toBe(s.defaultGreeting);
