@@ -39,6 +39,7 @@ describe('getChatStrings', () => {
     expect(s.exitIntent).toMatch(/antes de que te vayas/i);
     expect(s.afterHoursNote).toMatch(/fuera de horario/i);
     expect(s.teaser).toMatch(/precios/i);
+    expect(s.dismissLabel).toBe('Cerrar');
   });
 
   it('/es home gets the tailored Spanish home opener, not the default', () => {

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { BookingCard, BookingModal } from './booking-modal';
 import { track } from '@/lib/analytics/track';
 import { getChatStrings } from '@/lib/chatbot/openers';
-import { isExitFlick, type ScrollSample } from './exit-flick';
+import { FLICK_WINDOW_MS, isExitFlick, type ScrollSample } from './exit-flick';
 
 const BOOK_TOKEN = '[[BOOK]]';
 const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';
@@ -210,6 +210,7 @@ export function ChatWidget() {
     let maxYSeen = 0;
 
     function onScroll() {
+      if (exitFiredRef.current) return; // slot spent — no-op for the rest of the page
       const maxScroll = Math.max(
         0,
         (document.scrollingElement?.scrollHeight ?? 0) - window.innerHeight,
@@ -220,9 +221,8 @@ export function ChatWidget() {
       maxYSeen = Math.max(maxYSeen, y);
       buf.push({ y, t });
       // Keep the buffer to samples that can matter (2× the window is plenty).
-      while (buf.length > 1 && t - buf[0]!.t > 300) buf.shift();
+      while (buf.length > 1 && t - buf[0]!.t > 2 * FLICK_WINDOW_MS) buf.shift();
 
-      if (exitFiredRef.current) return;
       if (openRef.current || conversationStartedRef.current) return;
       if (!isExitFlick(buf, window.innerHeight, maxYSeen)) return;
       if (!claimExitSlot()) return;
@@ -239,7 +239,7 @@ export function ChatWidget() {
     setTeaserVisible(false);
     setOpen(true);
     appendExitIntentMessage();
-    void track('chat_open');
+    void track('chat_open', { location: 'teaser' });
   }
 
   async function send() {
@@ -319,7 +319,10 @@ export function ChatWidget() {
   return (
     <>
       {!open && teaserVisible && (
-        <div className="fixed bottom-20 right-5 z-[55] flex max-w-[260px] items-start gap-2 rounded-xl border border-brass/30 bg-gunpowder px-4 py-3 shadow-2xl">
+        <div
+          role="status"
+          className="fixed bottom-20 right-5 z-[55] flex max-w-[260px] items-start gap-2 rounded-xl border border-brass/30 bg-gunpowder px-4 py-3 shadow-2xl"
+        >
           <button
             type="button"
             onClick={openFromTeaser}
@@ -330,8 +333,8 @@ export function ChatWidget() {
           <button
             type="button"
             onClick={() => setTeaserVisible(false)}
-            aria-label="Dismiss"
-            className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-bone-subtle transition-colors hover:text-bone"
+            aria-label={getChatStrings(pathname ?? '/').dismissLabel}
+            className="-m-2 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded text-bone-subtle transition-colors hover:text-bone"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -9,6 +9,7 @@ export type ChatStrings = {
   exitIntent: string;
   afterHoursNote: string;
   teaser: string;
+  dismissLabel: string;
 };
 
 const EN_DEFAULT_GREETING =
@@ -21,6 +22,8 @@ const EN_AFTER_HOURS_NOTE =
   " Quick heads-up — it's after hours here in Texas, so TJ's off the clock. Leave your info and he'll follow up first thing, by 9 AM.";
 
 const EN_TEASER = 'Before you go — want pricing sent to you?';
+
+const EN_DISMISS_LABEL = 'Dismiss';
 
 // Most specific paths first so /corporate/music-videos wins over /corporate.
 // Match rule: exact, or prefix + '/'. The '/' entry only matches exactly.
@@ -110,6 +113,8 @@ const ES_AFTER_HOURS_NOTE =
 
 const ES_TEASER = 'Antes de irte — ¿te mando los precios?';
 
+const ES_DISMISS_LABEL = 'Cerrar';
+
 // Keyed on the path with the '/es' language prefix stripped — getChatStrings
 // normalizes '/es' → '/' and '/es/x' → '/x' before lookup, so the '/'-exact-only
 // guard in lookupOpener protects the Spanish home entry the same way as English.
@@ -154,6 +159,7 @@ export function getChatStrings(pathname: string): ChatStrings {
       exitIntent: ES_EXIT_INTENT,
       afterHoursNote: ES_AFTER_HOURS_NOTE,
       teaser: ES_TEASER,
+      dismissLabel: ES_DISMISS_LABEL,
     };
   }
   return {
@@ -162,5 +168,6 @@ export function getChatStrings(pathname: string): ChatStrings {
     exitIntent: EN_EXIT_INTENT,
     afterHoursNote: EN_AFTER_HOURS_NOTE,
     teaser: EN_TEASER,
+    dismissLabel: EN_DISMISS_LABEL,
   };
 }

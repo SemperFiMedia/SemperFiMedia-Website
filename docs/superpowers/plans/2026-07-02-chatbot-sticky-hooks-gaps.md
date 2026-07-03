@@ -72,6 +72,7 @@ describe('getChatStrings', () => {
     expect(s.exitIntent).toMatch(/antes de que te vayas/i);
     expect(s.afterHoursNote).toMatch(/fuera de horario/i);
     expect(s.teaser).toMatch(/precios/i);
+    expect(s.dismissLabel).toBe('Cerrar');
   });
 
   it('/es home gets the tailored Spanish home opener, not the default', () => {
@@ -116,6 +117,7 @@ export type ChatStrings = {
   exitIntent: string;
   afterHoursNote: string;
   teaser: string;
+  dismissLabel: string;
 };
 
 const EN_DEFAULT_GREETING =
@@ -128,6 +130,8 @@ const EN_AFTER_HOURS_NOTE =
   " Quick heads-up — it's after hours here in Texas, so TJ's off the clock. Leave your info and he'll follow up first thing, by 9 AM.";
 
 const EN_TEASER = 'Before you go — want pricing sent to you?';
+
+const EN_DISMISS_LABEL = 'Dismiss';
 
 // Most specific paths first so /corporate/music-videos wins over /corporate.
 // Match rule: exact, or prefix + '/'. The '/' entry only matches exactly.
@@ -217,6 +221,8 @@ const ES_AFTER_HOURS_NOTE =
 
 const ES_TEASER = 'Antes de irte — ¿te mando los precios?';
 
+const ES_DISMISS_LABEL = 'Cerrar';
+
 // Keyed on the path with the '/es' language prefix stripped — getChatStrings
 // normalizes '/es' → '/' and '/es/x' → '/x' before lookup, so the '/'-exact-only
 // guard in lookupOpener protects the Spanish home entry the same way as English.
@@ -261,6 +267,7 @@ export function getChatStrings(pathname: string): ChatStrings {
       exitIntent: ES_EXIT_INTENT,
       afterHoursNote: ES_AFTER_HOURS_NOTE,
       teaser: ES_TEASER,
+      dismissLabel: ES_DISMISS_LABEL,
     };
   }
   return {
@@ -269,6 +276,7 @@ export function getChatStrings(pathname: string): ChatStrings {
     exitIntent: EN_EXIT_INTENT,
     afterHoursNote: EN_AFTER_HOURS_NOTE,
     teaser: EN_TEASER,
+    dismissLabel: EN_DISMISS_LABEL,
   };
 }
 ```
@@ -459,7 +467,7 @@ ADD to the imports:
 
 ```ts
 import { getChatStrings } from '@/lib/chatbot/openers';
-import { isExitFlick, type ScrollSample } from './exit-flick';
+import { FLICK_WINDOW_MS, isExitFlick, type ScrollSample } from './exit-flick';
 ```
 
 - [ ] **Step 2: Re-point initial state and the mount-time opener effect**
@@ -616,6 +624,7 @@ Add the effect after the desktop exit-intent effect:
     let maxYSeen = 0;
 
     function onScroll() {
+      if (exitFiredRef.current) return; // slot spent — no-op for the rest of the page
       const maxScroll = Math.max(
         0,
         (document.scrollingElement?.scrollHeight ?? 0) - window.innerHeight,
@@ -626,9 +635,8 @@ Add the effect after the desktop exit-intent effect:
       maxYSeen = Math.max(maxYSeen, y);
       buf.push({ y, t });
       // Keep the buffer to samples that can matter (2× the window is plenty).
-      while (buf.length > 1 && t - buf[0]!.t > 300) buf.shift();
+      while (buf.length > 1 && t - buf[0]!.t > 2 * FLICK_WINDOW_MS) buf.shift();
 
-      if (exitFiredRef.current) return;
       if (openRef.current || conversationStartedRef.current) return;
       if (!isExitFlick(buf, window.innerHeight, maxYSeen)) return;
       if (!claimExitSlot()) return;
@@ -645,7 +653,7 @@ Add the effect after the desktop exit-intent effect:
     setTeaserVisible(false);
     setOpen(true);
     appendExitIntentMessage();
-    void track('chat_open');
+    void track('chat_open', { location: 'teaser' });
   }
 ```
 
@@ -655,7 +663,10 @@ In the JSX, directly BEFORE the `{!open && (` launcher-button block, add:
 
 ```tsx
       {!open && teaserVisible && (
-        <div className="fixed bottom-20 right-5 z-[55] flex max-w-[260px] items-start gap-2 rounded-xl border border-brass/30 bg-gunpowder px-4 py-3 shadow-2xl">
+        <div
+          role="status"
+          className="fixed bottom-20 right-5 z-[55] flex max-w-[260px] items-start gap-2 rounded-xl border border-brass/30 bg-gunpowder px-4 py-3 shadow-2xl"
+        >
           <button
             type="button"
             onClick={openFromTeaser}
@@ -666,8 +677,8 @@ In the JSX, directly BEFORE the `{!open && (` launcher-button block, add:
           <button
             type="button"
             onClick={() => setTeaserVisible(false)}
-            aria-label="Dismiss"
-            className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded text-bone-subtle transition-colors hover:text-bone"
+            aria-label={getChatStrings(pathname ?? '/').dismissLabel}
+            className="-m-2 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded text-bone-subtle transition-colors hover:text-bone"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
