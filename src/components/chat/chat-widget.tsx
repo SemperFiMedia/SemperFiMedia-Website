@@ -101,10 +101,7 @@ function MessageBubble({
   }
 
   return (
-    <div
-      className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
-      role={isUser ? undefined : 'status'}
-    >
+    <div className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
         className={
           'max-w-[85%] rounded-xl px-4 py-3 text-sm leading-relaxed ' +
@@ -113,11 +110,16 @@ function MessageBubble({
             : 'bg-black/60 text-bone-muted ring-1 ring-brass/20')
         }
       >
-        {text.split('\n').map((line, i) => (
-          <p key={i} className={i > 0 ? 'mt-2' : undefined}>
-            {renderInline(line)}
-          </p>
-        ))}
+        {/* Live region covers only the message text — an interactive form
+            inside role="status" would be announced wholesale on every
+            slot-picker state change. */}
+        <div role={isUser ? undefined : 'status'}>
+          {text.split('\n').map((line, i) => (
+            <p key={i} className={i > 0 ? 'mt-2' : undefined}>
+              {renderInline(line)}
+            </p>
+          ))}
+        </div>
         {!isUser && book && !streaming && <SlotPickerCard prefill={prefill} onOpenEmbed={onBook} />}
       </div>
     </div>

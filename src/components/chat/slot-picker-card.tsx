@@ -24,6 +24,7 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
   const s = getBookingStrings(pathname);
 
   const [type, setType] = useState<MeetingType>('zoom');
+  const [refreshKey, setRefreshKey] = useState(0);
   const [slots, setSlots] = useState<SlotsByDay | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -59,7 +60,7 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
     return () => {
       alive = false;
     };
-  }, [type]);
+  }, [type, refreshKey]);
 
   async function book() {
     if (!selected || submitting) return;
@@ -72,11 +73,11 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
         body: JSON.stringify({ type, start: selected, name, email, phone: phone || undefined }),
       });
       if (res.status === 409) {
-        setError('taken');
+        // The picked slot is gone — retrigger the guarded slots effect instead
+        // of racing an unguarded inline fetch against it.
         setSelected(null);
-        // refresh slots — the picked one is gone
-        const fresh = await fetch(`/api/book/slots?type=${type}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-        if (fresh) setSlots((fresh as { slots: SlotsByDay }).slots);
+        setError('taken');
+        setRefreshKey((k) => k + 1);
         return;
       }
       if (!res.ok) {
@@ -107,10 +108,11 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
     );
   }
 
-  if (loadFailed) {
+  const noTimes = slots !== null && Object.keys(slots).length === 0;
+  if (loadFailed || noTimes) {
     return (
       <div className="mt-3 rounded-lg border border-brass/40 bg-brass/10 p-4 text-sm text-bone-muted">
-        <p>{s.loadFailed}</p>
+        <p>{loadFailed ? s.loadFailed : s.noTimes}</p>
         <button
           type="button"
           onClick={onOpenEmbed}
@@ -129,8 +131,9 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
   return (
     <div className="mt-3 rounded-lg border border-brass/40 bg-brass/10 p-4">
       <div className="font-serif text-base italic text-bone">{s.heading}</div>
+      <div className="text-[10px] text-bone-subtle">{s.tzNote}</div>
 
-      <div className="mt-2 flex gap-2" role="radiogroup" aria-label={s.heading}>
+      <div className="mt-2 flex flex-wrap gap-2" role="radiogroup" aria-label={s.heading}>
         {(['zoom', 'phone'] as const).map((t) => (
           <button
             key={t}
@@ -164,7 +167,10 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
                     key={slot.start}
                     type="button"
                     aria-pressed={selected === slot.start}
-                    onClick={() => setSelected(slot.start)}
+                    onClick={() => {
+                      setError(null);
+                      setSelected(slot.start);
+                    }}
                     className={
                       selected === slot.start
                         ? 'rounded bg-brass px-2 py-1 text-xs font-bold text-gunpowder'

@@ -62,4 +62,15 @@ describe('SlotPickerCard', () => {
     await userEvent.click(btn);
     expect(onOpenEmbed).toHaveBeenCalled();
   });
+
+  it('falls back to the embed button when no times are open', async () => {
+    const onOpenEmbed = vi.fn();
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse(200, { slots: {}, timezone: 'America/Chicago' }),
+    );
+    render(<SlotPickerCard prefill={{}} onOpenEmbed={onOpenEmbed} />);
+    expect(await screen.findByText(/no open times/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: /open booking window/i }));
+    expect(onOpenEmbed).toHaveBeenCalled();
+  });
 });

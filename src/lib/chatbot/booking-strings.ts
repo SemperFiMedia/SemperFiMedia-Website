@@ -4,6 +4,7 @@ import { isSpanishPath } from './openers';
 export type BookingStrings = {
   locale: string; // for Intl date/time labels
   heading: string;
+  tzNote: string;
   typeZoom: string;
   typePhone: string;
   namePlaceholder: string;
@@ -15,6 +16,7 @@ export type BookingStrings = {
   joinLink: string;
   slotTaken: string;
   loadFailed: string;
+  noTimes: string;
   openEmbed: string;
   errorGeneric: string;
 };
@@ -22,6 +24,7 @@ export type BookingStrings = {
 const EN: BookingStrings = {
   locale: 'en-US',
   heading: 'Pick a time',
+  tzNote: 'All times US Central',
   typeZoom: 'Video call · 30 min',
   typePhone: 'Phone call · 15 min',
   namePlaceholder: 'Your name',
@@ -33,6 +36,7 @@ const EN: BookingStrings = {
   joinLink: 'Join link',
   slotTaken: 'That time just got grabbed — pick another.',
   loadFailed: "Couldn't load times. Use the booking window instead:",
+  noTimes: 'No open times in the next few days — use the booking window instead:',
   openEmbed: 'Open booking window',
   errorGeneric: 'Booking failed — try again, or use the booking window.',
 };
@@ -40,6 +44,7 @@ const EN: BookingStrings = {
 const ES: BookingStrings = {
   locale: 'es-US',
   heading: 'Elige una hora',
+  tzNote: 'Horarios en hora del centro de EE. UU.',
   typeZoom: 'Videollamada · 30 min',
   typePhone: 'Llamada telefónica · 15 min',
   namePlaceholder: 'Tu nombre',
@@ -51,6 +56,7 @@ const ES: BookingStrings = {
   joinLink: 'Enlace para unirte',
   slotTaken: 'Esa hora se acaba de ocupar — elige otra.',
   loadFailed: 'No pude cargar los horarios. Usa la ventana de reservas:',
+  noTimes: 'No hay horarios disponibles estos días — usa la ventana de reservas:',
   openEmbed: 'Abrir ventana de reservas',
   errorGeneric: 'No se pudo reservar — intenta de nuevo o usa la ventana de reservas.',
 };

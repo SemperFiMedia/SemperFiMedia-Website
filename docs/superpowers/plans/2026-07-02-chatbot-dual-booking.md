@@ -433,6 +433,7 @@ import { isSpanishPath } from './openers';
 export type BookingStrings = {
   locale: string; // for Intl date/time labels
   heading: string;
+  tzNote: string;
   typeZoom: string;
   typePhone: string;
   namePlaceholder: string;
@@ -444,6 +445,7 @@ export type BookingStrings = {
   joinLink: string;
   slotTaken: string;
   loadFailed: string;
+  noTimes: string;
   openEmbed: string;
   errorGeneric: string;
 };
@@ -451,6 +453,7 @@ export type BookingStrings = {
 const EN: BookingStrings = {
   locale: 'en-US',
   heading: 'Pick a time',
+  tzNote: 'All times US Central',
   typeZoom: 'Video call · 30 min',
   typePhone: 'Phone call · 15 min',
   namePlaceholder: 'Your name',
@@ -462,6 +465,7 @@ const EN: BookingStrings = {
   joinLink: 'Join link',
   slotTaken: 'That time just got grabbed — pick another.',
   loadFailed: "Couldn't load times. Use the booking window instead:",
+  noTimes: 'No open times in the next few days — use the booking window instead:',
   openEmbed: 'Open booking window',
   errorGeneric: 'Booking failed — try again, or use the booking window.',
 };
@@ -469,6 +473,7 @@ const EN: BookingStrings = {
 const ES: BookingStrings = {
   locale: 'es-US',
   heading: 'Elige una hora',
+  tzNote: 'Horarios en hora del centro de EE. UU.',
   typeZoom: 'Videollamada · 30 min',
   typePhone: 'Llamada telefónica · 15 min',
   namePlaceholder: 'Tu nombre',
@@ -480,6 +485,7 @@ const ES: BookingStrings = {
   joinLink: 'Enlace para unirte',
   slotTaken: 'Esa hora se acaba de ocupar — elige otra.',
   loadFailed: 'No pude cargar los horarios. Usa la ventana de reservas:',
+  noTimes: 'No hay horarios disponibles estos días — usa la ventana de reservas:',
   openEmbed: 'Abrir ventana de reservas',
   errorGeneric: 'No se pudo reservar — intenta de nuevo o usa la ventana de reservas.',
 };
@@ -927,6 +933,7 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
   const s = getBookingStrings(pathname);
 
   const [type, setType] = useState<MeetingType>('zoom');
+  const [refreshKey, setRefreshKey] = useState(0);
   const [slots, setSlots] = useState<SlotsByDay | null>(null);
   const [loadFailed, setLoadFailed] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -962,7 +969,7 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
     return () => {
       alive = false;
     };
-  }, [type]);
+  }, [type, refreshKey]);
 
   async function book() {
     if (!selected || submitting) return;
@@ -975,11 +982,11 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
         body: JSON.stringify({ type, start: selected, name, email, phone: phone || undefined }),
       });
       if (res.status === 409) {
-        setError('taken');
+        // The picked slot is gone — retrigger the guarded slots effect instead
+        // of racing an unguarded inline fetch against it.
         setSelected(null);
-        // refresh slots — the picked one is gone
-        const fresh = await fetch(`/api/book/slots?type=${type}`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-        if (fresh) setSlots((fresh as { slots: SlotsByDay }).slots);
+        setError('taken');
+        setRefreshKey((k) => k + 1);
         return;
       }
       if (!res.ok) {
@@ -1010,10 +1017,11 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
     );
   }
 
-  if (loadFailed) {
+  const noTimes = slots !== null && Object.keys(slots).length === 0;
+  if (loadFailed || noTimes) {
     return (
       <div className="mt-3 rounded-lg border border-brass/40 bg-brass/10 p-4 text-sm text-bone-muted">
-        <p>{s.loadFailed}</p>
+        <p>{loadFailed ? s.loadFailed : s.noTimes}</p>
         <button
           type="button"
           onClick={onOpenEmbed}
@@ -1032,8 +1040,9 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
   return (
     <div className="mt-3 rounded-lg border border-brass/40 bg-brass/10 p-4">
       <div className="font-serif text-base italic text-bone">{s.heading}</div>
+      <div className="text-[10px] text-bone-subtle">{s.tzNote}</div>
 
-      <div className="mt-2 flex gap-2" role="radiogroup" aria-label={s.heading}>
+      <div className="mt-2 flex flex-wrap gap-2" role="radiogroup" aria-label={s.heading}>
         {(['zoom', 'phone'] as const).map((t) => (
           <button
             key={t}
@@ -1067,7 +1076,10 @@ export function SlotPickerCard({ prefill, onOpenEmbed }: Props) {
                     key={slot.start}
                     type="button"
                     aria-pressed={selected === slot.start}
-                    onClick={() => setSelected(slot.start)}
+                    onClick={() => {
+                      setError(null);
+                      setSelected(slot.start);
+                    }}
                     className={
                       selected === slot.start
                         ? 'rounded bg-brass px-2 py-1 text-xs font-bold text-gunpowder'
@@ -1205,6 +1217,17 @@ describe('SlotPickerCard', () => {
     await userEvent.click(btn);
     expect(onOpenEmbed).toHaveBeenCalled();
   });
+
+  it('falls back to the embed button when no times are open', async () => {
+    const onOpenEmbed = vi.fn();
+    fetchMock.mockResolvedValueOnce(
+      jsonResponse(200, { slots: {}, timezone: 'America/Chicago' }),
+    );
+    render(<SlotPickerCard prefill={{}} onOpenEmbed={onOpenEmbed} />);
+    expect(await screen.findByText(/no open times/i)).toBeInTheDocument();
+    await userEvent.click(screen.getByRole('button', { name: /open booking window/i }));
+    expect(onOpenEmbed).toHaveBeenCalled();
+  });
 });
 ```
 
@@ -1258,10 +1281,7 @@ function MessageBubble({
   }
 
   return (
-    <div
-      className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}
-      role={isUser ? undefined : 'status'}
-    >
+    <div className={`flex w-full ${isUser ? 'justify-end' : 'justify-start'}`}>
       <div
         className={
           'max-w-[85%] rounded-xl px-4 py-3 text-sm leading-relaxed ' +
@@ -1270,11 +1290,16 @@ function MessageBubble({
             : 'bg-black/60 text-bone-muted ring-1 ring-brass/20')
         }
       >
-        {text.split('\n').map((line, i) => (
-          <p key={i} className={i > 0 ? 'mt-2' : undefined}>
-            {renderInline(line)}
-          </p>
-        ))}
+        {/* Live region covers only the message text — an interactive form
+            inside role="status" would be announced wholesale on every
+            slot-picker state change. */}
+        <div role={isUser ? undefined : 'status'}>
+          {text.split('\n').map((line, i) => (
+            <p key={i} className={i > 0 ? 'mt-2' : undefined}>
+              {renderInline(line)}
+            </p>
+          ))}
+        </div>
         {!isUser && book && !streaming && <SlotPickerCard prefill={prefill} onOpenEmbed={onBook} />}
       </div>
     </div>
