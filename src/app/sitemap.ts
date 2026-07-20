@@ -26,6 +26,7 @@ const STATIC_ROUTES = [
   '/reel-recon',
   '/shoots',
   '/refer',
+  '/privacy',
 ];
 
 const SPANISH_ROUTES = [
