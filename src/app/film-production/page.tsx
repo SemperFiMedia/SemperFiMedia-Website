@@ -110,7 +110,7 @@ export default function FilmProductionPage() {
       <ServiceJsonLd
         name="Film Production Day Rates Dallas — Semper Fi Media"
         description="Transparent film production day rates, crew-for-hire, and full Sony cinema kit pricing for networks, agencies, and production companies hiring DFW local crew."
-        url="https://www.semperfimedia.llc/film-production"
+        url="https://semperfimedia.llc/film-production"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

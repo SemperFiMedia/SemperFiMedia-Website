@@ -111,7 +111,7 @@ export default function DronePage() {
       <ServiceJsonLd
         name="Drone Photography & Videography Dallas"
         description="Aerial cinematography and drone photography in Dallas–Fort Worth. Owner-operated DJI cinema kit for roofing, real estate, small business, and event coverage."
-        url="https://www.semperfimedia.llc/corporate/drone"
+        url="https://semperfimedia.llc/corporate/drone"
       />
       <BreadcrumbJsonLd
         items={[

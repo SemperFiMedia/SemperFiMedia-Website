@@ -2,7 +2,7 @@ const fallback = (value: string | undefined, fallbackValue: string): string =>
   value && value.length > 0 ? value : fallbackValue;
 
 export const env = {
-  siteUrl: fallback(process.env.NEXT_PUBLIC_SITE_URL, 'https://www.semperfimedia.llc'),
+  siteUrl: fallback(process.env.NEXT_PUBLIC_SITE_URL, 'https://semperfimedia.llc'),
   analytics: {
     enabled: (process.env.NEXT_PUBLIC_ANALYTICS_ENABLED ?? 'false') === 'true',
     debug: (process.env.NEXT_PUBLIC_GA4_DEBUG ?? 'false') === 'true',

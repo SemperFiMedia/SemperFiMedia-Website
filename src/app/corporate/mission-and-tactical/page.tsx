@@ -21,7 +21,7 @@ export default async function MissionAndTacticalPage() {
       <ServiceJsonLd
         name="Tactical Video Production Dallas"
         description="Marine-led video production for first responders, police agencies, firearm brands, defense contractors, and veteran-adjacent organizations in Dallas–Fort Worth."
-        url="https://www.semperfimedia.llc/corporate/mission-and-tactical"
+        url="https://semperfimedia.llc/corporate/mission-and-tactical"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

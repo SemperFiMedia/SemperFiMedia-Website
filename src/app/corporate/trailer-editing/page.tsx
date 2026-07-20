@@ -93,7 +93,7 @@ export default function TrailerEditingPage() {
       <ServiceJsonLd
         name="Short Film & Movie Trailer Editing Dallas"
         description="Post-production-only trailer editing service. Teaser cuts, trailer cuts, and festival-ready premium trailers from client-provided footage. Dallas-based, Marine-led."
-        url="https://www.semperfimedia.llc/corporate/trailer-editing"
+        url="https://semperfimedia.llc/corporate/trailer-editing"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

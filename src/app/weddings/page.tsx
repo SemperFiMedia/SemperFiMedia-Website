@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   description:
     'Your wedding day, filmed like a Netflix documentary. Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Three packages from $3,500 — full transparency, no hidden fees.',
   alternates: {
-    canonical: 'https://www.semperfimedia.llc/weddings',
-    languages: { 'es-US': 'https://www.semperfimedia.llc/es/weddings' },
+    canonical: 'https://semperfimedia.llc/weddings',
+    languages: { 'es-US': 'https://semperfimedia.llc/es/weddings' },
   },
 };
 
@@ -176,7 +176,7 @@ export default async function WeddingsPage() {
       <ServiceJsonLd
         name="Netflix Documentary Wedding Films Dallas"
         description="Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Documentary-style wedding films from $3,500."
-        url="https://www.semperfimedia.llc/weddings"
+        url="https://semperfimedia.llc/weddings"
       />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">

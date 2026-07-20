@@ -49,7 +49,7 @@ export default async function SmallBusinessPage() {
       <ServiceJsonLd
         name="Small Business Video Production Dallas"
         description="Cinema-grade brand films, commercials, and storytelling videos for Dallas–Fort Worth small businesses. Starting at $1,500. No agency markup."
-        url="https://www.semperfimedia.llc/corporate/small-business"
+        url="https://semperfimedia.llc/corporate/small-business"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

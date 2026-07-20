@@ -49,7 +49,7 @@ export default async function QuinceanerasPage() {
       <ServiceJsonLd
         name="Quinceañera Videographer Dallas"
         description="Cinematic quinceañera videography in Dallas–Fort Worth. Cinema-grade quince films covering the Mass, court choreography, surprise dance, and reception."
-        url="https://www.semperfimedia.llc/corporate/quinceaneras"
+        url="https://semperfimedia.llc/corporate/quinceaneras"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

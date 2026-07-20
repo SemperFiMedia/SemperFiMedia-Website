@@ -148,7 +148,7 @@ export default function CorporatePage() {
       <ServiceJsonLd
         name="Corporate Video Production Dallas"
         description="Corporate video production, brand films, event video, and music videos in Dallas–Fort Worth."
-        url="https://www.semperfimedia.llc/corporate"
+        url="https://semperfimedia.llc/corporate"
       />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">

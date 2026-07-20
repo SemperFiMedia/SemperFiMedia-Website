@@ -10,10 +10,10 @@ export const metadata: Metadata = {
   description:
     'Producción de video cinematográfica liderada por un Marine en Dallas–Fort Worth. Bodas estilo Netflix, quinceañeras, videos musicales y películas de marca. Precios transparentes, calidad de cine.',
   alternates: {
-    canonical: 'https://www.semperfimedia.llc/es',
+    canonical: 'https://semperfimedia.llc/es',
     languages: {
-      'en-US': 'https://www.semperfimedia.llc/',
-      'es-US': 'https://www.semperfimedia.llc/es',
+      'en-US': 'https://semperfimedia.llc/',
+      'es-US': 'https://semperfimedia.llc/es',
     },
   },
 };

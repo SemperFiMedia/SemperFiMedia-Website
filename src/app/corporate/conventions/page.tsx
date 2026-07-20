@@ -49,7 +49,7 @@ export default async function ConventionsPage() {
       <ServiceJsonLd
         name="Convention Videographer Dallas"
         description="Cinematic convention coverage in Dallas–Fort Worth for cosplay, horror, comic, gaming, and trade conventions. Recap reels, walkthroughs, promo cuts with social deliverables."
-        url="https://www.semperfimedia.llc/corporate/conventions"
+        url="https://semperfimedia.llc/corporate/conventions"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

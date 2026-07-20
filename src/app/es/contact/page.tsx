@@ -10,10 +10,10 @@ export const metadata: Metadata = {
   description:
     'Reserva una llamada gratis de 30 minutos con Semper Fi Media. Producción de video en Dallas, bodas cinematográficas, quinceañeras, videos musicales.',
   alternates: {
-    canonical: 'https://www.semperfimedia.llc/es/contact',
+    canonical: 'https://semperfimedia.llc/es/contact',
     languages: {
-      'en-US': 'https://www.semperfimedia.llc/contact',
-      'es-US': 'https://www.semperfimedia.llc/es/contact',
+      'en-US': 'https://semperfimedia.llc/contact',
+      'es-US': 'https://semperfimedia.llc/es/contact',
     },
   },
 };

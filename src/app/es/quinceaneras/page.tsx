@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   description:
     'Videografía cinematográfica para quinceañeras en Dallas, Garland, Mesquite, Oak Cliff y todo DFW. Misa, vals, baile sorpresa, recepción — filmados con respeto a la tradición y calidad de cine. Liderado por un Marine.',
   alternates: {
-    canonical: 'https://www.semperfimedia.llc/es/quinceaneras',
+    canonical: 'https://semperfimedia.llc/es/quinceaneras',
     languages: {
-      'en-US': 'https://www.semperfimedia.llc/corporate/quinceaneras',
-      'es-US': 'https://www.semperfimedia.llc/es/quinceaneras',
+      'en-US': 'https://semperfimedia.llc/corporate/quinceaneras',
+      'es-US': 'https://semperfimedia.llc/es/quinceaneras',
     },
   },
 };
@@ -57,7 +57,7 @@ export default async function EsQuinceanerasPage() {
       <ServiceJsonLd
         name="Videógrafo de Quinceañeras Dallas"
         description="Videografía cinematográfica de quinceañeras en Dallas–Fort Worth — Garland, Mesquite, Oak Cliff, Forney, Plano. Misa, corte, vals, baile sorpresa, recepción."
-        url="https://www.semperfimedia.llc/es/quinceaneras"
+        url="https://semperfimedia.llc/es/quinceaneras"
       />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">

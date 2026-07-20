@@ -127,7 +127,7 @@ function renderProposalHtml(payload: ProposalRequest, proposal: Proposal): strin
             </p>
 
             <div style="margin:32px 0 0 0;text-align:center;">
-              <a href="https://www.semperfimedia.llc/contact" style="display:inline-block;background:#D4A057;color:#16181a;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;text-decoration:none;border-radius:4px;">
+              <a href="https://semperfimedia.llc/contact" style="display:inline-block;background:#D4A057;color:#16181a;font-size:12px;font-weight:bold;letter-spacing:0.12em;text-transform:uppercase;padding:14px 28px;text-decoration:none;border-radius:4px;">
                 Book a Discovery Call →
               </a>
             </div>

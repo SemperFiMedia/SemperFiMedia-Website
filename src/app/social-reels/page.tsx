@@ -43,7 +43,7 @@ export default async function SocialReelsPage() {
       <ServiceJsonLd
         name="Social Media Reels — Dallas"
         description="Vertical 9:16 social media reel production and footage repurposing in Dallas–Fort Worth."
-        url="https://www.semperfimedia.llc/social-reels"
+        url="https://semperfimedia.llc/social-reels"
       />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">

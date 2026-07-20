@@ -48,7 +48,7 @@ const TIERS = [
     turnaround: '12–16 weeks',
     rankNarrative: 'Commissioned officers lead the Marine Corps — company grade (O1–O3), field grade (O4–O6), and general officers (O7–O10). They command. The Commissioned tier is for brands that command authority in their market — enterprise-grade in every dimension.',
     description: 'Enterprise build: Next.js + TypeScript + Sanity CMS + Mux video + multi-language (ES/EN) + JSON-LD + Core Web Vitals optimization. Post-launch training included.',
-    example: { label: 'Built by SFM', name: 'semperfimedia.llc', url: 'https://www.semperfimedia.llc' },
+    example: { label: 'Built by SFM', name: 'semperfimedia.llc', url: 'https://semperfimedia.llc' },
   },
 ];
 
@@ -139,7 +139,7 @@ export default function WebsiteDesignPage() {
       <ServiceJsonLd
         name="Website Design Dallas — Semper Fi Media"
         description="Custom-coded and Wix Studio websites for Dallas-Fort Worth small businesses. Four tiers from $2,500 to $22,500. Client-owned domains, optional managed hosting, full handoff at contract end."
-        url="https://www.semperfimedia.llc/corporate/website-design"
+        url="https://semperfimedia.llc/corporate/website-design"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

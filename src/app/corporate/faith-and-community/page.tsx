@@ -49,7 +49,7 @@ export default async function FaithAndCommunityPage() {
       <ServiceJsonLd
         name="Church and Nonprofit Video Production Dallas"
         description="Cinema-grade video production for Texas churches, ministries, nonprofits, and faith-based organizations. Values-aligned storytelling with warmth and craft."
-        url="https://www.semperfimedia.llc/corporate/faith-and-community"
+        url="https://semperfimedia.llc/corporate/faith-and-community"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

@@ -12,10 +12,10 @@ export const metadata: Metadata = {
   description:
     'Bodas filmadas como documentales de Netflix en Dallas–Fort Worth. Liderado por un Marine, precios transparentes desde $3,500. Tres paquetes flat, sin sorpresas.',
   alternates: {
-    canonical: 'https://www.semperfimedia.llc/es/weddings',
+    canonical: 'https://semperfimedia.llc/es/weddings',
     languages: {
-      'en-US': 'https://www.semperfimedia.llc/weddings',
-      'es-US': 'https://www.semperfimedia.llc/es/weddings',
+      'en-US': 'https://semperfimedia.llc/weddings',
+      'es-US': 'https://semperfimedia.llc/es/weddings',
     },
   },
 };
@@ -92,7 +92,7 @@ export default async function EsWeddingsPage() {
       <ServiceJsonLd
         name="Bodas Cinematográficas Dallas — Estilo Netflix"
         description="Videografía de bodas con calidad de cine en Dallas–Fort Worth. Estilo documental Netflix. Tres paquetes desde $3,500."
-        url="https://www.semperfimedia.llc/es/weddings"
+        url="https://semperfimedia.llc/es/weddings"
       />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">

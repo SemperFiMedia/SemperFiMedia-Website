@@ -49,7 +49,7 @@ export default async function BirthdayPartiesPage() {
       <ServiceJsonLd
         name="Birthday Party Videographer Dallas"
         description="Cinema-grade birthday party videography in Dallas–Fort Worth. Milestone birthdays, surprise parties, themed celebrations, and private family events filmed with cinematic craft."
-        url="https://www.semperfimedia.llc/corporate/birthday-parties"
+        url="https://semperfimedia.llc/corporate/birthday-parties"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },

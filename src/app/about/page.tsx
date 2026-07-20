@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description:
     'Meet TJ Gutierrez — Marine Corps veteran, cinematographer, and founder of Semper Fi Media. The five Marine principles we apply to every wedding, brand film, and music video we shoot in Dallas–Fort Worth.',
   alternates: {
-    canonical: 'https://www.semperfimedia.llc/about',
-    languages: { 'es-US': 'https://www.semperfimedia.llc/es/about' },
+    canonical: 'https://semperfimedia.llc/about',
+    languages: { 'es-US': 'https://semperfimedia.llc/es/about' },
   },
 };
 

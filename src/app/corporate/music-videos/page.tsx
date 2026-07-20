@@ -48,7 +48,7 @@ export default async function MusicVideosPage() {
       <ServiceJsonLd
         name="Music Video Production Dallas"
         description="Single-day cinematic music video production for independent and signed artists in Dallas–Fort Worth. $3,000 flat with 14-day delivery."
-        url="https://www.semperfimedia.llc/corporate/music-videos"
+        url="https://semperfimedia.llc/corporate/music-videos"
       />
       <BreadcrumbJsonLd items={[
         { name: 'Home', href: '/' },
