@@ -105,6 +105,7 @@ type VideoProps = {
   uploadDate: string;
   contentUrl?: string;
   embedUrl?: string;
+  duration?: string;
 };
 
 export function VideoJsonLd(props: VideoProps) {
