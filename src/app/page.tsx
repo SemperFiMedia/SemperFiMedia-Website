@@ -10,6 +10,7 @@ import { TestimonialFeature } from '@/components/home/testimonial-feature';
 import { LogoWall } from '@/components/home/logo-wall';
 import { CtaCloser } from '@/components/home/cta-closer';
 import { SocialReelsPitch } from '@/components/home/social-reels-pitch';
+import { FeaturedMusicVideo } from '@/components/home/featured-music-video';
 import { ProcessSection } from '@/components/home/process-section';
 import { FaqSection } from '@/components/home/faq-section';
 import { Reveal } from '@/components/primitives/reveal';
@@ -49,6 +50,9 @@ export default async function HomePage() {
             <FeaturedWork caseStudies={caseStudies} />
           </Reveal>
         )}
+        <Reveal>
+          <FeaturedMusicVideo />
+        </Reveal>
         <Reveal>
           <DualFunnel />
         </Reveal>
