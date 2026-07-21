@@ -45,14 +45,14 @@ export default async function HomePage() {
         <Reveal>
           <PositioningStrip />
         </Reveal>
+        <Reveal>
+          <FeaturedMusicVideo />
+        </Reveal>
         {caseStudies.length > 0 && (
           <Reveal>
             <FeaturedWork caseStudies={caseStudies} />
           </Reveal>
         )}
-        <Reveal>
-          <FeaturedMusicVideo />
-        </Reveal>
         <Reveal>
           <DualFunnel />
         </Reveal>

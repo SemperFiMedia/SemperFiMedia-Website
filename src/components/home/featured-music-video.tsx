@@ -2,10 +2,14 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { CinematicVideo } from '@/components/media/cinematic-video';
 import { VideoJsonLd } from '@/components/seo/structured-data';
+import { env } from '@/lib/env';
 
 export const FEATURED_VIDEO_PLAYBACK_ID = 'AbrUiZ7cPm2CmYDPdbRXUopfqAqVTB01J9nZSWW701l1w';
 
-const POSTER_URL = `https://image.mux.com/${FEATURED_VIDEO_PLAYBACK_ID}/thumbnail.webp`;
+// Branded music-video thumbnail (poster shown before play). Local path for the
+// player; absolute URL for the JSON-LD thumbnail Google requires.
+const POSTER_PATH = '/featured-cole-cut-up.webp';
+const POSTER_URL = `${env.siteUrl}${POSTER_PATH}`;
 const TITLE = 'Cut Up';
 const ARTIST = 'Cole';
 const DESCRIPTION =
@@ -35,7 +39,7 @@ export function FeaturedMusicVideo() {
           <CinematicVideo
             playbackId={FEATURED_VIDEO_PLAYBACK_ID}
             title="Cole — Cut Up"
-            poster={POSTER_URL}
+            poster={POSTER_PATH}
             aspect="video"
             className="rounded"
           />
