@@ -5,8 +5,7 @@ import { VideoJsonLd } from '@/components/seo/structured-data';
 
 export const FEATURED_VIDEO_PLAYBACK_ID = 'AbrUiZ7cPm2CmYDPdbRXUopfqAqVTB01J9nZSWW701l1w';
 
-const POSTER_URL =
-  'https://image.mux.com/AbrUiZ7cPm2CmYDPdbRXUopfqAqVTB01J9nZSWW701l1w/thumbnail.webp';
+const POSTER_URL = `https://image.mux.com/${FEATURED_VIDEO_PLAYBACK_ID}/thumbnail.webp`;
 const TITLE = 'Cut Up';
 const ARTIST = 'Cole';
 const DESCRIPTION =
@@ -16,14 +15,14 @@ export function FeaturedMusicVideo() {
   return (
     <section
       className="bg-gunpowder px-6 py-20 md:px-12 md:py-28"
-      aria-label="Featured music video"
+      aria-label='Featured music video: Cole — "Cut Up"'
     >
       <VideoJsonLd
         name='Cole — "Cut Up"'
         description={DESCRIPTION}
         thumbnailUrl={POSTER_URL}
         uploadDate="2026-06-04"
-        embedUrl="https://stream.mux.com/AbrUiZ7cPm2CmYDPdbRXUopfqAqVTB01J9nZSWW701l1w.m3u8"
+        contentUrl={`https://stream.mux.com/${FEATURED_VIDEO_PLAYBACK_ID}.m3u8`}
         duration="PT2M1S"
       />
       <div className="mx-auto max-w-[1440px]">
