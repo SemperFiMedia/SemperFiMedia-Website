@@ -9,6 +9,8 @@ import {
   travelIncludedList,
   travelPolicySentence,
   MILEAGE_RATE_LABEL,
+  MILEAGE_RATE_PHRASE,
+  MILEAGE_ORIGIN,
 } from '@/lib/service-area';
 
 export const SESSION_CAPTURE_PRICE = 1000;
@@ -43,7 +45,7 @@ export const SESSION_CAPTURE_INCLUDES = [
   },
   {
     title: 'Travel within our service area included.',
-    body: `${travelIncludedList()} — no travel line on the invoice. Anywhere else is ${MILEAGE_RATE_LABEL}/mile, quoted before you book.`,
+    body: `${travelIncludedList()} — no travel line on the invoice. Anywhere else is ${MILEAGE_RATE_PHRASE}, quoted before you book.`,
   },
 ] as const;
 
@@ -188,7 +190,7 @@ export const SESSION_CAPTURE_POLICIES = [
     label: 'BEYOND OUR AREA',
     name: 'Travel',
     price: MILEAGE_RATE_LABEL,
-    unit: '/ mile',
+    unit: `/ mile from ${MILEAGE_ORIGIN}`,
     note: travelPolicySentence(),
   },
   {

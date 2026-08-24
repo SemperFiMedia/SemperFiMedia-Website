@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { travelIncludedList, MILEAGE_RATE_LABEL } from '@/lib/service-area';
+import { travelIncludedList, MILEAGE_RATE_PHRASE } from '@/lib/service-area';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -118,7 +118,7 @@ const FAQS = [
   },
   {
     q: 'Do you travel outside DFW?',
-    a: `Travel is included in the base price across our core service area — ${travelIncludedList()}. Anywhere else we charge ${MILEAGE_RATE_LABEL} per mile, quoted before you book so it is never a surprise on the invoice. Austin, Houston, and San Antonio conferences are regular work for us.`,
+    a: `Travel is included in the base price across our core service area — ${travelIncludedList()}. Anywhere else we charge ${MILEAGE_RATE_PHRASE}, quoted before you book so it is never a surprise on the invoice. Austin, Houston, and San Antonio conferences are regular work for us.`,
   },
   {
     q: 'Can you cover a panel instead of a solo talk?',

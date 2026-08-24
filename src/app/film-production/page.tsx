@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
-import { MILEAGE_RATE_LABEL, travelIncludedListShort } from '@/lib/service-area';
+import {
+  MILEAGE_RATE_LABEL,
+  MILEAGE_ORIGIN,
+  travelIncludedListShort,
+} from '@/lib/service-area';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -91,7 +95,7 @@ const FILM_PRODUCTION_LOGISTICS = [
   { name: 'Meal Penalty', price: '$35', note: 'Per crew member, per half-hour past the 6-hour mark.' },
   { name: 'Prep Day / Tech Scout', price: '50%', note: 'Half rate for prep, scout, or wrap-only days.' },
   { name: 'Travel Day', price: '50%', note: 'Half rate for days spent traveling to location.' },
-  { name: 'Mileage (beyond service area)', price: `${MILEAGE_RATE_LABEL}/mi`, note: `Outside ${travelIncludedListShort()}.` },
+  { name: 'Mileage (beyond service area)', price: `${MILEAGE_RATE_LABEL}/mi`, note: `Measured from ${MILEAGE_ORIGIN}. Outside ${travelIncludedListShort()}.` },
   { name: 'Per Diem (multi-day)', price: '$75/day', note: 'M&IE only. Lodging billed at cost.' },
   { name: 'Rush Delivery', price: 'Quoted', note: 'Faster than the 2–4 week standard turnaround.' },
   { name: 'Raw Footage Buyout', price: '100%', note: 'Of project cost. Transfers all media rights.' },

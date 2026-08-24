@@ -16,8 +16,11 @@ import {
   TRAVEL_INCLUDED_CITIES,
   MILEAGE_RATE,
   MILEAGE_RATE_LABEL,
+  MILEAGE_ORIGIN,
+  MILEAGE_RATE_PHRASE,
   travelIncludedList,
   travelPolicySentence,
+  travelPolicyShort,
   travelPolicySentenceEs,
 } from './service-area';
 
@@ -48,6 +51,24 @@ const STALE = [
 ];
 
 describe('service area', () => {
+  it('always says where the mileage clock starts', () => {
+    // A rate with no origin is unbillable. The chatbot invented "from Forney"
+    // when this was unstated; every quoted rate now carries the origin.
+    expect(MILEAGE_ORIGIN).toBe('Dallas');
+    expect(MILEAGE_RATE_PHRASE).toBe('$0.75/mile from Dallas');
+    for (const sentence of [travelPolicySentence(), travelPolicyShort()]) {
+      expect(sentence).toContain('from Dallas');
+    }
+    expect(travelPolicySentenceEs()).toContain('desde Dallas');
+  });
+
+  it('never attributes the mileage origin to Forney', () => {
+    const offenders = files
+      .filter((f) => /mile[^.]{0,40}from Forney|from Forney[^.]{0,20}mile/i.test(f.text))
+      .map((f) => f.path.slice(SRC.length + 1));
+    expect(offenders, 'mileage is measured from Dallas, not Forney').toEqual([]);
+  });
+
   it('states one mileage rate', () => {
     expect(MILEAGE_RATE).toBe(0.75);
     expect(MILEAGE_RATE_LABEL).toBe('$0.75');

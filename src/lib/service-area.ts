@@ -31,6 +31,16 @@ export const TRAVEL_INCLUDED_CITIES = [
 export const MILEAGE_RATE = 0.75;
 export const MILEAGE_RATE_LABEL = `$${MILEAGE_RATE.toFixed(2)}`;
 
+/**
+ * Where the mileage clock starts. Stating this is not pedantry — the rate
+ * without an origin is unbillable, and the chatbot had begun telling visitors
+ * "from Forney" on its own initiative because nothing here said otherwise.
+ */
+export const MILEAGE_ORIGIN = 'Dallas';
+
+/** "$0.75/mile from Dallas" — use wherever the rate is quoted. */
+export const MILEAGE_RATE_PHRASE = `${MILEAGE_RATE_LABEL}/mile from ${MILEAGE_ORIGIN}`;
+
 /** "Dallas, Oak Cliff, … and Plano" */
 export function travelIncludedList(): string {
   const cities = [...TRAVEL_INCLUDED_CITIES];
@@ -45,17 +55,17 @@ export function travelIncludedListShort(): string {
 
 /** The full policy, for FAQs and rate sheets. */
 export function travelPolicySentence(): string {
-  return `Travel is included in ${travelIncludedList()}. Anywhere else, ${MILEAGE_RATE_LABEL}/mile plus lodging where an overnight is required — quoted before you book, never added after.`;
+  return `Travel is included in ${travelIncludedList()}. Anywhere else, ${MILEAGE_RATE_PHRASE}, plus lodging where an overnight is required — quoted before you book, never added after.`;
 }
 
 /** Compact version, for configurator fine print and cards. */
 export function travelPolicyShort(): string {
-  return `Travel included in ${travelIncludedList()}. Beyond that, ${MILEAGE_RATE_LABEL}/mile, quoted up front.`;
+  return `Travel included in ${travelIncludedList()}. Beyond that, ${MILEAGE_RATE_PHRASE}, quoted up front.`;
 }
 
 /** Spanish, for the /es site. */
 export function travelPolicySentenceEs(): string {
   const cities = [...TRAVEL_INCLUDED_CITIES];
   const last = cities.pop();
-  return `El viaje está incluido en ${cities.join(', ')} y ${last}. Fuera de esa área, ${MILEAGE_RATE_LABEL}/milla más hospedaje cuando aplica — cotizado antes de reservar, nunca agregado después.`;
+  return `El viaje está incluido en ${cities.join(', ')} y ${last}. Fuera de esa área, ${MILEAGE_RATE_LABEL}/milla medido desde ${MILEAGE_ORIGIN}, más hospedaje cuando aplica — cotizado antes de reservar, nunca agregado después.`;
 }
