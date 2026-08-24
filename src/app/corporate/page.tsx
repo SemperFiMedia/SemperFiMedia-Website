@@ -23,6 +23,14 @@ const NICHES = [
     emphasized: true,
   },
   {
+    href: '/session-capture',
+    label: 'SPEAKERS & KEYNOTES',
+    title: 'Session Capture',
+    description:
+      'Conference speakers, panelists, and keynote presenters. One session recorded properly — 4K cinema camera, dual-redundant audio off the house sound board, slides cut in. $1,000 flat, delivered in 14 days.',
+    emphasized: false,
+  },
+  {
     href: '/corporate/faith-and-community',
     label: 'VALUES-ALIGNED',
     title: 'Faith & Community',
@@ -198,7 +206,8 @@ export default function CorporatePage() {
               Three tiers from half-day Spotlight brand films to full-production multi-day
               shoots. Every niche above plays inside this pricing — Mission &amp; Tactical,
               Small Business, Faith &amp; Community, Conventions, Quinceañeras, Birthdays all
-              scope here. Music Videos have their own dedicated pricing page.
+              scope here. Music Videos and Session Capture have their own dedicated pricing
+              pages.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {CORPORATE_TIERS.map((tier) => (
@@ -206,6 +215,9 @@ export default function CorporatePage() {
               ))}
             </div>
             <div className="mt-10 flex flex-wrap gap-4">
+              <BrassButton href="/session-capture" variant="outline">
+                Session Capture Pricing →
+              </BrassButton>
               <BrassButton href="/corporate/music-videos" variant="outline">
                 Music Video Pricing →
               </BrassButton>

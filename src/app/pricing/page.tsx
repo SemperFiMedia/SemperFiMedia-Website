@@ -11,7 +11,7 @@ import { ViewContent } from '@/components/analytics/view-content';
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
   description:
-    'Published pricing for cinema weddings, corporate video, music videos, trailer editing, website design, and DFW film production day rates. Every tier, every add-on, transparent — no mystery quoting.',
+    'Published pricing for cinema weddings, corporate video, conference session capture, music videos, trailer editing, website design, and DFW film production day rates. Every tier, every add-on, transparent — no mystery quoting.',
 };
 
 const SERVICE_OVERVIEW = [
@@ -34,6 +34,16 @@ const SERVICE_OVERVIEW = [
     description: 'Spotlight ($1,500), Brand Film ($3,500), Full Production (quoted). Covers every Corporate niche: Mission & Tactical, Small Business, Faith & Community, Conventions, Quinceañeras, Birthdays.',
     href: '/corporate#pricing',
     linkLabel: 'See Corporate Pricing →',
+  },
+  {
+    id: 'session-capture',
+    label: 'CONFERENCE & KEYNOTE SPEAKERS',
+    title: 'Session Capture',
+    startingPrice: '$1,000',
+    priceNote: 'flat · 14-day delivery',
+    description: 'One conference session, keynote, or panel recorded properly. Up to 2 hours onsite, 4K cinema camera, dual-redundant audio off the house sound board, slides cut in free. 7 add-ons including vertical social clips and a second camera angle.',
+    href: '/session-capture',
+    linkLabel: 'See Session Capture Pricing →',
   },
   {
     id: 'music-videos',
@@ -139,6 +149,7 @@ const PRICING_OFFERS = [
   { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: '1500', url: '/corporate' },
   { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: '3500', url: '/corporate' },
   { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
+  { name: 'Session Capture', description: 'Conference session, keynote, or panel recording. 2 hours onsite, 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery', price: '1000', url: '/session-capture' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/film-production' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/film-production' },
   { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/film-production' },
@@ -156,6 +167,7 @@ const PRICING_OFFERS = [
 const JUMP_SECTIONS = [
   { id: 'weddings', label: 'Weddings' },
   { id: 'corporate', label: 'Corporate' },
+  { id: 'session-capture', label: 'Sessions' },
   { id: 'music-videos', label: 'Music' },
   { id: 'trailer-editing', label: 'Trailers' },
   { id: 'website-design', label: 'Websites' },

@@ -5,6 +5,8 @@ const LINKS = [
   { href: '/work', label: 'Work' },
   { href: '/corporate', label: 'Corporate' },
   { href: '/weddings', label: 'Weddings' },
+  // Short label follows the /social-reels → "Social" precedent; the desktop bar is tight.
+  { href: '/session-capture', label: 'Sessions' },
   { href: '/social-reels', label: 'Social' },
   { href: '/blog', label: 'Blog' },
   { href: '/reel-recon', label: 'Reel Recon' },

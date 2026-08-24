@@ -74,13 +74,25 @@ export function LocalBusinessJsonLd() {
   );
 }
 
+type ServiceOffer = {
+  name: string;
+  description: string;
+  /** Whole-dollar string, e.g. '1000'. */
+  price: string;
+  priceCurrency?: string;
+  /** Site-relative path. Defaults to the service url. */
+  url?: string;
+};
+
 type ServiceProps = {
   name: string;
   description: string;
   url: string;
+  /** Optional priced offers attached to this service. */
+  offers?: ServiceOffer[];
 };
 
-export function ServiceJsonLd({ name, description, url }: ServiceProps) {
+export function ServiceJsonLd({ name, description, url, offers }: ServiceProps) {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -89,6 +101,47 @@ export function ServiceJsonLd({ name, description, url }: ServiceProps) {
     description,
     url,
     areaServed: { '@type': 'City', name: 'Dallas' },
+    ...(offers && offers.length > 0
+      ? {
+          offers: offers.map((offer) => ({
+            '@type': 'Offer',
+            name: offer.name,
+            description: offer.description,
+            price: offer.price,
+            priceCurrency: offer.priceCurrency ?? 'USD',
+            availability: 'https://schema.org/InStock',
+            url: offer.url ? `${env.siteUrl}${offer.url}` : url,
+          })),
+        }
+      : {}),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+type FaqItem = { q: string; a: string };
+
+/**
+ * FAQPage markup. Google requires the answer text to match what a visitor
+ * actually reads on the page, so callers pass plain-text mirrors of the
+ * rendered answers rather than a separate marketing summary.
+ */
+export function FaqJsonLd({ items }: { items: FaqItem[] }) {
+  const data = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
   };
   return (
     <script
