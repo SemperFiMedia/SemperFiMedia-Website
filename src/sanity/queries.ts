@@ -11,7 +11,7 @@ export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
     groq`*[_type == "caseStudy" && featured == true] | order(publishedAt desc)[0...$limit]{
       _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
     }`,
-    { limit: limit - 1 }
+    { limit }
   );
 }
 

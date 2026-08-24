@@ -138,7 +138,7 @@ export default function WebsiteDesignPage() {
       <Nav />
       <ServiceJsonLd
         name="Website Design Dallas — Semper Fi Media"
-        description="Custom-coded and Wix Studio websites for Dallas-Fort Worth small businesses. Four tiers from $2,500 to $22,500. Client-owned domains, optional managed hosting, full handoff at contract end."
+        description="Custom-coded and Wix Studio websites for Dallas-Fort Worth small businesses. Four tiers from $4,500 to $22,500. Client-owned domains, optional managed hosting, full handoff at contract end."
         url="https://semperfimedia.llc/corporate/website-design"
       />
       <BreadcrumbJsonLd items={[
