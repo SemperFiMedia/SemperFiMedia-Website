@@ -12,6 +12,7 @@ const ROUTES = [
   '/corporate/quinceaneras',
   '/corporate/birthday-parties',
   '/weddings',
+  '/session-capture',
   '/social-reels',
   '/about',
   '/pricing',

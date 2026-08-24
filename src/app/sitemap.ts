@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   '/corporate/trailer-editing',
   '/corporate/website-design',
   '/film-production',
+  '/session-capture',
   '/corporate/small-business',
   '/corporate/faith-and-community',
   '/corporate/conventions',
