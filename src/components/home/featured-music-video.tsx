@@ -25,7 +25,7 @@ export function FeaturedMusicVideo() {
         name='Cole — "Cut Up"'
         description={DESCRIPTION}
         thumbnailUrl={POSTER_URL}
-        uploadDate="2026-06-04"
+        uploadDate="2026-06-04T12:00:00-05:00"
         contentUrl={`https://stream.mux.com/${FEATURED_VIDEO_PLAYBACK_ID}.m3u8`}
         duration="PT2M1S"
       />
