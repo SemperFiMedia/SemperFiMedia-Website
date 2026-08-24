@@ -11,6 +11,11 @@ const SERVICES = [
   { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
   { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
   { href: '/social-reels', label: 'Social Media Reels' },
+  { href: '/session-capture', label: 'Session Capture' },
+  { href: '/corporate/drone', label: 'Drone & Aerial' },
+  { href: '/corporate/trailer-editing', label: 'Trailer Editing' },
+  { href: '/corporate/website-design', label: 'Website Design' },
+  { href: '/film-production', label: 'Film Production Crew' },
   { href: '/pricing', label: 'Pricing' },
 ] as const;
 
@@ -19,6 +24,7 @@ const COMPANY = [
   { href: '/work', label: 'Work' },
   { href: '/shoots', label: 'Recent Shoots' },
   { href: '/blog', label: 'The Field Notes' },
+  { href: '/reel-recon', label: 'Reel Recon' },
   { href: '/refer', label: 'Refer & Earn $200' },
   { href: '/contact', label: 'Contact' },
 ] as const;

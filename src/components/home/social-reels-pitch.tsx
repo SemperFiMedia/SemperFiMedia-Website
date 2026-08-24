@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { DataLabel } from '@/components/primitives/data-label';
 import { CinematicVideo } from '@/components/media/cinematic-video';
-import { urlForImage } from '@/sanity/image';
-import { cn } from '@/lib/utils';
+import { muxVerticalPoster } from '@/lib/mux-image';
 import type { CaseStudy } from '@/sanity/types';
 
 type Props = {
@@ -36,30 +35,28 @@ export function SocialReelsPitch({ reels }: Props) {
               See reel work →
             </Link>
           </div>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4">
-            {reels.slice(0, 3).map((reel, i) => {
-              const posterUrl = reel.poster
-                ? urlForImage(reel.poster)?.width(960).height(540).url() ?? undefined
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-4">
+            {reels.slice(0, 3).map((reel) => {
+              // From the video, not Sanity — see /social-reels for why.
+              const posterUrl = reel.muxPlaybackId
+                ? muxVerticalPoster(reel.muxPlaybackId)
                 : undefined;
               return reel.muxPlaybackId ? (
                 <CinematicVideo
                   key={reel._id}
                   playbackId={reel.muxPlaybackId}
                   title={reel.title}
-                  aspect="video"
+                  aspect="vertical"
                   poster={posterUrl}
                   autoPlay
                   muted
                   loop
-                  className={cn('rounded', i === 2 && 'sm:col-span-2')}
+                  className="rounded"
                 />
               ) : (
                 <div
                   key={reel._id}
-                  className={cn(
-                    'aspect-video rounded bg-gradient-to-br from-dusk-teal to-texas-umber',
-                    i === 2 && 'sm:col-span-2',
-                  )}
+                  className="aspect-[9/16] rounded bg-gradient-to-br from-dusk-teal to-texas-umber"
                 />
               );
             })}

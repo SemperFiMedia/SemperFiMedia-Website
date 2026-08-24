@@ -7,6 +7,7 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { CinematicVideo } from '@/components/media/cinematic-video';
+import { muxVerticalPoster } from '@/lib/mux-image';
 import { YouTubeEmbed } from '@/components/media/youtube-embed';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { Reveal } from '@/components/primitives/reveal';
@@ -88,8 +89,14 @@ export default async function CaseStudyPage({ params }: RouteProps) {
                 <CinematicVideo
                   playbackId={cs.muxPlaybackId}
                   title={cs.title}
-                  poster={posterUrl ?? undefined}
-                  aspect="video"
+                  // Social reels are shot 9:16; a landscape frame letterboxes them.
+                  poster={
+                    cs.category === 'social'
+                      ? muxVerticalPoster(cs.muxPlaybackId)
+                      : posterUrl ?? undefined
+                  }
+                  aspect={cs.category === 'social' ? 'vertical' : 'video'}
+                  className={cs.category === 'social' ? 'mx-auto max-w-[420px]' : undefined}
                 />
               ) : null}
             </div>

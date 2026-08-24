@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -73,6 +74,14 @@ export default async function SmallBusinessPage() {
               Cinema-grade brand films, commercials, and storytelling video for Dallas
               restaurants, trades, law firms, med spas, and independent retailers. Built by a
               Marine who knows you didn't start a business to write $15,000 video checks.
+            </p>
+            <p className="mt-6 max-w-2xl text-sm text-bone-muted">
+              <span className="text-brass">From $1,500.</span> Delivered on the Corporate
+              tiers — Spotlight ($1,500, half-day shoot) or Brand Film ($3,500, full day).{' '}
+              <Link href="/pricing#corporate" className="text-brass underline">
+                See full pricing
+              </Link>
+              .
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Book a brand film</BrassButton>

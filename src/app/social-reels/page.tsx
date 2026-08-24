@@ -6,7 +6,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { CinematicVideo } from '@/components/media/cinematic-video';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
-import { urlForImage } from '@/sanity/image';
+import { muxVerticalPoster } from '@/lib/mux-image';
 import { getSocialReels } from '@/sanity/queries';
 
 export const metadata: Metadata = {
@@ -92,10 +92,13 @@ export default async function SocialReelsPage() {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {reels.map((reel) => {
-                  const posterUrl = reel.poster
-                    ? urlForImage(reel.poster)?.width(1280).height(720).url() ?? undefined
+                  // Poster comes from the video, not from Sanity: the uploaded
+                  // stills for reels are landscape, and a landscape still in a
+                  // 9:16 frame is what pushed these into 16:9 in the first place.
+                  const posterUrl = reel.muxPlaybackId
+                    ? muxVerticalPoster(reel.muxPlaybackId)
                     : undefined;
                   return (
                     <figure key={reel._id} className="flex flex-col gap-3">
@@ -103,12 +106,12 @@ export default async function SocialReelsPage() {
                         <CinematicVideo
                           playbackId={reel.muxPlaybackId}
                           title={reel.title}
-                          aspect="video"
+                          aspect="vertical"
                           poster={posterUrl}
                           className="rounded"
                         />
                       ) : (
-                        <div className="aspect-video rounded bg-gradient-to-br from-dusk-teal to-texas-umber" />
+                        <div className="aspect-[9/16] rounded bg-gradient-to-br from-dusk-teal to-texas-umber" />
                       )}
                       <figcaption>
                         <DataLabel tone="muted" className="text-[11px]">

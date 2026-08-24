@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -71,6 +72,14 @@ export default async function ConventionsPage() {
               Convention videography for Dallas–Fort Worth horror cons, cosplay and anime cons,
               comic and pop culture expos, gaming events, and trade shows. Cinematic recap
               footage that your promoters, exhibitors, and attendees will actually share.
+            </p>
+            <p className="mt-6 max-w-2xl text-sm text-bone-muted">
+              <span className="text-brass">From $1,500.</span> Delivered on the Corporate
+              tiers — Spotlight ($1,500, half-day shoot) or Brand Film ($3,500, full day).{' '}
+              <Link href="/pricing#corporate" className="text-brass underline">
+                See full pricing
+              </Link>
+              .
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Book convention coverage</BrassButton>

@@ -8,8 +8,11 @@ const LINKS = [
   // Short label follows the /social-reels → "Social" precedent; the desktop bar is tight.
   { href: '/session-capture', label: 'Sessions' },
   { href: '/social-reels', label: 'Social' },
+  // Published rates are the core brand promise ("No surprises"), so /pricing
+  // earns a slot in the bar. Reel Recon is audience-building rather than a
+  // service anyone buys — it stays in the drawer and the footer.
+  { href: '/pricing', label: 'Pricing' },
   { href: '/blog', label: 'Blog' },
-  { href: '/reel-recon', label: 'Reel Recon' },
   { href: '/about', label: 'About' },
 ] as const;
 
