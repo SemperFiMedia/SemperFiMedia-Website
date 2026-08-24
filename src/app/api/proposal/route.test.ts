@@ -17,7 +17,7 @@ vi.mock('@anthropic-ai/sdk', () => ({
 
 vi.mock('@/lib/env', () => ({
   env: {
-    anthropic: { apiKey: 'test-key', model: 'claude-test' },
+    anthropic: { apiKey: 'test-key', chatModel: 'claude-chat-test', proposalModel: 'claude-proposal-test' },
     resend: {
       apiKey: 'test-key',
       fromEmail: 'hello@semperfimedia.llc',

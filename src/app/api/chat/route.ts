@@ -182,7 +182,7 @@ export async function POST(request: Request) {
 
         for (let turn = 0; turn < MAX_AGENT_TURNS; turn++) {
           const claudeStream = client.messages.stream({
-            model: env.anthropic.model,
+            model: env.anthropic.chatModel,
             // Headroom for always-on thinking, which shares the output
             // budget on every model this route runs on, so concise replies
             // never truncate mid-sentence.

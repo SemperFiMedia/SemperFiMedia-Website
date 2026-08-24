@@ -225,7 +225,7 @@ export async function POST(request: Request) {
   let proposal: Proposal;
   try {
     const response = await client.messages.create({
-      model: env.anthropic.model,
+      model: env.anthropic.proposalModel,
       max_tokens: 1500,
       system: [
         {

@@ -37,24 +37,32 @@ export const env = {
   anthropic: {
     apiKey: process.env.ANTHROPIC_API_KEY ?? '',
     /**
-     * Powers the chat concierge and the AI wedding proposal generator.
+     * The two AI features are priced deliberately differently, because their
+     * economics are not the same.
      *
-     * Opus 5 is Anthropic's recommended default and costs half what Fable 5
-     * does per token ($5/$25 per million in/out, against $10/$50) — which
-     * matters here because the chatbot's system prompt is large and every
-     * visitor message pays for it.
+     * The chat concierge runs on every visitor message, so volume drives its
+     * cost. Opus 5 is Anthropic's recommended default and half Fable 5's token
+     * rate ($5/$25 per million in/out against $10/$50) — and the job is mostly
+     * reading a rate sheet accurately and writing in brand voice, not hard
+     * reasoning.
      *
-     * Fable 5 is the more capable model if quality ever justifies the spend.
-     * Switching is an environment variable, not a code change: set
-     * ANTHROPIC_MODEL in Railway and redeploy. Both models suit this code as
-     * written — thinking is on by default on each, neither accepts
-     * `temperature` or assistant prefill, and both can return a `refusal`
-     * stop reason, which the chat route already handles with a human hand-off.
+     * The wedding proposal generator runs once per form submission, against a
+     * lead worth $3,500–$8,000. It writes personalised sales copy to a couple
+     * who just described their wedding — a genuine writing task where the more
+     * capable model earns its keep, and the volume is low enough that the
+     * higher rate barely registers. It ran on Fable 5 from April until
+     * 2026-08-24, so this is its known-good path.
      *
-     * No expiry date here on purpose. The previous note said "switch after
+     * Both are environment variables, not code changes. Both models suit the
+     * routes as written: thinking is on by default on each, neither accepts
+     * `temperature` or assistant prefill, and both can return a `refusal` stop
+     * reason, which the chat route handles with a human hand-off.
+     *
+     * No expiry dates in here. The note this replaced said "switch after
      * ~Jul 15" and nothing enforced it, so the plan quietly went stale.
      */
-    model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-5',
+    chatModel: process.env.ANTHROPIC_MODEL ?? 'claude-opus-5',
+    proposalModel: process.env.ANTHROPIC_PROPOSAL_MODEL ?? 'claude-fable-5',
   },
   cal: {
     apiKey: process.env.CAL_API_KEY ?? '',
