@@ -1,4 +1,10 @@
 import type { Metadata } from 'next';
+import {
+  WEDDING_TIERS as TIERS,
+  WEDDING_ADD_ONS as ADD_ONS,
+  weddingAddOnPriceLabel,
+  formatPrice,
+} from '@/lib/weddings';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -74,76 +80,20 @@ const FAQ = [
   },
 ];
 
-const WEDDING_TIERS = [
-  {
-    label: 'ESSENTIALS',
-    name: 'Essentials',
-    price: '$3,500',
-    priceNote: 'flat',
-    includes: [
-      '6 hours of wedding-day coverage',
-      'Marine Certified Cinematographer (TJ at the helm)',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      'Professional sound (lavs + boom)',
-      'Music licensing for socials & online',
-      '4–5 minute cinematic highlight film',
-      'USB delivery + Free YouTube + Facebook premiere',
-    ],
-  },
-  {
-    label: 'CINEMATIC',
-    name: 'Cinematic',
-    price: '$5,000',
-    priceNote: 'flat',
-    includes: [
-      '8 hours of wedding-day coverage',
-      'Marine Certified Cinematographer + Documentary Certified 2nd shooter',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      'Professional sound (lavs + boom)',
-      'Music licensing for socials & online',
-      '1-minute social teaser film',
-      '6–8 minute cinematic highlight film',
-      'Full ceremony cut',
-      'USB delivery + Free YouTube + Facebook premiere',
-    ],
-    highlighted: true,
-  },
-  {
-    label: 'HEIRLOOM',
-    name: 'Heirloom',
-    price: '$8,000',
-    priceNote: 'flat',
-    includes: [
-      '10 hours of wedding-day coverage',
-      'Marine Certified Cinematographer + Documentary Certified 2nd shooter + assistant',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      'Professional sound (lavs + boom)',
-      'Music licensing for socials & online',
-      '1-minute social teaser film',
-      '8–12 minute Netflix-documentary-style story film',
-      'Full ceremony + reception cut',
-      'Bridesmaid + groomsman interview reel',
-      'Parent USB sets (2 included)',
-      '48-hour wedding teaser for socials',
-      'USB delivery + Free YouTube + Facebook premiere',
-    ],
-  },
-];
+const WEDDING_TIERS = TIERS.map((tier) => ({
+  label: tier.label,
+  name: tier.name,
+  price: formatPrice(tier.price),
+  priceNote: 'flat',
+  includes: [...tier.includes],
+  highlighted: tier.highlighted,
+}));
 
-const WEDDING_ADDONS = [
-  { name: 'Proposal Film', price: '$1,500', note: 'Capture the actual proposal moment.' },
-  { name: 'Engagement Story Film', price: '$2,500', note: 'Posed engagement session, cinematic edit.' },
-  { name: 'Wedding Teaser Film (Netflix-Style)', price: '$3,000', note: 'Pre-wedding doc with prep + interviews.' },
-  { name: 'Rehearsal Dinner Film', price: '$3,000', note: '4 hrs coverage, 45-min film + speeches.' },
-  { name: 'One-Minute Teaser Film', price: '$400', note: 'Built for socials.' },
-  { name: 'Ceremony Film Edit', price: '$850', note: 'Full multi-cam ceremony cut.' },
-  { name: 'Storybook Player', price: '$250', note: 'Premium gift-box video player.' },
-  { name: 'Hard Drive with Raw Footage', price: '$250', note: 'Every frame, on a drive.' },
-  { name: 'Additional Hours', price: '$350/hr', note: 'Day running long? Add coverage.' },
-];
+const WEDDING_ADDONS = ADD_ONS.map((addOn) => ({
+  name: addOn.name,
+  price: weddingAddOnPriceLabel(addOn),
+  note: addOn.note,
+}));
 
 const WHY = [
   {

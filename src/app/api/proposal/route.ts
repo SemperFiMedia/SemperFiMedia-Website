@@ -2,6 +2,7 @@ import Anthropic from '@anthropic-ai/sdk';
 import { Resend } from 'resend';
 import { env } from '@/lib/env';
 import { PROPOSAL_SYSTEM_PROMPT } from '@/lib/proposal-system-prompt';
+import { WEDDING_TIERS, formatPrice } from '@/lib/weddings';
 import { checkRateLimit, getClientKey } from '@/lib/rate-limit';
 import { looksLikeBot } from '@/lib/bot-defense';
 
@@ -25,11 +26,10 @@ type Proposal = {
   closing: string;
 };
 
-const TIER_LABELS: Record<Proposal['recommendedTier'], { name: string; price: string }> = {
-  essentials: { name: 'Essentials', price: '$3,500' },
-  cinematic: { name: 'Cinematic', price: '$5,000' },
-  heirloom: { name: 'Heirloom', price: '$8,000' },
-};
+const TIER_LABELS: Record<Proposal['recommendedTier'], { name: string; price: string }> =
+  Object.fromEntries(
+    WEDDING_TIERS.map((t) => [t.id, { name: t.name, price: formatPrice(t.price) }]),
+  ) as Record<Proposal['recommendedTier'], { name: string; price: string }>;
 
 function isValidPayload(body: unknown): body is ProposalRequest {
   if (typeof body !== 'object' || body === null) return false;

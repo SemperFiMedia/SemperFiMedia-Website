@@ -30,6 +30,17 @@ import {
   MILEAGE_RATE_LABEL,
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
+import { weddingTierTableRows, weddingAddOnLines } from '@/lib/weddings';
+import {
+  websiteTierTableRows,
+  websiteAddOnLine,
+  hostingPhrase,
+} from '@/lib/website-design';
+import {
+  trailerTierLines,
+  trailerColorMatrixRows,
+  trailerAddOnLine,
+} from '@/lib/trailer-editing';
 import {
   FILM_PRODUCTION_DAY_HOURS,
   MEAL_PENALTY,
@@ -155,22 +166,12 @@ Corporate tiers below. Quote Spotlight ($1,500) or Brand Film ($3,500) according
 
 | Tier | Price | Includes |
 |---|---|---|
-| **Essentials** | $3,500 | 6 hrs · Marine Certified Cinematographer (TJ) · 4K cinema cameras + cinema primes · drone (where permitted) · pro audio (lav + boom) · music licensing · 4–5 min cinematic highlight film · USB + Free YouTube + Facebook premiere |
-| **Cinematic** | $5,000 | 8 hrs · TJ + Documentary Certified 2nd shooter · same kit · 1-min social teaser (9:16) · 6–8 min highlight + full ceremony cut · full sound-only cut |
-| **Heirloom** | $8,000 | 10 hrs · TJ + 2nd shooter + assistant · 1-min teaser · 8–12 min Netflix-documentary-style story film · full ceremony + reception cut · bridesmaid + groomsman interview reel · parent interview segment · 2 USB sets · 48-hour wedding teaser for socials |
+${weddingTierTableRows()}
 
 For weddings, ask about vibe (cinematic, documentary, Netflix-style), how many hours they need, and what matters most (ceremony, reception, candid moments). Then recommend the tier that fits. After you've captured name / phone / wedding date and detected high intent, close with the discovery call and mention add-ons like engagement videos and pre-wedding shoots (see /weddings).
 
 **Wedding Add-Ons:**
-- Proposal Film: $1,500
-- Engagement Story Film: $2,500
-- Wedding Teaser Film (Netflix-Style — pre-wedding doc with prep + interviews): $3,000
-- Rehearsal Dinner Film (4 hrs, 45-min film + speeches): $3,000
-- One-Minute Teaser Film: $400
-- Ceremony Film Edit: $850
-- Storybook Player: $250
-- Hard Drive with Raw Footage: $250
-- Additional Hours: $350/hr
+${weddingAddOnLines()}
 
 **Wedding Bundle Discounts:** Bundling add-ons together brings the price down — Proposal +
 Engagement, Proposal + Wedding Teaser, and Engagement + Wedding Teaser are the common pairs.
@@ -231,15 +232,11 @@ start from a template, on any tier. Do not deny working with Wix.
 
 | Tier | Price | Turnaround | What it is |
 |---|---|---|---|
-| **Mission Critical** | $4,500 | 3 weeks | Wix Studio with custom HTML/CSS coded from scratch. 8–10 pages, booking integration, galleries, service pages, social proof widgets. Best for service businesses that need a professional site NOW at an accessible entry price. Recent builds: highbarroofing.com, totalproroofingllc.net, visionstoexcellence.com |
-| **Enlisted** | $7,500 | 4 weeks | Fully custom-coded on GitHub + Railway. 7–10 pages, interactive galleries, before/after sliders, custom forms with file upload, categorized filtering, JSON-LD SEO. Client owns the code. Built by SFM: bigfeetart.com |
-| **Warrant Officer** | $18,000 | 10–14 weeks | Fully custom e-commerce. 15+ pages, product catalog, Stripe or GoDaddy Commerce, custom configurators, diagnostic quizzes, comparison tools, Klarna/Affirm financing, live chat. Built by SFM: lonestarcustomrigs.com |
-| **Commissioned** | $22,500 | 12–16 weeks | Enterprise: Next.js + TypeScript + Sanity CMS + Mux video + multi-language (ES/EN) + JSON-LD + Core Web Vitals optimization. Post-launch training included. Built by SFM: semperfimedia.llc — this site. |
+${websiteTierTableRows()}
 
-**Website add-ons:** Logo Design $500 · Brand Identity Package $1,500 · Copywriting $250/page ·
-Photography Session $1,500 · SEO + GBP Optimization $750 · Rush Delivery +25%
+**Website add-ons:** ${websiteAddOnLine()}
 
-**Managed hosting — $399/month on a 24-month plan.** The first month is free with every new
+**Managed hosting — ${hostingPhrase()}.** The first month is free with every new
 build, no obligation. It covers Railway hosting (SFM pays the infrastructure), the GitHub repo,
 deploys, updates, uptime monitoring, and security patches — flat, all-inclusive. At the end of
 the free month it's the client's call: sign the managed plan, or take the complete handoff —
@@ -258,23 +255,15 @@ If they own the domain, we can migrate/rebuild on it. If they don't, they'll nee
 
 Post-only. Client provides the footage; no shoot required. 10–14 day turnaround.
 
-- **Teaser Cut — $1,500.** Up to :30 finished teaser. Music sync, basic sound design, 2 title cards. Built for social rollout and festival teasers.
-- **Trailer Cut (most popular) — $2,500.** :30–2:00 finished trailer. Full sound design, motion graphics, logo animation, licensed music sourcing. The standard theatrical trailer.
-- **Premium Trailer — $3,500+.** Feature-length source. Custom title sequence, advanced SFX layering, color consistency pass, festival-ready delivery formats (DCP on request).
+${trailerTierLines()}
 
 **Color work depends on the condition of their footage — always ask.** Added on top of the tier:
 
 | Source condition | Teaser | Trailer | Premium |
 |---|---|---|---|
-| Already color-graded | +$0 | +$0 | +$0 |
-| Dailies color pass (Rec. 709 normalization) | +$150 | +$250 | +$400 |
-| Log / flat footage (S-Log3, LogC) | +$300 | +$500 | +$800 |
-| Raw / ungraded (full hero grade) | +$750 | +$1,200 | +$2,000 |
-| Mixed / problem sources (multi-cam, exposure issues) | +$1,000 | +$1,500 | +$2,500+ |
+${trailerColorMatrixRows()}
 
-**Trailer add-ons:** Voiceover Direction $250 · Additional Cutdown $500 each (:15 spot, :06
-bumper, alternate edit) · Title / Logo Card $250 (beyond the 2 included) · Raw Deliverable
-Export $150 (ProRes or DNxHR master) · Rush Delivery +25% (under 7 days from locked handoff)
+**Trailer add-ons:** ${trailerAddOnLine()}
 
 # FILM PRODUCTION — CREW FOR HIRE (/film-production)
 

@@ -3,126 +3,15 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DataLabel } from '@/components/primitives/data-label';
+import {
+  WEDDING_TIERS as TIERS,
+  CONFIGURABLE_WEDDING_ADD_ONS as ADD_ONS,
+  BUNDLE_DISCOUNT,
+  weddingAddOnById,
+  weddingTierById,
+  type WeddingTierId,
+} from '@/lib/weddings';
 
-type Tier = {
-  id: 'essentials' | 'cinematic' | 'heirloom';
-  label: string;
-  name: string;
-  price: number;
-  blurb: string;
-  bullets: string[];
-};
-
-type AddOn = {
-  id: string;
-  name: string;
-  price: number;
-  blurb: string;
-  bundleGroup?: 'film';
-};
-
-const TIERS: readonly Tier[] = [
-  {
-    id: 'essentials',
-    label: 'ESSENTIALS',
-    name: 'Essentials',
-    price: 3500,
-    blurb: '6 hours · solo cinematographer · 4–5 min cinematic highlight film',
-    bullets: [
-      '6 hours of wedding-day coverage',
-      'Marine Certified Cinematographer (TJ at the helm)',
-      '4K cinema cameras + cinema primes',
-      'Drone aerials (where permitted)',
-      '4–5 minute cinematic highlight film',
-    ],
-  },
-  {
-    id: 'cinematic',
-    label: 'CINEMATIC',
-    name: 'Cinematic',
-    price: 5000,
-    blurb: '8 hours · TJ + 2nd shooter · 6–8 min film + full ceremony cut',
-    bullets: [
-      '8 hours of wedding-day coverage',
-      'Marine Certified + Documentary Certified 2nd shooter',
-      '1-minute social teaser',
-      '6–8 minute cinematic highlight film',
-      'Full ceremony cut',
-    ],
-  },
-  {
-    id: 'heirloom',
-    label: 'HEIRLOOM',
-    name: 'Heirloom',
-    price: 8000,
-    blurb: '10 hours · full crew · Netflix-doc story film + interview reel',
-    bullets: [
-      '10 hours of wedding-day coverage',
-      'TJ + 2nd shooter + assistant',
-      '8–12 min Netflix-documentary-style story film',
-      'Full ceremony + reception cut',
-      'Bridesmaid + groomsman interview reel',
-      'Parent USB sets (2 included)',
-      '48-hour wedding teaser for socials',
-    ],
-  },
-] as const;
-
-const ADD_ONS: readonly AddOn[] = [
-  {
-    id: 'proposal',
-    name: 'Proposal Film',
-    price: 1500,
-    blurb: 'Capture the actual proposal moment.',
-    bundleGroup: 'film',
-  },
-  {
-    id: 'engagement',
-    name: 'Engagement Story Film',
-    price: 2500,
-    blurb: 'Posed engagement session, cinematic edit.',
-    bundleGroup: 'film',
-  },
-  {
-    id: 'wedding-teaser',
-    name: 'Wedding Teaser (Netflix-Style)',
-    price: 3000,
-    blurb: 'Pre-wedding doc with prep + bridesmaid interviews.',
-    bundleGroup: 'film',
-  },
-  {
-    id: 'rehearsal-dinner',
-    name: 'Rehearsal Dinner Film',
-    price: 3000,
-    blurb: '4 hours coverage, 45-min film + speeches.',
-  },
-  {
-    id: 'one-min-teaser',
-    name: 'One-Minute Teaser Film',
-    price: 400,
-    blurb: 'Built for socials.',
-  },
-  {
-    id: 'ceremony-edit',
-    name: 'Ceremony Film Edit',
-    price: 850,
-    blurb: 'Full multi-cam ceremony cut.',
-  },
-  {
-    id: 'storybook',
-    name: 'Storybook Player',
-    price: 250,
-    blurb: 'Premium gift-box video player.',
-  },
-  {
-    id: 'raw-drive',
-    name: 'Hard Drive with Raw Footage',
-    price: 250,
-    blurb: 'Every frame, on a drive.',
-  },
-] as const;
-
-const BUNDLE_DISCOUNT = 500;
 
 function calcBundleSavings(selectedAddOns: string[]): number {
   const filmAddOns = ADD_ONS.filter(
@@ -137,15 +26,15 @@ function formatPrice(n: number): string {
 
 export function WeddingConfigurator() {
   const router = useRouter();
-  const [tierId, setTierId] = useState<Tier['id']>('cinematic');
+  const [tierId, setTierId] = useState<WeddingTierId>('cinematic');
   const [addOns, setAddOns] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
-  const tier = TIERS.find((t) => t.id === tierId)!;
+  const tier = weddingTierById(tierId);
 
   const breakdown = useMemo(() => {
     const addOnTotal = addOns.reduce((sum, id) => {
-      const a = ADD_ONS.find((x) => x.id === id);
+      const a = weddingAddOnById(id);
       return sum + (a?.price ?? 0);
     }, 0);
     const savings = calcBundleSavings(addOns);
@@ -306,7 +195,7 @@ export function WeddingConfigurator() {
                             +{formatPrice(a.price)}
                           </div>
                         </div>
-                        <p className="mt-1 text-xs text-bone-muted">{a.blurb}</p>
+                        <p className="mt-1 text-xs text-bone-muted">{a.note}</p>
                       </div>
                     </button>
                   );

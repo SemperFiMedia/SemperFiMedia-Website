@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { travelPolicySentenceEs } from '@/lib/service-area';
+import { WEDDING_TIERS, formatPrice, type WeddingTierId } from '@/lib/weddings';
 import { NavEs } from '@/components/nav/nav-es';
 import { FooterEs } from '@/components/footer/footer-es';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -21,11 +22,12 @@ export const metadata: Metadata = {
   },
 };
 
-const TIERS = [
-  {
-    label: 'ESSENTIALS',
-    name: 'Essentials',
-    price: '$3,500',
+/**
+ * Spanish copy lives here; the name and price come from the shared module so
+ * the /es site can never quote a different figure than the English one.
+ */
+const TIER_COPY: Record<WeddingTierId, { note: string; bullets: string[] }> = {
+  essentials: {
     note: 'Precio fijo',
     bullets: [
       '6 horas de cobertura del día',
@@ -36,10 +38,7 @@ const TIERS = [
       'Película destacada cinematográfica de 4–5 minutos',
     ],
   },
-  {
-    label: 'CINEMATIC',
-    name: 'Cinematic',
-    price: '$5,000',
+  cinematic: {
     note: 'Más popular',
     bullets: [
       '8 horas de cobertura',
@@ -49,10 +48,7 @@ const TIERS = [
       'Edit completo de la ceremonia',
     ],
   },
-  {
-    label: 'HEIRLOOM',
-    name: 'Heirloom',
-    price: '$8,000',
+  heirloom: {
     note: 'Estilo Netflix completo',
     bullets: [
       '10 horas de cobertura',
@@ -64,7 +60,14 @@ const TIERS = [
       'Teaser de 48 horas para redes sociales',
     ],
   },
-];
+};
+
+const TIERS = WEDDING_TIERS.map((tier) => ({
+  label: tier.label,
+  name: tier.name,
+  price: formatPrice(tier.price),
+  ...TIER_COPY[tier.id],
+}));
 
 const PROCESO = [
   {

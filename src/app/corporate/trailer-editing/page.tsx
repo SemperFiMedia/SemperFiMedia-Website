@@ -1,4 +1,15 @@
 import type { Metadata } from 'next';
+import {
+  SOURCE_CONDITIONS as CONDITIONS,
+  TRAILER_TIERS,
+  TRAILER_ADD_ONS,
+  surchargeLabel,
+  trailerAddOnPriceLabel,
+  trailerTierPriceLabel,
+  trailerTierSummary,
+  trailerStartingPrice,
+  formatPrice,
+} from '@/lib/trailer-editing';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -7,9 +18,9 @@ import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
-  title: 'Short Film & Movie Trailer Editing — Dallas | From $1,500',
+  title: `Short Film & Movie Trailer Editing — Dallas | From ${formatPrice(trailerStartingPrice())}`,
   description:
-    'Post-only trailer editing for Dallas filmmakers, producers, and indie studios. Teaser cuts from $1,500, trailer cuts from $2,500, festival-ready premium trailers from $3,500. Client-provided footage, theatrical-style edit, 10–14 day turnaround.',
+    `Post-only trailer editing for Dallas filmmakers, producers, and indie studios. ${trailerTierSummary()}. Client-provided footage, theatrical-style edit, 10–14 day turnaround.`,
 };
 
 const WHO = [
@@ -39,21 +50,19 @@ const WHY = [
   },
 ];
 
-const SOURCE_CONDITIONS = [
-  { condition: 'Already Color-Graded', note: 'Finished film — no color work needed.', teaser: '+$0', trailer: '+$0', premium: '+$0' },
-  { condition: 'Dailies Color Pass', note: 'Rec. 709 normalization + consistency. Not a hero grade.', teaser: '+$150', trailer: '+$250', premium: '+$400' },
-  { condition: 'Log / Flat Footage', note: 'S-Log3, LogC, etc. Quick hero grade from flat source.', teaser: '+$300', trailer: '+$500', premium: '+$800' },
-  { condition: 'Raw / Ungraded', note: 'Full hero color grade from scratch.', teaser: '+$750', trailer: '+$1,200', premium: '+$2,000' },
-  { condition: 'Mixed / Problem Sources', note: 'Multiple cameras, exposure issues, restoration needed.', teaser: '+$1,000', trailer: '+$1,500', premium: '+$2,500+' },
-];
+const SOURCE_CONDITIONS = CONDITIONS.map((row) => ({
+  condition: row.condition,
+  note: row.note,
+  teaser: surchargeLabel(row, 'teaser'),
+  trailer: surchargeLabel(row, 'trailer'),
+  premium: surchargeLabel(row, 'premium'),
+}));
 
-const ADDONS = [
-  { name: 'Voiceover Direction', price: '$250', note: 'VO casting guidance + placement in edit. Talent fees billed separately.' },
-  { name: 'Rush Delivery', price: '+25%', note: 'Under 7 days from locked footage handoff. Plan ahead when you can.' },
-  { name: 'Additional Cutdown', price: '$500', note: ':15 TV spot, :06 bumper, or alternate edit — each.' },
-  { name: 'Title / Logo Card', price: '$250', note: 'Beyond the 2 cards included in each tier.' },
-  { name: 'Raw Deliverable Export', price: '$150', note: 'ProRes master or DNxHR master on request.' },
-];
+const ADDONS = TRAILER_ADD_ONS.map((addOn) => ({
+  name: addOn.name,
+  price: trailerAddOnPriceLabel(addOn),
+  note: addOn.note,
+}));
 
 const SECTIONS = [
   { id: 'tiers', label: 'Tiers' },
@@ -113,7 +122,8 @@ export default function TrailerEditingPage() {
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
               Post-only trailer editing for filmmakers, producers, and indie studios. Client-provided
-              footage cut into a theatrical-style teaser or trailer. From $1,500. No shoot required,
+              footage cut into a theatrical-style teaser or trailer. From{' '}
+              {formatPrice(trailerStartingPrice())}. No shoot required,
               no mystery pricing, 10–14 day turnaround from locked handoff.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
@@ -131,33 +141,21 @@ export default function TrailerEditingPage() {
           <div className="mx-auto max-w-[1200px]">
             <DataLabel as="h2" className="mb-10">THREE TIERS · TRANSPARENT PRICING</DataLabel>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <div className="flex flex-col border border-bone/15 bg-black/40 p-8">
-                <DataLabel className="mb-3">TEASER CUT</DataLabel>
-                <h3 className="font-serif text-3xl italic">$1,500</h3>
-                <p className="mt-2 text-sm text-bone-subtle">starting</p>
-                <p className="mt-6 text-bone-muted leading-relaxed">
-                  Up to :30 finished teaser. Music sync, basic sound design, 2 title cards. Built
-                  for social rollout and festival teasers.
-                </p>
-              </div>
-              <div className="flex flex-col border border-brass bg-texas-umber/25 p-8">
-                <DataLabel className="mb-3">TRAILER CUT · POPULAR</DataLabel>
-                <h3 className="font-serif text-3xl italic">$2,500</h3>
-                <p className="mt-2 text-sm text-bone-subtle">starting</p>
-                <p className="mt-6 text-bone-muted leading-relaxed">
-                  :30–2:00 finished trailer. Full sound design, motion graphics, logo animation,
-                  licensed music sourcing. The standard theatrical trailer.
-                </p>
-              </div>
-              <div className="flex flex-col border border-bone/15 bg-black/40 p-8">
-                <DataLabel className="mb-3">PREMIUM TRAILER</DataLabel>
-                <h3 className="font-serif text-3xl italic">$3,500+</h3>
-                <p className="mt-2 text-sm text-bone-subtle">festival-ready</p>
-                <p className="mt-6 text-bone-muted leading-relaxed">
-                  Feature-length source. Custom title sequence, advanced SFX layering, color
-                  consistency pass, festival-ready delivery formats (DCP on request).
-                </p>
-              </div>
+              {TRAILER_TIERS.map((tier) => (
+                <div
+                  key={tier.id}
+                  className={
+                    tier.highlighted
+                      ? 'flex flex-col border border-brass bg-texas-umber/25 p-8'
+                      : 'flex flex-col border border-bone/15 bg-black/40 p-8'
+                  }
+                >
+                  <DataLabel className="mb-3">{tier.label}</DataLabel>
+                  <h3 className="font-serif text-3xl italic">{trailerTierPriceLabel(tier)}</h3>
+                  <p className="mt-2 text-sm text-bone-subtle">{tier.priceNote}</p>
+                  <p className="mt-6 leading-relaxed text-bone-muted">{tier.description}</p>
+                </div>
+              ))}
             </div>
             <div className="mt-10">
               <BrassButton href="#color" variant="outline">

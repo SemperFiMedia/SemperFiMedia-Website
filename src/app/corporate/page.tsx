@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { HOSTING_MONTHLY, websiteTierSummary, formatPrice } from '@/lib/website-design';
+import { trailerStartingPrice } from '@/lib/trailer-editing';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -67,7 +69,7 @@ const NICHES = [
     label: 'POST-ONLY',
     title: 'Trailer Editing',
     description:
-      'Short films, features, and pitch reels. You shot the film — we cut the trailer that gets it seen. Post-production only, from $1,500.',
+      `Short films, features, and pitch reels. You shot the film — we cut the trailer that gets it seen. Post-production only, from ${formatPrice(trailerStartingPrice())}.`,
     emphasized: false,
   },
   {
@@ -75,7 +77,7 @@ const NICHES = [
     label: 'DIGITAL PRESENCE',
     title: 'Website Design',
     description:
-      'Custom-HTML coded sites — never templates. Four Marine-themed tiers walking the rank ladder: Mission Critical ($4,500), Enlisted ($7,500), Warrant Officer ($18,000), Commissioned ($22,500). Client-owned domains, optional managed hosting at $399/mo.',
+      `Custom-HTML coded sites — never templates. Four Marine-themed tiers walking the rank ladder: ${websiteTierSummary()}. Client-owned domains, optional managed hosting at ${formatPrice(HOSTING_MONTHLY)}/mo.`,
     emphasized: false,
   },
   {

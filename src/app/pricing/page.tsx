@@ -1,5 +1,24 @@
 import type { Metadata } from 'next';
 import { travelPolicySentence } from '@/lib/service-area';
+import {
+  WEDDING_TIERS,
+  WEDDING_ADD_ONS,
+  weddingStartingPrice,
+  weddingTierSummary,
+  formatPrice,
+} from '@/lib/weddings';
+import {
+  WEBSITE_TIERS,
+  HOSTING_MONTHLY,
+  websiteStartingPrice,
+  websiteTierSummary,
+} from '@/lib/website-design';
+import {
+  TRAILER_TIERS,
+  SOURCE_CONDITIONS,
+  trailerStartingPrice,
+  trailerTierSummary,
+} from '@/lib/trailer-editing';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -20,9 +39,9 @@ const SERVICE_OVERVIEW = [
     id: 'weddings',
     label: 'CINEMA WEDDINGS',
     title: 'Wedding Films',
-    startingPrice: '$3,500',
-    priceNote: 'starting · 3 packages',
-    description: 'Netflix-documentary-style wedding films. Essentials $3,500, Cinematic $5,000, Heirloom $8,000. Every tier includes music licensing, USB delivery, + free YouTube/Facebook premiere. Plus 9 add-ons.',
+    startingPrice: formatPrice(weddingStartingPrice()),
+    priceNote: `starting · ${WEDDING_TIERS.length} packages`,
+    description: `Netflix-documentary-style wedding films. ${weddingTierSummary()}. Every tier includes music licensing, USB delivery, + free YouTube/Facebook premiere. Plus ${WEDDING_ADD_ONS.length} add-ons.`,
     href: '/weddings#pricing',
     linkLabel: 'See Wedding Pricing →',
   },
@@ -60,9 +79,9 @@ const SERVICE_OVERVIEW = [
     id: 'trailer-editing',
     label: 'POST-PRODUCTION',
     title: 'Trailer Editing',
-    startingPrice: '$1,500',
-    priceNote: 'starting · 3 tiers + color matrix',
-    description: 'Post-only trailer cuts for filmmakers. Teaser Cut $1,500, Trailer Cut $2,500, Premium $3,500+. Plus a 5-row Source Footage Condition color-work matrix from Dailies Pass to full Hero Grade.',
+    startingPrice: formatPrice(trailerStartingPrice()),
+    priceNote: `starting · ${TRAILER_TIERS.length} tiers + color matrix`,
+    description: `Post-only trailer cuts for filmmakers. ${trailerTierSummary()}. Plus a ${SOURCE_CONDITIONS.length}-row Source Footage Condition color-work matrix from Dailies Pass to full Hero Grade.`,
     href: '/corporate/trailer-editing#tiers',
     linkLabel: 'See Trailer Editing Pricing →',
   },
@@ -80,9 +99,9 @@ const SERVICE_OVERVIEW = [
     id: 'website-design',
     label: 'DIGITAL PRESENCE',
     title: 'Website Design',
-    startingPrice: '$4,500',
-    priceNote: 'starting · 4 Marine rank tiers',
-    description: 'Mission Critical ($4,500), Enlisted ($7,500), Warrant Officer ($18,000), Commissioned ($22,500). Custom HTML — never templates. Client-owned domains via Cloudflare, optional $399/mo managed hosting.',
+    startingPrice: formatPrice(websiteStartingPrice()),
+    priceNote: `starting · ${WEBSITE_TIERS.length} Marine rank tiers`,
+    description: `${websiteTierSummary()}. Custom HTML — never templates. Client-owned domains via Cloudflare, optional ${formatPrice(HOSTING_MONTHLY)}/mo managed hosting.`,
     href: '/corporate/website-design#tiers',
     linkLabel: 'See Website Design Pricing →',
   },
