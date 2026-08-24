@@ -99,11 +99,11 @@ export const SESSION_CAPTURE_ADD_ONS: readonly SessionCaptureAddOn[] = [
   },
   {
     id: 'rush-delivery',
-    name: 'Rush delivery — 72 hours',
+    name: 'Rush delivery — 5 days',
     price: 250,
     unit: 'flat',
     blurb:
-      'Finished file in your hands three days after the session instead of fourteen. For speakers who need the clip up while the conference hashtag is still moving.',
+      'Finished file in your hands five days after the session instead of fourteen. For speakers who need the clip up while the conference hashtag is still moving.',
   },
   {
     id: 'session-stills',

@@ -113,7 +113,7 @@ const FAQS = [
   },
   {
     q: 'How fast is delivery?',
-    a: 'Fourteen days from the session to your finished 4K file, color corrected and trimmed, with your slides cut in. Vertical social clips deliver on the same schedule. If you need it faster, rush delivery is $250 and puts the finished file in your hands within 72 hours — worth it when the conference hashtag is still moving.',
+    a: 'Fourteen days from the session to your finished 4K file, color corrected and trimmed, with your slides cut in. Vertical social clips deliver on the same schedule. If you need it faster, rush delivery is $250 and puts the finished file in your hands within 5 days — worth it when the conference hashtag is still moving.',
   },
   {
     q: 'Do you travel outside DFW?',
