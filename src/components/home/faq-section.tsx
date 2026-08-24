@@ -37,7 +37,7 @@ const FAQS: FAQ[] = [
     q: 'Do you travel outside Dallas–Fort Worth?',
     a: (
       <>
-        Yes. Travel within the DFW metroplex is included. Beyond DFW we charge $0.67/mile.
+        Yes. Travel within the DFW metroplex is included. Beyond DFW we charge $0.75/mile.
         Destination weddings and multi-day out-of-state shoots are quoted separately.
       </>
     ),

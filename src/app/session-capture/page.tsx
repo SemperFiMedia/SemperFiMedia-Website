@@ -117,7 +117,7 @@ const FAQS = [
   },
   {
     q: 'Do you travel outside DFW?',
-    a: 'Travel anywhere in Dallas–Fort Worth is included in the base price — Dallas, Fort Worth, Plano, Frisco, Arlington, Irving, McKinney, Rockwall, and the rest of the metroplex. Beyond DFW we charge $0.67 per mile, quoted before you book so it is never a surprise on the invoice. Austin, Houston, and San Antonio conferences are regular work for us.',
+    a: 'Travel anywhere in Dallas–Fort Worth is included in the base price — Dallas, Fort Worth, Plano, Frisco, Arlington, Irving, McKinney, Rockwall, and the rest of the metroplex. Beyond DFW we charge $0.75 per mile, quoted before you book so it is never a surprise on the invoice. Austin, Houston, and San Antonio conferences are regular work for us.',
   },
   {
     q: 'Can you cover a panel instead of a solo talk?',

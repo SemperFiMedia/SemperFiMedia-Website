@@ -286,7 +286,7 @@ export default function PricingPage() {
 
         <section className="bg-black px-6 py-16 text-center md:px-12 md:py-20">
           <p className="text-sm text-bone-subtle">
-            Travel beyond Dallas–Fort Worth: $0.67/mile · Destination weddings quoted separately.
+            Travel beyond Dallas–Fort Worth: $0.75/mile · Destination weddings quoted separately.
             Sales tax applied where required. Production insurance, COI certificates, and equipment
             coverage detailed on the <Link href="/film-production#insurance" className="text-brass underline hover:no-underline">Film Production page</Link>.
           </p>

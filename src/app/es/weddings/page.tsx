@@ -197,7 +197,7 @@ export default async function EsWeddingsPage() {
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-bone-subtle">
-              Bodas destino fuera de DFW: viaje a $0.67/milla más hospedaje cuando aplica.
+              Bodas destino fuera de DFW: viaje a $0.75/milla más hospedaje cuando aplica.
               Paquetes personalizados disponibles.
             </p>
           </div>

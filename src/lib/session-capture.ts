@@ -181,9 +181,9 @@ export const SESSION_CAPTURE_POLICIES = [
   {
     label: 'BEYOND DFW',
     name: 'Travel',
-    price: '$0.67',
+    price: '$0.75',
     unit: '/ mile',
-    note: 'Travel within Dallas–Fort Worth is included. Beyond DFW we charge $0.67/mile, quoted before you book — never added after.',
+    note: 'Travel within Dallas–Fort Worth is included. Beyond DFW we charge $0.75/mile, quoted before you book — never added after.',
   },
   {
     label: 'ADDITIONAL REVISIONS',
