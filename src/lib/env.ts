@@ -36,9 +36,25 @@ export const env = {
   },
   anthropic: {
     apiKey: process.env.ANTHROPIC_API_KEY ?? '',
-    // Fable 5 through ~Jul 15 (smartest available), then switch to Opus 4.6.
-    // Override per environment with ANTHROPIC_MODEL — no code change needed.
-    model: process.env.ANTHROPIC_MODEL ?? 'claude-fable-5',
+    /**
+     * Powers the chat concierge and the AI wedding proposal generator.
+     *
+     * Opus 5 is Anthropic's recommended default and costs half what Fable 5
+     * does per token ($5/$25 per million in/out, against $10/$50) — which
+     * matters here because the chatbot's system prompt is large and every
+     * visitor message pays for it.
+     *
+     * Fable 5 is the more capable model if quality ever justifies the spend.
+     * Switching is an environment variable, not a code change: set
+     * ANTHROPIC_MODEL in Railway and redeploy. Both models suit this code as
+     * written — thinking is on by default on each, neither accepts
+     * `temperature` or assistant prefill, and both can return a `refusal`
+     * stop reason, which the chat route already handles with a human hand-off.
+     *
+     * No expiry date here on purpose. The previous note said "switch after
+     * ~Jul 15" and nothing enforced it, so the plan quietly went stale.
+     */
+    model: process.env.ANTHROPIC_MODEL ?? 'claude-opus-5',
   },
   cal: {
     apiKey: process.env.CAL_API_KEY ?? '',

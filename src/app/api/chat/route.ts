@@ -183,8 +183,9 @@ export async function POST(request: Request) {
         for (let turn = 0; turn < MAX_AGENT_TURNS; turn++) {
           const claudeStream = client.messages.stream({
             model: env.anthropic.model,
-            // Headroom for Fable 5's always-on thinking (thinking shares the
-            // output budget) so concise replies never truncate mid-sentence.
+            // Headroom for always-on thinking, which shares the output
+            // budget on every model this route runs on, so concise replies
+            // never truncate mid-sentence.
             max_tokens: 4096,
             system: [
               {
@@ -254,8 +255,9 @@ export async function POST(request: Request) {
             continue;
           }
 
-          // Fable 5 safety classifiers declined (rare for this domain). If it
-          // happened before any text, fall back to a human hand-off.
+          // Safety classifiers declined the turn (rare for this domain). If
+          // it happened before any text, fall back to a human hand-off — a
+          // warm redirect to TJ reads better here than an error or a retry.
           if (final.stop_reason === 'refusal' && !emittedText) {
             controller.enqueue(
               encoder.encode(
