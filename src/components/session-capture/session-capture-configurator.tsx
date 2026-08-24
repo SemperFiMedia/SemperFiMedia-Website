@@ -1,4 +1,5 @@
 'use client';
+import { travelPolicyShort } from '@/lib/service-area';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -286,7 +287,7 @@ export function SessionCaptureConfigurator() {
                   {formatPrice(total)}
                 </div>
                 <p className="mt-2 text-[11px] text-bone-subtle">
-                  Confirmed on your discovery call. Travel beyond DFW is $0.75/mile. Raw footage
+                  Confirmed on your discovery call. {travelPolicyShort()} Raw footage
                   buyout and revision rounds beyond the included two are quoted separately.
                 </p>
               </div>

@@ -25,6 +25,7 @@ import {
   addOnPriceLabel,
   formatPrice,
 } from '@/lib/session-capture';
+import { travelPolicySentence, MILEAGE_RATE_LABEL } from '@/lib/service-area';
 
 /** Session Capture facts, rendered from the single source of truth. */
 const SESSION_CAPTURE_INCLUDE_LINES = SESSION_CAPTURE_INCLUDES_SHORT.map(
@@ -279,8 +280,8 @@ $600 · Grip/Electric $475 · PA $200 · Drone Operator $1,200
 Small Lighting Package $250 · Mid Lighting Package $1,200 · Large Lighting Package $2,500
 
 **Logistics:** Overtime 1.5× after 10 hrs, 2× after 12 · Meal Penalty $35 per crew member per
-half-hour past 6 hours · Prep Day / Tech Scout 50% · Travel Day 50% · Mileage beyond 30 miles
-$0.75/mi · Per Diem $75/day (M&IE only, lodging at cost)
+half-hour past 6 hours · Prep Day / Tech Scout 50% · Travel Day 50% · Mileage outside the
+included service area ${MILEAGE_RATE_LABEL}/mi · Per Diem $75/day (M&IE only, lodging at cost)
 
 **Insurance is passed through at cost, never marked up:** Solo Day $175, B-Cam Day $225, Full
 Crew Day $295 per shoot day. Covers $1M per occurrence / $2M aggregate general liability plus
@@ -326,7 +327,7 @@ These apply across every service:
 - **Raw Footage Buyout: 100% of project cost** — transfers all media rights of the raw files. SFM retains no rights to the footage.
 - **Extra Revisions: $100/hour** — every package includes 2 rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
 - **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, and Music Videos and Trailer Editing publish +25%.
-- **Travel beyond DFW: $0.75/mile** plus lodging where required. Travel within Dallas–Fort Worth is included. Destination weddings quoted separately.
+- **Travel: ${travelPolicySentence()}** Destination weddings quoted separately. Note the included area is a named list of towns, not "all of DFW" — Fort Worth, Frisco, McKinney and Arlington are outside it and do carry mileage.
 - Sales tax applied where required.
 
 # DISCOVERY CALL

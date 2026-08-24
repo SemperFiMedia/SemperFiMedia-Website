@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { travelIncludedList, MILEAGE_RATE_LABEL } from '@/lib/service-area';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -117,7 +118,7 @@ const FAQS = [
   },
   {
     q: 'Do you travel outside DFW?',
-    a: 'Travel anywhere in Dallas–Fort Worth is included in the base price — Dallas, Fort Worth, Plano, Frisco, Arlington, Irving, McKinney, Rockwall, and the rest of the metroplex. Beyond DFW we charge $0.75 per mile, quoted before you book so it is never a surprise on the invoice. Austin, Houston, and San Antonio conferences are regular work for us.',
+    a: `Travel is included in the base price across our core service area — ${travelIncludedList()}. Anywhere else we charge ${MILEAGE_RATE_LABEL} per mile, quoted before you book so it is never a surprise on the invoice. Austin, Houston, and San Antonio conferences are regular work for us.`,
   },
   {
     q: 'Can you cover a panel instead of a solo talk?',
@@ -133,7 +134,7 @@ const SESSION_CAPTURE_OFFERS = [
   {
     name: 'Session Capture',
     description:
-      'Professional recording of one conference session, keynote, or panel. Up to 2 hours onsite, one 4K cinema camera position, dual-redundant audio (house board feed plus backup wireless lavalier), full session color corrected, presentation slides cut in at full resolution, 14-day delivery, two rounds of revisions, travel within DFW included.',
+      'Professional recording of one conference session, keynote, or panel. Up to 2 hours onsite, one 4K cinema camera position, dual-redundant audio (house board feed plus backup wireless lavalier), full session color corrected, presentation slides cut in at full resolution, 14-day delivery, two rounds of revisions, travel within our service area included.',
     price: String(SESSION_CAPTURE_PRICE),
   },
   ...SESSION_CAPTURE_ADD_ONS.map((addOn) => ({

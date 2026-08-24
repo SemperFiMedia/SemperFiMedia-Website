@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { travelPolicySentence } from '@/lib/service-area';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
 
@@ -37,7 +38,7 @@ const FAQS: FAQ[] = [
     q: 'Do you travel outside Dallas–Fort Worth?',
     a: (
       <>
-        Yes. Travel within the DFW metroplex is included. Beyond DFW we charge $0.75/mile.
+        Yes. {travelPolicySentence()}
         Destination weddings and multi-day out-of-state shoots are quoted separately.
       </>
     ),

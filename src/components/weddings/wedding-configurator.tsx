@@ -358,7 +358,7 @@ export function WeddingConfigurator() {
                   {formatPrice(breakdown.total)}
                 </div>
                 <p className="mt-2 text-[11px] text-bone-subtle">
-                  Final quote confirmed on your free discovery call. Travel beyond DFW
+                  Final quote confirmed on your free discovery call. Travel beyond our service area
                   quoted separately.
                 </p>
               </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { travelPolicySentenceEs } from '@/lib/service-area';
 import { NavEs } from '@/components/nav/nav-es';
 import { FooterEs } from '@/components/footer/footer-es';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -197,7 +198,7 @@ export default async function EsWeddingsPage() {
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-bone-subtle">
-              Bodas destino fuera de DFW: viaje a $0.75/milla más hospedaje cuando aplica.
+              {travelPolicySentenceEs()}
               Paquetes personalizados disponibles.
             </p>
           </div>

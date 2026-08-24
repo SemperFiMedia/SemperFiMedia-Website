@@ -5,6 +5,12 @@
  * here. Change a number once and every surface follows — no two-file drift.
  */
 
+import {
+  travelIncludedList,
+  travelPolicySentence,
+  MILEAGE_RATE_LABEL,
+} from '@/lib/service-area';
+
 export const SESSION_CAPTURE_PRICE = 1000;
 
 /** Onsite hours included in the base package before the hourly add-on kicks in. */
@@ -36,8 +42,8 @@ export const SESSION_CAPTURE_INCLUDES = [
     body: 'Two weeks from the session to your finished file. Two rounds of notes included, on a review link where you comment by timecode instead of emailing timestamps back and forth.',
   },
   {
-    title: 'Travel within DFW included.',
-    body: 'Dallas, Fort Worth, Plano, Frisco, Arlington, Irving, McKinney, Rockwall — no travel line on the invoice.',
+    title: 'Travel within our service area included.',
+    body: `${travelIncludedList()} — no travel line on the invoice. Anywhere else is ${MILEAGE_RATE_LABEL}/mile, quoted before you book.`,
   },
 ] as const;
 
@@ -50,7 +56,7 @@ export const SESSION_CAPTURE_INCLUDES_SHORT = [
   'Presentation slides cut in at full resolution — included, no charge',
   '14-day delivery',
   'Two rounds of revisions',
-  'Travel within DFW included',
+  'Travel within our service area included',
 ] as const;
 
 export type AddOnUnit = 'flat' | 'each' | 'hour';
@@ -179,11 +185,11 @@ export const SESSION_CAPTURE_POLICIES = [
     note: 'Transfers all media rights of the raw files to you. Semper Fi Media retains no rights to the footage — priced to protect future creative reuse.',
   },
   {
-    label: 'BEYOND DFW',
+    label: 'BEYOND OUR AREA',
     name: 'Travel',
-    price: '$0.75',
+    price: MILEAGE_RATE_LABEL,
     unit: '/ mile',
-    note: 'Travel within Dallas–Fort Worth is included. Beyond DFW we charge $0.75/mile, quoted before you book — never added after.',
+    note: travelPolicySentence(),
   },
   {
     label: 'ADDITIONAL REVISIONS',

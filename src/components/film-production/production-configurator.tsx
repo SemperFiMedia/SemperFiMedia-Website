@@ -445,7 +445,7 @@ export function ProductionConfigurator() {
                   {formatPrice(breakdown.total)}
                 </div>
                 <p className="mt-2 text-[11px] text-bone-subtle">
-                  Final quote confirmed on your production call. Overtime, travel beyond 30 mi,
+                  Final quote confirmed on your production call. Overtime, travel beyond our service area,
                   multi-day per diem, and raw footage buyout quoted separately.
                 </p>
               </div>
