@@ -41,7 +41,7 @@ const SERVICE_OVERVIEW = [
     title: 'Session Capture',
     startingPrice: '$1,000',
     priceNote: 'flat · 14-day delivery',
-    description: 'One conference session, keynote, or panel recorded properly. Up to 2 hours onsite, 4K cinema camera, dual-redundant audio off the house sound board, slides cut in free. 7 add-ons including vertical social clips and a second camera angle.',
+    description: 'One conference session, keynote, or panel recorded properly. Up to 2 hours onsite, 4K cinema camera, dual-redundant audio off the house sound board, slides cut in free. 6 add-ons including vertical social clips and a second camera angle.',
     href: '/session-capture',
     linkLabel: 'See Session Capture Pricing →',
   },
