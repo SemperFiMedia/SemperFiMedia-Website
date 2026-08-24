@@ -4,129 +4,32 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { DataLabel } from '@/components/primitives/data-label';
 import { track } from '@/lib/analytics/track';
-
-type Tier = {
-  id: 'solo' | 'b-cam' | 'full-crew';
-  label: string;
-  name: string;
-  price: number;
-  insurance: number;
-  /** Number of crew members on the day — drives per-diem head count. */
-  crewCount: number;
-  /** Add-on ids already bundled in this tier — locked out of Step 2/3. */
-  includedAddOnIds: readonly string[];
-  blurb: string;
-  bullets: string[];
-};
-
-type AddOn = {
-  id: string;
-  name: string;
-  price: number;
-  blurb: string;
-  category: 'crew' | 'kit';
-};
-
-const PER_DIEM_RATE = 75;
-
-const TIERS: readonly Tier[] = [
-  {
-    id: 'solo',
-    label: 'SOLO',
-    name: 'Solo Operator Day',
-    price: 1500,
-    insurance: 175,
-    crewCount: 1,
-    includedAddOnIds: ['kit-dual'],
-    blurb: '10-hour day · TJ as DP · Sony FX3/A7S III cinema kit',
-    bullets: [
-      'TJ as DP / operator (10 hours on location)',
-      'Sony FX3 or A7S III + SmallRig cage + Sigma Art lens set',
-      'Rode NTG shotgun + wireless lavalier + pro monitor',
-      'SmallRig RC 260B LED kit + stands',
-      'Owned slider for steady-motion coverage',
-      'Hollyland wireless client monitoring',
-    ],
-  },
-  {
-    id: 'b-cam',
-    label: 'B-CAM DAY',
-    name: 'B-Cam Day',
-    price: 2500,
-    insurance: 225,
-    crewCount: 2,
-    includedAddOnIds: ['camera-op', 'kit-dual'],
-    blurb: '10-hour day · TJ + freelance operator · dual Sony package',
-    bullets: [
-      'TJ as DP + 1 freelance camera operator',
-      'Dual Sony package (FX3 + A7S III, color-matched)',
-      'Full Rode audio kit (wireless lavs + boom + shotgun)',
-      'SmallRig LED lighting kit (owned)',
-      'Slider + gimbal for motion work',
-      'Hollyland dual-channel client monitoring',
-    ],
-  },
-  {
-    id: 'full-crew',
-    label: 'FULL CREW',
-    name: 'Full Crew Day',
-    price: 5500,
-    insurance: 295,
-    crewCount: 4,
-    includedAddOnIds: ['first-ac', 'sound-mixer', 'gaffer', 'kit-dual'],
-    blurb: '10-hour day · TJ + 1st AC + Sound Mixer + Gaffer',
-    bullets: [
-      'TJ as DP + 1st AC + Sound Mixer + Gaffer',
-      'Dual Sony FX3 + A7S III, matte box, follow focus, shoulder rigs',
-      'Pro audio mixer kit (lavs + boom + 32-bit recorder)',
-      'SmallRig lighting package led by Gaffer',
-      'Slider + gimbal + DJI drone available',
-      'Hollyland multi-channel client monitoring',
-    ],
-  },
-] as const;
-
-const ADD_ONS: readonly AddOn[] = [
-  // Crew
-  { id: 'camera-op', name: 'Camera Operator', price: 800, blurb: '10-hour day · DFW freelance roster.', category: 'crew' },
-  { id: 'first-ac', name: '1st AC', price: 650, blurb: 'Focus puller, camera build, media management.', category: 'crew' },
-  { id: 'second-ac', name: '2nd AC', price: 475, blurb: 'Slate, batteries, camera support.', category: 'crew' },
-  { id: 'sound-mixer', name: 'Sound Mixer (w/ kit)', price: 900, blurb: 'Mixer, wireless lavs, boom, recorder.', category: 'crew' },
-  { id: 'boom-op', name: 'Boom Op', price: 550, blurb: 'Dedicated boom operator for dialogue.', category: 'crew' },
-  { id: 'gaffer', name: 'Gaffer', price: 650, blurb: 'Lead lighting, meter reads, power management.', category: 'crew' },
-  { id: 'key-grip', name: 'Key Grip', price: 600, blurb: 'Stands, flags, dolly, rigging.', category: 'crew' },
-  { id: 'grip-electric', name: 'Grip / Electric', price: 475, blurb: 'Day-player grip or electric support.', category: 'crew' },
-  { id: 'pa', name: 'PA', price: 200, blurb: 'Runner, set support, craft logistics.', category: 'crew' },
-  { id: 'drone-pilot', name: 'Drone Operator', price: 1200, blurb: 'DJI cinema drone + operator. Approved airspace only.', category: 'crew' },
-  // Kits
-  { id: 'kit-a7s3', name: 'Sony A7S III Kit', price: 175, blurb: 'Body + Sigma Art primes + monitor + media.', category: 'kit' },
-  { id: 'kit-fx3', name: 'Sony FX3 Kit', price: 225, blurb: 'Body + Sigma Art primes + monitor + media.', category: 'kit' },
-  { id: 'kit-dual', name: 'Dual Sony Package', price: 350, blurb: 'FX3 + A7S III, color-matched, full lens set.', category: 'kit' },
-  { id: 'kit-small-light', name: 'Small Lighting Package', price: 250, blurb: 'SmallRig RC 260B + stands + diffusion (owned).', category: 'kit' },
-  { id: 'kit-mid-light', name: 'Mid Lighting Package', price: 1200, blurb: 'SkyPanels + HMI + grip cable (pass-through).', category: 'kit' },
-  { id: 'kit-large-light', name: 'Large Lighting Package', price: 2500, blurb: '3-ton truck, multi-HMI, dolly (pass-through).', category: 'kit' },
-];
-
-function formatPrice(n: number): string {
-  return `$${n.toLocaleString('en-US')}`;
-}
+import {
+  FILM_PRODUCTION_TIERS as TIERS,
+  FILM_PRODUCTION_ADD_ONS as ADD_ONS,
+  PER_DIEM_RATE,
+  addOnById,
+  formatPrice,
+  tierById,
+  type FilmProductionTier as Tier,
+  type FilmProductionAddOn as AddOn,
+  type FilmProductionTierId,
+} from '@/lib/film-production';
 
 export function ProductionConfigurator() {
   const router = useRouter();
-  const [tierId, setTierId] = useState<Tier['id']>('b-cam');
+  const [tierId, setTierId] = useState<FilmProductionTierId>('b-cam');
   const [addOns, setAddOns] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
   const dirtyRef = useRef(false);
   const submittedRef = useRef(false);
 
-  const tier = TIERS.find((t) => t.id === tierId)!;
+  const tier = tierById(tierId);
 
   // Per diem is mandatory and priced per head on set: base-tier crew + any crew added in Step 2.
   const perDiemHeads = useMemo(() => {
-    const addedCrew = addOns.filter(
-      (id) => ADD_ONS.find((a) => a.id === id)?.category === 'crew',
-    ).length;
+    const addedCrew = addOns.filter((id) => addOnById(id)?.category === 'crew').length;
     return tier.crewCount + addedCrew;
   }, [tier.crewCount, addOns]);
   const perDiemTotal = perDiemHeads * PER_DIEM_RATE;
@@ -547,7 +450,7 @@ function AddOnCheckbox({
           <div className="font-serif text-base italic">{addon.name}</div>
           <div className="font-serif text-sm text-brass">+{formatPrice(addon.price)}</div>
         </div>
-        <p className="mt-1 text-xs text-bone-muted">{addon.blurb}</p>
+        <p className="mt-1 text-xs text-bone-muted">{addon.note}</p>
       </div>
     </button>
   );

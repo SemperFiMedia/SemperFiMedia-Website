@@ -161,9 +161,10 @@ export function sessionCaptureTotal(quantities: Record<string, number>): number 
   );
 }
 
-export function formatPrice(n: number): string {
-  return `$${n.toLocaleString('en-US')}`;
-}
+import { formatPrice } from '@/lib/utils';
+
+// Re-exported so existing call sites keep importing it from here.
+export { formatPrice };
 
 /** Price string shown in the add-ons table on the page. */
 export function addOnPriceLabel(addOn: SessionCaptureAddOn): string {

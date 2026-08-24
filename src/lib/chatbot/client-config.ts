@@ -30,6 +30,15 @@ import {
   MILEAGE_RATE_LABEL,
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
+import {
+  FILM_PRODUCTION_DAY_HOURS,
+  MEAL_PENALTY,
+  PER_DIEM_RATE,
+  crewRateLines,
+  insuranceByTierSentence,
+  kitRateLines,
+  tierPromptLines,
+} from '@/lib/film-production';
 
 /** Session Capture facts, rendered from the single source of truth. */
 const SESSION_CAPTURE_INCLUDE_LINES = SESSION_CAPTURE_INCLUDES_SHORT.map(
@@ -272,24 +281,20 @@ Export $150 (ProRes or DNxHR master) · Rush Delivery +25% (under 7 days from lo
 For networks, agencies, and production companies hiring DFW local crew. Every rate is a
 10-hour day.
 
-- **Solo Operator Day — $1,500.** TJ as DP with the Sony cinema kit, audio, and lighting.
-- **B-Cam Day — $2,500.** Two operators + full Sony package.
-- **Full Crew Day — $5,500.** 4-person crew (DP + AC + Sound + Gaffer) + full Sony cinema package.
+${tierPromptLines()}
 
-**À la carte crew (per 10-hour day):** DP/Cinematographer (TJ) $1,500 · Camera Operator $800 ·
-1st AC $650 · 2nd AC $475 · Sound Mixer w/ kit $900 · Boom Op $550 · Gaffer $650 · Key Grip
-$600 · Grip/Electric $475 · PA $200 · Drone Operator $1,200
+**À la carte crew (per ${FILM_PRODUCTION_DAY_HOURS}-hour day):** ${crewRateLines()}
 
-**Kit rentals (per day):** Sony A7S III Kit $175 · Sony FX3 Kit $225 · Dual Sony Package $350 ·
-Small Lighting Package $250 · Mid Lighting Package $1,200 · Large Lighting Package $2,500
+**Kit rentals (per day):** ${kitRateLines()}
 
-**Logistics:** Overtime 1.5× after 10 hrs, 2× after 12 · Meal Penalty $35 per crew member per
-half-hour past 6 hours · Prep Day / Tech Scout 50% · Travel Day 50% · Mileage outside the
-included service area ${MILEAGE_RATE_LABEL}/mi measured from ${MILEAGE_ORIGIN} · Per Diem
-$75/day (M&IE only, lodging at cost)
+**Logistics:** Overtime 1.5× after ${FILM_PRODUCTION_DAY_HOURS} hrs, 2× after 12 · Meal Penalty
+${formatPrice(MEAL_PENALTY)} per crew member per half-hour past 6 hours · Prep Day / Tech Scout
+50% · Travel Day 50% · Mileage outside the included service area ${MILEAGE_RATE_LABEL}/mi
+measured from ${MILEAGE_ORIGIN} · Per Diem ${formatPrice(PER_DIEM_RATE)}/day (M&IE only, lodging
+at cost)
 
-**Insurance is passed through at cost, never marked up:** Solo Day $175, B-Cam Day $225, Full
-Crew Day $295 per shoot day. Covers $1M per occurrence / $2M aggregate general liability plus
+**Insurance is passed through at cost, never marked up:** ${insuranceByTierSentence()} per shoot
+day. Covers $1M per occurrence / $2M aggregate general liability plus
 workers' comp. $2M/$4M network-grade upgrade available (+$100–$150/day). Equipment coverage is
 always included — SFM carries year-round inland marine on all owned gear, at no cost to the
 production.

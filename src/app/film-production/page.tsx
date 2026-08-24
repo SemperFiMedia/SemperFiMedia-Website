@@ -4,6 +4,18 @@ import {
   MILEAGE_ORIGIN,
   travelIncludedListShort,
 } from '@/lib/service-area';
+import {
+  FILM_PRODUCTION_TIERS as TIERS,
+  FILM_PRODUCTION_CREW as CREW,
+  FILM_PRODUCTION_KITS as KITS,
+  FILM_PRODUCTION_DAY_HOURS,
+  PER_DIEM_RATE,
+  MEAL_PENALTY,
+  formatPrice,
+  insuranceRangeLabel,
+  insuranceByTierSentence,
+  tierSummarySentence,
+} from '@/lib/film-production';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -16,87 +28,37 @@ import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-dat
 export const metadata: Metadata = {
   title: 'Film Production Dallas — Day Rates, Crew-for-Hire, Full Kit Pricing',
   description:
-    'Transparent film production day rates for Dallas–Fort Worth. Solo Operator ($1,500), B-Cam Day ($2,500), Full Crew Day ($5,500). Crew-for-hire, Sony FX3/A7S III cinema kit, lighting packages, and transparent production insurance pass-through. Built for networks, agencies, and production companies hiring DFW local crew.',
+    `Transparent film production day rates for Dallas–Fort Worth. ${tierSummarySentence()}. Crew-for-hire, Sony FX3/A7S III cinema kit, lighting packages, and transparent production insurance pass-through. Built for networks, agencies, and production companies hiring DFW local crew.`,
 };
 
-const FILM_PRODUCTION_TIERS = [
-  {
-    label: 'SOLO',
-    name: 'Solo Operator Day',
-    price: '$1,500',
-    priceNote: '10-hour day',
-    includes: [
-      'TJ as DP / operator — 10 hours on location',
-      'Sony FX3 or A7S III + SmallRig cinema cage + Sigma Art lens set',
-      'Rode NTG shotgun + wireless lavalier + pro monitor',
-      'SmallRig RC 260B LED lighting kit + stands',
-      'Owned slider for steady-motion coverage',
-      'Hollyland wireless client monitoring',
-    ],
-  },
-  {
-    label: 'POPULAR',
-    name: 'B-Cam Day',
-    price: '$2,500',
-    priceNote: '10-hour day',
-    includes: [
-      'TJ as DP + 1 freelance camera operator',
-      'Dual Sony package (FX3 + A7S III, color-matched)',
-      'Full Rode audio kit (wireless lavs + boom + shotgun)',
-      'SmallRig LED lighting kit (owned)',
-      'Slider + gimbal for motion work',
-      'Hollyland dual-channel client monitoring',
-      '10-hour day',
-    ],
-    highlighted: true,
-  },
-  {
-    label: 'FULL CREW',
-    name: 'Full Crew Day',
-    price: '$5,500',
-    priceNote: '10-hour day',
-    includes: [
-      'TJ as DP + 1st AC + Sound Mixer + Gaffer',
-      'Dual Sony FX3 + A7S III, matte box, follow focus, shoulder rigs',
-      'Pro audio mixer kit (lavs + boom + 32-bit recorder)',
-      'SmallRig lighting package (owned) led by Gaffer',
-      'Slider + gimbal + DJI drone available',
-      'Hollyland multi-channel client monitoring',
-      'HMI / SkyPanel packages optional à la carte',
-    ],
-  },
-];
+const FILM_PRODUCTION_TIERS = TIERS.map((tier) => ({
+  label: tier.label,
+  name: tier.name,
+  price: formatPrice(tier.price),
+  priceNote: `${FILM_PRODUCTION_DAY_HOURS}-hour day`,
+  includes: [...tier.bullets],
+  highlighted: tier.highlighted,
+}));
 
-const FILM_PRODUCTION_CREW = [
-  { name: 'DP / Cinematographer (TJ)', price: '$1,500', note: '10-hour day. Sony FX3/A7S III cinema kit included.' },
-  { name: 'Camera Operator', price: '$800', note: '10-hour day. DFW freelance roster.' },
-  { name: '1st AC', price: '$650', note: 'Focus puller, camera build, media management.' },
-  { name: '2nd AC', price: '$475', note: 'Slate, batteries, camera support.' },
-  { name: 'Sound Mixer (w/ kit)', price: '$900', note: 'Mixer, wireless lavs, boom, recorder.' },
-  { name: 'Boom Op', price: '$550', note: 'Dedicated boom operator for dialogue scenes.' },
-  { name: 'Gaffer', price: '$650', note: 'Lead lighting, meter reads, power management.' },
-  { name: 'Key Grip', price: '$600', note: 'Lead grip: stands, flags, dolly, rigging.' },
-  { name: 'Grip / Electric', price: '$475', note: 'Day-player grip or electric support.' },
-  { name: 'PA', price: '$200', note: 'Runner, set support, craft logistics.' },
-  { name: 'Drone Operator', price: '$1,200', note: 'DJI cinema drone + operator. Flown in approved airspace outside restricted zones.' },
-];
+const FILM_PRODUCTION_CREW = CREW.map((role) => ({
+  name: role.name,
+  price: formatPrice(role.price),
+  note: role.note,
+}));
 
-const FILM_PRODUCTION_KITS = [
-  { name: 'Sony A7S III Kit', price: '$175', note: 'Body + Sigma Art primes + monitor + media.' },
-  { name: 'Sony FX3 Kit', price: '$225', note: 'Body + Sigma Art primes + monitor + media.' },
-  { name: 'Dual Sony Package', price: '$350', note: 'FX3 + A7S III, matched color, full lens set.' },
-  { name: 'Small Lighting Package', price: '$250', note: 'SmallRig RC 260B + stands + diffusion (owned).' },
-  { name: 'Mid Lighting Package', price: '$1,200', note: 'SkyPanels + HMI + grip cable (rental pass-through).' },
-  { name: 'Large Lighting Package', price: '$2,500', note: '3-ton truck, multi-HMI, dolly (rental pass-through).' },
-];
+const FILM_PRODUCTION_KITS = KITS.map((kit) => ({
+  name: kit.name,
+  price: formatPrice(kit.price),
+  note: kit.note,
+}));
 
 const FILM_PRODUCTION_LOGISTICS = [
-  { name: 'Overtime', price: '1.5× / 2×', note: '1.5× after 10 hrs, 2× after 12 hrs.' },
-  { name: 'Meal Penalty', price: '$35', note: 'Per crew member, per half-hour past the 6-hour mark.' },
+  { name: 'Overtime', price: '1.5× / 2×', note: `1.5× after ${FILM_PRODUCTION_DAY_HOURS} hrs, 2× after 12 hrs.` },
+  { name: 'Meal Penalty', price: formatPrice(MEAL_PENALTY), note: 'Per crew member, per half-hour past the 6-hour mark.' },
   { name: 'Prep Day / Tech Scout', price: '50%', note: 'Half rate for prep, scout, or wrap-only days.' },
   { name: 'Travel Day', price: '50%', note: 'Half rate for days spent traveling to location.' },
   { name: 'Mileage (beyond service area)', price: `${MILEAGE_RATE_LABEL}/mi`, note: `Measured from ${MILEAGE_ORIGIN}. Outside ${travelIncludedListShort()}.` },
-  { name: 'Per Diem (multi-day)', price: '$75/day', note: 'M&IE only. Lodging billed at cost.' },
+  { name: 'Per Diem (multi-day)', price: `${formatPrice(PER_DIEM_RATE)}/day`, note: 'M&IE only. Lodging billed at cost.' },
   { name: 'Rush Delivery', price: 'Quoted', note: 'Faster than the 2–4 week standard turnaround.' },
   { name: 'Raw Footage Buyout', price: '100%', note: 'Of project cost. Transfers all media rights.' },
 ];
@@ -273,11 +235,11 @@ export default function FilmProductionPage() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
                 <DataLabel className="mb-3">PER-PRODUCTION INSURANCE</DataLabel>
-                <h3 className="font-serif text-2xl italic">$175–$295 / shoot day</h3>
+                <h3 className="font-serif text-2xl italic">{insuranceRangeLabel()} / shoot day</h3>
                 <p className="mt-4 text-sm leading-relaxed text-bone-muted">
                   Covers $1M per occurrence / $2M aggregate general liability plus workers&apos;
-                  comp for the shoot day. Pass-through pricing — Solo Day $175, B-Cam Day $225,
-                  Full Crew Day $295. Your production pays actual cost; we don&apos;t mark it up.
+                  comp for the shoot day. Pass-through pricing — {insuranceByTierSentence()}.
+                  Your production pays actual cost; we don&apos;t mark it up.
                   $2M / $4M network-grade upgrade available (+$100–$150/day).
                 </p>
               </div>
