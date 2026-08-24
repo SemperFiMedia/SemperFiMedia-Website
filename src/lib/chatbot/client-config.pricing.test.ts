@@ -88,6 +88,13 @@ describe('chatbot price list', () => {
     }
   });
 
+  it('quotes the one published mileage rate', () => {
+    // Was $0.67 across the site and $0.75 on /film-production. TJ confirmed
+    // $0.75 is the real rate; this pins the bot to it.
+    expect(md).toContain('$0.75/mile');
+    expect(md).not.toContain('$0.67');
+  });
+
   it('cites only blog URLs that exist', () => {
     // The old prompt handed visitors a 404 built from the post's title.
     expect(md).not.toContain('/blog/sony-fx3-vs-fx30-dallas-wedding-cinematography.');

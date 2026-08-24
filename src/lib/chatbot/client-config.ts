@@ -326,7 +326,7 @@ These apply across every service:
 - **Raw Footage Buyout: 100% of project cost** — transfers all media rights of the raw files. SFM retains no rights to the footage.
 - **Extra Revisions: $100/hour** — every package includes 2 rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
 - **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, and Music Videos and Trailer Editing publish +25%.
-- **Travel beyond DFW: $0.67/mile** plus lodging where required. Travel within Dallas–Fort Worth is included. Destination weddings quoted separately.
+- **Travel beyond DFW: $0.75/mile** plus lodging where required. Travel within Dallas–Fort Worth is included. Destination weddings quoted separately.
 - Sales tax applied where required.
 
 # DISCOVERY CALL
