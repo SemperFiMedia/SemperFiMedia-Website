@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { HOSTING_MONTHLY, websiteTierSummary, formatPrice } from '@/lib/website-design';
 import { trailerStartingPrice } from '@/lib/trailer-editing';
+import { MUSIC_VIDEO_PRICE } from '@/lib/music-videos';
+import { dronePriceSummary } from '@/lib/drone';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -54,7 +56,7 @@ const NICHES = [
     label: 'CASH FLOW',
     title: 'Music Videos',
     description:
-      'Artists, labels, and venues. $3,000 anchor price. Fast turnaround. Creative direction that treats your track like it deserves the screen.',
+      `Artists, labels, and venues. ${formatPrice(MUSIC_VIDEO_PRICE)} anchor price. Fast turnaround. Creative direction that treats your track like it deserves the screen.`,
     emphasized: false,
   },
   {
@@ -62,7 +64,7 @@ const NICHES = [
     label: 'AERIAL',
     title: 'Drone Work',
     description:
-      'Cinematic aerial footage and drone photography. Roofing condition reports, real estate listings, brand-film exteriors, event recaps. Owner-operated DJI kit. From $100 photos, $500 video, $575 bundle.',
+      `Cinematic aerial footage and drone photography. Roofing condition reports, real estate listings, brand-film exteriors, event recaps. Owner-operated DJI kit. From ${dronePriceSummary()}.`,
     emphasized: false,
   },
   {

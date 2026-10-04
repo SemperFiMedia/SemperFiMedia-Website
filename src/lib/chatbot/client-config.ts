@@ -34,6 +34,8 @@ import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingT
 import { hourlyRateLabel, hourlyRateShort } from '@/lib/hourly-rate';
 import { corporateStartingPrice, corporateTierById } from '@/lib/corporate';
 import { LAUNCH_BUNDLES, bundleChatbotLines } from '@/lib/bundles';
+import { MUSIC_VIDEO_ADDITIONAL_LOCATION, MUSIC_VIDEO_DELIVERY_DAYS, musicVideoPriceLabel, musicVideoDeliveryLabel, musicVideoRushLabel } from '@/lib/music-videos';
+import { droneBundleSavings, dronePackageById, droneStartingPrice } from '@/lib/drone';
 import { WEBSITE_TIERS as SITE_TIERS } from '@/lib/website-design';
 import { tierById as filmTierById } from '@/lib/film-production';
 import { socialReelLadderLabel, socialReelPack } from '@/lib/social-reels';
@@ -152,12 +154,12 @@ const SEMPER_FI_SERVICES = `# SERVICES OVERVIEW
 **Cinema Weddings** (/weddings) — Netflix-documentary-style wedding films, from ${formatPrice(weddingStartingPrice())}
 **Corporate Video** (/corporate) — Brand films, commercials, mission-driven storytelling, from ${formatPrice(corporateStartingPrice())}
 **Session Capture** (/session-capture) — Conference talks, keynotes, and panels recorded, $1,000 flat
-**Music Videos** (/corporate/music-videos) — $3,000 flat
+**Music Videos** (/corporate/music-videos) — ${musicVideoPriceLabel()}
 **Social Media Reels** (/social-reels) — Vertical 9:16 reels cut from existing footage, ${socialReelLadderLabel()}
 **Trailer Editing** (/corporate/trailer-editing) — Post-only trailer cuts for filmmakers, from $1,500
 **Website Design** (/corporate/website-design) — Custom-coded sites, four tiers from $4,500
 **Film Production** (/film-production) — DFW crew-for-hire day rates, from $1,500/day
-**Drone** (/corporate/drone) — Aerial video and photos, from $100
+**Drone** (/corporate/drone) — Aerial video and photos, from ${formatPrice(droneStartingPrice())}
 **Pricing** (/pricing) — The full published rate sheet
 **Refer & Earn** (/refer) — Past couples earn $200 per booked wedding referral
 
@@ -227,8 +229,8 @@ talk or a panel, since panels need the extra lavaliers.
 
 # MUSIC VIDEOS (/corporate/music-videos)
 
-- **$3,000 flat** — single-day shoot, 3–4 minute finished video, color graded to track mood, beat-matched edit, music licensing handled, ${revisionRoundsLabel()}, 14-day delivery.
-- **Add-ons:** 9:16 Social Cuts ${formatPrice(socialReelPack(5).price)} (${socialReelPack(5).count}× vertical cutdowns, color-matched, the standard 5-reel rate) · Additional Location $750 (per location beyond the first) · Rush Delivery +25% (faster than 14 days)
+- **${musicVideoPriceLabel()}** — single-day shoot, 3–4 minute finished video, color graded to track mood, beat-matched edit, music licensing handled, ${revisionRoundsLabel()}, ${musicVideoDeliveryLabel()}.
+- **Add-ons:** 9:16 Social Cuts ${formatPrice(socialReelPack(5).price)} (${socialReelPack(5).count}× vertical cutdowns, color-matched, the standard 5-reel rate) · Additional Location ${formatPrice(MUSIC_VIDEO_ADDITIONAL_LOCATION)} (per location beyond the first) · Rush Delivery ${musicVideoRushLabel()} (faster than ${MUSIC_VIDEO_DELIVERY_DAYS} days)
 - Anything beyond that (longer shoot, custom concepts, drone-heavy) is custom quoted — collect the details and hand off to TJ.
 
 # WEBSITE DESIGN (/corporate/website-design)
@@ -304,9 +306,9 @@ production.
 Owner-operated DJI kit. 7–14 day delivery. Roofing condition reports, real estate listings,
 brand-film exteriors, event recaps.
 
-- **Drone Photo Package — $100.** Edited aerial stills.
-- **Cinematic Drone Video — $500.** 1–2 minute finished aerial video, cinematic color grade, licensed music, ${revisionRoundsLabel()}.
-- **Video + Photos bundle — $575.** Everything in the video package plus 15 edited aerial stills and a best-of carousel. Saves $25 vs. buying separately.
+- **Drone Photo Package — ${formatPrice(dronePackageById('photos').price)}.** Edited aerial stills.
+- **Cinematic Drone Video — ${formatPrice(dronePackageById('video').price)}.** 1–2 minute finished aerial video, cinematic color grade, licensed music, ${revisionRoundsLabel()}.
+- **Video + Photos bundle — ${formatPrice(dronePackageById('bundle').price)}.** Everything in the video package plus 15 edited aerial stills and a best-of carousel. Saves ${formatPrice(droneBundleSavings())} vs. buying separately.
 
 Flown in approved airspace outside restricted zones. Listing packages, event coverage, and
 commercial day rates are quoted — collect details and hand off to TJ.
@@ -335,7 +337,7 @@ These apply across every service:
 - **Raw Footage Buyout: 100% of project cost** — transfers all media rights of the raw files. SFM retains no rights to the footage.
 - **Extra Revisions: ${hourlyRateLabel()}** — every package includes ${REVISION_ROUNDS} rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
 - **Social Reels: ${socialReelLadderLabel()}** — one rate on every service: standalone reels from existing footage, Session Capture clips, and music-video cutdowns. Packs apply automatically, and an order is never quoted above a larger pack.
-- **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, and Music Videos and Trailer Editing publish +25%.
+- **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, Music Videos publish ${musicVideoRushLabel()}, and Trailer Editing publishes +25%.
 - **Travel: ${travelPolicySentence()}** Destination weddings quoted separately.
   - The included area is a named list of towns, NOT "all of DFW" — Fort Worth, Frisco, McKinney and Arlington are outside it and do carry mileage. Say so plainly if asked.
   - Mileage is measured **from ${MILEAGE_ORIGIN}**. Never say it is measured from Forney, from the client's venue, or from the edge of the service area — only from ${MILEAGE_ORIGIN}.

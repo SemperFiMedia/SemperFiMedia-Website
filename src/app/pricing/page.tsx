@@ -33,6 +33,8 @@ import { HOURLY_RATE } from '@/lib/hourly-rate';
 import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS, socialReelLadderLabel } from '@/lib/social-reels';
 import { corporateStartingPrice, corporateTierById, corporateTierSummary } from '@/lib/corporate';
 import { LAUNCH_BUNDLES, bundlePartsLabel, bundleSavings } from '@/lib/bundles';
+import { MUSIC_VIDEO_PRICE, musicVideoDeliveryLabel } from '@/lib/music-videos';
+import { droneBundleSavings, dronePackageById, droneStartingPrice } from '@/lib/drone';
 
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
@@ -75,9 +77,9 @@ const SERVICE_OVERVIEW = [
     id: 'music-videos',
     label: 'MUSIC VIDEOS',
     title: 'Music Videos',
-    startingPrice: '$3,000',
-    priceNote: 'flat · 14-day delivery',
-    description: 'Flat-rate music video package for indie and signed artists. Single-day shoot, 3-4 min finished video, color-graded to track mood, 14-day delivery. 9:16 social cutdowns + rush delivery add-ons.',
+    startingPrice: formatPrice(MUSIC_VIDEO_PRICE),
+    priceNote: `flat · ${musicVideoDeliveryLabel()}`,
+    description: `Flat-rate music video package for indie and signed artists. Single-day shoot, 3-4 min finished video, color-graded to track mood, ${musicVideoDeliveryLabel()}. 9:16 social cutdowns + rush delivery add-ons.`,
     href: '/corporate/music-videos#pricing',
     linkLabel: 'See Music Video Pricing →',
   },
@@ -105,9 +107,9 @@ const SERVICE_OVERVIEW = [
     id: 'drone',
     label: 'AERIAL',
     title: 'Drone & Aerial',
-    startingPrice: '$100',
+    startingPrice: formatPrice(droneStartingPrice()),
     priceNote: 'starting · 7–14 day delivery',
-    description: 'Owner-operated DJI aerials for roofing reports, real estate listings, brand-film exteriors, and event recaps. Drone Photo Package ($100), Cinematic Drone Video ($500), or the Video + Photos bundle ($575 — saves $25).',
+    description: `Owner-operated DJI aerials for roofing reports, real estate listings, brand-film exteriors, and event recaps. Drone Photo Package (${formatPrice(dronePackageById('photos').price)}), Cinematic Drone Video (${formatPrice(dronePackageById('video').price)}), or the Video + Photos bundle (${formatPrice(dronePackageById('bundle').price)} — saves ${formatPrice(droneBundleSavings())}).`,
     href: '/corporate/drone#pricing',
     linkLabel: 'See Drone Pricing →',
   },
@@ -178,16 +180,16 @@ const PRICING_OFFERS = [
   { name: 'Heirloom Wedding Package', description: '10 hours coverage, full crew, Netflix-documentary-style story film', price: '8000', url: '/weddings' },
   { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: String(corporateTierById('spotlight').price), url: '/corporate' },
   { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: String(corporateTierById('brand-film').price), url: '/corporate' },
-  { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
+  { name: 'Music Video', description: `Single-day shoot, 3-4 min music video, ${musicVideoDeliveryLabel()}`, price: String(MUSIC_VIDEO_PRICE), url: '/corporate/music-videos' },
   { name: 'Social Media Reel', description: 'One vertical 9:16 reel cut from existing footage', price: String(SOCIAL_REEL_PRICE), url: '/social-reels' },
   ...SOCIAL_REEL_PACKS.map((p) => ({ name: `Social Media Reels — ${p.count}-Pack`, description: `${p.count} vertical 9:16 reels cut from existing footage`, price: String(p.price), url: '/social-reels' })),
   { name: 'Session Capture', description: 'Conference session, keynote, or panel recording. 2 hours onsite, 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery', price: '1000', url: '/session-capture' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/film-production' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/film-production' },
   { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/film-production' },
-  { name: 'Drone Photo Package', description: 'Edited aerial stills, owner-operated DJI kit, 7-14 day delivery', price: '100', url: '/corporate/drone' },
-  { name: 'Cinematic Drone Video', description: '1-2 minute finished aerial video, cinematic color grade, licensed music', price: '500', url: '/corporate/drone' },
-  { name: 'Drone Video + Photos Bundle', description: 'Cinematic aerial video plus 15 edited stills and a best-of social carousel', price: '575', url: '/corporate/drone' },
+  { name: 'Drone Photo Package', description: 'Edited aerial stills, owner-operated DJI kit, 7-14 day delivery', price: String(dronePackageById('photos').price), url: '/corporate/drone' },
+  { name: 'Cinematic Drone Video', description: '1-2 minute finished aerial video, cinematic color grade, licensed music', price: String(dronePackageById('video').price), url: '/corporate/drone' },
+  { name: 'Drone Video + Photos Bundle', description: 'Cinematic aerial video plus 15 edited stills and a best-of social carousel', price: String(dronePackageById('bundle').price), url: '/corporate/drone' },
   { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: '1500', url: '/corporate/trailer-editing' },
   { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: '2500', url: '/corporate/trailer-editing' },
   { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: '3500', url: '/corporate/trailer-editing' },

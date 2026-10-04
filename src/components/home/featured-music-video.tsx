@@ -3,6 +3,7 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { CinematicVideo } from '@/components/media/cinematic-video';
 import { VideoJsonLd } from '@/components/seo/structured-data';
 import { env } from '@/lib/env';
+import { MUSIC_VIDEO_PRICE, formatPrice } from '@/lib/music-videos';
 
 export const FEATURED_VIDEO_PLAYBACK_ID = 'AbrUiZ7cPm2CmYDPdbRXUopfqAqVTB01J9nZSWW701l1w';
 
@@ -13,7 +14,7 @@ const POSTER_URL = `${env.siteUrl}${POSTER_PATH}`;
 const TITLE = 'Cut Up';
 const ARTIST = 'Cole';
 const DESCRIPTION =
-  'The latest music video from Dallas artist Cole, "Cut Up" — shot, edited, and color-graded in-house by Semper Fi Media. This is what a $3,000 single-day music video shoot delivers.';
+  `The latest music video from Dallas artist Cole, "Cut Up" — shot, edited, and color-graded in-house by Semper Fi Media. This is what a ${formatPrice(MUSIC_VIDEO_PRICE)} single-day music video shoot delivers.`;
 
 export function FeaturedMusicVideo() {
   return (

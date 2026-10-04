@@ -1,5 +1,6 @@
 import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
 import { corporateStartingPrice } from '@/lib/corporate';
+import { musicVideoPriceLabel, musicVideoDeliveryLabel } from '@/lib/music-videos';
 // All visitor-facing chatbot copy, per language. Pure data + lookup only —
 // this module is bundled into the client widget, so it MUST NOT import
 // server-only modules (env, postgres, SDKs). Per-client customization for the
@@ -32,7 +33,7 @@ const EN_DISMISS_LABEL = 'Dismiss';
 const EN_OPENERS: Array<[string, string]> = [
   [
     '/corporate/music-videos',
-    "Music video? The standard package is $3,000 flat with 14-day delivery — or we build something custom. Want me to walk you through it?",
+    `Music video? The standard package is ${musicVideoPriceLabel()} with ${musicVideoDeliveryLabel()} — or we build something custom. Want me to walk you through it?`,
   ],
   [
     '/corporate/mission-and-tactical',

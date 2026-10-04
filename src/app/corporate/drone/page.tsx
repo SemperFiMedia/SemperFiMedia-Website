@@ -6,12 +6,12 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
-import { revisionRoundsLabel } from '@/lib/revisions';
+import { DRONE_PACKAGES, droneStartingPrice, dronePriceSummary, formatPrice } from '@/lib/drone';
 
 export const metadata: Metadata = {
-  title: 'Drone Photography & Videography Dallas — Aerial Coverage from $100',
+  title: `Drone Photography & Videography Dallas — Aerial Coverage from ${formatPrice(droneStartingPrice())}`,
   description:
-    'Dallas–Fort Worth drone photography and cinematic aerial videography. Roofing, real estate, small business, and event coverage. Owner-operated DJI kit. Single-shoot pricing from $100 photos, $500 video, $575 bundle.',
+    `Dallas–Fort Worth drone photography and cinematic aerial videography. Roofing, real estate, small business, and event coverage. Owner-operated DJI kit. Single-shoot pricing from ${dronePriceSummary()}.`,
 };
 
 const PHOTOS = [
@@ -31,44 +31,7 @@ const VIDEOS = [
   { id: 'nlCM9sTIoCg', title: 'Aerial cinematography reel 4' },
 ];
 
-const PRICING = [
-  {
-    label: 'AERIAL VIDEO',
-    name: 'Cinematic Drone Video',
-    price: '$500',
-    includes: [
-      '1–2 minute finished aerial video',
-      'Cinematic color grade',
-      'Licensed music or royalty-free track',
-      revisionRoundsLabel(),
-      '7–14 day delivery',
-    ],
-  },
-  {
-    label: 'POPULAR · BUNDLE',
-    name: 'Video + Photos',
-    price: '$575',
-    includes: [
-      'Everything in Cinematic Drone Video',
-      '15 edited aerial stills',
-      'Best-of carousel (Instagram / Facebook ready)',
-      'Single-day shoot',
-      'Save $25 vs. buying separately',
-    ],
-    highlighted: true,
-  },
-  {
-    label: 'AERIAL PHOTOS',
-    name: 'Drone Photo Package',
-    price: '$100',
-    includes: [
-      '15 edited aerial stills',
-      'Color graded + sharpened',
-      'Delivered in web-ready JPG',
-      '7-day delivery',
-    ],
-  },
-];
+const PRICING = DRONE_PACKAGES;
 
 const WHO = [
   'Roofers closing more jobs with drone-verified condition reports',
@@ -143,7 +106,7 @@ export default function DronePage() {
               </h1>
               <p className="mt-8 max-w-2xl text-lg text-bone-muted">
                 Owner-operated DJI cinema drone, color-graded to match ground footage, delivered
-                in 7–14 days. Roofing, real estate, small business, and event aerials from $100.
+                in 7–14 days. Roofing, real estate, small business, and event aerials from {formatPrice(droneStartingPrice())}.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
                 <BrassButton href="/contact">Book aerial coverage</BrassButton>
@@ -247,7 +210,7 @@ export default function DronePage() {
                   <DataLabel className="mb-3">{tier.label}</DataLabel>
                   <h3 className="font-serif text-2xl italic">{tier.name}</h3>
                   <div className="mt-4 flex items-baseline gap-2">
-                    <span className="font-serif text-4xl text-brass">{tier.price}</span>
+                    <span className="font-serif text-4xl text-brass">{formatPrice(tier.price)}</span>
                     <span className="text-sm text-bone-subtle">starting</span>
                   </div>
                   <ul className="mt-6 space-y-2 text-sm text-bone-muted">

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { travelPolicySentence } from '@/lib/service-area';
 import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
 import { corporateStartingPrice } from '@/lib/corporate';
+import { musicVideoPriceLabel, musicVideoDeliveryLabel } from '@/lib/music-videos';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
 import { FaqJsonLd } from '@/components/seo/structured-data';
@@ -23,6 +24,8 @@ type FAQ = {
 /** Read from the pricing modules so the front door cannot drift from the rate card. */
 const WEDDING_FROM = formatPrice(weddingStartingPrice());
 const CORPORATE_FROM = formatPrice(corporateStartingPrice());
+const MUSIC_VIDEO_FLAT_PRICE = musicVideoPriceLabel();
+const MUSIC_VIDEO_DELIVERY = musicVideoDeliveryLabel();
 const TRAVEL = travelPolicySentence();
 const ROUNDS = revisionRoundsWord();
 const ROUNDS_CAP = revisionRoundsWordCapitalized();
@@ -37,11 +40,11 @@ const FAQS: FAQ[] = [
           pricing page
         </Link>
         . Weddings start at {WEDDING_FROM}. Corporate brand films start at {CORPORATE_FROM}. Music
-        videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a
+        videos are {MUSIC_VIDEO_FLAT_PRICE} with {MUSIC_VIDEO_DELIVERY}. Full productions are custom-quoted after a
         discovery call.
       </>
     ),
-    plain: `Every service has published rates on the pricing page. Weddings start at ${WEDDING_FROM}. Corporate brand films start at ${CORPORATE_FROM}. Music videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a discovery call.`,
+    plain: `Every service has published rates on the pricing page. Weddings start at ${WEDDING_FROM}. Corporate brand films start at ${CORPORATE_FROM}. Music videos are ${MUSIC_VIDEO_FLAT_PRICE} with ${MUSIC_VIDEO_DELIVERY}. Full productions are custom-quoted after a discovery call.`,
   },
   {
     q: 'How long does a project take from start to finish?',
