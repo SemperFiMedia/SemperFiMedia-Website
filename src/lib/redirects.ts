@@ -15,4 +15,6 @@ export const REDIRECTS = [
   // misspelled slug; the old addresses keep their links and search standing.
   { source: '/work/aaron-michael-make-it-work', destination: '/work/arron-michael-make-it-work', permanent: true },
   { source: '/work/aaron-michael-feels-like-the-first-time', destination: '/work/arron-michael-feels-like-the-first-time', permanent: true },
+  // Revision policy moved from two rounds to three; the article was rewritten and renamed with it.
+  { source: '/blog/two-revision-rounds-is-generous', destination: '/blog/three-revision-rounds-is-generous', permanent: true },
 ];
