@@ -8,6 +8,31 @@ import { CinematicVideo } from '@/components/media/cinematic-video';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { muxVerticalPoster } from '@/lib/mux-image';
 import { getSocialReels } from '@/sanity/queries';
+import { formatPrice } from '@/lib/utils';
+import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS } from '@/lib/social-reels';
+
+const perReel = (price: number, count: number) =>
+  price % count === 0
+    ? `${formatPrice(price / count)} a reel.`
+    : `About ${formatPrice(Math.round(price / count))} a reel.`;
+
+const REEL_OPTIONS = [
+  { label: 'ONE REEL', price: SOCIAL_REEL_PRICE, note: 'A single vertical cut for Instagram, TikTok, or Shorts.' },
+  ...SOCIAL_REEL_PACKS.map((pack) => ({
+    label: `${pack.count}-REEL PACK`,
+    price: pack.price,
+    note: perReel(pack.price, pack.count),
+  })),
+];
+
+const REEL_OFFERS = [
+  { name: 'Social Media Reel', description: 'One vertical 9:16 reel cut from existing footage', price: String(SOCIAL_REEL_PRICE) },
+  ...SOCIAL_REEL_PACKS.map((pack) => ({
+    name: `Social Media Reels — ${pack.count}-Pack`,
+    description: `${pack.count} vertical 9:16 reels cut from existing footage`,
+    price: String(pack.price),
+  })),
+];
 
 export const metadata: Metadata = {
   title: 'Social Media Reels — Dallas Video Production',
@@ -44,6 +69,7 @@ export default async function SocialReelsPage() {
         name="Social Media Reels — Dallas"
         description="Vertical 9:16 social media reel production and footage repurposing in Dallas–Fort Worth."
         url="https://semperfimedia.llc/social-reels"
+        offers={REEL_OFFERS}
       />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
@@ -141,6 +167,32 @@ export default async function SocialReelsPage() {
                 <div key={item.title} className="border-l border-brass/40 pl-6">
                   <h3 className="font-serif text-2xl italic">{item.title}</h3>
                   <p className="mt-3 text-bone-muted leading-relaxed">{item.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="pricing"
+          className="scroll-mt-24 border-y border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-28"
+          aria-label="Pricing"
+        >
+          <div className="mx-auto max-w-[1200px]">
+            <DataLabel className="mb-4">PRICING</DataLabel>
+            <h2 className="mb-4 font-serif text-4xl italic leading-tight md:text-5xl">
+              One rate for every reel we cut.
+            </h2>
+            <p className="mb-12 max-w-2xl leading-relaxed text-bone-muted">
+              The same price whether the footage is a music video, a wedding, a conference talk,
+              or a brand film. Pack rates apply automatically.
+            </p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              {REEL_OPTIONS.map((option) => (
+                <div key={option.label} className="flex flex-col border border-bone/15 bg-black/40 p-6">
+                  <DataLabel className="mb-2">{option.label}</DataLabel>
+                  <div className="font-serif text-4xl text-brass">{formatPrice(option.price)}</div>
+                  <p className="mt-3 text-sm text-bone-muted">{option.note}</p>
                 </div>
               ))}
             </div>

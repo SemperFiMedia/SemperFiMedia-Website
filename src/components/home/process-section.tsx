@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
 import { revisionRoundsLabel } from '@/lib/revisions';
+import { hourlyRateShort } from '@/lib/hourly-rate';
 
 type Step = {
   number: string;
@@ -27,7 +28,7 @@ const STEPS: Step[] = [
   {
     number: '02',
     title: 'Concept & Pre-Production',
-    meta: '$100/hr · 1–2 weeks',
+    meta: `${hourlyRateShort()} · 1–2 weeks`,
     body: (
       <>
         Treatment, shot list, location scout, schedule, and gear plan — billed hourly whether

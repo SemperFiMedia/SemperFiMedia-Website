@@ -7,6 +7,11 @@ import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-dat
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { revisionRoundsLabel, revisionRoundsPhrase } from '@/lib/revisions';
+import { formatPrice } from '@/lib/utils';
+import { socialReelPack } from '@/lib/social-reels';
+
+/** Music-video social cuts are the standard 5-reel pack. */
+const SOCIAL_CUTS = socialReelPack(5);
 
 export const metadata: Metadata = {
   title: 'Music Video Production Dallas — $3,000 Flat, 14-Day Delivery',
@@ -146,8 +151,8 @@ export default async function MusicVideosPage() {
                 <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6">
                   <DataLabel className="mb-2">ADD-ON</DataLabel>
                   <h3 className="font-serif text-xl italic">9:16 Social Cuts</h3>
-                  <div className="mt-2 font-serif text-2xl text-brass">$500</div>
-                  <p className="mt-2 text-sm text-bone-muted">5× vertical cutdowns, color-matched.</p>
+                  <div className="mt-2 font-serif text-2xl text-brass">{formatPrice(SOCIAL_CUTS.price)}</div>
+                  <p className="mt-2 text-sm text-bone-muted">{SOCIAL_CUTS.count}× vertical cutdowns, color-matched.</p>
                 </div>
                 <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-6">
                   <DataLabel className="mb-2">ADD-ON</DataLabel>

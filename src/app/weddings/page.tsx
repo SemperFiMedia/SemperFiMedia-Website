@@ -4,6 +4,7 @@ import {
   WEDDING_ADD_ONS as ADD_ONS,
   weddingAddOnPriceLabel,
   formatPrice,
+  weddingStartingPrice,
 } from '@/lib/weddings';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -17,10 +18,12 @@ import { WeddingConfigurator } from '@/components/weddings/wedding-configurator'
 import { ProposalForm } from '@/components/weddings/proposal-form';
 import { getCaseStudiesByCategory, getAllTestimonials } from '@/sanity/queries';
 
+const WEDDING_FROM = formatPrice(weddingStartingPrice());
+
 export const metadata: Metadata = {
   title: 'Netflix Documentary Wedding Films Dallas — Cinema Wedding Videography',
   description:
-    'Your wedding day, filmed like a Netflix documentary. Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Three packages from $3,500 — full transparency, no hidden fees.',
+    `Your wedding day, filmed like a Netflix documentary. Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Three packages from ${WEDDING_FROM} — full transparency, no hidden fees.`,
   alternates: {
     canonical: 'https://semperfimedia.llc/weddings',
     languages: { 'es-US': 'https://semperfimedia.llc/es/weddings' },
@@ -125,7 +128,7 @@ export default async function WeddingsPage() {
       <Nav />
       <ServiceJsonLd
         name="Netflix Documentary Wedding Films Dallas"
-        description="Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Documentary-style wedding films from $3,500."
+        description={`Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Documentary-style wedding films from ${WEDDING_FROM}.`}
         url="https://semperfimedia.llc/weddings"
       />
       <main>
@@ -142,7 +145,7 @@ export default async function WeddingsPage() {
             <p className="mt-8 max-w-2xl text-lg text-bone-muted md:text-xl">
               Cinema cameras. Real moments. The day rendered the way it actually felt — not a
               checklist highlight reel. Marine-led, owner-operator, transparently priced from
-              $3,500.
+              {WEDDING_FROM}.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Book a Discovery Call</BrassButton>

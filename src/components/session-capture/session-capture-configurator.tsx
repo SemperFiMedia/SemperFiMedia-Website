@@ -10,7 +10,6 @@ import {
   SESSION_CAPTURE_BASE_HOURS,
   SESSION_CAPTURE_INCLUDES_SHORT,
   SESSION_CAPTURE_PRICE,
-  VERTICAL_CLIP_PACK_PRICE,
   VERTICAL_CLIP_PACK_SIZE,
   addOnLinePrice,
   formatPrice,
@@ -18,6 +17,7 @@ import {
   type SessionCaptureAddOn,
 } from '@/lib/session-capture';
 import { revisionRoundsWord } from '@/lib/revisions';
+import { socialReelLadderLabel } from '@/lib/social-reels';
 
 const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';
 
@@ -204,9 +204,9 @@ export function SessionCaptureConfigurator() {
             <div>
               <DataLabel className="mb-1">STEP 2 · HOW MUCH COVERAGE</DataLabel>
               <p className="mb-5 text-sm text-bone-muted">
-                Clips and onsite time scale with your session. Three clips bill at the{' '}
-                {formatPrice(VERTICAL_CLIP_PACK_PRICE)} pack rate automatically — you are never
-                charged more than the published pack price.
+                Clips and onsite time scale with your session. Reel packs apply automatically (
+                {socialReelLadderLabel()}) — you are never charged more than the published pack
+                price.
               </p>
               <div className="grid grid-cols-1 gap-3">
                 {QUANTITY_ADD_ONS.map((addOn) => (
@@ -355,8 +355,7 @@ function StepperRow({
           <p className="mt-1 text-xs leading-relaxed text-bone-muted">{addOn.blurb}</p>
           {packApplied && (
             <p className="data-label mt-2 text-[10px] text-brass">
-              PACK RATE APPLIED · {formatPrice(VERTICAL_CLIP_PACK_PRICE)} PER{' '}
-              {VERTICAL_CLIP_PACK_SIZE}
+              PACK RATE APPLIED · {quantity} FOR {formatPrice(linePrice)}
             </p>
           )}
         </div>

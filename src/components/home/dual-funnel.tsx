@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { DataLabel } from '@/components/primitives/data-label';
+import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
 
 export function DualFunnel() {
   return (
@@ -66,7 +67,7 @@ export function DualFunnel() {
             said yes.
           </h2>
           <p className="mt-6 max-w-md text-sm leading-relaxed text-bone-muted md:text-base">
-            Cinema Wedding packages starting at $3,000. Destination weddings welcome. Three tiers,
+            Cinema Wedding packages starting at {formatPrice(weddingStartingPrice())}. Destination weddings welcome. Three tiers,
             full transparency, no hidden fees.
           </p>
           <DataLabel className="mt-8 text-brass transition-transform group-hover:translate-x-2">

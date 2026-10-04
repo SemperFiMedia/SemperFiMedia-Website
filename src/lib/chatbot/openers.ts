@@ -1,3 +1,4 @@
+import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
 // All visitor-facing chatbot copy, per language. Pure data + lookup only —
 // this module is bundled into the client widget, so it MUST NOT import
 // server-only modules (env, postgres, SDKs). Per-client customization for the
@@ -121,7 +122,7 @@ const ES_DISMISS_LABEL = 'Cerrar';
 const ES_OPENERS: Array<[string, string]> = [
   [
     '/weddings',
-    '¿Buscas video para tu boda? Tenemos tres paquetes desde $3,500. Te puedo explicar cada uno o revisar si tu fecha está libre. ¿Por dónde empezamos?',
+    `¿Buscas video para tu boda? Tenemos tres paquetes desde ${formatPrice(weddingStartingPrice())}. Te puedo explicar cada uno o revisar si tu fecha está libre. ¿Por dónde empezamos?`,
   ],
   [
     '/quinceaneras',

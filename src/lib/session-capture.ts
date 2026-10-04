@@ -13,6 +13,8 @@ import {
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
 import { revisionRoundsLabel, revisionRoundsPhrase, revisionRoundsWordCapitalized } from '@/lib/revisions';
+import { HOURLY_RATE } from '@/lib/hourly-rate';
+import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS, socialReelsPrice, socialReelLadderLabel } from '@/lib/social-reels';
 
 export const SESSION_CAPTURE_PRICE = 1000;
 
@@ -76,8 +78,8 @@ export type SessionCaptureAddOn = {
   max?: number;
 };
 
-export const VERTICAL_CLIP_PACK_SIZE = 3;
-export const VERTICAL_CLIP_PACK_PRICE = 400;
+/** Clips start counting as a pack at the smallest reel pack. Prices live in @/lib/social-reels. */
+export const VERTICAL_CLIP_PACK_SIZE: number = SOCIAL_REEL_PACKS[0].count;
 
 export const SESSION_CAPTURE_ADD_ONS: readonly SessionCaptureAddOn[] = [
   {
@@ -91,11 +93,11 @@ export const SESSION_CAPTURE_ADD_ONS: readonly SessionCaptureAddOn[] = [
   {
     id: 'vertical-clips',
     name: 'Vertical social clips (9:16, captions burned in)',
-    price: 150,
+    price: SOCIAL_REEL_PRICE,
     unit: 'each',
     max: 12,
     blurb:
-      'Your strongest moments cut to 9:16 for Reels, TikTok, and Shorts, with captions burned in so they land on mute. $150 each, or $400 for a pack of three — the pack rate applies automatically.',
+      `Your strongest moments cut to 9:16 for Reels, TikTok, and Shorts, with captions burned in so they land on mute. ${socialReelLadderLabel()}, the same reel rate as every Semper Fi Media service. Pack rates apply automatically.`,
   },
   {
     id: 'extra-hours',
@@ -133,17 +135,12 @@ export const SESSION_CAPTURE_ADD_ONS: readonly SessionCaptureAddOn[] = [
 ] as const;
 
 /**
- * Vertical clips price with the 3-pack rate applied automatically.
- * Packs of three bill at $400; the remainder bills at $150 each.
- * A buyer is never quoted more than the best published combination.
+ * Vertical clips price on the site-wide reel ladder, packs applied
+ * automatically. A buyer is never quoted more than the best published
+ * combination, or more than a larger pack.
  */
 export function verticalClipsPrice(count: number): number {
-  if (count <= 0) return 0;
-  const packs = Math.floor(count / VERTICAL_CLIP_PACK_SIZE);
-  const singles = count % VERTICAL_CLIP_PACK_SIZE;
-  const packed = packs * VERTICAL_CLIP_PACK_PRICE + singles * 150;
-  // Never quote above the straight per-clip rate.
-  return Math.min(packed, count * 150);
+  return socialReelsPrice(count);
 }
 
 /** Price for one add-on line at a given quantity. */
@@ -170,7 +167,7 @@ export { formatPrice };
 /** Price string shown in the add-ons table on the page. */
 export function addOnPriceLabel(addOn: SessionCaptureAddOn): string {
   if (addOn.id === 'vertical-clips') {
-    return `${formatPrice(addOn.price)} each · ${formatPrice(VERTICAL_CLIP_PACK_PRICE)} for ${VERTICAL_CLIP_PACK_SIZE}`;
+    return socialReelLadderLabel();
   }
   if (addOn.unit === 'hour') return `${formatPrice(addOn.price)}/hr`;
   return formatPrice(addOn.price);
@@ -198,7 +195,7 @@ export const SESSION_CAPTURE_POLICIES = [
   {
     label: 'ADDITIONAL REVISIONS',
     name: 'Extra Rounds',
-    price: '$100',
+    price: formatPrice(HOURLY_RATE),
     unit: '/ hour',
     note: `Every package includes ${revisionRoundsLabel()}. Additional rounds are billed hourly. Most edits are tightened in under an hour.`,
   },

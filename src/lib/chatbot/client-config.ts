@@ -30,7 +30,9 @@ import {
   MILEAGE_RATE_LABEL,
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
-import { weddingTierTableRows, weddingAddOnLines } from '@/lib/weddings';
+import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingTierById } from '@/lib/weddings';
+import { hourlyRateLabel, hourlyRateShort } from '@/lib/hourly-rate';
+import { socialReelLadderLabel, socialReelPack } from '@/lib/social-reels';
 import {
   websiteTierTableRows,
   websiteAddOnLine,
@@ -140,11 +142,11 @@ export type ChatbotClientConfig = {
 
 const SEMPER_FI_SERVICES = `# SERVICES OVERVIEW
 
-**Cinema Weddings** (/weddings) — Netflix-documentary-style wedding films, from $3,500
+**Cinema Weddings** (/weddings) — Netflix-documentary-style wedding films, from ${formatPrice(weddingStartingPrice())}
 **Corporate Video** (/corporate) — Brand films, commercials, mission-driven storytelling, from $1,500
 **Session Capture** (/session-capture) — Conference talks, keynotes, and panels recorded, $1,000 flat
 **Music Videos** (/corporate/music-videos) — $3,000 flat
-**Social Media Reels** (/social-reels) — Vertical 9:16 reels cut from existing footage
+**Social Media Reels** (/social-reels) — Vertical 9:16 reels cut from existing footage, ${socialReelLadderLabel()}
 **Trailer Editing** (/corporate/trailer-editing) — Post-only trailer cuts for filmmakers, from $1,500
 **Website Design** (/corporate/website-design) — Custom-coded sites, four tiers from $4,500
 **Film Production** (/film-production) — DFW crew-for-hire day rates, from $1,500/day
@@ -218,7 +220,7 @@ talk or a panel, since panels need the extra lavaliers.
 # MUSIC VIDEOS (/corporate/music-videos)
 
 - **$3,000 flat** — single-day shoot, 3–4 minute finished video, color graded to track mood, beat-matched edit, music licensing handled, ${revisionRoundsLabel()}, 14-day delivery.
-- **Add-ons:** 9:16 Social Cuts $500 (5× vertical cutdowns, color-matched) · Additional Location $750 (per location beyond the first) · Rush Delivery +25% (faster than 14 days)
+- **Add-ons:** 9:16 Social Cuts ${formatPrice(socialReelPack(5).price)} (${socialReelPack(5).count}× vertical cutdowns, color-matched, the standard 5-reel rate) · Additional Location $750 (per location beyond the first) · Rush Delivery +25% (faster than 14 days)
 - Anything beyond that (longer shoot, custom concepts, drone-heavy) is custom quoted — collect the details and hand off to TJ.
 
 # WEBSITE DESIGN (/corporate/website-design)
@@ -313,7 +315,7 @@ Most small businesses need both. Bundled: one decision, one vendor, one invoice.
 
 Past Semper Fi Media couples earn **$200** when they refer an engaged friend and that wedding
 is filmed and paid in full. Paid via Venmo, Zelle, or check. Applies to wedding bookings only
-($3,500 Essentials tier and up). No cap — every booked wedding earns $200.
+(${formatPrice(weddingStartingPrice())} ${weddingTierById('essentials').name} tier and up). No cap — every booked wedding earns $200.
 
 # OUTSIDE OUR WHEELHOUSE
 
@@ -323,9 +325,10 @@ If someone asks about standalone photography, standalone graphic design, or stan
 
 These apply across every service:
 
-- **Pre-Production Consulting: $100/hour** — treatment writing, shot list development, location scouts, pre-production meetings. Billed hourly whether on Zoom or in person.
+- **Pre-Production Consulting: ${hourlyRateLabel()}** — treatment writing, shot list development, location scouts, pre-production meetings. Billed hourly whether on Zoom or in person.
 - **Raw Footage Buyout: 100% of project cost** — transfers all media rights of the raw files. SFM retains no rights to the footage.
-- **Extra Revisions: $100/hour** — every package includes ${REVISION_ROUNDS} rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
+- **Extra Revisions: ${hourlyRateLabel()}** — every package includes ${REVISION_ROUNDS} rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
+- **Social Reels: ${socialReelLadderLabel()}** — one rate on every service: standalone reels from existing footage, Session Capture clips, and music-video cutdowns. Packs apply automatically, and an order is never quoted above a larger pack.
 - **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, and Music Videos and Trailer Editing publish +25%.
 - **Travel: ${travelPolicySentence()}** Destination weddings quoted separately.
   - The included area is a named list of towns, NOT "all of DFW" — Fort Worth, Frisco, McKinney and Arlington are outside it and do carry mileage. Say so plainly if asked.
@@ -342,7 +345,7 @@ These apply across every service:
 # PROCESS (for any service)
 
 1. **Discovery Call** — 30-min free consultation. Map the project, timeline, key moments, budget.
-2. **Pre-Production** ($100/hr if extensive) — Treatment, shot list, location scouts, vendor coordination.
+2. **Pre-Production** (${hourlyRateShort()} if extensive) — Treatment, shot list, location scouts, vendor coordination.
 3. **Production / Shoot Day** — TJ leads the crew. Cinema cameras, cinema primes, pro audio, drone where permitted.
 4. **Post-Production** — Edit in 2–4 weeks for corporate / 4–8 weeks for weddings (Vidflow workflow).
 5. **Delivery** — Same-day teaser available for top-tier weddings. USB, hard drive, online gallery, social cuts.

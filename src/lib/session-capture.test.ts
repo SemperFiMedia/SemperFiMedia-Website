@@ -40,10 +40,12 @@ describe('session capture pricing', () => {
       expect(verticalClipsPrice(3)).toBe(400);
     });
 
-    it('mixes packs and singles', () => {
-      expect(verticalClipsPrice(4)).toBe(550); // 400 + 150
-      expect(verticalClipsPrice(5)).toBe(700); // 400 + 300
-      expect(verticalClipsPrice(6)).toBe(800); // 400 + 400
+    // The site-wide reel ladder (owner's call, 2026-10-04) added five for $500,
+    // and an order is never quoted above a larger pack.
+    it('uses the site-wide reel ladder', () => {
+      expect(verticalClipsPrice(4)).toBe(500); // the five-pack beats 400 + 150
+      expect(verticalClipsPrice(5)).toBe(500); // five-pack
+      expect(verticalClipsPrice(6)).toBe(650); // five-pack + one
     });
 
     it('never quotes above the straight per-clip rate', () => {
@@ -92,7 +94,8 @@ describe('session capture pricing', () => {
 
   describe('price labels', () => {
     it('shows both the unit and pack rate for clips', () => {
-      expect(addOnPriceLabel(addOn('vertical-clips'))).toBe('$150 each · $400 for 3');
+      // The site-wide reel ladder (owner's call, 2026-10-04).
+      expect(addOnPriceLabel(addOn('vertical-clips'))).toBe('$150 each · 3 for $400 · 5 for $500');
     });
 
     it('marks hourly add-ons per hour', () => {

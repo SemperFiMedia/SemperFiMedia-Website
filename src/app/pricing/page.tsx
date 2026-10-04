@@ -28,6 +28,8 @@ import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { OfferCatalogJsonLd } from '@/components/seo/structured-data';
 import { ViewContent } from '@/components/analytics/view-content';
 import { revisionRoundsLabel } from '@/lib/revisions';
+import { HOURLY_RATE } from '@/lib/hourly-rate';
+import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS, socialReelLadderLabel } from '@/lib/social-reels';
 
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
@@ -75,6 +77,16 @@ const SERVICE_OVERVIEW = [
     description: 'Flat-rate music video package for indie and signed artists. Single-day shoot, 3-4 min finished video, color-graded to track mood, 14-day delivery. 9:16 social cutdowns + rush delivery add-ons.',
     href: '/corporate/music-videos#pricing',
     linkLabel: 'See Music Video Pricing →',
+  },
+  {
+    id: 'social-reels',
+    label: 'SOCIAL MEDIA REELS',
+    title: 'Social Reels',
+    startingPrice: formatPrice(SOCIAL_REEL_PRICE),
+    priceNote: `per reel · packs of ${SOCIAL_REEL_PACKS.map((p) => p.count).join(' and ')}`,
+    description: `Vertical 9:16 reels for Instagram, TikTok, and YouTube Shorts, cut from footage you already have or added to any shoot. ${socialReelLadderLabel()}. The same rate applies to Session Capture clips and music-video cutdowns.`,
+    href: '/social-reels#pricing',
+    linkLabel: 'See Social Reel Pricing →',
   },
   {
     id: 'trailer-editing',
@@ -146,7 +158,7 @@ const HOURLY = [
   {
     label: 'CONSULTING',
     name: 'Pre-Production',
-    price: '$100',
+    price: formatPrice(HOURLY_RATE),
     unit: '/ hour',
     note: 'Treatment writing, shot list development, location scouts, and pre-production meetings — billed hourly whether we\'re on Zoom or in person.',
   },
@@ -160,7 +172,7 @@ const HOURLY = [
   {
     label: 'ADDITIONAL REVISIONS',
     name: 'Extra Rounds',
-    price: '$100',
+    price: formatPrice(HOURLY_RATE),
     unit: '/ hour',
     note: `Every package includes ${revisionRoundsLabel()}. Additional rounds are billed hourly. Most edits are tightened in under an hour.`,
   },
@@ -180,6 +192,8 @@ const PRICING_OFFERS = [
   { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: '1500', url: '/corporate' },
   { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: '3500', url: '/corporate' },
   { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
+  { name: 'Social Media Reel', description: 'One vertical 9:16 reel cut from existing footage', price: String(SOCIAL_REEL_PRICE), url: '/social-reels' },
+  ...SOCIAL_REEL_PACKS.map((p) => ({ name: `Social Media Reels — ${p.count}-Pack`, description: `${p.count} vertical 9:16 reels cut from existing footage`, price: String(p.price), url: '/social-reels' })),
   { name: 'Session Capture', description: 'Conference session, keynote, or panel recording. 2 hours onsite, 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery', price: '1000', url: '/session-capture' },
   { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/film-production' },
   { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/film-production' },
@@ -196,6 +210,7 @@ const PRICING_OFFERS = [
   { name: 'Commissioned — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
   { name: 'Brand Launch — Mission Critical Bundle', description: 'Brand Film + Mission Critical Wix custom-HTML website bundled', price: '7500', url: '/corporate/website-design' },
   { name: 'Brand Launch — Enlisted Bundle', description: 'Brand Film + Enlisted custom website bundled', price: '9500', url: '/corporate/website-design' },
+  { name: 'Commissioned Launch Bundle', description: 'Full Crew Film Production Day + Commissioned enterprise website bundled', price: '25000', url: '/corporate/website-design' },
 ];
 
 const JUMP_SECTIONS = [
@@ -203,6 +218,7 @@ const JUMP_SECTIONS = [
   { id: 'corporate', label: 'Corporate' },
   { id: 'session-capture', label: 'Sessions' },
   { id: 'music-videos', label: 'Music' },
+  { id: 'social-reels', label: 'Reels' },
   { id: 'trailer-editing', label: 'Trailers' },
   { id: 'drone', label: 'Drone' },
   { id: 'website-design', label: 'Websites' },

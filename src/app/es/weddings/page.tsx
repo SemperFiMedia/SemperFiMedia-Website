@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { travelPolicySentenceEs } from '@/lib/service-area';
-import { WEDDING_TIERS, formatPrice, type WeddingTierId } from '@/lib/weddings';
+import { WEDDING_TIERS, formatPrice, weddingStartingPrice, type WeddingTierId } from '@/lib/weddings';
 import { NavEs } from '@/components/nav/nav-es';
 import { FooterEs } from '@/components/footer/footer-es';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -9,10 +9,12 @@ import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 
+const WEDDING_FROM = formatPrice(weddingStartingPrice());
+
 export const metadata: Metadata = {
   title: 'Bodas Cinematográficas Dallas — Estilo Documental Netflix',
   description:
-    'Bodas filmadas como documentales de Netflix en Dallas–Fort Worth. Liderado por un Marine, precios transparentes desde $3,500. Tres paquetes flat, sin sorpresas.',
+    `Bodas filmadas como documentales de Netflix en Dallas–Fort Worth. Liderado por un Marine, precios transparentes desde ${WEDDING_FROM}. Tres paquetes flat, sin sorpresas.`,
   alternates: {
     canonical: 'https://semperfimedia.llc/es/weddings',
     languages: {
@@ -95,7 +97,7 @@ export default async function EsWeddingsPage() {
       <NavEs />
       <ServiceJsonLd
         name="Bodas Cinematográficas Dallas — Estilo Netflix"
-        description="Videografía de bodas con calidad de cine en Dallas–Fort Worth. Estilo documental Netflix. Tres paquetes desde $3,500."
+        description={`Videografía de bodas con calidad de cine en Dallas–Fort Worth. Estilo documental Netflix. Tres paquetes desde ${WEDDING_FROM}.`}
         url="https://semperfimedia.llc/es/weddings"
       />
       <main>
@@ -111,7 +113,7 @@ export default async function EsWeddingsPage() {
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted md:text-xl">
               Cámaras de cine. Momentos reales. El día como realmente se sintió — no un highlight
-              reel genérico. Liderado por un Marine, precios transparentes desde $3,500.
+              reel genérico. Liderado por un Marine, precios transparentes desde {WEDDING_FROM}.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/es/contact">Reservar Llamada Gratis</BrassButton>

@@ -4,6 +4,7 @@ import { NavEs } from '@/components/nav/nav-es';
 import { FooterEs } from '@/components/footer/footer-es';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
+import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
 
 export const metadata: Metadata = {
   title: 'Semper Fi Media — Producción de Video Cinematográfica en Dallas',
@@ -79,7 +80,7 @@ export default function EsHomePage() {
                 </h3>
                 <p className="mt-3 text-bone-muted leading-relaxed">
                   Tu día de boda filmado como un documental de Netflix. Cámaras de cine, momentos
-                  reales, el día como realmente se vivió. Tres paquetes desde $3,500.
+                  reales, el día como realmente se vivió. Tres paquetes desde {formatPrice(weddingStartingPrice())}.
                 </p>
                 <span className="mt-4 inline-block text-sm font-medium uppercase tracking-wider text-brass">
                   Ver más →
