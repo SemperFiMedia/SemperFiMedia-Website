@@ -7,11 +7,15 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { corporateStartingPrice, corporateTierById, corporateTierPhrase, formatPrice } from '@/lib/corporate';
+
+const CORPORATE_FROM = formatPrice(corporateStartingPrice());
+const BRAND_FILM = formatPrice(corporateTierById('brand-film').price);
 
 export const metadata: Metadata = {
-  title: 'Small Business Video Production Dallas — Brand Films from $1,500',
+  title: `Small Business Video Production Dallas — Brand Films from ${CORPORATE_FROM}`,
   description:
-    'Dallas small business video production. Cinema-grade brand films for restaurants, law firms, med spas, trades, and independent retailers. Big-agency polish at independent operator pricing. Starting at $1,500.',
+    `Dallas small business video production. Cinema-grade brand films for restaurants, law firms, med spas, trades, and independent retailers. Big-agency polish at independent operator pricing. Starting at ${CORPORATE_FROM}.`,
 };
 
 const WHO = [
@@ -26,7 +30,7 @@ const WHO = [
 const WHY = [
   {
     title: 'Published pricing, no mystery.',
-    body: 'Brand films start at $1,500. Full-day shoots run $3,500. Custom productions are quoted transparently after a discovery call. No "enterprise pricing" games.',
+    body: `Brand films start at ${CORPORATE_FROM}. Full-day shoots run ${BRAND_FILM}. Custom productions are quoted transparently after a discovery call. No "enterprise pricing" games.`,
   },
   {
     title: 'The cinematic polish agencies charge $15k for.',
@@ -34,7 +38,7 @@ const WHY = [
   },
   {
     title: 'Built for independent operators.',
-    body: "We understand small-business cash flow. We won't pitch you a $20k retainer when a one-time $3,500 film solves the problem. We scope the work to what you actually need.",
+    body: `We understand small-business cash flow. We won't pitch you a $20k retainer when a one-time ${BRAND_FILM} film solves the problem. We scope the work to what you actually need.`,
   },
   {
     title: 'One owner-operator across every project.',
@@ -49,7 +53,7 @@ export default async function SmallBusinessPage() {
       <Nav />
       <ServiceJsonLd
         name="Small Business Video Production Dallas"
-        description="Cinema-grade brand films, commercials, and storytelling videos for Dallas–Fort Worth small businesses. Starting at $1,500. No agency markup."
+        description={`Cinema-grade brand films, commercials, and storytelling videos for Dallas–Fort Worth small businesses. Starting at ${CORPORATE_FROM}. No agency markup.`}
         url="https://semperfimedia.llc/corporate/small-business"
       />
       <BreadcrumbJsonLd items={[
@@ -76,8 +80,8 @@ export default async function SmallBusinessPage() {
               Marine who knows you didn't start a business to write $15,000 video checks.
             </p>
             <p className="mt-6 max-w-2xl text-sm text-bone-muted">
-              <span className="text-brass">From $1,500.</span> Delivered on the Corporate
-              tiers — Spotlight ($1,500, half-day shoot) or Brand Film ($3,500, full day).{' '}
+              <span className="text-brass">From {formatPrice(corporateStartingPrice())}.</span> Delivered on the Corporate
+              tiers — {corporateTierPhrase()}.{' '}
               <Link href="/pricing#corporate" className="text-brass underline">
                 See full pricing
               </Link>

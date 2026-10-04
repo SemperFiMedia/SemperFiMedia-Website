@@ -144,9 +144,12 @@ export const WEDDING_ADD_ONS: readonly WeddingAddOn[] = [
 ] as const;
 
 /**
- * Saved when two film add-ons are booked together. Deliberately NOT published:
- * the weddings page says the discount exists and that TJ walks through the
- * numbers on the call, and the chatbot is instructed not to quote figures.
+ * Saved on every film add-on after the first: two save $500, all three save
+ * $1,000. Published on /weddings, in the price builder and by the chatbot.
+ *
+ * Owner's calls, 2026-10-04: publish the figure (it used to be held back for
+ * the discovery call), and three film add-ons save $1,000, which is what the
+ * price builder was already showing couples. The page had said "per pair".
  */
 export const BUNDLE_DISCOUNT = 500;
 
@@ -169,10 +172,15 @@ export function weddingAddOnPriceLabel(addOn: WeddingAddOn): string {
   return addOn.hourly ? `${formatPrice(addOn.price)}/hr` : formatPrice(addOn.price);
 }
 
-/** Bundle discount applies once per pair of film add-ons selected together. */
+/** BUNDLE_DISCOUNT off every film add-on after the first. */
 export function weddingBundleDiscount(addOnIds: readonly string[]): number {
   const filmCount = addOnIds.filter((id) => weddingAddOnById(id)?.bundleGroup === 'film').length;
-  return Math.floor(filmCount / 2) * BUNDLE_DISCOUNT;
+  return Math.max(0, filmCount - 1) * BUNDLE_DISCOUNT;
+}
+
+/** "save $500 on each film add-on after the first" */
+export function weddingBundlePhrase(): string {
+  return `save ${formatPrice(BUNDLE_DISCOUNT)} on each film add-on after the first`;
 }
 
 export function weddingTotal(

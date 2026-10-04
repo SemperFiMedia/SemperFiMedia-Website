@@ -1,4 +1,5 @@
 import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
+import { corporateStartingPrice } from '@/lib/corporate';
 // All visitor-facing chatbot copy, per language. Pure data + lookup only —
 // this module is bundled into the client widget, so it MUST NOT import
 // server-only modules (env, postgres, SDKs). Per-client customization for the
@@ -43,7 +44,7 @@ const EN_OPENERS: Array<[string, string]> = [
   ],
   [
     '/corporate/small-business',
-    "Small-business brand films start at $1,500. Tell me what you're building and I'll find the right fit.",
+    `Small-business brand films start at ${formatPrice(corporateStartingPrice())}. Tell me what you're building and I'll find the right fit.`,
   ],
   [
     '/corporate/conventions',

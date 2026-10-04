@@ -67,8 +67,9 @@ describe('chatbot price list', () => {
     for (const p of ['$3,500+', '$575', '$25,000', '$9,500']) expect(md).toContain(p);
   });
 
-  it('withholds wedding bundle figures, matching the weddings page', () => {
-    expect(md).toContain('Do NOT quote bundle figures');
+  it('quotes the wedding bundle discount, matching the weddings page', () => {
+    expect(md).toContain('save $500 on each film add-on after the first');
+    expect(md).not.toContain('Do NOT quote bundle figures');
     expect(md).not.toContain('vs $4,000 separate');
   });
 

@@ -5,6 +5,7 @@ import {
   weddingAddOnPriceLabel,
   formatPrice,
   weddingStartingPrice,
+  weddingBundlePhrase,
 } from '@/lib/weddings';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -79,7 +80,7 @@ const FAQ = [
   },
   {
     q: 'Can we add packages or change tiers later?',
-    a: 'Yes. Upgrades and add-ons are welcome up to 30 days before the wedding day. Bundle discounts apply when combining add-ons (Proposal + Engagement, Engagement + Wedding Teaser, etc.) — ask on the discovery call.',
+    a: `Yes. Upgrades and add-ons are welcome up to 30 days before the wedding day. Book two or more film add-ons (Proposal, Engagement, Wedding Teaser) and ${weddingBundlePhrase()}. The price builder applies it automatically.`,
   },
 ];
 
@@ -144,8 +145,8 @@ export default async function WeddingsPage() {
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted md:text-xl">
               Cinema cameras. Real moments. The day rendered the way it actually felt — not a
-              checklist highlight reel. Marine-led, owner-operator, transparently priced from
-              {WEDDING_FROM}.
+              checklist highlight reel. Marine-led, owner-operator, transparently priced
+              from {WEDDING_FROM}.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Book a Discovery Call</BrassButton>
@@ -219,8 +220,8 @@ export default async function WeddingsPage() {
           <div className="mx-auto max-w-[1440px]">
             <DataLabel className="mb-3">WEDDING ADD-ONS</DataLabel>
             <p className="mb-10 max-w-2xl text-bone-muted">
-              Stack any of these onto your tier. Bundle Proposal + Engagement, Proposal + Wedding
-              Teaser, or Engagement + Wedding Teaser and save $500 per pair.
+              Stack any of these onto your tier. Book two or more film add-ons (Proposal,
+              Engagement, Wedding Teaser) and {weddingBundlePhrase()}.
             </p>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {WEDDING_ADDONS.map((addon) => (

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { travelPolicySentence } from '@/lib/service-area';
 import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
-import { FILM_PRODUCTION_TIERS } from '@/lib/film-production';
+import { corporateStartingPrice } from '@/lib/corporate';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
 import { FaqJsonLd } from '@/components/seo/structured-data';
@@ -22,7 +22,7 @@ type FAQ = {
 
 /** Read from the pricing modules so the front door cannot drift from the rate card. */
 const WEDDING_FROM = formatPrice(weddingStartingPrice());
-const FILM_FROM = formatPrice(Math.min(...FILM_PRODUCTION_TIERS.map((t) => t.price)));
+const CORPORATE_FROM = formatPrice(corporateStartingPrice());
 const TRAVEL = travelPolicySentence();
 const ROUNDS = revisionRoundsWord();
 const ROUNDS_CAP = revisionRoundsWordCapitalized();
@@ -36,12 +36,12 @@ const FAQS: FAQ[] = [
         <Link href="/pricing" className="underline decoration-brass/60 underline-offset-4">
           pricing page
         </Link>
-        . Weddings start at {WEDDING_FROM}. Corporate brand films start at {FILM_FROM}. Music
+        . Weddings start at {WEDDING_FROM}. Corporate brand films start at {CORPORATE_FROM}. Music
         videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a
         discovery call.
       </>
     ),
-    plain: `Every service has published rates on the pricing page. Weddings start at ${WEDDING_FROM}. Corporate brand films start at ${FILM_FROM}. Music videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a discovery call.`,
+    plain: `Every service has published rates on the pricing page. Weddings start at ${WEDDING_FROM}. Corporate brand films start at ${CORPORATE_FROM}. Music videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a discovery call.`,
   },
   {
     q: 'How long does a project take from start to finish?',

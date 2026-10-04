@@ -30,8 +30,12 @@ import {
   MILEAGE_RATE_LABEL,
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
-import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingTierById } from '@/lib/weddings';
+import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingTierById, weddingBundleDiscount, weddingBundlePhrase } from '@/lib/weddings';
 import { hourlyRateLabel, hourlyRateShort } from '@/lib/hourly-rate';
+import { corporateStartingPrice, corporateTierById } from '@/lib/corporate';
+import { LAUNCH_BUNDLES, bundleChatbotLines } from '@/lib/bundles';
+import { WEBSITE_TIERS as SITE_TIERS } from '@/lib/website-design';
+import { tierById as filmTierById } from '@/lib/film-production';
 import { socialReelLadderLabel, socialReelPack } from '@/lib/social-reels';
 import {
   websiteTierTableRows,
@@ -140,10 +144,13 @@ export type ChatbotClientConfig = {
   servicesMarkdown: string;
 };
 
+/** Website tier by id, for the VIP thresholds below. */
+const siteTier = (id: string) => SITE_TIERS.find((t) => t.id === id)!;
+
 const SEMPER_FI_SERVICES = `# SERVICES OVERVIEW
 
 **Cinema Weddings** (/weddings) — Netflix-documentary-style wedding films, from ${formatPrice(weddingStartingPrice())}
-**Corporate Video** (/corporate) — Brand films, commercials, mission-driven storytelling, from $1,500
+**Corporate Video** (/corporate) — Brand films, commercials, mission-driven storytelling, from ${formatPrice(corporateStartingPrice())}
 **Session Capture** (/session-capture) — Conference talks, keynotes, and panels recorded, $1,000 flat
 **Music Videos** (/corporate/music-videos) — $3,000 flat
 **Social Media Reels** (/social-reels) — Vertical 9:16 reels cut from existing footage, ${socialReelLadderLabel()}
@@ -163,7 +170,7 @@ const SEMPER_FI_SERVICES = `# SERVICES OVERVIEW
 - Birthday Parties (/corporate/birthday-parties)
 
 These six niche pages don't publish their own prices — they're all delivered on the
-Corporate tiers below. Quote Spotlight ($1,500) or Brand Film ($3,500) accordingly.
+Corporate tiers below. Quote Spotlight (${formatPrice(corporateTierById('spotlight').price)}) or Brand Film (${formatPrice(corporateTierById('brand-film').price)}) accordingly.
 
 # WEDDING PRICING (FLAT, PUBLISHED)
 
@@ -176,17 +183,18 @@ For weddings, ask about vibe (cinematic, documentary, Netflix-style), how many h
 **Wedding Add-Ons:**
 ${weddingAddOnLines()}
 
-**Wedding Bundle Discounts:** Bundling add-ons together brings the price down — Proposal +
-Engagement, Proposal + Wedding Teaser, and Engagement + Wedding Teaser are the common pairs.
-Do NOT quote bundle figures. Say the discount is real and TJ will walk through the exact
-numbers on the discovery call. (The weddings page deliberately keeps these off the site.)
+**Wedding Bundle Discount:** Book two or more film add-ons (Proposal Film, Engagement Story Film,
+Wedding Teaser Film) and ${weddingBundlePhrase()}: two save
+${formatPrice(weddingBundleDiscount(['proposal', 'engagement']))}, all three save
+${formatPrice(weddingBundleDiscount(['proposal', 'engagement', 'wedding-teaser']))}. The weddings page publishes this and
+the price builder applies it automatically, so quote it plainly when a couple asks.
 
 **Free in every wedding tier:** USB Thumb Drive, Free YouTube Premiere, Free Facebook Premiere
 
 # CORPORATE / BRAND FILM PRICING
 
-- **Spotlight (Entry) — $1,500 starting.** Half-day shoot (up to 4 hrs), 1 cinematographer, single location, 60–90 sec finished film, ${revisionRoundsLabel()}.
-- **Brand Film (Most Popular) — $3,500 starting.** Full-day shoot (up to 8 hrs), 1 cinematographer + 1 assistant, up to 2 locations, 2–3 min finished film, B-roll package + social cutdowns, ${revisionRoundsLabel()}.
+- **Spotlight (Entry) — ${formatPrice(corporateTierById('spotlight').price)} starting.** Half-day shoot (up to 4 hrs), 1 cinematographer, single location, 60–90 sec finished film, ${revisionRoundsLabel()}.
+- **Brand Film (Most Popular) — ${formatPrice(corporateTierById('brand-film').price)} starting.** Full-day shoot (up to 8 hrs), 1 cinematographer + 1 assistant, up to 2 locations, 2–3 min finished film, B-roll package + social cutdowns, ${revisionRoundsLabel()}.
 - **Full Production — custom quoted.** Multi-day or multi-location, full crew (DP + 2nd shooter + sound + drone), pre-production + concept development, licensed music + custom color grade, case-study-grade finish, rush delivery available.
 
 For corporate, ask what the project is about, the goal, how long the final film needs to be, and single vs. multiple locations. Then recommend the right tier.
@@ -207,7 +215,7 @@ best published combination.
 
 **IMPORTANT — this is the right product for a single conference talk.** If someone says they
 are a speaker, panelist, or keynote presenter and needs their session or talk recorded, quote
-Session Capture at ${formatPrice(SESSION_CAPTURE_PRICE)}. Do NOT quote the $1,500 Spotlight
+Session Capture at ${formatPrice(SESSION_CAPTURE_PRICE)}. Do NOT quote the ${formatPrice(corporateTierById('spotlight').price)} Spotlight
 corporate package for one talk — Spotlight is a half-day branded film shoot, which is a
 different product and more money for the wrong deliverable.
 
@@ -307,9 +315,7 @@ commercial day rates are quoted — collect details and hand off to TJ.
 
 Most small businesses need both. Bundled: one decision, one vendor, one invoice.
 
-- **Brand Launch — Mission Critical: $7,500.** Brand Film ($3,500) + Mission Critical Wix site ($4,500). Saves $500.
-- **Brand Launch — Enlisted: $9,500.** Brand Film ($3,500) + Enlisted custom site ($7,500). Saves $1,500.
-- **Commissioned Launch: $25,000.** Full Production Day ($5,500) + Commissioned site ($22,500). Saves $3,000.
+${bundleChatbotLines()}
 
 # REFERRAL PROGRAM (/refer)
 
@@ -417,11 +423,11 @@ export const semperFiConfig: ChatbotClientConfig = {
   vip: {
     channel: 'telegram', // Phase 6 live: @SemperFiLeadsBot → TJ's phone
     thresholds: [
-      'Wedding Heirloom tier ($8,000)',
+      `Wedding ${weddingTierById('heirloom').name} tier (${formatPrice(weddingTierById('heirloom').price)})`,
       'Full Production (custom-quoted corporate)',
-      'Warrant Officer ($18,000) or Commissioned ($22,500) website build',
-      'Any bundle — Brand Launch ($7,500 / $9,500) or Commissioned Launch ($25,000)',
-      'Full Crew Film Production Day ($5,500) or any multi-day production booking',
+      `${siteTier('warrant-officer').name} (${formatPrice(siteTier('warrant-officer').price)}) or ${siteTier('commissioned').name} (${formatPrice(siteTier('commissioned').price)}) website build`,
+      `Any bundle — ${LAUNCH_BUNDLES.map((b) => `${b.name} (${formatPrice(b.price)})`).join(', ')}`,
+      `Full Crew Film Production Day (${formatPrice(filmTierById('full-crew').price)}) or any multi-day production booking`,
     ],
   },
   bookToken: '[[BOOK]]',

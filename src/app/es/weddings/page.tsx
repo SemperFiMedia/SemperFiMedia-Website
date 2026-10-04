@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { travelPolicySentenceEs } from '@/lib/service-area';
-import { WEDDING_TIERS, formatPrice, weddingStartingPrice, type WeddingTierId } from '@/lib/weddings';
+import { WEDDING_TIERS, BUNDLE_DISCOUNT, formatPrice, weddingStartingPrice, type WeddingTierId } from '@/lib/weddings';
 import { NavEs } from '@/components/nav/nav-es';
 import { FooterEs } from '@/components/footer/footer-es';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -177,7 +177,8 @@ export default async function EsWeddingsPage() {
             </h2>
             <p className="mb-12 max-w-2xl text-bone-muted">
               Cada paquete incluye USB de entrega, premiere gratis en YouTube + Facebook, y
-              licencias de música completas. Add-ons disponibles — descuentos por combinar.
+              licencias de música completas. Add-ons disponibles: reserva dos o más películas extra y
+              ahorra {formatPrice(BUNDLE_DISCOUNT)} en cada una después de la primera.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {TIERS.map((tier) => (

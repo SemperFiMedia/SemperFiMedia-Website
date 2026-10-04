@@ -17,6 +17,7 @@ import {
   BUNDLE_DISCOUNT,
   weddingAddOnPriceLabel,
   weddingBundleDiscount,
+  weddingBundlePhrase,
   weddingTotal,
   formatPrice,
 } from './weddings';
@@ -81,13 +82,13 @@ describe('wedding pricing', () => {
     }
   });
 
-  it('applies the bundle discount once per pair of film add-ons', () => {
+  it('takes the bundle discount off every film add-on after the first', () => {
     expect(weddingBundleDiscount([])).toBe(0);
     expect(weddingBundleDiscount(['proposal'])).toBe(0);
     expect(weddingBundleDiscount(['proposal', 'engagement'])).toBe(BUNDLE_DISCOUNT);
-    // Three film add-ons is still one pair, not one-and-a-half.
+    // Owner's call, 2026-10-04: all three film add-ons save $1,000, matching the price builder.
     expect(weddingBundleDiscount(['proposal', 'engagement', 'wedding-teaser'])).toBe(
-      BUNDLE_DISCOUNT,
+      2 * BUNDLE_DISCOUNT,
     );
     // Non-film add-ons never trigger it.
     expect(weddingBundleDiscount(['storybook', 'raw-drive'])).toBe(0);
@@ -100,9 +101,10 @@ describe('wedding pricing', () => {
     expect(total).toBe(subtotal - BUNDLE_DISCOUNT);
   });
 
-  it('keeps the bundle figures off the published surfaces', () => {
-    // Owner's call: the discount is real, the numbers are given on the call.
-    expect(md).toContain('Do NOT quote bundle figures');
+  it('publishes the bundle discount on the chatbot', () => {
+    // Owner's call, 2026-10-04: publish it on the site and in the chatbot.
+    expect(md).toContain(weddingBundlePhrase());
+    expect(md).not.toContain('Do NOT quote bundle figures');
   });
 });
 

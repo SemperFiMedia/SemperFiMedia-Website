@@ -8,7 +8,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingTier } from '@/components/pricing/pricing-tier';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
-import { revisionRoundsLabel } from '@/lib/revisions';
+import { CORPORATE_TIERS as PRICED_TIERS } from '@/lib/corporate';
 
 export const metadata: Metadata = {
   title: 'Corporate Video Production — Dallas',
@@ -108,34 +108,14 @@ const NICHES = [
 ] as const;
 
 const CORPORATE_TIERS = [
-  {
-    label: 'ENTRY',
-    name: 'Spotlight',
-    price: '$1,500',
+  ...PRICED_TIERS.map((tier) => ({
+    label: tier.label,
+    name: tier.name,
+    price: formatPrice(tier.price),
     priceNote: 'starting',
-    includes: [
-      'Half-day shoot (up to 4 hours)',
-      '1 cinematographer',
-      'Single location',
-      '60–90 second finished film',
-      revisionRoundsLabel(),
-    ],
-  },
-  {
-    label: 'POPULAR',
-    name: 'Brand Film',
-    price: '$3,500',
-    priceNote: 'starting',
-    includes: [
-      'Full-day shoot (up to 8 hours)',
-      '1 cinematographer + 1 assistant',
-      'Up to 2 locations',
-      '2–3 minute finished film',
-      'B-roll package + social cutdowns',
-      revisionRoundsLabel(),
-    ],
-    highlighted: true,
-  },
+    includes: [...tier.includes],
+    highlighted: tier.highlighted ?? false,
+  })),
   {
     label: 'FULL PRODUCTION',
     name: 'Full Production',

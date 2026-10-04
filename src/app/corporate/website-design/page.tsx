@@ -17,6 +17,14 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { revisionRoundsWordCapitalized } from '@/lib/revisions';
+import { LAUNCH_BUNDLES, bundlePartsLabel, bundleSavings, bundleSavingsRange } from '@/lib/bundles';
+
+/** Short card taglines. Prices and savings come from @/lib/bundles. */
+const BUNDLE_TAGLINES: Record<string, string> = {
+  'brand-launch-mission-critical': 'Forney starter package.',
+  'brand-launch-enlisted': 'Code-owned, client-owned.',
+  'commissioned-launch': 'Enterprise-grade across the board.',
+};
 
 export const metadata: Metadata = {
   title: 'Website Design Dallas — Custom HTML, No Templates | From $4,500',
@@ -49,7 +57,7 @@ const WHY = [
     body: 'Custom tiers run on Next.js + Railway — the same modern web framework that powers Netflix, TikTok, Nike, Hulu, and Notion. Not a page-builder. Not a template. Real code.',
   },
   {
-    title: 'Bundle with a brand film and save $500–$3,000.',
+    title: `Bundle with a brand film and save ${bundleSavingsRange()}.`,
     body: 'Most Forney small businesses need both a website AND a cinematic brand film. Bundle them — one decision, one invoice, one vendor, no lost budget to agency markups.',
   },
 ];
@@ -320,35 +328,30 @@ export default function WebsiteDesignPage() {
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-3">BUNDLE OPTIONS · FILM + WEBSITE</DataLabel>
             <p className="mb-10 max-w-3xl text-bone-muted">
-              Most small businesses need both a brand film AND a website. Bundle them and save
-              $500–$3,000 — one decision, one vendor, one invoice.
+              Most small businesses need both a brand film AND a website. Bundle them and
+              save {bundleSavingsRange()} — one decision, one vendor, one invoice.
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
-                <DataLabel className="mb-3">SAVE $500</DataLabel>
-                <h3 className="font-serif text-xl italic">Brand Launch — Mission Critical</h3>
-                <div className="mt-4 font-serif text-3xl text-brass">$7,500</div>
-                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Brand Film ($3,500) + Mission Critical Wix site ($4,500). Forney starter package.
-                </p>
-              </div>
-              <div className="flex flex-col border border-brass bg-texas-umber/25 p-8">
-                <DataLabel className="mb-3">SAVE $1,500 · POPULAR</DataLabel>
-                <h3 className="font-serif text-xl italic">Brand Launch — Enlisted</h3>
-                <div className="mt-4 font-serif text-3xl text-brass">$9,500</div>
-                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Brand Film ($3,500) + Enlisted custom site ($7,500). Code-owned, client-owned.
-                </p>
-              </div>
-              <div className="flex flex-col border border-bone/15 bg-gunpowder/80 p-8">
-                <DataLabel className="mb-3">SAVE $3,000</DataLabel>
-                <h3 className="font-serif text-xl italic">Commissioned Launch</h3>
-                <div className="mt-4 font-serif text-3xl text-brass">$25,000</div>
-                <p className="mt-4 text-sm leading-relaxed text-bone-muted">
-                  Full Production Day ($5,500) + Commissioned site ($22,500). Enterprise-grade
-                  across the board.
-                </p>
-              </div>
+              {LAUNCH_BUNDLES.map((bundle) => (
+                <div
+                  key={bundle.id}
+                  className={
+                    bundle.popular
+                      ? 'flex flex-col border border-brass bg-texas-umber/25 p-8'
+                      : 'flex flex-col border border-bone/15 bg-gunpowder/80 p-8'
+                  }
+                >
+                  <DataLabel className="mb-3">
+                    SAVE {formatPrice(bundleSavings(bundle))}
+                    {bundle.popular ? ' · POPULAR' : ''}
+                  </DataLabel>
+                  <h3 className="font-serif text-xl italic">{bundle.name}</h3>
+                  <div className="mt-4 font-serif text-3xl text-brass">{formatPrice(bundle.price)}</div>
+                  <p className="mt-4 text-sm leading-relaxed text-bone-muted">
+                    {bundlePartsLabel(bundle)}. {BUNDLE_TAGLINES[bundle.id]}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </section>

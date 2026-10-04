@@ -7,6 +7,7 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
   title: 'Church & Nonprofit Video Production Dallas — Faith & Community',
@@ -74,8 +75,8 @@ export default async function FaithAndCommunityPage() {
               by a crew that understands the ground you're standing on.
             </p>
             <p className="mt-6 max-w-2xl text-sm text-bone-muted">
-              <span className="text-brass">From $1,500.</span> Delivered on the Corporate
-              tiers — Spotlight ($1,500, half-day shoot) or Brand Film ($3,500, full day).{' '}
+              <span className="text-brass">From {formatPrice(corporateStartingPrice())}.</span> Delivered on the Corporate
+              tiers — {corporateTierPhrase()}.{' '}
               <Link href="/pricing#corporate" className="text-brass underline">
                 See full pricing
               </Link>

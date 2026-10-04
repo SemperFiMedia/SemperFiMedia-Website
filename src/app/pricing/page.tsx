@@ -19,6 +19,7 @@ import {
   trailerStartingPrice,
   trailerTierSummary,
 } from '@/lib/trailer-editing';
+import { FILM_PRODUCTION_TIERS, tierSummarySentence } from '@/lib/film-production';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -30,6 +31,8 @@ import { ViewContent } from '@/components/analytics/view-content';
 import { revisionRoundsLabel } from '@/lib/revisions';
 import { HOURLY_RATE } from '@/lib/hourly-rate';
 import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS, socialReelLadderLabel } from '@/lib/social-reels';
+import { corporateStartingPrice, corporateTierById, corporateTierSummary } from '@/lib/corporate';
+import { LAUNCH_BUNDLES, bundlePartsLabel, bundleSavings } from '@/lib/bundles';
 
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
@@ -52,9 +55,9 @@ const SERVICE_OVERVIEW = [
     id: 'corporate',
     label: 'CORPORATE & BRAND FILMS',
     title: 'Corporate Video',
-    startingPrice: '$1,500',
+    startingPrice: formatPrice(corporateStartingPrice()),
     priceNote: 'starting · 3 tiers',
-    description: 'Spotlight ($1,500), Brand Film ($3,500), Full Production (quoted). Covers every Corporate niche: Mission & Tactical, Small Business, Faith & Community, Conventions, Quinceañeras, Birthdays.',
+    description: `${corporateTierSummary()}, Full Production (quoted). Covers every Corporate niche: Mission & Tactical, Small Business, Faith & Community, Conventions, Quinceañeras, Birthdays.`,
     href: '/corporate#pricing',
     linkLabel: 'See Corporate Pricing →',
   },
@@ -122,37 +125,21 @@ const SERVICE_OVERVIEW = [
     id: 'film-production',
     label: 'FILM PRODUCTION · DAY RATES',
     title: 'Crew-for-Hire',
-    startingPrice: '$1,500',
+    startingPrice: formatPrice(Math.min(...FILM_PRODUCTION_TIERS.map((t) => t.price))),
     priceNote: 'starting · 10-hour day',
-    description: 'DFW crew-for-hire day rates. Solo Operator ($1,500), B-Cam Day ($2,500), Full Crew Day ($5,500). Plus à la carte crew rates, Sony cinema kits, lighting packages, logistics, and transparent production insurance pass-through.',
+    description: `DFW crew-for-hire day rates. ${tierSummarySentence()}. Plus à la carte crew rates, Sony cinema kits, lighting packages, logistics, and transparent production insurance pass-through.`,
     href: '/film-production#day-rates',
     linkLabel: 'See Film Production Pricing →',
   },
 ];
 
-const BUNDLES = [
-  {
-    name: 'Brand Launch — Mission Critical',
-    items: 'Brand Film ($3,500) + Mission Critical Wix Site ($4,500)',
-    price: '$7,500',
-    savings: 'Save $500',
-    note: 'The Forney starter package. Cinematic brand film + custom-HTML-coded Wix site, bundled.',
-  },
-  {
-    name: 'Brand Launch — Enlisted',
-    items: 'Brand Film ($3,500) + Enlisted Custom Site ($7,500)',
-    price: '$9,500',
-    savings: 'Save $1,500',
-    note: 'Cinematic brand film paired with a fully code-owned custom portfolio site.',
-  },
-  {
-    name: 'Commissioned Launch',
-    items: 'Full Production Day ($5,500) + Commissioned Site ($22,500)',
-    price: '$25,000',
-    savings: 'Save $3,000',
-    note: 'For brands going all-in. Enterprise-grade cinematic production + enterprise-grade website build.',
-  },
-];
+const BUNDLES = LAUNCH_BUNDLES.map((bundle) => ({
+  name: bundle.name,
+  items: bundlePartsLabel(bundle),
+  price: formatPrice(bundle.price),
+  savings: `Save ${formatPrice(bundleSavings(bundle))}`,
+  note: bundle.note,
+}));
 
 const HOURLY = [
   {
@@ -189,8 +176,8 @@ const PRICING_OFFERS = [
   { name: 'Essentials Wedding Package', description: '6 hours coverage, 4-5 min highlight film, drone, USB delivery', price: '3500', url: '/weddings' },
   { name: 'Cinematic Wedding Package', description: '8 hours coverage, 2 shooters, 6-8 min highlight + ceremony cut', price: '5000', url: '/weddings' },
   { name: 'Heirloom Wedding Package', description: '10 hours coverage, full crew, Netflix-documentary-style story film', price: '8000', url: '/weddings' },
-  { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: '1500', url: '/corporate' },
-  { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: '3500', url: '/corporate' },
+  { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: String(corporateTierById('spotlight').price), url: '/corporate' },
+  { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: String(corporateTierById('brand-film').price), url: '/corporate' },
   { name: 'Music Video', description: 'Single-day shoot, 3-4 min music video, 14-day delivery', price: '3000', url: '/corporate/music-videos' },
   { name: 'Social Media Reel', description: 'One vertical 9:16 reel cut from existing footage', price: String(SOCIAL_REEL_PRICE), url: '/social-reels' },
   ...SOCIAL_REEL_PACKS.map((p) => ({ name: `Social Media Reels — ${p.count}-Pack`, description: `${p.count} vertical 9:16 reels cut from existing footage`, price: String(p.price), url: '/social-reels' })),
@@ -208,9 +195,7 @@ const PRICING_OFFERS = [
   { name: 'Enlisted — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: '7500', url: '/corporate/website-design' },
   { name: 'Warrant Officer — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: '18000', url: '/corporate/website-design' },
   { name: 'Commissioned — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
-  { name: 'Brand Launch — Mission Critical Bundle', description: 'Brand Film + Mission Critical Wix custom-HTML website bundled', price: '7500', url: '/corporate/website-design' },
-  { name: 'Brand Launch — Enlisted Bundle', description: 'Brand Film + Enlisted custom website bundled', price: '9500', url: '/corporate/website-design' },
-  { name: 'Commissioned Launch Bundle', description: 'Full Crew Film Production Day + Commissioned enterprise website bundled', price: '25000', url: '/corporate/website-design' },
+  ...LAUNCH_BUNDLES.map((b) => ({ name: `${b.name} Bundle`, description: bundlePartsLabel(b), price: String(b.price), url: '/corporate/website-design' })),
 ];
 
 const JUMP_SECTIONS = [

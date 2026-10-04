@@ -8,16 +8,15 @@ import {
   CONFIGURABLE_WEDDING_ADD_ONS as ADD_ONS,
   BUNDLE_DISCOUNT,
   weddingAddOnById,
+  weddingBundleDiscount,
   weddingTierById,
   type WeddingTierId,
 } from '@/lib/weddings';
 
 
+/** One formula for the builder, the weddings page and the chatbot. */
 function calcBundleSavings(selectedAddOns: string[]): number {
-  const filmAddOns = ADD_ONS.filter(
-    (a) => a.bundleGroup === 'film' && selectedAddOns.includes(a.id),
-  );
-  return Math.max(0, filmAddOns.length - 1) * BUNDLE_DISCOUNT;
+  return weddingBundleDiscount(selectedAddOns);
 }
 
 function formatPrice(n: number): string {
@@ -146,7 +145,7 @@ export function WeddingConfigurator() {
               <DataLabel className="mb-1">STEP 2 · ADD ANY EXTRAS</DataLabel>
               <p className="mb-5 text-sm text-bone-muted">
                 Stack two or more film add-ons (Proposal · Engagement · Wedding Teaser) and we
-                knock {formatPrice(BUNDLE_DISCOUNT)} off each pair automatically.
+                take {formatPrice(BUNDLE_DISCOUNT)} off each one after the first, automatically.
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {ADD_ONS.map((a) => {

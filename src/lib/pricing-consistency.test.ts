@@ -121,6 +121,19 @@ describe('social reel ladder', () => {
   });
 });
 
+describe('wedding film add-on discount', () => {
+  it('the price builder uses the module formula', () => {
+    const builder = files.find((f) => f.path === join('components', 'weddings', 'wedding-configurator.tsx'));
+    expect(builder, 'wedding configurator not scanned').toBeDefined();
+    expect(builder!.text).toContain('weddingBundleDiscount(');
+  });
+
+  it('no file types its own discount figure', () => {
+    const literal = /save \$[0-9][0-9,]* (?:per pair|on each)|off each pair|ahorra \$[0-9]/i;
+    expect(offenders(literal, [join('lib', 'weddings.ts')])).toEqual([]);
+  });
+});
+
 describe('wedding starting price', () => {
   it('reaches the chatbot from the rate card', () => {
     expect(md).toContain(`wedding films, from ${formatPrice(weddingStartingPrice())}`);
