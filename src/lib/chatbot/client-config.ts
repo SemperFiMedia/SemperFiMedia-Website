@@ -218,8 +218,8 @@ ${SESSION_CAPTURE_INCLUDE_LINES}
 **Add-ons:**
 ${SESSION_CAPTURE_ADD_ON_LINES}
 
-Vertical clips bill at the 3-pack rate automatically — a buyer is never quoted more than the
-best published combination.
+Vertical clips use the standard reel packs automatically — a buyer is never quoted more than the
+best published combination (four clips bill at the five-pack price).
 
 **IMPORTANT — this is the right product for a single conference talk.** If someone says they
 are a speaker, panelist, or keynote presenter and needs their session or talk recorded, quote

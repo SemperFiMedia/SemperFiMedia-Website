@@ -168,5 +168,5 @@ export function trailerColorMatrixRows(): string {
 
 /** Add-on line for the chatbot prompt. */
 export function trailerAddOnLine(): string {
-  return TRAILER_ADD_ONS.map((a) => `${a.name} ${trailerAddOnPriceLabel(a)}`).join(' · ');
+  return TRAILER_ADD_ONS.map((a) => `${a.name} ${trailerAddOnPriceLabel(a)} (${a.note})`).join(' · ');
 }

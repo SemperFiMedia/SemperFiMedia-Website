@@ -149,5 +149,5 @@ export function websiteTierTableRows(): string {
 
 /** Add-on line for the chatbot prompt. */
 export function websiteAddOnLine(): string {
-  return WEBSITE_ADD_ONS.map((a) => `${a.name} ${websiteAddOnPriceLabel(a)}`).join(' · ');
+  return WEBSITE_ADD_ONS.map((a) => `${a.name} ${websiteAddOnPriceLabel(a)} (${a.note})`).join(' · ');
 }
