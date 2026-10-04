@@ -27,6 +27,7 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { OfferCatalogJsonLd } from '@/components/seo/structured-data';
 import { ViewContent } from '@/components/analytics/view-content';
+import { revisionRoundsLabel } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
@@ -161,7 +162,7 @@ const HOURLY = [
     name: 'Extra Rounds',
     price: '$100',
     unit: '/ hour',
-    note: 'Every package includes 2 rounds of revisions. Additional rounds are billed hourly. Most edits are tightened in under an hour.',
+    note: `Every package includes ${revisionRoundsLabel()}. Additional rounds are billed hourly. Most edits are tightened in under an hour.`,
   },
   {
     label: 'EXPEDITED',

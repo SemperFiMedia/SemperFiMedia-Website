@@ -16,6 +16,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { revisionRoundsWordCapitalized } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Website Design Dallas — Custom HTML, No Templates | From $4,500',
@@ -67,7 +68,7 @@ const PROCESS = [
   {
     step: '03',
     title: 'Design + build',
-    body: 'Wireframes → design mockups → build → staging preview. You see the site on a private URL at every milestone. Two rounds of revisions baked in.',
+    body: `Wireframes → design mockups → build → staging preview. You see the site on a private URL at every milestone. ${revisionRoundsWordCapitalized()} rounds of revisions baked in.`,
   },
   {
     step: '04',

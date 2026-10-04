@@ -17,6 +17,7 @@ import {
   sessionCaptureTotal,
   type SessionCaptureAddOn,
 } from '@/lib/session-capture';
+import { revisionRoundsWord } from '@/lib/revisions';
 
 const CAL_LINK = process.env.NEXT_PUBLIC_CAL_LINK ?? 'semperfimedia/discovery';
 
@@ -288,7 +289,7 @@ export function SessionCaptureConfigurator() {
                 </div>
                 <p className="mt-2 text-[11px] text-bone-subtle">
                   Confirmed on your discovery call. {travelPolicyShort()} Raw footage
-                  buyout and revision rounds beyond the included two are quoted separately.
+                  buyout and revision rounds beyond the included {revisionRoundsWord()} are quoted separately.
                 </p>
               </div>
 

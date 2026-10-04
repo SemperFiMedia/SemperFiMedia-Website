@@ -50,6 +50,7 @@ import {
   kitRateLines,
   tierPromptLines,
 } from '@/lib/film-production';
+import { REVISION_ROUNDS, revisionRoundsLabel } from '@/lib/revisions';
 
 /** Session Capture facts, rendered from the single source of truth. */
 const SESSION_CAPTURE_INCLUDE_LINES = SESSION_CAPTURE_INCLUDES_SHORT.map(
@@ -182,8 +183,8 @@ numbers on the discovery call. (The weddings page deliberately keeps these off t
 
 # CORPORATE / BRAND FILM PRICING
 
-- **Spotlight (Entry) — $1,500 starting.** Half-day shoot (up to 4 hrs), 1 cinematographer, single location, 60–90 sec finished film, 2 rounds of revisions.
-- **Brand Film (Most Popular) — $3,500 starting.** Full-day shoot (up to 8 hrs), 1 cinematographer + 1 assistant, up to 2 locations, 2–3 min finished film, B-roll package + social cutdowns, 2 rounds of revisions.
+- **Spotlight (Entry) — $1,500 starting.** Half-day shoot (up to 4 hrs), 1 cinematographer, single location, 60–90 sec finished film, ${revisionRoundsLabel()}.
+- **Brand Film (Most Popular) — $3,500 starting.** Full-day shoot (up to 8 hrs), 1 cinematographer + 1 assistant, up to 2 locations, 2–3 min finished film, B-roll package + social cutdowns, ${revisionRoundsLabel()}.
 - **Full Production — custom quoted.** Multi-day or multi-location, full crew (DP + 2nd shooter + sound + drone), pre-production + concept development, licensed music + custom color grade, case-study-grade finish, rush delivery available.
 
 For corporate, ask what the project is about, the goal, how long the final film needs to be, and single vs. multiple locations. Then recommend the right tier.
@@ -216,7 +217,7 @@ talk or a panel, since panels need the extra lavaliers.
 
 # MUSIC VIDEOS (/corporate/music-videos)
 
-- **$3,000 flat** — single-day shoot, 3–4 minute finished video, color graded to track mood, beat-matched edit, music licensing handled, 2 rounds of revisions, 14-day delivery.
+- **$3,000 flat** — single-day shoot, 3–4 minute finished video, color graded to track mood, beat-matched edit, music licensing handled, ${revisionRoundsLabel()}, 14-day delivery.
 - **Add-ons:** 9:16 Social Cuts $500 (5× vertical cutdowns, color-matched) · Additional Location $750 (per location beyond the first) · Rush Delivery +25% (faster than 14 days)
 - Anything beyond that (longer shoot, custom concepts, drone-heavy) is custom quoted — collect the details and hand off to TJ.
 
@@ -294,7 +295,7 @@ Owner-operated DJI kit. 7–14 day delivery. Roofing condition reports, real est
 brand-film exteriors, event recaps.
 
 - **Drone Photo Package — $100.** Edited aerial stills.
-- **Cinematic Drone Video — $500.** 1–2 minute finished aerial video, cinematic color grade, licensed music, 1 round of revisions.
+- **Cinematic Drone Video — $500.** 1–2 minute finished aerial video, cinematic color grade, licensed music, ${revisionRoundsLabel()}.
 - **Video + Photos bundle — $575.** Everything in the video package plus 15 edited aerial stills and a best-of carousel. Saves $25 vs. buying separately.
 
 Flown in approved airspace outside restricted zones. Listing packages, event coverage, and
@@ -324,7 +325,7 @@ These apply across every service:
 
 - **Pre-Production Consulting: $100/hour** — treatment writing, shot list development, location scouts, pre-production meetings. Billed hourly whether on Zoom or in person.
 - **Raw Footage Buyout: 100% of project cost** — transfers all media rights of the raw files. SFM retains no rights to the footage.
-- **Extra Revisions: $100/hour** — every package includes 2 rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
+- **Extra Revisions: $100/hour** — every package includes ${REVISION_ROUNDS} rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
 - **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, and Music Videos and Trailer Editing publish +25%.
 - **Travel: ${travelPolicySentence()}** Destination weddings quoted separately.
   - The included area is a named list of towns, NOT "all of DFW" — Fort Worth, Frisco, McKinney and Arlington are outside it and do carry mileage. Say so plainly if asked.

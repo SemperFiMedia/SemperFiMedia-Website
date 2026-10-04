@@ -6,6 +6,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { revisionRoundsLabel } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Drone Photography & Videography Dallas — Aerial Coverage from $100',
@@ -39,7 +40,7 @@ const PRICING = [
       '1–2 minute finished aerial video',
       'Cinematic color grade',
       'Licensed music or royalty-free track',
-      '1 round of revisions',
+      revisionRoundsLabel(),
       '7–14 day delivery',
     ],
   },

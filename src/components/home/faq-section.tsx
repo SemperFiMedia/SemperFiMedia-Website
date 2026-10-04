@@ -7,6 +7,7 @@ import { FILM_PRODUCTION_TIERS } from '@/lib/film-production';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
 import { FaqJsonLd } from '@/components/seo/structured-data';
+import { revisionRoundsWord, revisionRoundsWordCapitalized } from '@/lib/revisions';
 
 /**
  * `plain` mirrors the rendered answer as text. Google requires the FAQPage
@@ -23,6 +24,8 @@ type FAQ = {
 const WEDDING_FROM = formatPrice(weddingStartingPrice());
 const FILM_FROM = formatPrice(Math.min(...FILM_PRODUCTION_TIERS.map((t) => t.price)));
 const TRAVEL = travelPolicySentence();
+const ROUNDS = revisionRoundsWord();
+const ROUNDS_CAP = revisionRoundsWordCapitalized();
 
 const FAQS: FAQ[] = [
   {
@@ -79,13 +82,13 @@ const FAQS: FAQ[] = [
     q: 'How many rounds of revisions do I get?',
     a: (
       <>
-        Two rounds included in every package. You&apos;ll get a private review link via Vidflow where
+        {ROUNDS_CAP} rounds included in every package. You&apos;ll get a private review link via Vidflow where
         you can comment directly on the timeline by timecode — no emailing timestamps back and
-        forth. Additional rounds beyond the included two are billed hourly.
+        forth. Additional rounds beyond the included {ROUNDS} are billed hourly.
       </>
     ),
     plain:
-      'Two rounds included in every package. You’ll get a private review link via Vidflow where you can comment directly on the timeline by timecode — no emailing timestamps back and forth. Additional rounds beyond the included two are billed hourly.',
+      `${ROUNDS_CAP} rounds included in every package. You’ll get a private review link via Vidflow where you can comment directly on the timeline by timecode — no emailing timestamps back and forth. Additional rounds beyond the included ${ROUNDS} are billed hourly.`,
   },
   {
     q: 'Can you also cut my footage into social media reels?',

@@ -8,6 +8,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingTier } from '@/components/pricing/pricing-tier';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { revisionRoundsLabel } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Corporate Video Production — Dallas',
@@ -117,7 +118,7 @@ const CORPORATE_TIERS = [
       '1 cinematographer',
       'Single location',
       '60–90 second finished film',
-      '2 rounds of revisions',
+      revisionRoundsLabel(),
     ],
   },
   {
@@ -131,7 +132,7 @@ const CORPORATE_TIERS = [
       'Up to 2 locations',
       '2–3 minute finished film',
       'B-roll package + social cutdowns',
-      '2 rounds of revisions',
+      revisionRoundsLabel(),
     ],
     highlighted: true,
   },

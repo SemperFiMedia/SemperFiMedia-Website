@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
+import { revisionRoundsLabel } from '@/lib/revisions';
 
 type Step = {
   number: string;
@@ -58,7 +59,7 @@ const STEPS: Step[] = [
   {
     number: '04',
     title: 'Post-Production',
-    meta: '2–4 weeks · 2 rounds of revisions',
+    meta: `2–4 weeks · ${revisionRoundsLabel()}`,
     body: (
       <>
         Edit, color grade, sound design, and licensed music. Private review link via Vidflow —

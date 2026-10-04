@@ -18,6 +18,7 @@ import {
   addOnPriceLabel,
   formatPrice,
 } from '@/lib/session-capture';
+import { revisionRoundsPhrase } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Conference Videographer Dallas — Session Capture for Speakers',
@@ -134,7 +135,7 @@ const SESSION_CAPTURE_OFFERS = [
   {
     name: 'Session Capture',
     description:
-      'Professional recording of one conference session, keynote, or panel. Up to 2 hours onsite, one 4K cinema camera position, dual-redundant audio (house board feed plus backup wireless lavalier), full session color corrected, presentation slides cut in at full resolution, 14-day delivery, two rounds of revisions, travel within our service area included.',
+      `Professional recording of one conference session, keynote, or panel. Up to 2 hours onsite, one 4K cinema camera position, dual-redundant audio (house board feed plus backup wireless lavalier), full session color corrected, presentation slides cut in at full resolution, 14-day delivery, ${revisionRoundsPhrase()}, travel within our service area included.`,
     price: String(SESSION_CAPTURE_PRICE),
   },
   ...SESSION_CAPTURE_ADD_ONS.map((addOn) => ({

@@ -16,6 +16,7 @@ import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { revisionRoundsWordCapitalized } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: `Short Film & Movie Trailer Editing — Dallas | From ${formatPrice(trailerStartingPrice())}`,
@@ -91,7 +92,7 @@ const PROCESS = [
   {
     step: '04',
     title: 'Revisions + delivery',
-    body: 'Two rounds included. Final delivery in hero cut + requested cutdowns + 9:16 social version. Typical turnaround: 10–14 days from locked handoff.',
+    body: `${revisionRoundsWordCapitalized()} rounds included. Final delivery in hero cut + requested cutdowns + 9:16 social version. Typical turnaround: 10–14 days from locked handoff.`,
   },
 ];
 

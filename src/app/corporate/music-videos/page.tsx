@@ -6,6 +6,7 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { revisionRoundsLabel, revisionRoundsPhrase } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Music Video Production Dallas — $3,000 Flat, 14-Day Delivery',
@@ -68,7 +69,7 @@ export default async function MusicVideosPage() {
             </h1>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
               $3,000 flat. Single-day shoot. 14-day delivery. Cinema-grade color, beat-matched
-              edit, licensed music, two rounds of revisions. The music video your track has been
+              edit, licensed music, {revisionRoundsPhrase()}. The music video your track has been
               waiting for — without the label-budget price tag.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
@@ -137,7 +138,7 @@ export default async function MusicVideosPage() {
                   <div className="flex gap-3"><span className="text-brass">›</span><span>Single location</span></div>
                   <div className="flex gap-3"><span className="text-brass">›</span><span>3–4 minute finished music video</span></div>
                   <div className="flex gap-3"><span className="text-brass">›</span><span>Color graded to track mood</span></div>
-                  <div className="flex gap-3"><span className="text-brass">›</span><span>2 rounds of revisions</span></div>
+                  <div className="flex gap-3"><span className="text-brass">›</span><span>{revisionRoundsLabel()}</span></div>
                   <div className="flex gap-3"><span className="text-brass">›</span><span>14-day delivery</span></div>
                 </div>
               </div>

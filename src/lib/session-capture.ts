@@ -12,6 +12,7 @@ import {
   MILEAGE_RATE_PHRASE,
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
+import { revisionRoundsLabel, revisionRoundsPhrase, revisionRoundsWordCapitalized } from '@/lib/revisions';
 
 export const SESSION_CAPTURE_PRICE = 1000;
 
@@ -40,8 +41,8 @@ export const SESSION_CAPTURE_INCLUDES = [
     body: 'Send us the deck and we cut your slides into the edit at native resolution instead of leaving viewers squinting at a projector screen shot from forty feet away. Included. Not an upsell.',
   },
   {
-    title: '14-day delivery, two rounds of revisions.',
-    body: 'Two weeks from the session to your finished file. Two rounds of notes included, on a review link where you comment by timecode instead of emailing timestamps back and forth.',
+    title: `14-day delivery, ${revisionRoundsPhrase()}.`,
+    body: `Two weeks from the session to your finished file. ${revisionRoundsWordCapitalized()} rounds of notes included, on a review link where you comment by timecode instead of emailing timestamps back and forth.`,
   },
   {
     title: 'Travel within our service area included.',
@@ -57,7 +58,7 @@ export const SESSION_CAPTURE_INCLUDES_SHORT = [
   'Full session in 4K, color corrected, trimmed to a clean in and out',
   'Presentation slides cut in at full resolution — included, no charge',
   '14-day delivery',
-  'Two rounds of revisions',
+  `${revisionRoundsWordCapitalized()} rounds of revisions`,
   'Travel within our service area included',
 ] as const;
 
@@ -199,6 +200,6 @@ export const SESSION_CAPTURE_POLICIES = [
     name: 'Extra Rounds',
     price: '$100',
     unit: '/ hour',
-    note: 'Every package includes 2 rounds of revisions. Additional rounds are billed hourly. Most edits are tightened in under an hour.',
+    note: `Every package includes ${revisionRoundsLabel()}. Additional rounds are billed hourly. Most edits are tightened in under an hour.`,
   },
 ] as const;
