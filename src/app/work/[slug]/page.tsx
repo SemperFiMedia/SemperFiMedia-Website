@@ -7,8 +7,9 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { CinematicVideo } from '@/components/media/cinematic-video';
-import { muxVerticalPoster } from '@/lib/mux-image';
-import { YouTubeEmbed } from '@/components/media/youtube-embed';
+import { muxVerticalPoster, muxThumbnail } from '@/lib/mux-image';
+import { YouTubeEmbed, extractYouTubeId } from '@/components/media/youtube-embed';
+import { VideoJsonLd } from '@/components/seo/structured-data';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { Reveal } from '@/components/primitives/reveal';
 import { getCaseStudyBySlug, getAllCaseStudies } from '@/sanity/queries';
@@ -53,8 +54,35 @@ export default async function CaseStudyPage({ params }: RouteProps) {
     : null;
   const bts = cs.behindTheScenes ?? [];
 
+  /**
+   * VideoObject markup, so case studies can earn video results rather than
+   * plain links. Emitted only when there is a real video, thumbnail,
+   * description and publish date — Google requires all four, and an invented
+   * value would be worse than no markup.
+   * The Mux frame is preferred over the Sanity poster because it is pulled from
+   * the video itself, so it always matches the footage.
+   */
+  const youTubeId = cs.youtubeUrl ? extractYouTubeId(cs.youtubeUrl) : null;
+  const videoThumb = cs.muxPlaybackId
+    ? muxThumbnail(cs.muxPlaybackId, { width: 1280 })
+    : posterUrl;
+  const videoDescription = cs.summary;
+  const videoSchema =
+    cs.publishedAt && videoDescription && videoThumb && (youTubeId || cs.muxPlaybackId)
+      ? {
+          name: cs.title,
+          description: videoDescription,
+          thumbnailUrl: videoThumb,
+          uploadDate: new Date(cs.publishedAt).toISOString(),
+          ...(youTubeId
+            ? { embedUrl: `https://www.youtube-nocookie.com/embed/${youTubeId}` }
+            : { contentUrl: `https://stream.mux.com/${cs.muxPlaybackId}.m3u8` }),
+        }
+      : null;
+
   return (
     <>
+      {videoSchema && <VideoJsonLd {...videoSchema} />}
       <ViewContent
         contentType="work_detail"
         contentIds={[slug]}

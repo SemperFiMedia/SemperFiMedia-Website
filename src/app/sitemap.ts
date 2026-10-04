@@ -47,35 +47,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries = STATIC_ROUTES.map((route) => ({
     url: `${env.siteUrl}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'weekly' as const,
     priority: route === '' ? 1.0 : 0.8,
   }));
 
   const spanishEntries = SPANISH_ROUTES.map((route) => ({
     url: `${env.siteUrl}${route}`,
-    lastModified: new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
 
   const caseEntries = cases.map((cs) => ({
     url: `${env.siteUrl}/work/${cs.slug.current}`,
-    lastModified: cs.publishedAt ? new Date(cs.publishedAt) : new Date(),
+    ...(cs.publishedAt && { lastModified: new Date(cs.publishedAt) }),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
 
   const blogEntries = posts.map((post) => ({
     url: `${env.siteUrl}/blog/${post.slug.current}`,
-    lastModified: post.publishedAt ? new Date(post.publishedAt) : new Date(),
+    ...(post.publishedAt && { lastModified: new Date(post.publishedAt) }),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));
 
   const reelReconEntries = reviews.map((review) => ({
     url: `${env.siteUrl}/reel-recon/${review.slug.current}`,
-    lastModified: review.publishedAt ? new Date(review.publishedAt) : new Date(),
+    ...(review.publishedAt && { lastModified: new Date(review.publishedAt) }),
     changeFrequency: 'monthly' as const,
     priority: 0.7,
   }));

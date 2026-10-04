@@ -6,7 +6,8 @@ type Props = {
   className?: string;
 };
 
-function extractYouTubeId(url: string): string | null {
+/** Exported so VideoObject markup can derive an embed URL without a second regex. */
+export function extractYouTubeId(url: string): string | null {
   const patterns = [
     /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{11})/,
   ];

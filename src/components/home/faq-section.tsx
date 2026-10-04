@@ -2,13 +2,27 @@
 
 import Link from 'next/link';
 import { travelPolicySentence } from '@/lib/service-area';
+import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
+import { FILM_PRODUCTION_TIERS } from '@/lib/film-production';
 import { motion } from 'framer-motion';
 import { DataLabel } from '@/components/primitives/data-label';
+import { FaqJsonLd } from '@/components/seo/structured-data';
 
+/**
+ * `plain` mirrors the rendered answer as text. Google requires the FAQPage
+ * answer to match what a visitor actually reads, so these are kept in step with
+ * the JSX beside them rather than written as a separate marketing summary.
+ */
 type FAQ = {
   q: string;
   a: React.ReactNode;
+  plain: string;
 };
+
+/** Read from the pricing modules so the front door cannot drift from the rate card. */
+const WEDDING_FROM = formatPrice(weddingStartingPrice());
+const FILM_FROM = formatPrice(Math.min(...FILM_PRODUCTION_TIERS.map((t) => t.price)));
+const TRAVEL = travelPolicySentence();
 
 const FAQS: FAQ[] = [
   {
@@ -19,10 +33,12 @@ const FAQS: FAQ[] = [
         <Link href="/pricing" className="underline decoration-brass/60 underline-offset-4">
           pricing page
         </Link>
-        . Weddings start at $3,000. Corporate brand films start at $1,500. Music videos are $3,000
-        flat with 14-day delivery. Full productions are custom-quoted after a discovery call.
+        . Weddings start at {WEDDING_FROM}. Corporate brand films start at {FILM_FROM}. Music
+        videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a
+        discovery call.
       </>
     ),
+    plain: `Every service has published rates on the pricing page. Weddings start at ${WEDDING_FROM}. Corporate brand films start at ${FILM_FROM}. Music videos are $3,000 flat with 14-day delivery. Full productions are custom-quoted after a discovery call.`,
   },
   {
     q: 'How long does a project take from start to finish?',
@@ -33,15 +49,18 @@ const FAQS: FAQ[] = [
         Rush delivery is available for an upcharge.
       </>
     ),
+    plain:
+      '4–8 weeks for most projects. Pre-production runs 1–2 weeks, the shoot itself is 1–3 days depending on scope, and post-production takes 2–4 weeks. Music videos ship in 14 days. Rush delivery is available for an upcharge.',
   },
   {
     q: 'Do you travel outside Dallas–Fort Worth?',
     a: (
       <>
-        Yes. {travelPolicySentence()}
-        Destination weddings and multi-day out-of-state shoots are quoted separately.
+        Yes. {TRAVEL} Destination weddings and multi-day out-of-state shoots are quoted
+        separately.
       </>
     ),
+    plain: `Yes. ${TRAVEL} Destination weddings and multi-day out-of-state shoots are quoted separately.`,
   },
   {
     q: 'Who owns the final video and footage?',
@@ -49,42 +68,50 @@ const FAQS: FAQ[] = [
       <>
         You own the final edited film outright — use it anywhere, forever. Raw footage stays
         with Semper Fi Media by default so we can protect creative reuse (your social reels, our
-        portfolio). If you want the raw files with full rights transferred to you, that's a
+        portfolio). If you want the raw files with full rights transferred to you, that&apos;s a
         separate buyout starting at 100% of the project cost.
       </>
     ),
+    plain:
+      'You own the final edited film outright — use it anywhere, forever. Raw footage stays with Semper Fi Media by default so we can protect creative reuse (your social reels, our portfolio). If you want the raw files with full rights transferred to you, that’s a separate buyout starting at 100% of the project cost.',
   },
   {
     q: 'How many rounds of revisions do I get?',
     a: (
       <>
-        Two rounds included in every package. You'll get a private review link via Vidflow where
+        Two rounds included in every package. You&apos;ll get a private review link via Vidflow where
         you can comment directly on the timeline by timecode — no emailing timestamps back and
         forth. Additional rounds beyond the included two are billed hourly.
       </>
     ),
+    plain:
+      'Two rounds included in every package. You’ll get a private review link via Vidflow where you can comment directly on the timeline by timecode — no emailing timestamps back and forth. Additional rounds beyond the included two are billed hourly.',
   },
   {
     q: 'Can you also cut my footage into social media reels?',
     a: (
       <>
-        Yes — it's one of our most-requested services. We take your finished video and cut it
+        Yes — it&apos;s one of our most-requested services. We take your finished video and cut it
         into vertical 9:16 reels built for Instagram, TikTok, and YouTube Shorts.{' '}
         <Link href="/social-reels" className="underline decoration-brass/60 underline-offset-4">
           Details here →
         </Link>
       </>
     ),
+    plain:
+      'Yes — it’s one of our most-requested services. We take your finished video and cut it into vertical 9:16 reels built for Instagram, TikTok, and YouTube Shorts.',
   },
   {
     q: 'What do I need to prep before the shoot?',
     a: (
       <>
-        Nothing — that's what pre-production is for. After the discovery call, we handle the
+        Nothing — that&apos;s what pre-production is for. After the discovery call, we handle the
         shot list, location scout, schedule, gear plan, and prep brief. You show up, we
         shoot, you go home with the hard part already done.
       </>
     ),
+    plain:
+      'Nothing — that’s what pre-production is for. After the discovery call, we handle the shot list, location scout, schedule, gear plan, and prep brief. You show up, we shoot, you go home with the hard part already done.',
   },
   {
     q: 'Why does Semper Fi Media exist?',
@@ -95,6 +122,8 @@ const FAQS: FAQ[] = [
         independent operator pricing. Half the overhead, none of the bureaucracy.
       </>
     ),
+    plain:
+      'Because Dallas video production either looks like a student project or costs $15k+ for generic agency work. We bring Marine-led discipline and cinema-grade craft at independent operator pricing. Half the overhead, none of the bureaucracy.',
   },
 ];
 
@@ -104,6 +133,7 @@ export function FaqSection() {
       className="bg-gunpowder px-6 py-20 md:px-12 md:py-28"
       aria-label="Frequently asked questions"
     >
+      <FaqJsonLd items={FAQS.map((faq) => ({ q: faq.q, a: faq.plain }))} />
       <div className="mx-auto max-w-[1000px]">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
