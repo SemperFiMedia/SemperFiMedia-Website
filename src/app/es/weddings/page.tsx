@@ -204,8 +204,7 @@ export default async function EsWeddingsPage() {
               ))}
             </div>
             <p className="mt-10 text-center text-sm text-bone-subtle">
-              {travelPolicySentenceEs()}
-              Paquetes personalizados disponibles.
+              {travelPolicySentenceEs()} Paquetes personalizados disponibles.
             </p>
           </div>
         </section>

@@ -6,6 +6,7 @@ import {
   formatPrice,
   weddingStartingPrice,
   weddingBundlePhrase,
+  rawFootageDrivePrice,
 } from '@/lib/weddings';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -64,7 +65,7 @@ const FAQ = [
   },
   {
     q: 'Will we get the raw footage?',
-    a: 'Raw footage is available as an add-on ($250 hard drive) or as part of a full Raw Footage Buyout (priced to transfer all media rights). Most couples don\'t need the raw — but if you want it, we deliver it.',
+    a: `Raw footage is available as an add-on (${formatPrice(rawFootageDrivePrice())} hard drive) or as part of a full Raw Footage Buyout (priced to transfer all media rights). Most couples don\'t need the raw — but if you want it, we deliver it.`,
   },
   {
     q: 'What if it rains?',

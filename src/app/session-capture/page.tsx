@@ -17,20 +17,21 @@ import {
   SESSION_CAPTURE_PRICE,
   addOnPriceLabel,
   formatPrice,
+  sessionCaptureAddOnById,
 } from '@/lib/session-capture';
 import { revisionRoundsPhrase } from '@/lib/revisions';
 
 export const metadata: Metadata = {
   title: 'Conference Videographer Dallas — Session Capture for Speakers',
   description:
-    'Professional recording of your conference session, keynote, or panel in Dallas–Fort Worth. $1,000 flat: 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery. Vertical social clips available.',
+    `Professional recording of your conference session, keynote, or panel in Dallas–Fort Worth. ${formatPrice(SESSION_CAPTURE_PRICE)} flat: 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery. Vertical social clips available.`,
   alternates: {
     canonical: 'https://semperfimedia.llc/session-capture',
   },
   openGraph: {
     title: 'Session Capture — Conference & Keynote Recording, Dallas–Fort Worth',
     description:
-      'Your talk, recorded properly. 4K cinema camera, dual-redundant audio off the house board, slides cut in at full resolution. $1,000, delivered in 14 days.',
+      `Your talk, recorded properly. 4K cinema camera, dual-redundant audio off the house board, slides cut in at full resolution. ${formatPrice(SESSION_CAPTURE_PRICE)}, delivered in 14 days.`,
     url: 'https://semperfimedia.llc/session-capture',
     type: 'website',
   },
@@ -107,7 +108,7 @@ const FAQS = [
   },
   {
     q: 'What if my session runs long?',
-    a: 'The base package covers up to two hours onsite, which comfortably fits a 45 or 60 minute talk plus setup and Q&A. If your session or the block around it runs longer, additional onsite hours are $250 each and can be added on the day — we will not stop recording mid-sentence and we will not surprise you with the line item afterward. If you already know it will run long, add the hours when you build your quote.',
+    a: `The base package covers up to two hours onsite, which comfortably fits a 45 or 60 minute talk plus setup and Q&A. If your session or the block around it runs longer, additional onsite hours are ${formatPrice(sessionCaptureAddOnById('extra-hours').price)} each and can be added on the day — we will not stop recording mid-sentence and we will not surprise you with the line item afterward. If you already know it will run long, add the hours when you build your quote.`,
   },
   {
     q: 'Do I own the footage?',
@@ -115,7 +116,7 @@ const FAQS = [
   },
   {
     q: 'How fast is delivery?',
-    a: 'Fourteen days from the session to your finished 4K file, color corrected and trimmed, with your slides cut in. Vertical social clips deliver on the same schedule. If you need it faster, rush delivery is $250 and puts the finished file in your hands within 5 days — worth it when the conference hashtag is still moving.',
+    a: `Fourteen days from the session to your finished 4K file, color corrected and trimmed, with your slides cut in. Vertical social clips deliver on the same schedule. If you need it faster, rush delivery is ${formatPrice(sessionCaptureAddOnById('rush-delivery').price)} and puts the finished file in your hands within 5 days — worth it when the conference hashtag is still moving.`,
   },
   {
     q: 'Do you travel outside DFW?',
@@ -123,7 +124,7 @@ const FAQS = [
   },
   {
     q: 'Can you cover a panel instead of a solo talk?',
-    a: 'Yes. Panels need one wireless lavalier per speaker, which is the $200 multi-speaker audio add-on. Without it, the moderator sounds great and the panelists sound like they are in another room. For a panel of three or more we also recommend the second camera angle so the edit can cut to whoever is actually talking.',
+    a: `Yes. Panels need one wireless lavalier per speaker, which is the ${formatPrice(sessionCaptureAddOnById('panel-audio').price)} multi-speaker audio add-on. Without it, the moderator sounds great and the panelists sound like they are in another room. For a panel of three or more we also recommend the second camera angle so the edit can cut to whoever is actually talking.`,
   },
   {
     q: 'What do you need from me before the day?',
@@ -306,7 +307,7 @@ export default async function SessionCapturePage() {
                   <DataLabel className="mb-3">READ THIS ONE FIRST</DataLabel>
                   <h3 className="font-serif text-2xl italic md:text-3xl">Second camera angle</h3>
                 </div>
-                <div className="font-serif text-4xl text-brass">$350</div>
+                <div className="font-serif text-4xl text-brass">{formatPrice(sessionCaptureAddOnById('second-camera').price)}</div>
               </div>
               <p className="mt-6 max-w-3xl leading-relaxed text-bone-muted">
                 Here is the honest reason this matters, and it has nothing to do with production

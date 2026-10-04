@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { HOSTING_MONTHLY, websiteTierSummary, formatPrice } from '@/lib/website-design';
 import { trailerStartingPrice } from '@/lib/trailer-editing';
 import { MUSIC_VIDEO_PRICE } from '@/lib/music-videos';
+import { SESSION_CAPTURE_PRICE } from '@/lib/session-capture';
 import { dronePriceSummary } from '@/lib/drone';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
@@ -32,7 +33,7 @@ const NICHES = [
     label: 'SPEAKERS & KEYNOTES',
     title: 'Session Capture',
     description:
-      'Conference speakers, panelists, and keynote presenters. One session recorded properly — 4K cinema camera, dual-redundant audio off the house sound board, slides cut in. $1,000 flat, delivered in 14 days.',
+      `Conference speakers, panelists, and keynote presenters. One session recorded properly — 4K cinema camera, dual-redundant audio off the house sound board, slides cut in. ${formatPrice(SESSION_CAPTURE_PRICE)} flat, delivered in 14 days.`,
     emphasized: false,
   },
   {

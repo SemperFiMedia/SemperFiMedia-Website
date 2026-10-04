@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
+import { referralRewardLabel } from '@/lib/referral';
 import { usePathname } from 'next/navigation';
 
 const SECTIONS = [
@@ -14,7 +15,7 @@ const SECTIONS = [
       { href: '/about', label: 'About' },
       { href: '/blog', label: 'The Field Notes' },
       { href: '/reel-recon', label: 'Reel Recon — Movie Reviews' },
-      { href: '/refer', label: 'Refer & Earn $200' },
+      { href: '/refer', label: `Refer & Earn ${referralRewardLabel()}` },
       { href: '/contact', label: 'Contact' },
     ],
   },

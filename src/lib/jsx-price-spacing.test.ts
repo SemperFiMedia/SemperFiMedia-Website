@@ -43,4 +43,23 @@ describe('JSX price spacing', () => {
     }
     expect(offenders).toEqual([]);
   });
+
+  // The same drop happens the other way round. /es/weddings rendered
+  // "nunca agregado después.Paquetes personalizados" until 2026-10-04 because
+  // a {sentence()} line was followed by a line of plain text.
+  it('no line that is only an expression runs straight into text on the next line', () => {
+    const offenders: string[] = [];
+    const CODE_START = /^(const|let|var|return|export|import|if|else|for|while|type|interface|function|case|default|await|async|throw|try|catch|switch|break|continue|className|key|href|style|aria|on[A-Z])\b/;
+    for (const file of tsxFiles(SRC)) {
+      const lines = readFileSync(file, 'utf8').split(/\r?\n/);
+      for (let i = 0; i < lines.length - 1; i++) {
+        const expr = lines[i]!.trim();
+        const next = lines[i + 1]!.trim();
+        if (/^\{[^{}]*\}$/.test(expr) && /^[A-Za-z¿¡]/.test(next) && !CODE_START.test(next) && !/[=;]/.test(next)) {
+          offenders.push(`${file.slice(SRC.length + 1)}:${i + 1}  ${expr} + "${next.slice(0, 30)}…"`);
+        }
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
 });

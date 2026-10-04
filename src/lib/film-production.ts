@@ -197,6 +197,15 @@ export function insuranceRangeLabel(): string {
 }
 
 /** "Solo Day $175, B-Cam Day $225, Full Crew Day $295" */
+/** Optional higher-limit policy, passed through at cost, per shoot day. */
+export const INSURANCE_UPGRADE_PER_DAY = { min: 100, max: 150 } as const;
+
+/** "$2M / $4M network-grade upgrade available (+$100–$150/day)" */
+export function insuranceUpgradeSentence(): string {
+  const { min, max } = INSURANCE_UPGRADE_PER_DAY;
+  return `$2M / $4M network-grade upgrade available (+${formatPrice(min)}–${formatPrice(max)}/day)`;
+}
+
 export function insuranceByTierSentence(): string {
   return FILM_PRODUCTION_TIERS.map((t) => `${t.name} ${formatPrice(t.insurance)}`).join(', ');
 }

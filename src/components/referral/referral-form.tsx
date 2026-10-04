@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { DataLabel } from '@/components/primitives/data-label';
+import { referralRewardLabel } from '@/lib/referral';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -44,7 +45,7 @@ export function ReferralForm() {
         <h3 className="font-serif text-3xl italic">Thank you. We&apos;re on it.</h3>
         <p className="mt-4 text-bone-muted">
           TJ will reach out to your friend within one business day. We&apos;ll keep you in the
-          loop on the booking, and your $200 lands the moment their wedding is filmed and paid
+          loop on the booking, and your {referralRewardLabel()} lands the moment their wedding is filmed and paid
           in full. Always Faithful.
         </p>
       </div>
@@ -210,7 +211,7 @@ export function ReferralForm() {
           {status === 'submitting' ? 'Sending referral…' : 'Send the Referral →'}
         </button>
         <p className="mt-3 text-[11px] text-bone-subtle">
-          We&apos;ll reach out to your friend within one business day. You earn $200 once their
+          We&apos;ll reach out to your friend within one business day. You earn {referralRewardLabel()} once their
           wedding is filmed and paid in full.
         </p>
       </div>

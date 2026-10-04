@@ -2,6 +2,7 @@ import { Resend } from 'resend';
 import { env } from '@/lib/env';
 import { checkRateLimit, getClientKey } from '@/lib/rate-limit';
 import { looksLikeBot } from '@/lib/bot-defense';
+import { referralRewardLabel } from '@/lib/referral';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -82,7 +83,7 @@ export async function POST(request: Request) {
 
   const html = `<!doctype html>
 <html><body style="font-family:monospace;background:#16181a;color:#f4ece0;padding:24px;">
-<h2 style="color:#D4A057;">🎬 New Wedding Referral — $200 Payout Owed (Pending Booking)</h2>
+<h2 style="color:#D4A057;">🎬 New Wedding Referral — ${referralRewardLabel()} Payout Owed (Pending Booking)</h2>
 <table cellpadding="8" style="border-collapse:collapse;background:#0d0e0f;border-radius:6px;color:#cfc8be;">
 <tr><td><strong style="color:#D4A057;">REFERRER</strong></td><td></td></tr>
 <tr><td>Name:</td><td>${escapeHtml(r.referrerName)}</td></tr>
@@ -98,7 +99,7 @@ export async function POST(request: Request) {
 ${r.note ? `<tr><td colspan="2"><hr style="border-color:#2a2a2a;"></td></tr><tr><td><strong style="color:#D4A057;">NOTE</strong></td><td></td></tr><tr><td colspan="2">${escapeHtml(r.note)}</td></tr>` : ''}
 </table>
 <p style="color:#a9a39a;margin-top:20px;">
-Next step: reach out to the couple within one business day. Pay ${escapeHtml(r.referrerName)} <strong style="color:#D4A057;">$200</strong> via ${escapeHtml(r.payoutMethod ?? 'their preferred method')} once the wedding is filmed and the final invoice is paid in full.
+Next step: reach out to the couple within one business day. Pay ${escapeHtml(r.referrerName)} <strong style="color:#D4A057;">${referralRewardLabel()}</strong> via ${escapeHtml(r.payoutMethod ?? 'their preferred method')} once the wedding is filmed and the final invoice is paid in full.
 </p>
 </body></html>`;
 

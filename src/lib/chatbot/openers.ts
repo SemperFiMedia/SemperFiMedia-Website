@@ -1,6 +1,8 @@
 import { formatPrice, weddingStartingPrice } from '@/lib/weddings';
 import { corporateStartingPrice } from '@/lib/corporate';
 import { musicVideoPriceLabel, musicVideoDeliveryLabel } from '@/lib/music-videos';
+import { tierById as filmTierById } from '@/lib/film-production';
+import { referralRewardLabel } from '@/lib/referral';
 // All visitor-facing chatbot copy, per language. Pure data + lookup only —
 // this module is bundled into the client widget, so it MUST NOT import
 // server-only modules (env, postgres, SDKs). Per-client customization for the
@@ -77,7 +79,7 @@ const EN_OPENERS: Array<[string, string]> = [
   ],
   [
     '/film-production',
-    "Production day rates run $1,500 (solo operator) to $5,500 (full crew) — and the Build Your Production Day configurator on this page prices your exact setup live. Want help scoping your shoot?",
+    `Production day rates run ${formatPrice(filmTierById('solo').price)} (solo operator) to ${formatPrice(filmTierById('full-crew').price)} (full crew) — and the Build Your Production Day configurator on this page prices your exact setup live. Want help scoping your shoot?`,
   ],
   [
     '/work',
@@ -97,7 +99,7 @@ const EN_OPENERS: Array<[string, string]> = [
   ],
   [
     '/refer',
-    "The referral deal is simple: send an engaged friend our way, and once their wedding is filmed and paid you get $200 back. Want me to walk you through how it works?",
+    `The referral deal is simple: send an engaged friend our way, and once their wedding is filmed and paid you get ${referralRewardLabel()} back. Want me to walk you through how it works?`,
   ],
   [
     '/',

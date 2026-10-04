@@ -8,6 +8,7 @@ import {
   websiteAddOnPriceLabel,
   websiteRangeLabel,
   websiteTierSummary,
+  websiteStartingPrice,
   formatPrice,
 } from '@/lib/website-design';
 import { Nav } from '@/components/nav/nav';
@@ -27,7 +28,7 @@ const BUNDLE_TAGLINES: Record<string, string> = {
 };
 
 export const metadata: Metadata = {
-  title: 'Website Design Dallas — Custom HTML, No Templates | From $4,500',
+  title: `Website Design Dallas — Custom HTML, No Templates | From ${formatPrice(websiteStartingPrice())}`,
   description:
     `Dallas website design from Semper Fi Media. Four Marine-themed tiers: ${websiteTierSummary()}. NO templates, ever — custom HTML on every build. Client-owned domains via Cloudflare, optional managed hosting, full handoff at contract end.`,
 };

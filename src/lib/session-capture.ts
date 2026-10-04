@@ -164,6 +164,12 @@ import { formatPrice } from '@/lib/utils';
 // Re-exported so existing call sites keep importing it from here.
 export { formatPrice };
 
+export function sessionCaptureAddOnById(id: string): SessionCaptureAddOn {
+  const addOn = SESSION_CAPTURE_ADD_ONS.find((a) => a.id === id);
+  if (!addOn) throw new Error(`Unknown Session Capture add-on: ${id}`);
+  return addOn;
+}
+
 /** Price string shown in the add-ons table on the page. */
 export function addOnPriceLabel(addOn: SessionCaptureAddOn): string {
   if (addOn.id === 'vertical-clips') {

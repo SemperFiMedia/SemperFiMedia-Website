@@ -24,13 +24,14 @@ import {
   SESSION_CAPTURE_ADD_ONS,
   addOnPriceLabel,
   formatPrice,
+  sessionCaptureAddOnById,
 } from '@/lib/session-capture';
 import {
   travelPolicySentence,
   MILEAGE_RATE_LABEL,
   MILEAGE_ORIGIN,
 } from '@/lib/service-area';
-import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingTierById, weddingBundleDiscount, weddingBundlePhrase } from '@/lib/weddings';
+import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingTierById, weddingBundleDiscount, weddingBundlePhrase, rawFootageDrivePrice } from '@/lib/weddings';
 import { hourlyRateLabel, hourlyRateShort } from '@/lib/hourly-rate';
 import { corporateStartingPrice, corporateTierById } from '@/lib/corporate';
 import { LAUNCH_BUNDLES, bundleChatbotLines } from '@/lib/bundles';
@@ -43,11 +44,14 @@ import {
   websiteTierTableRows,
   websiteAddOnLine,
   hostingPhrase,
+  websiteStartingPrice,
 } from '@/lib/website-design';
 import {
   trailerTierLines,
   trailerColorMatrixRows,
   trailerAddOnLine,
+  trailerStartingPrice,
+  trailerRushLabel,
 } from '@/lib/trailer-editing';
 import {
   FILM_PRODUCTION_DAY_HOURS,
@@ -55,10 +59,12 @@ import {
   PER_DIEM_RATE,
   crewRateLines,
   insuranceByTierSentence,
+  insuranceUpgradeSentence,
   kitRateLines,
   tierPromptLines,
 } from '@/lib/film-production';
 import { REVISION_ROUNDS, revisionRoundsLabel } from '@/lib/revisions';
+import { referralRewardLabel } from '@/lib/referral';
 
 /** Session Capture facts, rendered from the single source of truth. */
 const SESSION_CAPTURE_INCLUDE_LINES = SESSION_CAPTURE_INCLUDES_SHORT.map(
@@ -153,15 +159,15 @@ const SEMPER_FI_SERVICES = `# SERVICES OVERVIEW
 
 **Cinema Weddings** (/weddings) — Netflix-documentary-style wedding films, from ${formatPrice(weddingStartingPrice())}
 **Corporate Video** (/corporate) — Brand films, commercials, mission-driven storytelling, from ${formatPrice(corporateStartingPrice())}
-**Session Capture** (/session-capture) — Conference talks, keynotes, and panels recorded, $1,000 flat
+**Session Capture** (/session-capture) — Conference talks, keynotes, and panels recorded, ${formatPrice(SESSION_CAPTURE_PRICE)} flat
 **Music Videos** (/corporate/music-videos) — ${musicVideoPriceLabel()}
 **Social Media Reels** (/social-reels) — Vertical 9:16 reels cut from existing footage, ${socialReelLadderLabel()}
-**Trailer Editing** (/corporate/trailer-editing) — Post-only trailer cuts for filmmakers, from $1,500
-**Website Design** (/corporate/website-design) — Custom-coded sites, four tiers from $4,500
-**Film Production** (/film-production) — DFW crew-for-hire day rates, from $1,500/day
+**Trailer Editing** (/corporate/trailer-editing) — Post-only trailer cuts for filmmakers, from ${formatPrice(trailerStartingPrice())}
+**Website Design** (/corporate/website-design) — Custom-coded sites, four tiers from ${formatPrice(websiteStartingPrice())}
+**Film Production** (/film-production) — DFW crew-for-hire day rates, from ${formatPrice(filmTierById('solo').price)}/day
 **Drone** (/corporate/drone) — Aerial video and photos, from ${formatPrice(droneStartingPrice())}
 **Pricing** (/pricing) — The full published rate sheet
-**Refer & Earn** (/refer) — Past couples earn $200 per booked wedding referral
+**Refer & Earn** (/refer) — Past couples earn ${referralRewardLabel()} per booked wedding referral
 
 **Niches under /corporate:**
 - Mission & Tactical (/corporate/mission-and-tactical) — first responders, firearm brands, defense, veteran-owned
@@ -222,7 +228,7 @@ corporate package for one talk — Spotlight is a half-day branded film shoot, w
 different product and more money for the wrong deliverable.
 
 The lead question that changes the quote: **one camera or two?** With one angle a vertical
-clip is a static frame with a digital punch-in. The second camera (+$350) is what makes the
+clip is a static frame with a digital punch-in. The second camera (+${formatPrice(sessionCaptureAddOnById('second-camera').price)}) is what makes the
 social cutdowns hold attention. Also ask how long the session runs — anything past
 ${SESSION_CAPTURE_BASE_HOURS} hours onsite adds the hourly rate — and whether it's a solo
 talk or a panel, since panels need the extra lavaliers.
@@ -297,7 +303,7 @@ at cost)
 
 **Insurance is passed through at cost, never marked up:** ${insuranceByTierSentence()} per shoot
 day. Covers $1M per occurrence / $2M aggregate general liability plus
-workers' comp. $2M/$4M network-grade upgrade available (+$100–$150/day). Equipment coverage is
+workers' comp. ${insuranceUpgradeSentence()}. Equipment coverage is
 always included — SFM carries year-round inland marine on all owned gear, at no cost to the
 production.
 
@@ -321,9 +327,9 @@ ${bundleChatbotLines()}
 
 # REFERRAL PROGRAM (/refer)
 
-Past Semper Fi Media couples earn **$200** when they refer an engaged friend and that wedding
+Past Semper Fi Media couples earn **${referralRewardLabel()}** when they refer an engaged friend and that wedding
 is filmed and paid in full. Paid via Venmo, Zelle, or check. Applies to wedding bookings only
-(${formatPrice(weddingStartingPrice())} ${weddingTierById('essentials').name} tier and up). No cap — every booked wedding earns $200.
+(${formatPrice(weddingStartingPrice())} ${weddingTierById('essentials').name} tier and up). No cap — every booked wedding earns ${referralRewardLabel()}.
 
 # OUTSIDE OUR WHEELHOUSE
 
@@ -337,7 +343,7 @@ These apply across every service:
 - **Raw Footage Buyout: 100% of project cost** — transfers all media rights of the raw files. SFM retains no rights to the footage.
 - **Extra Revisions: ${hourlyRateLabel()}** — every package includes ${REVISION_ROUNDS} rounds. Additional rounds billed hourly; most edits are tightened in under an hour.
 - **Social Reels: ${socialReelLadderLabel()}** — one rate on every service: standalone reels from existing footage, Session Capture clips, and music-video cutdowns. Packs apply automatically, and an order is never quoted above a larger pack.
-- **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat $250 rush, Music Videos publish ${musicVideoRushLabel()}, and Trailer Editing publishes +25%.
+- **Rush Delivery: quoted up front** — faster than the standard 2–4 week turnaround. Note the exceptions: Session Capture publishes a flat ${formatPrice(sessionCaptureAddOnById('rush-delivery').price)} rush, Music Videos publish ${musicVideoRushLabel()}, and Trailer Editing publishes ${trailerRushLabel()}.
 - **Travel: ${travelPolicySentence()}** Destination weddings quoted separately.
   - The included area is a named list of towns, NOT "all of DFW" — Fort Worth, Frisco, McKinney and Arlington are outside it and do carry mileage. Say so plainly if asked.
   - Mileage is measured **from ${MILEAGE_ORIGIN}**. Never say it is measured from Forney, from the client's venue, or from the edge of the service area — only from ${MILEAGE_ORIGIN}.
@@ -374,7 +380,7 @@ If asked about gear in detail, refer them to the blog posts listed at the end of
 - **Booking lead time:** Peak season (Mar–Jun, Sep–Nov) book 6–9 months out. Off-peak 2–3 months.
 - **Destination weddings:** Yes, quoted with travel + lodging.
 - **Delivery time:** 4–8 weeks for highlight; Heirloom tier includes a 48-hour social teaser.
-- **Raw footage:** Available as a $250 hard drive add-on, or full Raw Buyout (100% of project cost) for full rights.
+- **Raw footage:** Available as a ${formatPrice(rawFootageDrivePrice())} hard drive add-on, or full Raw Buyout (100% of project cost) for full rights.
 - **Rain plans:** Cinema cameras handle weather; indoor backups scoped on the discovery call. Texas weather doesn't kill weddings — bad planning does.
 - **LGBTQ+ weddings:** Absolutely. Every couple, every story, full craft. Always Faithful means always.
 - **Deposit:** 50% to lock the date; balance due one week before the wedding day.

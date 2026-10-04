@@ -14,6 +14,7 @@ import {
   formatPrice,
   insuranceRangeLabel,
   insuranceByTierSentence,
+  insuranceUpgradeSentence,
   tierSummarySentence,
 } from '@/lib/film-production';
 import { Nav } from '@/components/nav/nav';
@@ -239,8 +240,8 @@ export default function FilmProductionPage() {
                 <p className="mt-4 text-sm leading-relaxed text-bone-muted">
                   Covers $1M per occurrence / $2M aggregate general liability plus workers&apos;
                   comp for the shoot day. Pass-through pricing — {insuranceByTierSentence()}.
-                  Your production pays actual cost; we don&apos;t mark it up.
-                  $2M / $4M network-grade upgrade available (+$100–$150/day).
+                  Your production pays actual cost; we don&apos;t mark it up.{' '}
+                  {insuranceUpgradeSentence()}.
                 </p>
               </div>
 

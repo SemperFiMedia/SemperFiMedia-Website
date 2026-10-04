@@ -3,11 +3,13 @@ import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { ReferralForm } from '@/components/referral/referral-form';
+import { referralRewardLabel } from '@/lib/referral';
+import { formatPrice, weddingStartingPrice, weddingTierById } from '@/lib/weddings';
 
 export const metadata: Metadata = {
-  title: 'Refer & Earn — $200 Per Wedding Booking | Semper Fi Media',
+  title: `Refer & Earn — ${referralRewardLabel()} Per Wedding Booking | Semper Fi Media`,
   description:
-    'Past Semper Fi Media couples: refer an engaged friend and earn $200 back when their wedding is filmed and paid in full. Simple, fast, no fine print.',
+    `Past Semper Fi Media couples: refer an engaged friend and earn ${referralRewardLabel()} back when their wedding is filmed and paid in full. Simple, fast, no fine print.`,
 };
 
 const STEPS = [
@@ -23,8 +25,8 @@ const STEPS = [
   },
   {
     n: '03',
-    title: 'You get $200',
-    body: 'Once their wedding is filmed and the final invoice is paid, we send you $200 via Venmo, Zelle, or check — your call. No paperwork, no waiting.',
+    title: `You get ${referralRewardLabel()}`,
+    body: `Once their wedding is filmed and the final invoice is paid, we send you ${referralRewardLabel()} via Venmo, Zelle, or check — your call. No paperwork, no waiting.`,
   },
 ];
 
@@ -39,11 +41,11 @@ export default function ReferPage() {
             <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
               Send a friend.
               <br />
-              Earn <span className="text-brass">$200 back.</span>
+              Earn <span className="text-brass">{referralRewardLabel()} back.</span>
             </h1>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed text-bone-muted md:text-xl">
               You loved your wedding film. Now your friends are getting engaged. Send them our
-              way and earn $200 back the moment their wedding is filmed and paid in full. No
+              way and earn {referralRewardLabel()}{' '}back the moment their wedding is filmed and paid in full. No
               fine print, no waiting, no agency-style fulfillment headaches. Marine&apos;s
               honor.
             </p>
@@ -92,7 +94,7 @@ export default function ReferPage() {
               <li className="flex gap-2">
                 <span className="text-brass">›</span>
                 <span>
-                  $200 reward applies to wedding bookings only ($3,500 Essentials tier and up).
+                  {referralRewardLabel()} reward applies to wedding bookings only ({formatPrice(weddingStartingPrice())} {weddingTierById('essentials').name} tier and up).
                 </span>
               </li>
               <li className="flex gap-2">
@@ -111,7 +113,7 @@ export default function ReferPage() {
               <li className="flex gap-2">
                 <span className="text-brass">›</span>
                 <span>
-                  Refer as many couples as you want — every booked wedding earns you $200.
+                  Refer as many couples as you want — every booked wedding earns you {referralRewardLabel()}.
                 </span>
               </li>
               <li className="flex gap-2">

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { referralRewardLabel } from '@/lib/referral';
 import { TrackedLink } from '@/components/analytics/tracked-link';
 import { PrivacyChoicesLink } from '@/components/analytics/consent-banner';
 
@@ -25,7 +26,7 @@ const COMPANY = [
   { href: '/shoots', label: 'Recent Shoots' },
   { href: '/blog', label: 'The Field Notes' },
   { href: '/reel-recon', label: 'Reel Recon' },
-  { href: '/refer', label: 'Refer & Earn $200' },
+  { href: '/refer', label: `Refer & Earn ${referralRewardLabel()}` },
   { href: '/contact', label: 'Contact' },
 ] as const;
 

@@ -5,6 +5,7 @@ import {
   WEDDING_ADD_ONS,
   weddingStartingPrice,
   weddingTierSummary,
+  weddingTierById,
   formatPrice,
 } from '@/lib/weddings';
 import {
@@ -12,14 +13,17 @@ import {
   HOSTING_MONTHLY,
   websiteStartingPrice,
   websiteTierSummary,
+  websiteTierById,
 } from '@/lib/website-design';
 import {
   TRAILER_TIERS,
   SOURCE_CONDITIONS,
   trailerStartingPrice,
   trailerTierSummary,
+  trailerTierById,
 } from '@/lib/trailer-editing';
-import { FILM_PRODUCTION_TIERS, tierSummarySentence } from '@/lib/film-production';
+import { FILM_PRODUCTION_TIERS, tierById, tierSummarySentence } from '@/lib/film-production';
+import { SESSION_CAPTURE_PRICE } from '@/lib/session-capture';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -67,7 +71,7 @@ const SERVICE_OVERVIEW = [
     id: 'session-capture',
     label: 'CONFERENCE & KEYNOTE SPEAKERS',
     title: 'Session Capture',
-    startingPrice: '$1,000',
+    startingPrice: formatPrice(SESSION_CAPTURE_PRICE),
     priceNote: 'flat · 14-day delivery',
     description: 'One conference session, keynote, or panel recorded properly. Up to 2 hours onsite, 4K cinema camera, dual-redundant audio off the house sound board, slides cut in free. 6 add-ons including vertical social clips and a second camera angle.',
     href: '/session-capture',
@@ -175,28 +179,28 @@ const HOURLY = [
 ];
 
 const PRICING_OFFERS = [
-  { name: 'Essentials Wedding Package', description: '6 hours coverage, 4-5 min highlight film, drone, USB delivery', price: '3500', url: '/weddings' },
-  { name: 'Cinematic Wedding Package', description: '8 hours coverage, 2 shooters, 6-8 min highlight + ceremony cut', price: '5000', url: '/weddings' },
-  { name: 'Heirloom Wedding Package', description: '10 hours coverage, full crew, Netflix-documentary-style story film', price: '8000', url: '/weddings' },
+  { name: 'Essentials Wedding Package', description: '6 hours coverage, 4-5 min highlight film, drone, USB delivery', price: String(weddingTierById('essentials').price), url: '/weddings' },
+  { name: 'Cinematic Wedding Package', description: '8 hours coverage, 2 shooters, 6-8 min highlight + ceremony cut', price: String(weddingTierById('cinematic').price), url: '/weddings' },
+  { name: 'Heirloom Wedding Package', description: '10 hours coverage, full crew, Netflix-documentary-style story film', price: String(weddingTierById('heirloom').price), url: '/weddings' },
   { name: 'Spotlight Corporate Film', description: 'Half-day shoot, 60-90 second finished film', price: String(corporateTierById('spotlight').price), url: '/corporate' },
   { name: 'Brand Film', description: 'Full-day shoot, 2-3 minute film + social cutdowns', price: String(corporateTierById('brand-film').price), url: '/corporate' },
   { name: 'Music Video', description: `Single-day shoot, 3-4 min music video, ${musicVideoDeliveryLabel()}`, price: String(MUSIC_VIDEO_PRICE), url: '/corporate/music-videos' },
   { name: 'Social Media Reel', description: 'One vertical 9:16 reel cut from existing footage', price: String(SOCIAL_REEL_PRICE), url: '/social-reels' },
   ...SOCIAL_REEL_PACKS.map((p) => ({ name: `Social Media Reels — ${p.count}-Pack`, description: `${p.count} vertical 9:16 reels cut from existing footage`, price: String(p.price), url: '/social-reels' })),
-  { name: 'Session Capture', description: 'Conference session, keynote, or panel recording. 2 hours onsite, 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery', price: '1000', url: '/session-capture' },
-  { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: '1500', url: '/film-production' },
-  { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: '2500', url: '/film-production' },
-  { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: '5500', url: '/film-production' },
+  { name: 'Session Capture', description: 'Conference session, keynote, or panel recording. 2 hours onsite, 4K cinema camera, dual-redundant board-feed audio, slides cut in, 14-day delivery', price: String(SESSION_CAPTURE_PRICE), url: '/session-capture' },
+  { name: 'Solo Operator Day', description: '10-hour film production day, Sony cinema kit, DP + audio + lighting', price: String(tierById('solo').price), url: '/film-production' },
+  { name: 'B-Cam Film Production Day', description: '10-hour dual-camera day, 2 operators + full Sony package', price: String(tierById('b-cam').price), url: '/film-production' },
+  { name: 'Full Crew Film Production Day', description: '10-hour 4-person crew day (DP + AC + Sound + Gaffer) + full Sony cinema package', price: String(tierById('full-crew').price), url: '/film-production' },
   { name: 'Drone Photo Package', description: 'Edited aerial stills, owner-operated DJI kit, 7-14 day delivery', price: String(dronePackageById('photos').price), url: '/corporate/drone' },
   { name: 'Cinematic Drone Video', description: '1-2 minute finished aerial video, cinematic color grade, licensed music', price: String(dronePackageById('video').price), url: '/corporate/drone' },
   { name: 'Drone Video + Photos Bundle', description: 'Cinematic aerial video plus 15 edited stills and a best-of social carousel', price: String(dronePackageById('bundle').price), url: '/corporate/drone' },
-  { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: '1500', url: '/corporate/trailer-editing' },
-  { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: '2500', url: '/corporate/trailer-editing' },
-  { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: '3500', url: '/corporate/trailer-editing' },
-  { name: 'Mission Critical — Wix Custom HTML Website', description: '8-10 page Wix Studio build with custom HTML/CSS (never templates), 3-week turnaround', price: '4500', url: '/corporate/website-design' },
-  { name: 'Enlisted — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: '7500', url: '/corporate/website-design' },
-  { name: 'Warrant Officer — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: '18000', url: '/corporate/website-design' },
-  { name: 'Commissioned — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: '22500', url: '/corporate/website-design' },
+  { name: 'Teaser Cut — Trailer Editing', description: 'Up to :30 teaser cut from client-provided footage, music sync, basic sound design', price: String(trailerTierById('teaser').price), url: '/corporate/trailer-editing' },
+  { name: 'Trailer Cut — Trailer Editing', description: ':30–2:00 trailer, full sound design, motion graphics, licensed music sourcing', price: String(trailerTierById('trailer').price), url: '/corporate/trailer-editing' },
+  { name: 'Premium Trailer — Festival-Ready', description: 'Feature-length source, custom title sequence, festival-ready delivery formats', price: String(trailerTierById('premium').price), url: '/corporate/trailer-editing' },
+  { name: 'Mission Critical — Wix Custom HTML Website', description: '8-10 page Wix Studio build with custom HTML/CSS (never templates), 3-week turnaround', price: String(websiteTierById('mission-critical').price), url: '/corporate/website-design' },
+  { name: 'Enlisted — Custom Portfolio Website', description: '7-10 page fully custom-coded site, GitHub + Railway, client-owned domain', price: String(websiteTierById('enlisted').price), url: '/corporate/website-design' },
+  { name: 'Warrant Officer — Custom E-Commerce', description: 'Full custom e-commerce with Stripe, product configurators, 15+ pages', price: String(websiteTierById('warrant-officer').price), url: '/corporate/website-design' },
+  { name: 'Commissioned — Enterprise Website', description: 'Next.js + Sanity CMS + Mux + multi-language, enterprise-grade custom build', price: String(websiteTierById('commissioned').price), url: '/corporate/website-design' },
   ...LAUNCH_BUNDLES.map((b) => ({ name: `${b.name} Bundle`, description: bundlePartsLabel(b), price: String(b.price), url: '/corporate/website-design' })),
 ];
 

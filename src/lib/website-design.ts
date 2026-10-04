@@ -111,6 +111,12 @@ export function websiteAddOnPriceLabel(addOn: WebsiteAddOn): string {
   return typeof addOn.price === 'number' ? formatPrice(addOn.price) : addOn.price;
 }
 
+export function websiteTierById(id: WebsiteTierId): WebsiteTier {
+  const tier = WEBSITE_TIERS.find((t) => t.id === id);
+  if (!tier) throw new Error(`Unknown website tier: ${id}`);
+  return tier;
+}
+
 export function websiteStartingPrice(): number {
   return Math.min(...WEBSITE_TIERS.map((t) => t.price));
 }

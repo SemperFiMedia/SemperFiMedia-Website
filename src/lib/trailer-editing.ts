@@ -118,6 +118,13 @@ export function trailerTierPriceLabel(tier: TrailerTier): string {
   return tier.from ? `${formatPrice(tier.price)}+` : formatPrice(tier.price);
 }
 
+/** The published rush surcharge, e.g. "+25%". */
+export function trailerRushLabel(): string {
+  const rush = TRAILER_ADD_ONS.find((a) => a.name === 'Rush Delivery');
+  if (!rush) throw new Error('Rush Delivery add-on missing');
+  return String(rush.price);
+}
+
 export function trailerAddOnPriceLabel(addOn: TrailerAddOn): string {
   return typeof addOn.price === 'number' ? formatPrice(addOn.price) : addOn.price;
 }
@@ -127,6 +134,12 @@ export function surchargeLabel(row: SourceCondition, tierId: TrailerTierId): str
   const value = row.surcharge[tierId];
   const suffix = row.premiumIsFrom && tierId === 'premium' ? '+' : '';
   return `+${formatPrice(value)}${suffix}`;
+}
+
+export function trailerTierById(id: TrailerTierId): TrailerTier {
+  const tier = TRAILER_TIERS.find((t) => t.id === id);
+  if (!tier) throw new Error(`Unknown trailer tier: ${id}`);
+  return tier;
 }
 
 export function trailerStartingPrice(): number {

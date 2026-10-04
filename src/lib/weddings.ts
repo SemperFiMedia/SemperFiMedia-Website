@@ -167,6 +167,13 @@ export function weddingAddOnById(id: string): WeddingAddOn | undefined {
   return WEDDING_ADD_ONS.find((a) => a.id === id);
 }
 
+/** The hard drive of raw footage. The same price applies on every service. */
+export function rawFootageDrivePrice(): number {
+  const drive = weddingAddOnById('raw-drive');
+  if (!drive) throw new Error('raw-drive add-on missing');
+  return drive.price;
+}
+
 /** "$350/hr" for hourly add-ons, "$1,500" otherwise. */
 export function weddingAddOnPriceLabel(addOn: WeddingAddOn): string {
   return addOn.hourly ? `${formatPrice(addOn.price)}/hr` : formatPrice(addOn.price);
