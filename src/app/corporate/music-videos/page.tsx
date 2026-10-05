@@ -14,6 +14,7 @@ import {
   musicVideoPriceLabel,
   musicVideoDeliveryLabel,
   musicVideoRushLabel,
+  musicVideoRushFee,
   formatPrice,
 } from '@/lib/music-videos';
 import { socialReelPack } from '@/lib/social-reels';
@@ -172,7 +173,7 @@ export default async function MusicVideosPage() {
                   <DataLabel className="mb-2">ADD-ON</DataLabel>
                   <h3 className="font-serif text-xl italic">Rush Delivery</h3>
                   <div className="mt-2 font-serif text-2xl text-brass">{musicVideoRushLabel()}</div>
-                  <p className="mt-2 text-sm text-bone-muted">Faster than {MUSIC_VIDEO_DELIVERY_DAYS} days. Quoted per release window.</p>
+                  <p className="mt-2 text-sm text-bone-muted">Of the {formatPrice(MUSIC_VIDEO_PRICE)} package only ({formatPrice(musicVideoRushFee())}), never the add-ons. Faster than {MUSIC_VIDEO_DELIVERY_DAYS} days.</p>
                 </div>
               </div>
             </div>

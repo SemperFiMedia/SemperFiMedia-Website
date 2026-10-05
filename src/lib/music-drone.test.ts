@@ -14,6 +14,7 @@ import {
   musicVideoPriceLabel,
   musicVideoDeliveryLabel,
   musicVideoRushLabel,
+  musicVideoRushFee,
   formatPrice,
 } from './music-videos';
 import {
@@ -56,6 +57,12 @@ describe('music video pricing', () => {
     expect(musicVideoPriceLabel()).toBe(`${formatPrice(MUSIC_VIDEO_PRICE)} flat`);
     expect(musicVideoDeliveryLabel()).toMatch(/^\d+-day delivery$/);
     expect(musicVideoRushLabel()).toMatch(/^\+\d+%$/);
+  });
+
+  it('rush is a percent of the base package only, never of add-ons', () => {
+    expect(musicVideoRushFee()).toBe(Math.round(MUSIC_VIDEO_PRICE * 0.25));
+    expect(md).toContain(`of the ${formatPrice(MUSIC_VIDEO_PRICE)} base package only = ${formatPrice(musicVideoRushFee())}`);
+    expect(md).toContain('Add rush ONLY if the client asks');
   });
 
   it('the chatbot and the page opener quote the module', () => {

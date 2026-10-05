@@ -15,8 +15,18 @@ export const MUSIC_VIDEO_PRICE = 3000;
 export const MUSIC_VIDEO_DELIVERY_DAYS = 14;
 /** Per location beyond the first. */
 export const MUSIC_VIDEO_ADDITIONAL_LOCATION = 750;
-/** Rush delivery surcharge, as a percent of the package. */
+/**
+ * Rush delivery surcharge, as a percent of the base package ONLY. Owner's
+ * call on 2026-10-04: rush is charged only when the client asks for it, and
+ * it is never applied to add-ons. Base + extra location + rush is
+ * $3,000 + $750 + $750, not 25% on top of $3,750.
+ */
 export const MUSIC_VIDEO_RUSH_PERCENT = 25;
+
+/** The rush fee in dollars: a percent of the base package, never of add-ons. */
+export function musicVideoRushFee(): number {
+  return Math.round((MUSIC_VIDEO_PRICE * MUSIC_VIDEO_RUSH_PERCENT) / 100);
+}
 
 /** "$3,000 flat" */
 export function musicVideoPriceLabel(): string {

@@ -35,7 +35,7 @@ import { weddingTierTableRows, weddingAddOnLines, weddingStartingPrice, weddingT
 import { hourlyRateLabel, hourlyRateShort } from '@/lib/hourly-rate';
 import { corporateStartingPrice, corporateTierById } from '@/lib/corporate';
 import { LAUNCH_BUNDLES, bundleChatbotLines } from '@/lib/bundles';
-import { MUSIC_VIDEO_ADDITIONAL_LOCATION, MUSIC_VIDEO_DELIVERY_DAYS, musicVideoPriceLabel, musicVideoDeliveryLabel, musicVideoRushLabel } from '@/lib/music-videos';
+import { MUSIC_VIDEO_ADDITIONAL_LOCATION, MUSIC_VIDEO_DELIVERY_DAYS, musicVideoPriceLabel, musicVideoDeliveryLabel, musicVideoRushLabel, musicVideoRushFee, MUSIC_VIDEO_PRICE } from '@/lib/music-videos';
 import { droneBundleSavings, dronePackageById, droneStartingPrice } from '@/lib/drone';
 import { WEBSITE_TIERS as SITE_TIERS } from '@/lib/website-design';
 import { tierById as filmTierById } from '@/lib/film-production';
@@ -236,7 +236,8 @@ talk or a panel, since panels need the extra lavaliers.
 # MUSIC VIDEOS (/corporate/music-videos)
 
 - **${musicVideoPriceLabel()}** — single-day shoot, 3–4 minute finished video, color graded to track mood, beat-matched edit, music licensing handled, ${revisionRoundsLabel()}, ${musicVideoDeliveryLabel()}.
-- **Add-ons:** 9:16 Social Cuts ${formatPrice(socialReelPack(5).price)} (${socialReelPack(5).count}× vertical cutdowns, color-matched, the standard 5-reel rate) · Additional Location ${formatPrice(MUSIC_VIDEO_ADDITIONAL_LOCATION)} (per location beyond the first) · Rush Delivery ${musicVideoRushLabel()} (faster than ${MUSIC_VIDEO_DELIVERY_DAYS} days)
+- **Add-ons:** 9:16 Social Cuts ${formatPrice(socialReelPack(5).price)} (${socialReelPack(5).count}× vertical cutdowns, color-matched, the standard 5-reel rate) · Additional Location ${formatPrice(MUSIC_VIDEO_ADDITIONAL_LOCATION)} (per location beyond the first) · Rush Delivery ${musicVideoRushLabel()} of the ${formatPrice(MUSIC_VIDEO_PRICE)} base package only = ${formatPrice(musicVideoRushFee())} (faster than ${MUSIC_VIDEO_DELIVERY_DAYS} days)
+- **How to total a music video quote:** base ${formatPrice(MUSIC_VIDEO_PRICE)} + any add-ons at their listed price. Add rush ONLY if the client asks for faster than ${MUSIC_VIDEO_DELIVERY_DAYS} days, and then it is a flat ${formatPrice(musicVideoRushFee())} (${musicVideoRushLabel()} of the base only). Never apply the percentage to extra locations or social cuts, and never add rush to a quote the client didn't ask to rush. Example: base + one extra location + social cuts = ${formatPrice(MUSIC_VIDEO_PRICE + MUSIC_VIDEO_ADDITIONAL_LOCATION + socialReelPack(5).price)}; with rush, ${formatPrice(MUSIC_VIDEO_PRICE + MUSIC_VIDEO_ADDITIONAL_LOCATION + socialReelPack(5).price + musicVideoRushFee())}.
 - Anything beyond that (longer shoot, custom concepts, drone-heavy) is custom quoted — collect the details and hand off to TJ.
 
 # WEBSITE DESIGN (/corporate/website-design)
