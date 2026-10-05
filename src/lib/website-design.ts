@@ -92,13 +92,20 @@ export const WEBSITE_TIERS: readonly WebsiteTier[] = [
 
 export type WebsiteAddOn = { name: string; price: number | string; note: string };
 
+/**
+ * Rush surcharge, as a percent of the BUILD (tier) price only. Owner's call on
+ * 2026-10-04 (same rule as music videos): rush is charged only when the client
+ * asks for it, and never on other add-ons or hosting.
+ */
+export const WEBSITE_RUSH_PERCENT = 25;
+
 export const WEBSITE_ADD_ONS: readonly WebsiteAddOn[] = [
   { name: 'Logo Design', price: 500, note: 'Custom logo concept + 3 variations. Delivered in AI/EPS/PNG/SVG.' },
   { name: 'Brand Identity Package', price: 1500, note: 'Logo + color palette + typography system + brand style guide.' },
   { name: 'Copywriting (per page)', price: 250, note: 'Professional copy for hero + about + services + contact pages.' },
   { name: 'Photography Session', price: 1500, note: 'Half-day on-location shoot for website hero + team + product shots.' },
   { name: 'SEO + GBP Optimization', price: 750, note: 'On-site SEO setup + Google Business Profile audit + keyword strategy.' },
-  { name: 'Rush Delivery', price: '+25%', note: 'Cut standard turnaround in half. Plan ahead when you can.' },
+  { name: 'Rush Delivery', price: `+${WEBSITE_RUSH_PERCENT}%`, note: 'Of the build price only, never other add-ons or hosting. Cuts the standard turnaround in half.' },
 ] as const;
 
 /** Managed hosting: flat monthly, on a fixed term, first month free. */
@@ -106,6 +113,11 @@ export const HOSTING_MONTHLY = 399;
 export const HOSTING_TERM_MONTHS = 24;
 /** What SFM absorbs of the client's Railway bill under the managed plan. */
 export const HOSTING_INFRA_ALLOWANCE = 20;
+
+/** The rush fee in dollars for a tier: a percent of the build price, never of add-ons. */
+export function websiteRushFee(id: WebsiteTierId): number {
+  return Math.round((websiteTierById(id).price * WEBSITE_RUSH_PERCENT) / 100);
+}
 
 export function websiteAddOnPriceLabel(addOn: WebsiteAddOn): string {
   return typeof addOn.price === 'number' ? formatPrice(addOn.price) : addOn.price;

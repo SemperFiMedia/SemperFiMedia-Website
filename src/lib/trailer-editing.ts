@@ -105,9 +105,16 @@ export const SOURCE_CONDITIONS: readonly SourceCondition[] = [
 
 export type TrailerAddOn = { name: string; price: number | string; note: string };
 
+/**
+ * Rush surcharge, as a percent of the TIER price only. Owner's call on
+ * 2026-10-04 (same rule as music videos): rush is charged only when the client
+ * asks for it, and never on color work or other add-ons.
+ */
+export const TRAILER_RUSH_PERCENT = 25;
+
 export const TRAILER_ADD_ONS: readonly TrailerAddOn[] = [
   { name: 'Voiceover Direction', price: 250, note: 'VO casting guidance + placement in edit. Talent fees billed separately.' },
-  { name: 'Rush Delivery', price: '+25%', note: 'Under 7 days from locked footage handoff. Plan ahead when you can.' },
+  { name: 'Rush Delivery', price: `+${TRAILER_RUSH_PERCENT}%`, note: 'Of the tier price only, never color work or other add-ons. Under 7 days from locked footage handoff.' },
   { name: 'Additional Cutdown', price: 500, note: ':15 TV spot, :06 bumper, or alternate edit — each.' },
   { name: 'Title / Logo Card', price: 250, note: 'Beyond the 2 cards included in each tier.' },
   { name: 'Raw Deliverable Export', price: 150, note: 'ProRes master or DNxHR master on request.' },
@@ -116,6 +123,11 @@ export const TRAILER_ADD_ONS: readonly TrailerAddOn[] = [
 /** "$1,500" or "$3,500+" where the tier is a starting figure. */
 export function trailerTierPriceLabel(tier: TrailerTier): string {
   return tier.from ? `${formatPrice(tier.price)}+` : formatPrice(tier.price);
+}
+
+/** The rush fee in dollars for a tier: a percent of the tier price, never of add-ons. */
+export function trailerRushFee(id: TrailerTierId): number {
+  return Math.round((trailerTierById(id).price * TRAILER_RUSH_PERCENT) / 100);
 }
 
 /** The published rush surcharge, e.g. "+25%". */

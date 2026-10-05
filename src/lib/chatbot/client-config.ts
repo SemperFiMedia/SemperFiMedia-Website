@@ -45,6 +45,10 @@ import {
   websiteAddOnLine,
   hostingPhrase,
   websiteStartingPrice,
+  websiteRushFee,
+  websiteTierById,
+  WEBSITE_RUSH_PERCENT,
+  WEBSITE_ADD_ONS,
 } from '@/lib/website-design';
 import {
   trailerTierLines,
@@ -52,6 +56,10 @@ import {
   trailerAddOnLine,
   trailerStartingPrice,
   trailerRushLabel,
+  trailerRushFee,
+  trailerTierById,
+  TRAILER_RUSH_PERCENT,
+  SOURCE_CONDITIONS,
 } from '@/lib/trailer-editing';
 import {
   FILM_PRODUCTION_DAY_HOURS,
@@ -256,6 +264,11 @@ ${websiteTierTableRows()}
 
 **Website add-ons:** ${websiteAddOnLine()}
 
+**How to total a website quote:** tier price + any add-ons at their listed price. Add rush ONLY if
+the client asks for it, and then it is ${WEBSITE_RUSH_PERCENT}% of the tier (build) price only — never of the other
+add-ons or hosting. Example: ${websiteTierById('enlisted').name} ${formatPrice(websiteTierById('enlisted').price)} + SEO + GBP Optimization
+${formatPrice(Number(WEBSITE_ADD_ONS.find((a) => a.name === 'SEO + GBP Optimization')?.price ?? 0))} = ${formatPrice(websiteTierById('enlisted').price + Number(WEBSITE_ADD_ONS.find((a) => a.name === 'SEO + GBP Optimization')?.price ?? 0))}; with rush, add ${formatPrice(websiteRushFee('enlisted'))} for ${formatPrice(websiteTierById('enlisted').price + Number(WEBSITE_ADD_ONS.find((a) => a.name === 'SEO + GBP Optimization')?.price ?? 0) + websiteRushFee('enlisted'))}.
+
 **Managed hosting — ${hostingPhrase()}.** The first month is free with every new
 build, no obligation. It covers Railway hosting (SFM pays the infrastructure), the GitHub repo,
 deploys, updates, uptime monitoring, and security patches — flat, all-inclusive. At the end of
@@ -284,6 +297,11 @@ ${trailerTierLines()}
 ${trailerColorMatrixRows()}
 
 **Trailer add-ons:** ${trailerAddOnLine()}
+
+**How to total a trailer quote:** tier price + color surcharge for their footage + any add-ons. Add
+rush ONLY if the client asks for under 7 days, and then it is ${TRAILER_RUSH_PERCENT}% of the tier price only — never
+of the color work or other add-ons. Example: ${trailerTierById('trailer').name} ${formatPrice(trailerTierById('trailer').price)} + ${SOURCE_CONDITIONS[2]?.condition ?? 'Log'}
+color ${formatPrice(SOURCE_CONDITIONS[2]?.surcharge.trailer ?? 0)} = ${formatPrice(trailerTierById('trailer').price + (SOURCE_CONDITIONS[2]?.surcharge.trailer ?? 0))}; with rush, add ${formatPrice(trailerRushFee('trailer'))} for ${formatPrice(trailerTierById('trailer').price + (SOURCE_CONDITIONS[2]?.surcharge.trailer ?? 0) + trailerRushFee('trailer'))}.
 
 # FILM PRODUCTION — CREW FOR HIRE (/film-production)
 
