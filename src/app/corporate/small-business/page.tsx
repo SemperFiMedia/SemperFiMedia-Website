@@ -13,6 +13,7 @@ const CORPORATE_FROM = formatPrice(corporateStartingPrice());
 const BRAND_FILM = formatPrice(corporateTierById('brand-film').price);
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/small-business' },
   title: `Small Business Video Production Dallas — Brand Films from ${CORPORATE_FROM}`,
   description:
     `Dallas small business video production. Cinema-grade brand films for restaurants, law firms, med spas, trades, and independent retailers. Big-agency polish at independent operator pricing. Starting at ${CORPORATE_FROM}.`,

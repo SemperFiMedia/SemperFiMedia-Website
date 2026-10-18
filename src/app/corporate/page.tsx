@@ -14,6 +14,7 @@ import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { CORPORATE_TIERS as PRICED_TIERS } from '@/lib/corporate';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate' },
   title: 'Corporate Video Production — Dallas',
   description:
     'Corporate video production in Dallas–Fort Worth. Brand films, first-responder and tactical video, church and nonprofit films, small business storytelling, and music videos. Cinema-grade video at Semper Fi Media pricing.',

@@ -10,6 +10,7 @@ import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/conventions' },
   title: 'Convention Videographer Dallas — Cosplay, Horror, Comic, Gaming Cons',
   description:
     'Dallas convention videography. Recap reels, walkthroughs, cosplay highlights, and promo cuts for Texas Haunters, cosplay conventions, comic cons, horror cons, and gaming events. Cinema-grade coverage that actually gets shared.',

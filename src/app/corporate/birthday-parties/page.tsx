@@ -10,6 +10,7 @@ import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/birthday-parties' },
   title: 'Birthday Party Videographer Dallas — Milestone & Private Events',
   description:
     'Dallas birthday party videography. Cinema-grade coverage for 30th, 40th, 50th, 60th, and milestone birthday parties. Private celebrations filmed like the moments actually deserve.',

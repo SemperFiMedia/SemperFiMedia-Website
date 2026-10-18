@@ -7,6 +7,7 @@ import { referralRewardLabel } from '@/lib/referral';
 import { formatPrice, weddingStartingPrice, weddingTierById } from '@/lib/weddings';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/refer' },
   title: `Refer & Earn — ${referralRewardLabel()} Per Wedding Booking | Semper Fi Media`,
   description:
     `Past Semper Fi Media couples: refer an engaged friend and earn ${referralRewardLabel()} back when their wedding is filmed and paid in full. Simple, fast, no fine print.`,

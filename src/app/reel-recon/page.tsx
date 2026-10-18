@@ -12,6 +12,7 @@ import type { ReelReconReview } from '@/sanity/types';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/reel-recon' },
   title: 'Reel Recon — Movie Reviews from a Marine Cinematographer | Semper Fi Media',
   description:
     'TJ Gutierrez — former Marine and working cinematographer — rates new films on craft, action realism, story, and sound. Honest movie reviews, scored out of 10.',

@@ -27,6 +27,7 @@ import { ProductionConfigurator } from '@/components/film-production/production-
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/film-production' },
   title: 'Film Production Dallas — Day Rates, Crew-for-Hire, Full Kit Pricing',
   description:
     `Transparent film production day rates for Dallas–Fort Worth. ${tierSummarySentence()}. Crew-for-hire, Sony FX3/A7S III cinema kit, lighting packages, and transparent production insurance pass-through. Built for networks, agencies, and production companies hiring DFW local crew.`,

@@ -10,6 +10,7 @@ import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/mission-and-tactical' },
   title: 'Tactical Video Production Dallas — First Responders, Firearm Brands, Military',
   description:
     'Marine-led tactical video production in Dallas. Brand films for first responders, police agencies, firearm brands, defense contractors, and veteran-adjacent organizations. Cinema-grade work by a Marine who knows the culture.',

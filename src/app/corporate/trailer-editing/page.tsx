@@ -19,6 +19,7 @@ import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-dat
 import { revisionRoundsWordCapitalized } from '@/lib/revisions';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/trailer-editing' },
   title: `Short Film & Movie Trailer Editing — Dallas | From ${formatPrice(trailerStartingPrice())}`,
   description:
     `Post-only trailer editing for Dallas filmmakers, producers, and indie studios. ${trailerTierSummary()}. Client-provided footage, theatrical-style edit, 10–14 day turnaround.`,

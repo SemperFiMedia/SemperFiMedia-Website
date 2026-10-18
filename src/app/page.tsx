@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { Hero } from '@/components/home/hero';
@@ -21,6 +22,13 @@ import {
   getHeroCaseStudy,
 } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: '/',
+    languages: { 'en-US': '/', 'es-US': '/es' },
+  },
+};
 
 export const revalidate = 60;
 

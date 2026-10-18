@@ -41,6 +41,7 @@ import { MUSIC_VIDEO_PRICE, musicVideoDeliveryLabel } from '@/lib/music-videos';
 import { droneBundleSavings, dronePackageById, droneStartingPrice } from '@/lib/drone';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/pricing' },
   title: 'Pricing — Transparent Rates for Dallas Video & Web | Semper Fi Media',
   description:
     'Published pricing for cinema weddings, corporate video, conference session capture, music videos, trailer editing, website design, and DFW film production day rates. Every tier, every add-on, transparent — no mystery quoting.',

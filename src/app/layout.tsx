@@ -41,13 +41,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     images: ['/og-default.jpg'],
   },
-  alternates: {
-    canonical: 'https://semperfimedia.llc',
-    languages: {
-      'en-US': 'https://semperfimedia.llc',
-      'es-US': 'https://semperfimedia.llc/es',
-    },
-  },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

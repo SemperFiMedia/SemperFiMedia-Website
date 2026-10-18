@@ -9,6 +9,7 @@ import { ViewContent } from '@/components/analytics/view-content';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/work' },
   title: 'Work — Films & Case Studies',
   description:
     'Selected films from Semper Fi Media. Corporate videos, cinema weddings, music videos, and tactical brand work across Dallas–Fort Worth.',

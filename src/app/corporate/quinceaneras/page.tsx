@@ -10,6 +10,7 @@ import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/quinceaneras' },
   title: 'Quinceañera Videographer Dallas — Cinematic Quinces in DFW',
   description:
     'Dallas–Fort Worth quinceañera videography. Cinema-grade quince films, father-daughter dance coverage, court choreography, and social reels. Marine-led craft at independent operator pricing.',

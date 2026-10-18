@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   const description = post.seoDescription || post.excerpt;
   const builder = post.coverImage ? urlForImage(post.coverImage) : null;
   return {
+    alternates: { canonical: `/blog/${slug}` },
     title,
     description,
     openGraph: {

@@ -31,6 +31,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   if (!cs) return { title: 'Not Found' };
   const builder = cs.poster ? urlForImage(cs.poster) : null;
   return {
+    alternates: { canonical: `/work/${slug}` },
     title: `${cs.title} — ${cs.client}`,
     description: cs.summary,
     openGraph: {

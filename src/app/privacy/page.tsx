@@ -4,6 +4,7 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/privacy' },
   title: 'Privacy Policy',
   description:
     'How Semper Fi Media collects, uses, shares, and protects your information — including contact details, analytics, and Google sign-in for comments.',

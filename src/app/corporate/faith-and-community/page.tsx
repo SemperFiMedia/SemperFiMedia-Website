@@ -10,6 +10,7 @@ import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/faith-and-community' },
   title: 'Church & Nonprofit Video Production Dallas — Faith & Community',
   description:
     'Dallas-area video production for churches, ministries, nonprofits, and faith-based organizations. Cinema-grade storytelling that communicates mission with warmth — not stock footage and cliché.',

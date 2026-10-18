@@ -35,6 +35,7 @@ const REEL_OFFERS = [
 ];
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/social-reels' },
   title: 'Social Media Reels — Dallas Video Production',
   description:
     'Vertical social media reels for Dallas businesses, artists, and event hosts. We cut your music video, wedding, corporate film, or event footage into scroll-stopping 9:16 reels for Instagram, TikTok, and YouTube Shorts.',

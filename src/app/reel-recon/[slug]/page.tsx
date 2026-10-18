@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
   const image = review.coverImage ?? review.poster;
   const builder = image ? urlForImage(image) : null;
   return {
+    alternates: { canonical: `/reel-recon/${slug}` },
     title,
     description,
     openGraph: {

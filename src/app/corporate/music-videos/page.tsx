@@ -23,6 +23,7 @@ import { socialReelPack } from '@/lib/social-reels';
 const SOCIAL_CUTS = socialReelPack(5);
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/music-videos' },
   title: `Music Video Production Dallas — ${formatPrice(MUSIC_VIDEO_PRICE)} Flat, ${MUSIC_VIDEO_DELIVERY_DAYS}-Day Delivery`,
   description:
     `Dallas music video production for independent and signed artists. Single-day shoot, cinema-grade color, beat-matched edit, ${musicVideoDeliveryLabel()}. ${musicVideoPriceLabel()}. No mystery pricing, no agency markup.`,

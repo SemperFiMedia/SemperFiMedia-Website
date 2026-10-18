@@ -12,6 +12,7 @@ import type { CaseStudyCategory } from '@/sanity/types';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/shoots' },
   title: 'Recent Shoots — What We\'ve Been Filming | Semper Fi Media',
   description:
     'A live feed of recent Semper Fi Media projects across Dallas–Fort Worth — weddings, quinceañeras, music videos, brand films, and more. Updated as we wrap each shoot.',

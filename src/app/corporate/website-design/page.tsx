@@ -28,6 +28,7 @@ const BUNDLE_TAGLINES: Record<string, string> = {
 };
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/website-design' },
   title: `Website Design Dallas — Custom HTML, No Templates | From ${formatPrice(websiteStartingPrice())}`,
   description:
     `Dallas website design from Semper Fi Media. Four Marine-themed tiers: ${websiteTierSummary()}. NO templates, ever — custom HTML on every build. Client-owned domains via Cloudflare, optional managed hosting, full handoff at contract end.`,

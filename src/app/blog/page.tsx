@@ -11,6 +11,7 @@ import type { BlogCategory } from '@/sanity/types';
 export const revalidate = 60;
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/blog' },
   title: 'The Field Notes — Cinema, Gear, and Craft from Semper Fi Media',
   description:
     'Gear reviews, wedding guides, behind-the-scenes notes, and cinematography craft from a Marine-led Dallas production studio. Sony FX3, FX30, ARRI, lighting, lenses, and the work behind the work.',

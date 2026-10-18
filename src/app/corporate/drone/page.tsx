@@ -9,6 +9,7 @@ import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-dat
 import { DRONE_PACKAGES, droneStartingPrice, dronePriceSummary, formatPrice } from '@/lib/drone';
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/corporate/drone' },
   title: `Drone Photography & Videography Dallas — Aerial Coverage from ${formatPrice(droneStartingPrice())}`,
   description:
     `Dallas–Fort Worth drone photography and cinematic aerial videography. Roofing, real estate, small business, and event coverage. Owner-operated DJI kit. Single-shoot pricing from ${dronePriceSummary()}.`,
