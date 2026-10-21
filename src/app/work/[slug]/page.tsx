@@ -54,6 +54,7 @@ export default async function CaseStudyPage({ params }: RouteProps) {
     ? (cs.processNotes as PortableTextBlock[])
     : null;
   const bts = cs.behindTheScenes ?? [];
+  const moreVideos = (cs.moreVideos ?? []).filter((v) => v.muxPlaybackId);
 
   /**
    * VideoObject markup, so case studies can earn video results rather than
@@ -131,6 +132,33 @@ export default async function CaseStudyPage({ params }: RouteProps) {
             </div>
           </section>
         )}
+
+        {moreVideos.map((v, i) => (
+          <section
+            key={v._key ?? i}
+            className="border-t border-brass/15 bg-black px-6 py-14 md:px-12 md:py-20"
+          >
+            <div className="mx-auto max-w-[1200px]">
+              <Reveal className="mb-8">
+                {v.label && <DataLabel className="mb-3">{v.label}</DataLabel>}
+                <h2 className="font-serif text-3xl italic md:text-4xl">{v.title}</h2>
+                {v.caption && <p className="mt-3 max-w-[65ch] text-bone-muted">{v.caption}</p>}
+              </Reveal>
+              <CinematicVideo
+                playbackId={v.muxPlaybackId}
+                title={v.title}
+                poster={
+                  (v.poster && urlForImage(v.poster)?.width(1920).url()) ||
+                  (v.aspect === 'vertical'
+                    ? muxVerticalPoster(v.muxPlaybackId)
+                    : muxThumbnail(v.muxPlaybackId, { width: 1920 }))
+                }
+                aspect={v.aspect === 'vertical' ? 'vertical' : 'video'}
+                className={v.aspect === 'vertical' ? 'mx-auto max-w-[420px]' : undefined}
+              />
+            </div>
+          </section>
+        ))}
 
         {cs.summary && (
           <section className="bg-gunpowder px-6 py-16 md:px-12 md:py-24">

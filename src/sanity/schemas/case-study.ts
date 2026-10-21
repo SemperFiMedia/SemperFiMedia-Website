@@ -43,6 +43,34 @@ export const caseStudy = defineType({
       description:
         'For client-owned content (music videos, etc.) where the original lives on YouTube. If set, this is used instead of the Mux Playback ID.',
     }),
+    defineField({
+      name: 'moreVideos',
+      title: 'More Videos',
+      description:
+        'Extra videos from the same production — trailers, BTS cuts, teasers. Each plays in its own block under the main video.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'extraVideo',
+          fields: [
+            { name: 'label', type: 'string', title: 'Eyebrow label', description: 'e.g. "EPISODE 2 · OFFICIAL TRAILER"' },
+            { name: 'title', type: 'string', title: 'Title', validation: (r) => r.required() },
+            { name: 'muxPlaybackId', type: 'string', title: 'Mux Playback ID', validation: (r) => r.required() },
+            {
+              name: 'aspect',
+              type: 'string',
+              title: 'Shape',
+              options: { list: [{ title: 'Landscape 16:9', value: 'video' }, { title: 'Vertical 9:16', value: 'vertical' }] },
+              initialValue: 'video',
+            },
+            { name: 'poster', type: 'image', title: 'Poster', description: 'Optional. Falls back to a frame from the video.' },
+            { name: 'caption', type: 'text', rows: 2, title: 'Caption' },
+          ],
+          preview: { select: { title: 'title', subtitle: 'label' } },
+        },
+      ],
+    }),
     defineField({ name: 'poster', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'summary', type: 'text', rows: 3 }),
     defineField({ name: 'body', type: 'array', of: [portableTextBlock] }),

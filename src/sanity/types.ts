@@ -19,6 +19,16 @@ export type BehindTheScenesImage = {
   alt: string;
 };
 
+export type ExtraVideo = {
+  _key: string;
+  label?: string;
+  title: string;
+  muxPlaybackId: string;
+  aspect?: 'video' | 'vertical';
+  poster?: { asset: { _ref: string } };
+  caption?: string;
+};
+
 export type CaseStudy = {
   _id: string;
   title: string;
@@ -34,6 +44,7 @@ export type CaseStudy = {
   body?: unknown;
   processNotes?: unknown;
   behindTheScenes?: BehindTheScenesImage[];
+  moreVideos?: ExtraVideo[];
   publishedAt?: string;
   featured: boolean;
 };
