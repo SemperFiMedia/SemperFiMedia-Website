@@ -8,6 +8,7 @@ import {
   weddingBundlePhrase,
   rawFootageDrivePrice,
 } from '@/lib/weddings';
+import { FX3_LENS, A7S3_LENS } from '@/lib/gear';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -115,7 +116,7 @@ const WHY = [
   },
   {
     title: 'Cinema-grade kit on every wedding.',
-    body: 'Sony FX3 cinema cameras, cinema primes, lavs + boom audio, drone (where permitted), professional color grade. The same kit luxury studios charge $15k+ for — at independent operator pricing.',
+    body: `Sony FX3 and A7S III cinema cameras on ${FX3_LENS} and ${A7S3_LENS} glass, lavs + boom audio, drone (where permitted), professional color grade. The same kit luxury studios charge $15k+ for — at independent operator pricing.`,
   },
 ];
 

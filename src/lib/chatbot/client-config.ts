@@ -73,6 +73,7 @@ import {
 } from '@/lib/film-production';
 import { REVISION_ROUNDS, revisionRoundsLabel } from '@/lib/revisions';
 import { referralRewardLabel } from '@/lib/referral';
+import { A7S3_LENS, FX3_LENS, cameraPackageSentence } from '@/lib/gear';
 
 /** Session Capture facts, rendered from the single source of truth. */
 const SESSION_CAPTURE_INCLUDE_LINES = SESSION_CAPTURE_INCLUDES_SHORT.map(
@@ -379,15 +380,15 @@ These apply across every service:
 
 1. **Discovery Call** — 30-min free consultation. Map the project, timeline, key moments, budget.
 2. **Pre-Production** (${hourlyRateShort()} if extensive) — Treatment, shot list, location scouts, vendor coordination.
-3. **Production / Shoot Day** — TJ leads the crew. Cinema cameras, cinema primes, pro audio, drone where permitted.
+3. **Production / Shoot Day** — TJ leads the crew. ${cameraPackageSentence()}, pro audio, drone where permitted.
 4. **Post-Production** — Edit in 2–4 weeks for corporate / 4–8 weeks for weddings (Vidflow workflow).
 5. **Delivery** — Same-day teaser available for top-tier weddings. USB, hard drive, online gallery, social cuts.
 
 # GEAR & CRAFT (when asked)
 
-- **Primary cameras:** Sony FX3 (full-frame cinema, low-light king for candlelit ceremonies and reception halls)
-- **Secondary / B-cam:** Sony FX30 (APS-C cinema, lighter for run-and-gun)
-- **Lenses:** Cinema primes (35mm, 50mm, 85mm) for documentary depth and bokeh
+- **A camera:** Sony FX3 with the ${FX3_LENS} (full-frame cinema, low-light king for candlelit ceremonies and reception halls)
+- **B camera:** Sony A7S III with the ${A7S3_LENS} (full-frame, color-matched to the FX3)
+- **Lenses:** The FX3 always runs the ${FX3_LENS}; the A7S III always runs the ${A7S3_LENS}. Those are the only lenses in the standard kit. Never name primes or other glass.
 - **Audio:** Lav mics + boom on every wedding ceremony — vows are irreplaceable
 - **Drone:** DJI for aerials where venue permits
 - **Color:** Graded to brand or story mood — no template LUTs

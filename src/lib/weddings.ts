@@ -10,6 +10,7 @@
  */
 
 import { formatPrice } from '@/lib/utils';
+import { cameraPackageSentence } from '@/lib/gear';
 
 export { formatPrice };
 
@@ -43,7 +44,7 @@ export const WEDDING_TIERS: readonly WeddingTier[] = [
     includes: [
       '6 hours of wedding-day coverage',
       'Marine Certified Cinematographer (TJ at the helm)',
-      '4K cinema cameras + cinema primes',
+      `4K cinema cameras: ${cameraPackageSentence()}`,
       'Drone aerials (where permitted)',
       'Professional sound (lavs + boom)',
       'Music licensing for socials & online',
@@ -68,7 +69,7 @@ export const WEDDING_TIERS: readonly WeddingTier[] = [
     includes: [
       '8 hours of wedding-day coverage',
       'Marine Certified Cinematographer + Documentary Certified 2nd shooter',
-      '4K cinema cameras + cinema primes',
+      `4K cinema cameras: ${cameraPackageSentence()}`,
       'Drone aerials (where permitted)',
       'Professional sound (lavs + boom)',
       'Music licensing for socials & online',
@@ -96,7 +97,7 @@ export const WEDDING_TIERS: readonly WeddingTier[] = [
     includes: [
       '10 hours of wedding-day coverage',
       'Marine Certified Cinematographer + Documentary Certified 2nd shooter + assistant',
-      '4K cinema cameras + cinema primes',
+      `4K cinema cameras: ${cameraPackageSentence()}`,
       'Drone aerials (where permitted)',
       'Professional sound (lavs + boom)',
       'Music licensing for socials & online',

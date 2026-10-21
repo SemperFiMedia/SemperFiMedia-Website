@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { FX3_LENS, A7S3_LENS } from '@/lib/gear';
 import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
@@ -35,7 +36,7 @@ const WHY = [
   },
   {
     title: 'The cinematic polish agencies charge $15k for.',
-    body: "Sony FX3 cinema rigs, cinema primes, full audio and lighting kit on every shoot. We color grade to your brand — not to a generic template.",
+    body: `Sony FX3 and A7S III cinema rigs on ${FX3_LENS} and ${A7S3_LENS} glass, full audio and lighting kit on every shoot. We color grade to your brand — not to a generic template.`,
   },
   {
     title: 'Built for independent operators.',

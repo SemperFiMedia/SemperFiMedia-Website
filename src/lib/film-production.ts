@@ -13,6 +13,7 @@
  */
 
 import { formatPrice } from '@/lib/utils';
+import { A7S3_LENS, A7S3_WITH_LENS, FX3_LENS, FX3_WITH_LENS } from '@/lib/gear';
 
 // Re-exported so existing call sites keep importing it from here.
 export { formatPrice };
@@ -53,7 +54,7 @@ export const FILM_PRODUCTION_TIERS: readonly FilmProductionTier[] = [
     blurb: '10-hour day · TJ as DP · Sony FX3/A7S III cinema kit',
     bullets: [
       'TJ as DP / operator — 10 hours on location',
-      'Sony FX3 or A7S III + SmallRig cinema cage + Sigma Art lens set',
+      `${FX3_WITH_LENS} · ${A7S3_WITH_LENS} · SmallRig cinema cage`,
       'Rode NTG shotgun + wireless lavalier + pro monitor',
       'SmallRig RC 260B LED lighting kit + stands',
       'Owned slider for steady-motion coverage',
@@ -71,7 +72,7 @@ export const FILM_PRODUCTION_TIERS: readonly FilmProductionTier[] = [
     blurb: '10-hour day · TJ + freelance operator · dual Sony package',
     bullets: [
       'TJ as DP + 1 freelance camera operator',
-      'Dual Sony package (FX3 + A7S III, color-matched)',
+      `Dual Sony package, color-matched: ${FX3_WITH_LENS} · ${A7S3_WITH_LENS}`,
       'Full Rode audio kit (wireless lavs + boom + shotgun)',
       'SmallRig LED lighting kit (owned)',
       'Slider + gimbal for motion work',
@@ -90,7 +91,7 @@ export const FILM_PRODUCTION_TIERS: readonly FilmProductionTier[] = [
     blurb: '10-hour day · TJ + 1st AC + Sound Mixer + Gaffer',
     bullets: [
       'TJ as DP + 1st AC + Sound Mixer + Gaffer',
-      'Dual Sony FX3 + A7S III, matte box, follow focus, shoulder rigs',
+      `${FX3_WITH_LENS} · ${A7S3_WITH_LENS} · matte box, follow focus, shoulder rigs`,
       'Pro audio mixer kit (lavs + boom + 32-bit recorder)',
       'SmallRig lighting package (owned) led by Gaffer',
       'Slider + gimbal + DJI drone available',
@@ -143,9 +144,9 @@ export const FILM_PRODUCTION_CREW: readonly FilmProductionAddOn[] = [
 ] as const;
 
 export const FILM_PRODUCTION_KITS: readonly FilmProductionAddOn[] = [
-  { id: 'kit-a7s3', name: 'Sony A7S III Kit', price: 175, note: 'Body + Sigma Art primes + monitor + media.', category: 'kit' },
-  { id: 'kit-fx3', name: 'Sony FX3 Kit', price: 225, note: 'Body + Sigma Art primes + monitor + media.', category: 'kit' },
-  { id: 'kit-dual', name: 'Dual Sony Package', price: 350, note: 'FX3 + A7S III, matched color, full lens set.', category: 'kit' },
+  { id: 'kit-a7s3', name: 'Sony A7S III Kit', price: 175, note: `Body + ${A7S3_LENS} + monitor + media.`, category: 'kit' },
+  { id: 'kit-fx3', name: 'Sony FX3 Kit', price: 225, note: `Body + ${FX3_LENS} + monitor + media.`, category: 'kit' },
+  { id: 'kit-dual', name: 'Dual Sony Package', price: 350, note: `${FX3_WITH_LENS} and ${A7S3_WITH_LENS}, matched color.`, category: 'kit' },
   { id: 'kit-small-light', name: 'Small Lighting Package', price: 250, note: 'SmallRig RC 260B + stands + diffusion (owned).', category: 'kit' },
   { id: 'kit-mid-light', name: 'Mid Lighting Package', price: 1200, note: 'SkyPanels + HMI + grip cable (rental pass-through).', category: 'kit' },
   { id: 'kit-large-light', name: 'Large Lighting Package', price: 2500, note: '3-ton truck, multi-HMI, dolly (rental pass-through).', category: 'kit' },

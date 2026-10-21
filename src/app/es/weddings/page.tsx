@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { travelPolicySentenceEs } from '@/lib/service-area';
 import { WEDDING_TIERS, BUNDLE_DISCOUNT, formatPrice, weddingStartingPrice, type WeddingTierId } from '@/lib/weddings';
+import { cameraPackageSentenceEs } from '@/lib/gear';
 import { NavEs } from '@/components/nav/nav-es';
 import { FooterEs } from '@/components/footer/footer-es';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -34,7 +35,7 @@ const TIER_COPY: Record<WeddingTierId, { note: string; bullets: string[] }> = {
     bullets: [
       '6 horas de cobertura del día',
       'TJ — Cinematógrafo Certificado por la Marina',
-      'Cámaras de cine 4K + lentes primos de cine',
+      `Cámaras de cine 4K: ${cameraPackageSentenceEs()}`,
       'Tomas con drone (donde se permite)',
       'Sonido profesional (lavalier + boom)',
       'Película destacada cinematográfica de 4–5 minutos',
