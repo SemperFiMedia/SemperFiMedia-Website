@@ -271,13 +271,20 @@ export async function POST(request: Request) {
 
         controller.close();
       } catch (err) {
+        // Log the real error for us; never show a visitor raw API text
+        // (on 2026-10-21 a revoked key printed "invalid x-api-key" in chat).
         const message =
           err instanceof Anthropic.APIError
             ? `API error (${err.status}): ${err.message}`
             : err instanceof Error
               ? err.message
               : 'Unknown error';
-        controller.enqueue(encoder.encode(`\n\n[Error: ${message}]`));
+        console.error('[chat] stream failed:', message);
+        controller.enqueue(
+          encoder.encode(
+            `\n\nSorry, the chat is having trouble right now. You can reach TJ directly at semperfimedia.llc${semperFiConfig.booking.path}, and he'll get back to you within 24 hours. Semper Fi.`,
+          ),
+        );
         controller.close();
       }
     },
