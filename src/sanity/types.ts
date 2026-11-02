@@ -5,6 +5,7 @@ export type CaseStudyCategory =
   | 'music'
   | 'wedding'
   | 'real-estate'
+  | 'drone'
   | 'movie-production'
   | 'short-film'
   | 'documentary'

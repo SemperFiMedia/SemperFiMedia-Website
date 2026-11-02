@@ -196,9 +196,11 @@ export default async function CaseStudyPage({ params }: RouteProps) {
           <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
             <div className="mx-auto max-w-[1440px]">
               <Reveal className="mb-12">
-                <DataLabel className="mb-4">BEHIND THE SCENES</DataLabel>
+                <DataLabel className="mb-4">
+                  {cs.category === 'drone' ? 'AERIAL STILLS' : 'BEHIND THE SCENES'}
+                </DataLabel>
                 <h2 className="font-serif text-3xl italic md:text-4xl">
-                  On set, lit, and in the grind.
+                  {cs.category === 'drone' ? 'Straight from the drone.' : 'On set, lit, and in the grind.'}
                 </h2>
               </Reveal>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

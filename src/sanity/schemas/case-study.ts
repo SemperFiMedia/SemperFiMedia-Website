@@ -25,6 +25,7 @@ export const caseStudy = defineType({
           { title: 'Music Video', value: 'music' },
           { title: 'Wedding', value: 'wedding' },
           { title: 'Real Estate', value: 'real-estate' },
+          { title: 'Drone / Aerial', value: 'drone' },
           { title: 'Filmmaking — Movie Production', value: 'movie-production' },
           { title: 'Filmmaking — Short Film', value: 'short-film' },
           { title: 'Filmmaking — Documentary', value: 'documentary' },

@@ -76,6 +76,23 @@ export async function getReelShoots(client: string): Promise<ReelShoot[]> {
   }));
 }
 
+/**
+ * Drone case studies for /corporate/drone, newest job first, with their extra
+ * reels and aerial stills. A new drone job in the Studio shows up on the page
+ * without a code change.
+ */
+export async function getDroneWork(): Promise<CaseStudy[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "caseStudy" && category == "drone"] | order(publishedAt desc){
+      _id, title, slug, client, category, muxPlaybackId, videoAspect, poster, summary,
+      moreVideos[]{_key, label, title, muxPlaybackId, aspect, poster, caption},
+      behindTheScenes[]{_key, asset, caption, alt},
+      publishedAt, featured
+    }`,
+  );
+}
+
 export async function getHeroCaseStudy(): Promise<CaseStudy | null> {
   if (!sanityClient) return null;
   return sanityClient.fetch(

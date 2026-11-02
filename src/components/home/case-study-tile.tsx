@@ -11,6 +11,7 @@ const CATEGORY_LABELS: Record<CaseStudy['category'], string> = {
   music: 'MUSIC VIDEO',
   wedding: 'WEDDING',
   'real-estate': 'REAL ESTATE',
+  drone: 'DRONE / AERIAL',
   'movie-production': 'MOVIE PRODUCTION',
   'short-film': 'SHORT FILM',
   documentary: 'DOCUMENTARY',

@@ -1,12 +1,19 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { CinematicVideo } from '@/components/media/cinematic-video';
 import { DRONE_PACKAGES, droneStartingPrice, dronePriceSummary, formatPrice } from '@/lib/drone';
+import { muxThumbnail, muxVerticalPoster } from '@/lib/mux-image';
+import { getDroneWork } from '@/sanity/queries';
+import { urlForImage } from '@/sanity/image';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: { canonical: '/corporate/drone' },
@@ -15,17 +22,9 @@ export const metadata: Metadata = {
     `Dallas–Fort Worth drone photography and cinematic aerial videography. Roofing, real estate, small business, and event coverage. Owner-operated DJI kit. Single-shoot pricing from ${dronePriceSummary()}.`,
 };
 
-const PHOTOS = [
-  { src: '/images/drone/grid-01.jpg', alt: 'Aerial residential roofing — High Bar Roofing, DFW' },
-  { src: '/images/drone/grid-02.jpg', alt: 'Aerial luxury residence — High Bar Roofing' },
-  { src: '/images/drone/grid-03.jpg', alt: 'Aerial residential deliverable — High Bar Roofing' },
-  { src: '/images/drone/grid-04.jpg', alt: 'Aerial metal roof commercial — Total Pro Roofing' },
-  { src: '/images/drone/grid-05.jpg', alt: 'Aerial residential cluster — Total Pro Roofing' },
-  { src: '/images/drone/grid-06.jpg', alt: 'Aerial roofing deliverable — Total Pro Roofing' },
-  { src: '/images/drone/grid-07.jpg', alt: 'Aerial residential — Total Pro Roofing' },
-];
-
-const VIDEOS = [
+// Older 16:9 aerial cuts on YouTube. New drone work comes from Sanity
+// (category "drone") and is listed above these, newest first.
+const YOUTUBE_CUTS = [
   { id: 'imv8CNdnC14', title: 'Aerial cinematography reel' },
   { id: 'uES_vIiFok4', title: 'Aerial cinematography reel 2' },
   { id: '3eG-EdrT2jQ', title: 'Aerial cinematography reel 3' },
@@ -69,7 +68,40 @@ const SECTIONS = [
   { id: 'why', label: 'Why SFM' },
 ];
 
-export default function DronePage() {
+export default async function DronePage() {
+  const jobs = await getDroneWork();
+  // Every reel from every drone job, newest job first: the main video, then
+  // the job's extra reels in the order they were added.
+  const reels = jobs.flatMap((job) => {
+    const href = `/work/${job.slug.current}`;
+    const main = job.muxPlaybackId
+      ? [{
+          key: job._id,
+          title: job.title,
+          playbackId: job.muxPlaybackId,
+          vertical: job.videoAspect === 'vertical',
+          poster: null as string | null,
+          client: job.client,
+          href,
+        }]
+      : [];
+    const more = (job.moreVideos ?? [])
+      .filter((v) => v.muxPlaybackId)
+      .map((v) => ({
+        key: `${job._id}-${v._key}`,
+        title: v.title,
+        playbackId: v.muxPlaybackId,
+        vertical: v.aspect === 'vertical',
+        poster: (v.poster && urlForImage(v.poster)?.width(1080).url()) || null,
+        client: job.client,
+        href,
+      }));
+    return [...main, ...more];
+  });
+  const stills = jobs.flatMap((job) =>
+    (job.behindTheScenes ?? []).map((img, i) => ({ ...img, key: `${job._id}-${img._key ?? i}` })),
+  );
+
   return (
     <>
       <Nav />
@@ -142,12 +174,38 @@ export default function DronePage() {
           </div>
         </section>
 
-        {/* Video reels */}
+        {/* Drone reels from Sanity, newest job first, then the older YouTube cuts */}
         <section id="reel" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
             <DataLabel className="mb-8">AERIAL REEL · IN MOTION</DataLabel>
+            {reels.length > 0 && (
+              <div className="mb-16 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+                {reels.map((reel) => (
+                  <figure key={reel.key} className="flex flex-col gap-3">
+                    <CinematicVideo
+                      playbackId={reel.playbackId}
+                      title={reel.title}
+                      aspect={reel.vertical ? 'vertical' : 'video'}
+                      poster={
+                        reel.poster ??
+                        (reel.vertical
+                          ? muxVerticalPoster(reel.playbackId)
+                          : muxThumbnail(reel.playbackId, { width: 1280 }))
+                      }
+                      className="rounded"
+                    />
+                    <figcaption>
+                      <p className="font-serif text-lg italic leading-tight">{reel.title}</p>
+                      <Link href={reel.href} className="mt-1 inline-block text-xs text-bone-subtle hover:text-brass">
+                        {reel.client} ›
+                      </Link>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-              {VIDEOS.map((video) => (
+              {YOUTUBE_CUTS.map((video) => (
                 <div
                   key={video.id}
                   className="relative aspect-video overflow-hidden border border-bone/15 bg-black"
@@ -157,6 +215,7 @@ export default function DronePage() {
                     title={video.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
+                    loading="lazy"
                     className="absolute inset-0 h-full w-full"
                   />
                 </div>
@@ -165,28 +224,31 @@ export default function DronePage() {
           </div>
         </section>
 
-        {/* Recent aerial deliverables grid */}
-        <section id="work" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
-          <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-8">RECENT AERIAL DELIVERABLES</DataLabel>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {PHOTOS.map((photo) => (
-                <div
-                  key={photo.src}
-                  className="relative aspect-[16/9] overflow-hidden bg-gunpowder/80"
-                >
-                  <Image
-                    src={photo.src}
-                    alt={photo.alt}
-                    fill
-                    className="object-cover transition-transform duration-700 hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  />
-                </div>
-              ))}
+        {/* Aerial stills from the drone case studies */}
+        {stills.length > 0 && (
+          <section id="work" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
+            <div className="mx-auto max-w-[1440px]">
+              <DataLabel className="mb-8">RECENT AERIAL DELIVERABLES</DataLabel>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {stills.map((photo) => {
+                  const src = urlForImage(photo)?.width(1200).height(675).url();
+                  if (!src) return null;
+                  return (
+                    <div key={photo.key} className="relative aspect-[16/9] overflow-hidden bg-gunpowder/80">
+                      <Image
+                        src={src}
+                        alt={photo.alt}
+                        fill
+                        className="object-cover transition-transform duration-700 hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* Pricing */}
         <section id="pricing" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
