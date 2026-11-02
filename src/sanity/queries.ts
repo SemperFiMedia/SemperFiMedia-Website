@@ -60,14 +60,19 @@ export async function getHeroCaseStudy(): Promise<CaseStudy | null> {
 export async function getCaseStudiesByCategory(
   category: string,
   limit = 4,
+  { newestFirst = false }: { newestFirst?: boolean } = {},
 ): Promise<CaseStudy[]> {
   if (!sanityClient) return [];
-  return sanityClient.fetch(
-    groq`*[_type == "caseStudy" && category == $category] | order(featured desc, publishedAt desc)[0...$limit]{
+  // Featured first by default; newestFirst is for pages where the latest
+  // job should lead (e.g. a yearly convention beats last year's cut).
+  const query = newestFirst
+    ? groq`*[_type == "caseStudy" && category == $category] | order(publishedAt desc)[0...$limit]{
       _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
-    }`,
-    { category, limit },
-  );
+    }`
+    : groq`*[_type == "caseStudy" && category == $category] | order(featured desc, publishedAt desc)[0...$limit]{
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
+    }`;
+  return sanityClient.fetch(query, { category, limit });
 }
 
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {

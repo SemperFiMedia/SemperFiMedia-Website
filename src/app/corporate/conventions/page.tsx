@@ -45,7 +45,7 @@ const WHY = [
 ];
 
 export default async function ConventionsPage() {
-  const featured = await getCaseStudiesByCategory('convention', 4);
+  const featured = await getCaseStudiesByCategory('convention', 4, { newestFirst: true });
   return (
     <>
       <Nav />
