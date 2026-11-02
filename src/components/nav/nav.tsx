@@ -7,15 +7,16 @@ const LINKS = [
   { href: '/weddings', label: 'Weddings' },
   { href: '/filmmaking', label: 'Filmmaking' },
   // Short label follows the /social-reels → "Social" precedent; the desktop bar is tight.
-  { href: '/session-capture', label: 'Sessions' },
-  { href: '/social-reels', label: 'Social' },
+  // Secondary links only show on wide screens; between lg and xl they live in the drawer.
+  { href: '/session-capture', label: 'Sessions', secondary: true },
+  { href: '/social-reels', label: 'Social', secondary: true },
   // Published rates are the core brand promise ("No surprises"), so /pricing
   // earns a slot in the bar. Reel Recon is audience-building rather than a
   // service anyone buys — it stays in the drawer and the footer.
   { href: '/pricing', label: 'Pricing' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/about', label: 'About' },
-] as const;
+  { href: '/blog', label: 'Blog', secondary: true },
+  { href: '/about', label: 'About', secondary: true },
+] as const satisfies readonly { href: string; label: string; secondary?: boolean }[];
 
 export function Nav() {
   return (
@@ -29,14 +30,14 @@ export function Nav() {
       >
         <Link
           href="/"
-          className="font-serif text-xl italic font-bold tracking-tight md:text-2xl"
+          className="whitespace-nowrap font-serif text-xl italic font-bold tracking-tight md:text-2xl"
         >
           Semper Fi <span className="text-brass">Media</span>
         </Link>
         <div className="flex items-center gap-4 md:gap-8">
-          <ul className="hidden items-center gap-6 text-sm font-medium md:flex">
+          <ul className="hidden items-center gap-6 text-sm font-medium lg:flex">
             {LINKS.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className={'secondary' in link ? 'hidden xl:block' : undefined}>
                 <Link
                   href={link.href}
                   className="text-bone-muted transition-colors hover:text-bone"
