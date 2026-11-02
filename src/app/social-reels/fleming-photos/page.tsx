@@ -6,7 +6,11 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { CinematicVideo } from '@/components/media/cinematic-video';
 import { BreadcrumbJsonLd } from '@/components/seo/structured-data';
 import { PricingJumpNav } from '@/components/pricing/jump-nav';
-import { FLEMING_SHOOTS, FLEMING_REEL_COUNT } from '@/lib/fleming-reels';
+import { getReelShoots } from '@/sanity/queries';
+import { reelCover } from '@/sanity/reel-cover';
+import { FLEMING_CLIENT } from '@/lib/fleming';
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   alternates: { canonical: '/social-reels/fleming-photos' },
@@ -15,7 +19,11 @@ export const metadata: Metadata = {
     'Behind-the-scenes reels Semper Fi Media filmed and cut for Fleming Photos: themed group shoots, western sets, fashion, and the photographers at work. Vertical reels for Instagram and TikTok.',
 };
 
-export default function FlemingPhotosPage() {
+export default async function FlemingPhotosPage() {
+  // Shoots come back newest first, reels inside each shoot newest first.
+  const shoots = await getReelShoots(FLEMING_CLIENT);
+  const reelCount = shoots.reduce((n, s) => n + s.reels.length, 0);
+
   return (
     <>
       <Nav />
@@ -37,9 +45,11 @@ export default function FlemingPhotosPage() {
               We film the behind-the-scenes of Fleming Photos shoots — the models, the sets, and
               the photographers at work — and cut them into reels built for Instagram and TikTok.
             </p>
-            <p className="mt-4 text-sm text-bone-muted">
-              <span className="text-brass">{FLEMING_REEL_COUNT} videos</span>, newest work first.
-            </p>
+            {reelCount > 0 && (
+              <p className="mt-4 text-sm text-bone-muted">
+                <span className="text-brass">{reelCount} videos</span>, newest work first.
+              </p>
+            )}
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Get BTS reels for your studio</BrassButton>
               <BrassButton href="/social-reels#pricing" variant="outline">
@@ -49,27 +59,29 @@ export default function FlemingPhotosPage() {
           </div>
         </section>
 
-        <PricingJumpNav
-          sections={FLEMING_SHOOTS.map((s) => ({ id: s.id, label: s.nav }))}
-          ariaLabel="Jump to a shoot"
-        />
+        {shoots.length > 0 && (
+          <PricingJumpNav
+            sections={shoots.map((s) => ({ id: s.slug.current, label: s.nav }))}
+            ariaLabel="Jump to a shoot"
+          />
+        )}
 
-        {FLEMING_SHOOTS.map((shoot, i) => {
-          const films = shoot.videos.filter((v) => v.aspect === 'video');
-          const reels = shoot.videos.filter((v) => v.aspect === 'vertical');
+        {shoots.map((shoot, i) => {
+          const films = shoot.reels.filter((v) => v.aspect === 'video');
+          const reels = shoot.reels.filter((v) => v.aspect !== 'video');
           // Whichever kind the shoot lists first goes on top, so a section can
           // lead with its newest reels instead of an older film.
-          const reelsFirst = shoot.videos[0]?.aspect === 'vertical';
+          const reelsFirst = shoot.reels[0]?.aspect !== 'video';
 
           const filmGrid = films.length > 0 && (
             <div key="films" className={`grid grid-cols-1 gap-8 ${films.length > 1 ? 'lg:grid-cols-2' : ''}`}>
               {films.map((film) => (
-                <figure key={film.playbackId}>
+                <figure key={film._key}>
                   <CinematicVideo
-                    playbackId={film.playbackId}
+                    playbackId={film.muxPlaybackId}
                     title={film.title}
                     aspect="video"
-                    poster={film.cover}
+                    poster={reelCover(film)}
                     className="rounded"
                   />
                   <figcaption className="mt-3 font-serif text-lg italic">{film.title}</figcaption>
@@ -81,12 +93,12 @@ export default function FlemingPhotosPage() {
           const reelGrid = reels.length > 0 && (
             <div key="reels" className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
               {reels.map((reel) => (
-                <figure key={reel.playbackId} className="flex flex-col gap-3">
+                <figure key={reel._key} className="flex flex-col gap-3">
                   <CinematicVideo
-                    playbackId={reel.playbackId}
+                    playbackId={reel.muxPlaybackId}
                     title={reel.title}
                     aspect="vertical"
-                    poster={reel.cover}
+                    poster={reelCover(reel)}
                     className="rounded"
                   />
                   <figcaption>
@@ -104,8 +116,8 @@ export default function FlemingPhotosPage() {
 
           return (
             <section
-              key={shoot.id}
-              id={shoot.id}
+              key={shoot._id}
+              id={shoot.slug.current}
               className={`scroll-mt-24 px-6 py-20 md:px-12 md:py-24 ${i % 2 === 0 ? 'bg-black' : 'bg-gunpowder'}`}
               aria-label={shoot.title}
             >
@@ -115,7 +127,7 @@ export default function FlemingPhotosPage() {
                   <h2 className="font-serif text-4xl italic leading-tight md:text-5xl">
                     {shoot.title}
                   </h2>
-                  <p className="mt-4 text-bone-muted">{shoot.blurb}</p>
+                  {shoot.blurb && <p className="mt-4 text-bone-muted">{shoot.blurb}</p>}
                 </div>
 
                 <div className="flex flex-col gap-12">

@@ -1,7 +1,7 @@
 import { groq } from 'next-sanity';
 import { sanityClient } from './client';
 import { PLACEHOLDER_FEATURED_CASE_STUDIES } from '@/lib/placeholder-case-studies';
-import type { CaseStudy, Testimonial, Client, BlogPost, ReelReconReview } from './types';
+import type { CaseStudy, Testimonial, Client, BlogPost, ReelReconReview, ReelShoot } from './types';
 
 export async function getFeaturedCaseStudies(limit = 6): Promise<CaseStudy[]> {
   if (!sanityClient) {
@@ -45,6 +45,35 @@ export async function getSocialReels(limit?: number): Promise<CaseStudy[]> {
     }`,
     limit ? { limit } : {}
   );
+}
+
+/**
+ * A client's reel shoots, newest shoot first, with the reels inside each one
+ * newest first too. Reels without a date keep their list order and go after
+ * the dated ones, so an undated upload never jumps ahead of newer work.
+ */
+export async function getReelShoots(client: string): Promise<ReelShoot[]> {
+  if (!sanityClient) return [];
+  const shoots: ReelShoot[] = await sanityClient.fetch(
+    groq`*[_type == "reelShoot" && client == $client] | order(shootDate desc, featured desc){
+      _id, client, title, slug, nav, label, blurb, shootDate, featured,
+      reels[]{_key, title, credit, muxPlaybackId, aspect, cover, shotAt}
+    }`,
+    { client },
+  );
+  return shoots.map((s) => ({
+    ...s,
+    reels: (s.reels ?? [])
+      .filter((r) => r.muxPlaybackId)
+      .map((r, i) => ({ r, i }))
+      .sort((a, b) => {
+        if (a.r.shotAt && b.r.shotAt && a.r.shotAt !== b.r.shotAt) return a.r.shotAt < b.r.shotAt ? 1 : -1;
+        if (a.r.shotAt && !b.r.shotAt) return -1;
+        if (!a.r.shotAt && b.r.shotAt) return 1;
+        return a.i - b.i;
+      })
+      .map(({ r }) => r),
+  }));
 }
 
 export async function getHeroCaseStudy(): Promise<CaseStudy | null> {
@@ -91,7 +120,7 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null
   if (!sanityClient) return null;
   return sanityClient.fetch(
     groq`*[_type == "caseStudy" && slug.current == $slug][0]{
-      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, body,
+      _id, title, slug, client, category, muxPlaybackId, videoAspect, youtubeUrl, poster, summary, body,
       processNotes, behindTheScenes[]{_key, asset, caption, alt},
       moreVideos[]{_key, label, title, muxPlaybackId, aspect, poster, caption},
       publishedAt, featured

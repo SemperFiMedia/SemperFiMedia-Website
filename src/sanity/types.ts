@@ -39,6 +39,8 @@ export type CaseStudy = {
   client: string;
   category: CaseStudyCategory;
   muxPlaybackId?: string;
+  /** Shape of the main video. Defaults to landscape; 'social' case studies are vertical regardless. */
+  videoAspect?: 'video' | 'vertical';
   youtubeUrl?: string;
   poster?: { asset: { _ref: string } };
   posterUrl?: string;
@@ -50,6 +52,29 @@ export type CaseStudy = {
   moreVideos?: ExtraVideo[];
   publishedAt?: string;
   featured: boolean;
+};
+
+export type Reel = {
+  _key: string;
+  title: string;
+  credit?: string;
+  muxPlaybackId: string;
+  aspect?: 'video' | 'vertical';
+  cover?: { asset: { _ref: string } };
+  shotAt?: string;
+};
+
+export type ReelShoot = {
+  _id: string;
+  client: string;
+  title: string;
+  slug: { current: string };
+  nav: string;
+  label: string;
+  blurb?: string;
+  shootDate: string;
+  featured?: boolean;
+  reels: Reel[];
 };
 
 export type Testimonial = {

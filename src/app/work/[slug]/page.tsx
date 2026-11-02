@@ -55,6 +55,9 @@ export default async function CaseStudyPage({ params }: RouteProps) {
     : null;
   const bts = cs.behindTheScenes ?? [];
   const moreVideos = (cs.moreVideos ?? []).filter((v) => v.muxPlaybackId);
+  // Social reels are shot 9:16; a landscape frame letterboxes them. Other
+  // categories can opt in per case study (e.g. a convention covered in reels).
+  const verticalMain = cs.category === 'social' || cs.videoAspect === 'vertical';
 
   /**
    * VideoObject markup, so case studies can earn video results rather than
@@ -119,14 +122,13 @@ export default async function CaseStudyPage({ params }: RouteProps) {
                 <CinematicVideo
                   playbackId={cs.muxPlaybackId}
                   title={cs.title}
-                  // Social reels are shot 9:16; a landscape frame letterboxes them.
                   poster={
-                    cs.category === 'social'
+                    verticalMain
                       ? muxVerticalPoster(cs.muxPlaybackId)
                       : posterUrl ?? undefined
                   }
-                  aspect={cs.category === 'social' ? 'vertical' : 'video'}
-                  className={cs.category === 'social' ? 'mx-auto max-w-[420px]' : undefined}
+                  aspect={verticalMain ? 'vertical' : 'video'}
+                  className={verticalMain ? 'mx-auto max-w-[420px]' : undefined}
                 />
               ) : null}
             </div>

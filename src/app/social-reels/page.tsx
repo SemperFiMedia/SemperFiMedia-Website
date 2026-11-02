@@ -8,8 +8,9 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { CinematicVideo } from '@/components/media/cinematic-video';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { muxVerticalPoster } from '@/lib/mux-image';
-import { getSocialReels } from '@/sanity/queries';
-import { FLEMING_SHOOTS, FLEMING_REEL_COUNT } from '@/lib/fleming-reels';
+import { getSocialReels, getReelShoots } from '@/sanity/queries';
+import { reelCover } from '@/sanity/reel-cover';
+import { FLEMING_CLIENT } from '@/lib/fleming';
 import { formatPrice } from '@/lib/utils';
 import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS } from '@/lib/social-reels';
 
@@ -62,12 +63,17 @@ const DELIVERABLES = [
   },
 ];
 
-const FLEMING_SPOTLIGHT = FLEMING_SHOOTS.slice(0, 3).map(
-  (shoot) => shoot.videos.find((v) => v.aspect === 'vertical')!,
-);
+export const revalidate = 60;
 
 export default async function SocialReelsPage() {
-  const reels = await getSocialReels();
+  const [reels, flemingShoots] = await Promise.all([getSocialReels(), getReelShoots(FLEMING_CLIENT)]);
+  const flemingCount = flemingShoots.reduce((n, s) => n + s.reels.length, 0);
+  // The three newest shoots, one reel cover each, so the spotlight keeps up
+  // with whatever was added last.
+  const flemingSpotlight = flemingShoots
+    .slice(0, 3)
+    .map((shoot) => shoot.reels.find((v) => v.aspect !== 'video'))
+    .filter((v): v is NonNullable<typeof v> => Boolean(v));
 
   return (
     <>
@@ -102,6 +108,7 @@ export default async function SocialReelsPage() {
           </div>
         </section>
 
+        {flemingCount > 0 && (
         <section
           className="border-y border-brass/15 bg-black px-6 py-20 md:px-12 md:py-24"
           aria-label="Client spotlight: Fleming Photos"
@@ -116,7 +123,7 @@ export default async function SocialReelsPage() {
                 Behind the lens with Fleming Photos.
               </h2>
               <p className="mt-4 text-bone-muted">
-                {FLEMING_REEL_COUNT} behind-the-scenes videos, from 2024 to today:
+                {flemingCount} behind-the-scenes videos, from 2024 to today:
                 the models, the sets, and the photographers at work.
               </p>
               <span className="mt-6 inline-block text-sm font-medium uppercase tracking-wider text-brass transition-colors group-hover:text-golden-hour">
@@ -124,10 +131,10 @@ export default async function SocialReelsPage() {
               </span>
             </div>
             <div className="grid grid-cols-3 gap-3">
-              {FLEMING_SPOTLIGHT.map((reel) => (
-                <div key={reel.cover} className="relative aspect-[9/16] overflow-hidden rounded">
+              {flemingSpotlight.map((reel) => (
+                <div key={reel._key} className="relative aspect-[9/16] overflow-hidden rounded">
                   <Image
-                    src={reel.cover}
+                    src={reelCover(reel)}
                     alt={`${reel.title} — Fleming Photos behind-the-scenes reel`}
                     fill
                     sizes="(min-width: 768px) 15vw, 30vw"
@@ -138,6 +145,7 @@ export default async function SocialReelsPage() {
             </div>
           </Link>
         </section>
+        )}
 
         <section
           id="examples"

@@ -40,6 +40,15 @@ export const caseStudy = defineType({
     }),
     defineField({ name: 'muxPlaybackId', type: 'string', title: 'Mux Playback ID' }),
     defineField({
+      name: 'videoAspect',
+      type: 'string',
+      title: 'Main video shape',
+      description:
+        'Vertical for a 9:16 reel so it is not letterboxed in a landscape frame. Social Media Reel case studies are always vertical.',
+      options: { list: [{ title: 'Landscape 16:9', value: 'video' }, { title: 'Vertical 9:16', value: 'vertical' }] },
+      initialValue: 'video',
+    }),
+    defineField({
       name: 'youtubeUrl',
       type: 'url',
       title: 'YouTube URL',
