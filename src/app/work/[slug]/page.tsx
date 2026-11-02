@@ -94,7 +94,7 @@ export default async function CaseStudyPage({ params }: RouteProps) {
       <main>
         <section className="bg-black px-6 pt-28 pb-10 md:px-12 md:pt-36">
           <div className="mx-auto max-w-[1200px]">
-            <DataLabel className="mb-5">CASE STUDY · {cs.category.toUpperCase()}</DataLabel>
+            <DataLabel className="mb-5">CASE STUDY · {cs.category.replace(/-/g, ' ').toUpperCase()}</DataLabel>
             <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">{cs.title}</h1>
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
               <DataLabel tone="muted">{cs.client}</DataLabel>

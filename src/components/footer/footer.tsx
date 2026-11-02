@@ -16,6 +16,7 @@ const SERVICES = [
   { href: '/corporate/drone', label: 'Drone & Aerial' },
   { href: '/corporate/trailer-editing', label: 'Trailer Editing' },
   { href: '/corporate/website-design', label: 'Website Design' },
+  { href: '/filmmaking', label: 'Filmmaking' },
   { href: '/film-production', label: 'Film Production Crew' },
   { href: '/pricing', label: 'Pricing' },
 ] as const;

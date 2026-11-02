@@ -25,6 +25,7 @@ const SECTIONS = [
       { href: '/weddings', label: 'Cinema Weddings' },
       { href: '/corporate', label: 'Corporate Video' },
       { href: '/session-capture', label: 'Session Capture — Speakers' },
+      { href: '/filmmaking', label: 'Filmmaking — Films & Interviews' },
       { href: '/film-production', label: 'Film Production Day Rates' },
       { href: '/social-reels', label: 'Social Media Reels' },
       { href: '/pricing', label: 'Pricing Overview' },

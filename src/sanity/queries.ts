@@ -75,6 +75,18 @@ export async function getCaseStudiesByCategory(
   return sanityClient.fetch(query, { category, limit });
 }
 
+export async function getCaseStudiesInCategories(
+  categories: readonly string[],
+): Promise<CaseStudy[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "caseStudy" && category in $categories] | order(publishedAt desc){
+      _id, title, slug, client, category, muxPlaybackId, youtubeUrl, poster, summary, publishedAt, featured
+    }`,
+    { categories },
+  );
+}
+
 export async function getCaseStudyBySlug(slug: string): Promise<CaseStudy | null> {
   if (!sanityClient) return null;
   return sanityClient.fetch(

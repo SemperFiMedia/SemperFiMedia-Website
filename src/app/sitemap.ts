@@ -11,6 +11,7 @@ const STATIC_ROUTES = [
   '/corporate/drone',
   '/corporate/trailer-editing',
   '/corporate/website-design',
+  '/filmmaking',
   '/film-production',
   '/session-capture',
   '/corporate/small-business',

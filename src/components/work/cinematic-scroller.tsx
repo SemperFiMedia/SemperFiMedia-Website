@@ -92,7 +92,7 @@ export function CinematicScroller(props: Props) {
             className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center"
           >
             <DataLabel className="mb-6 text-brass">
-              CASE STUDY · {props.category.toUpperCase()}
+              CASE STUDY · {props.category.replace(/-/g, ' ').toUpperCase()}
             </DataLabel>
             <h1 className="font-serif text-5xl italic leading-[0.95] md:text-8xl">
               {props.title}
