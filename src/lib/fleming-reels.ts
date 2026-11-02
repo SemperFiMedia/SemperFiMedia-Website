@@ -36,7 +36,7 @@ export const FLEMING_SHOOTS: FlemingShoot[] = [
     videos: [
       { title: 'Planet V Video Shoot', playbackId: 'hb02BPS009KGeiLFF6ns3K701zpAx50001I4J02DMOrIAKJsM', cover: cover('h04'), aspect: 'video' },
       { title: 'Mother Alien', credit: 'Mother Alien “V” · Owner, Planet V', playbackId: 'XHgi1DnlMmAcMNR7QBun6hIFNHhZtXyARIhDvhqjAX8', cover: cover('v26'), aspect: 'vertical' },
-      { title: 'CoCo', credit: 'CoCo', playbackId: 'AcmYAR003emc00zRqcbY9sJI1lzd018zsJt2gJ1aE00Avbc', cover: cover('v23'), aspect: 'vertical' },
+      { title: 'CoCo Samone', credit: 'CoCo Samone', playbackId: 'AcmYAR003emc00zRqcbY9sJI1lzd018zsJt2gJ1aE00Avbc', cover: cover('v23'), aspect: 'vertical' },
       { title: 'Darnell McGowan', credit: 'Darnell McGowan · Designer & Stylist', playbackId: 'DCN1hS00FiqlHZQSDorKKW01zVkaFEB025WTujiDdeUGcQ', cover: cover('v24'), aspect: 'vertical' },
       { title: 'Kreative Keazy', credit: 'Kreative Keazy · Creative Director', playbackId: 'uUH6m7NwR02eJPF4hfi2GCLMFZI4w1YGu01SmV2QZOQHg', cover: cover('v25'), aspect: 'vertical' },
       { title: 'Quinntaria Phipps', credit: 'Quinntaria Phipps', playbackId: '5ybjFs9qJnTLGpCYY3kagej3UOfwby9CFBRu3ZQg9bg', cover: cover('v27'), aspect: 'vertical' },
