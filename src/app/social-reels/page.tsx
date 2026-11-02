@@ -116,7 +116,7 @@ export default async function SocialReelsPage() {
                 Behind the lens with Fleming Photos.
               </h2>
               <p className="mt-4 text-bone-muted">
-                {FLEMING_REEL_COUNT} behind-the-scenes videos across {FLEMING_SHOOTS.length} shoots:
+                {FLEMING_REEL_COUNT} behind-the-scenes videos, from 2024 to today:
                 the models, the sets, and the photographers at work.
               </p>
               <span className="mt-6 inline-block text-sm font-medium uppercase tracking-wider text-brass transition-colors group-hover:text-golden-hour">

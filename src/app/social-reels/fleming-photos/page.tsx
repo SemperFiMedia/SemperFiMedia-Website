@@ -38,8 +38,7 @@ export default function FlemingPhotosPage() {
               the photographers at work — and cut them into reels built for Instagram and TikTok.
             </p>
             <p className="mt-4 text-sm text-bone-muted">
-              <span className="text-brass">{FLEMING_REEL_COUNT} videos</span> across{' '}
-              {FLEMING_SHOOTS.length} shoots.
+              <span className="text-brass">{FLEMING_REEL_COUNT} videos</span>, newest work first.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <BrassButton href="/contact">Get BTS reels for your studio</BrassButton>
@@ -58,6 +57,51 @@ export default function FlemingPhotosPage() {
         {FLEMING_SHOOTS.map((shoot, i) => {
           const films = shoot.videos.filter((v) => v.aspect === 'video');
           const reels = shoot.videos.filter((v) => v.aspect === 'vertical');
+          // Whichever kind the shoot lists first goes on top, so a section can
+          // lead with its newest reels instead of an older film.
+          const reelsFirst = shoot.videos[0]?.aspect === 'vertical';
+
+          const filmGrid = films.length > 0 && (
+            <div key="films" className={`grid grid-cols-1 gap-8 ${films.length > 1 ? 'lg:grid-cols-2' : ''}`}>
+              {films.map((film) => (
+                <figure key={film.playbackId}>
+                  <CinematicVideo
+                    playbackId={film.playbackId}
+                    title={film.title}
+                    aspect="video"
+                    poster={film.cover}
+                    className="rounded"
+                  />
+                  <figcaption className="mt-3 font-serif text-lg italic">{film.title}</figcaption>
+                </figure>
+              ))}
+            </div>
+          );
+
+          const reelGrid = reels.length > 0 && (
+            <div key="reels" className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
+              {reels.map((reel) => (
+                <figure key={reel.playbackId} className="flex flex-col gap-3">
+                  <CinematicVideo
+                    playbackId={reel.playbackId}
+                    title={reel.title}
+                    aspect="vertical"
+                    poster={reel.cover}
+                    className="rounded"
+                  />
+                  <figcaption>
+                    {reel.credit && (
+                      <DataLabel tone="muted" className="text-[10px]">
+                        {reel.credit}
+                      </DataLabel>
+                    )}
+                    <p className="mt-1 font-serif text-lg italic">{reel.title}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          );
+
           return (
             <section
               key={shoot.id}
@@ -74,46 +118,9 @@ export default function FlemingPhotosPage() {
                   <p className="mt-4 text-bone-muted">{shoot.blurb}</p>
                 </div>
 
-                {films.length > 0 && (
-                  <div className={`mb-12 grid grid-cols-1 gap-8 ${films.length > 1 ? 'lg:grid-cols-2' : ''}`}>
-                    {films.map((film) => (
-                      <figure key={film.playbackId}>
-                        <CinematicVideo
-                          playbackId={film.playbackId}
-                          title={film.title}
-                          aspect="video"
-                          poster={film.cover}
-                          className="rounded"
-                        />
-                        <figcaption className="mt-3 font-serif text-lg italic">{film.title}</figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                )}
-
-                {reels.length > 0 && (
-                  <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-                    {reels.map((reel) => (
-                      <figure key={reel.playbackId} className="flex flex-col gap-3">
-                        <CinematicVideo
-                          playbackId={reel.playbackId}
-                          title={reel.title}
-                          aspect="vertical"
-                          poster={reel.cover}
-                          className="rounded"
-                        />
-                        <figcaption>
-                          {reel.credit && (
-                            <DataLabel tone="muted" className="text-[10px]">
-                              {reel.credit}
-                            </DataLabel>
-                          )}
-                          <p className="mt-1 font-serif text-lg italic">{reel.title}</p>
-                        </figcaption>
-                      </figure>
-                    ))}
-                  </div>
-                )}
+                <div className="flex flex-col gap-12">
+                  {reelsFirst ? [reelGrid, filmGrid] : [filmGrid, reelGrid]}
+                </div>
               </div>
             </section>
           );
