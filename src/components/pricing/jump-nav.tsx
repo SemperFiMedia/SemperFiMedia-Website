@@ -9,9 +9,10 @@ type Section = {
 
 type Props = {
   sections: Section[];
+  ariaLabel?: string;
 };
 
-export function PricingJumpNav({ sections }: Props) {
+export function PricingJumpNav({ sections, ariaLabel = 'Jump to pricing section' }: Props) {
   const [activeId, setActiveId] = useState<string>(sections[0]?.id ?? '');
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export function PricingJumpNav({ sections }: Props) {
       <div className="mx-auto max-w-[1440px]">
         <nav
           className="flex gap-2 overflow-x-auto whitespace-nowrap px-6 py-3 md:px-12"
-          aria-label="Jump to pricing section"
+          aria-label={ariaLabel}
         >
           {sections.map((section) => (
             <a

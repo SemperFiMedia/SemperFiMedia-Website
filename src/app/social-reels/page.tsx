@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Nav } from '@/components/nav/nav';
 import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
@@ -8,6 +9,7 @@ import { CinematicVideo } from '@/components/media/cinematic-video';
 import { ServiceJsonLd } from '@/components/seo/structured-data';
 import { muxVerticalPoster } from '@/lib/mux-image';
 import { getSocialReels } from '@/sanity/queries';
+import { FLEMING_SHOOTS, FLEMING_REEL_COUNT } from '@/lib/fleming-reels';
 import { formatPrice } from '@/lib/utils';
 import { SOCIAL_REEL_PRICE, SOCIAL_REEL_PACKS } from '@/lib/social-reels';
 
@@ -60,6 +62,10 @@ const DELIVERABLES = [
   },
 ];
 
+const FLEMING_SPOTLIGHT = FLEMING_SHOOTS.slice(0, 3).map(
+  (shoot) => shoot.videos.find((v) => v.aspect === 'vertical')!,
+);
+
 export default async function SocialReelsPage() {
   const reels = await getSocialReels();
 
@@ -94,6 +100,43 @@ export default async function SocialReelsPage() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section
+          className="border-y border-brass/15 bg-black px-6 py-20 md:px-12 md:py-24"
+          aria-label="Client spotlight: Fleming Photos"
+        >
+          <Link
+            href="/social-reels/fleming-photos"
+            className="group mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 md:grid-cols-2"
+          >
+            <div>
+              <DataLabel className="mb-4">CLIENT SPOTLIGHT · FLEMING PHOTOS</DataLabel>
+              <h2 className="font-serif text-4xl italic leading-tight md:text-5xl">
+                Behind the lens with Fleming Photos.
+              </h2>
+              <p className="mt-4 text-bone-muted">
+                {FLEMING_REEL_COUNT} behind-the-scenes videos across {FLEMING_SHOOTS.length} shoots:
+                the models, the sets, and the photographers at work.
+              </p>
+              <span className="mt-6 inline-block text-sm font-medium uppercase tracking-wider text-brass transition-colors group-hover:text-golden-hour">
+                See the Fleming Photos reels →
+              </span>
+            </div>
+            <div className="grid grid-cols-3 gap-3">
+              {FLEMING_SPOTLIGHT.map((reel) => (
+                <div key={reel.cover} className="relative aspect-[9/16] overflow-hidden rounded">
+                  <Image
+                    src={reel.cover}
+                    alt={`${reel.title} — Fleming Photos behind-the-scenes reel`}
+                    fill
+                    sizes="(min-width: 768px) 15vw, 30vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              ))}
+            </div>
+          </Link>
         </section>
 
         <section

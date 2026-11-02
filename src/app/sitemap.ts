@@ -21,6 +21,7 @@ const STATIC_ROUTES = [
   '/corporate/birthday-parties',
   '/weddings',
   '/social-reels',
+  '/social-reels/fleming-photos',
   '/pricing',
   '/about',
   '/contact',
