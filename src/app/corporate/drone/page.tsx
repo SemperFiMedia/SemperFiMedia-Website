@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   alternates: { canonical: '/corporate/drone' },
   title: `Drone Photography & Videography Dallas — Aerial Coverage from ${formatPrice(droneStartingPrice())}`,
   description:
-    `Dallas–Fort Worth drone photography and cinematic aerial videography. Roofing, real estate, small business, and event coverage. Owner-operated DJI kit. Single-shoot pricing from ${dronePriceSummary()}.`,
+    `Dallas–Fort Worth drone photography and cinematic aerial videography. Roofing, real estate, small business, and event coverage. Flown and edited in-house by Semper Fi Media. Single-shoot pricing from ${dronePriceSummary()}.`,
 };
 
 // Older 16:9 aerial cuts on YouTube. New drone work comes from Sanity
@@ -43,8 +43,8 @@ const WHO = [
 
 const WHY = [
   {
-    title: 'Owner-operated DJI cinema kit.',
-    body: 'No hobby drones, no GoPro-on-a-quad. Professional-grade DJI kit with log color profiles, so every shot grades the same as our ground footage.',
+    title: 'Flown and edited by Semper Fi Media.',
+    body: 'Our founder flies every shot himself and edits it in-house. No subcontracted pilots, no hobby drones. Professional DJI kit with log color profiles, so every shot grades the same as our ground footage.',
   },
   {
     title: 'Cinema-matched color grade.',
@@ -107,7 +107,7 @@ export default async function DronePage() {
       <Nav />
       <ServiceJsonLd
         name="Drone Photography & Videography Dallas"
-        description="Aerial cinematography and drone photography in Dallas–Fort Worth. Owner-operated DJI cinema kit for roofing, real estate, small business, and event coverage."
+        description="Aerial cinematography and drone photography in Dallas–Fort Worth, flown and edited in-house by Semper Fi Media, for roofing, real estate, small business, and event coverage."
         url="https://semperfimedia.llc/corporate/drone"
       />
       <BreadcrumbJsonLd
@@ -138,7 +138,7 @@ export default async function DronePage() {
                 <span className="text-brass">Cinematic craft.</span>
               </h1>
               <p className="mt-8 max-w-2xl text-lg text-bone-muted">
-                Owner-operated DJI cinema drone, color-graded to match ground footage, delivered
+                Flown and edited by Semper Fi Media. DJI cinema drone, color-graded to match ground footage, delivered
                 in 7–14 days. Roofing, real estate, small business, and event aerials from {formatPrice(droneStartingPrice())}.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
@@ -177,7 +177,7 @@ export default async function DronePage() {
         {/* Drone reels from Sanity, newest job first, then the older YouTube cuts */}
         <section id="reel" className="scroll-mt-32 border-t border-brass/15 bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-[1440px]">
-            <DataLabel className="mb-8">AERIAL REEL · IN MOTION</DataLabel>
+            <DataLabel className="mb-8">AERIAL REEL · FLOWN AND EDITED BY SEMPER FI MEDIA</DataLabel>
             {reels.length > 0 && (
               <div className="mb-16 grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
                 {reels.map((reel) => (

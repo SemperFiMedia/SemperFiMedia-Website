@@ -329,7 +329,8 @@ production.
 
 # DRONE (/corporate/drone)
 
-Owner-operated DJI kit. 7–14 day delivery. Roofing condition reports, real estate listings,
+Owner-operated DJI kit. TJ flies every drone shot himself and edits it in-house, no
+subcontracted pilots. 7–14 day delivery. Roofing condition reports, real estate listings,
 brand-film exteriors, event recaps.
 
 - **Drone Photo Package — ${formatPrice(dronePackageById('photos').price)}.** Edited aerial stills.

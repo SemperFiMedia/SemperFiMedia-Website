@@ -66,7 +66,7 @@ const NICHES = [
     label: 'AERIAL',
     title: 'Drone Work',
     description:
-      `Cinematic aerial footage and drone photography. Roofing condition reports, real estate listings, brand-film exteriors, event recaps. Owner-operated DJI kit. From ${dronePriceSummary()}.`,
+      `Cinematic aerial footage and drone photography. Roofing condition reports, real estate listings, brand-film exteriors, event recaps. Flown and edited in-house. From ${dronePriceSummary()}.`,
     emphasized: false,
   },
   {
