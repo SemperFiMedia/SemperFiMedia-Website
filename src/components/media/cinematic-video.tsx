@@ -41,13 +41,14 @@ export function CinematicVideo({
   const playedRef = useRef(false);
   const firedRef = useRef<Set<number>>(new Set());
   const containerRef = useRef<HTMLDivElement | null>(null);
-  // Autoplay videos defer mount until they intersect the viewport. Real
-  // users see autoplay as the section scrolls in; headless Lighthouse
-  // never scrolls, so those players never mount and never pull chunks.
-  const [shouldMount, setShouldMount] = useState(!autoPlay);
+  // Every player defers mount until it nears the viewport. Autoplay videos
+  // wait until they're on screen so they start as the section scrolls in;
+  // headless Lighthouse never scrolls, so those never pull chunks. Click-to-
+  // play videos mount a little early and preload nothing, so a page with
+  // dozens of reels doesn't fetch every stream at once and freeze a phone.
+  const [shouldMount, setShouldMount] = useState(false);
 
   useEffect(() => {
-    if (!autoPlay) return;
     if (typeof window === 'undefined') return;
     if (typeof IntersectionObserver === 'undefined') {
       setShouldMount(true);
@@ -65,7 +66,9 @@ export function CinematicVideo({
           }
         }
       },
-      { threshold: 0.25, rootMargin: '0px 0px -10% 0px' },
+      autoPlay
+        ? { threshold: 0.25, rootMargin: '0px 0px -10% 0px' }
+        : { threshold: 0, rootMargin: '400px 0px' },
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -96,6 +99,7 @@ export function CinematicVideo({
         muted={muted}
         loop={loop}
         playsInline
+        preload={autoPlay ? 'auto' : 'none'}
         poster={poster}
         style={{ width: '100%', height: '100%' }}
         onPlay={() => {
