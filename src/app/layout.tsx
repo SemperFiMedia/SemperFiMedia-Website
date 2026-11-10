@@ -67,7 +67,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <SocialFollowWidget />
           <ChatWidget />
           <LocalBusinessJsonLd />
-          <AggregateRatingJsonLd ratingValue={5.0} reviewCount={30} />
+          <AggregateRatingJsonLd ratingValue={5.0} reviewCount={8} />
           <PostHog />
           <GA4 />
           <MetaPixel />

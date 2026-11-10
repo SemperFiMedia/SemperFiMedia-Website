@@ -20,6 +20,13 @@ export function _resetTrackerForTest(): void {
   queue.length = 0;
 }
 
+// True only when the visitor has explicitly granted ad measurement. Forms use this
+// before handing the server an event_id, because the server sends hashed contact
+// details to Meta CAPI whenever it receives one.
+export function hasAdsConsent(): boolean {
+  return consent.decided && consent.ads;
+}
+
 // Wire ConsentProvider to call this when consent updates.
 export function setConsent(next: ConsentState): void {
   const wasDecided = consent.decided;

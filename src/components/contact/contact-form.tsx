@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef, Suspense, type FormEvent } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { DataLabel } from '@/components/primitives/data-label';
-import { track } from '@/lib/analytics/track';
+import { track, hasAdsConsent } from '@/lib/analytics/track';
 import { normalizeAndHash, hashPhone } from '@/lib/analytics/hash';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
@@ -103,7 +103,8 @@ function ContactFormInner() {
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           ...payload,
-          ...(eventId ? { event_id: eventId } : {}),
+          // Without ad consent, no event_id, so the server never sends this lead to Meta.
+          ...(eventId && hasAdsConsent() ? { event_id: eventId } : {}),
         }),
       });
       if (!res.ok) {

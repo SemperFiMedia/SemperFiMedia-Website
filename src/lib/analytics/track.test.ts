@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { track, _resetTrackerForTest, _setConsentForTest } from './track';
+import { track, hasAdsConsent, _resetTrackerForTest, _setConsentForTest } from './track';
 
 describe('track', () => {
   let gtagSpy: ReturnType<typeof vi.fn>;
@@ -60,5 +60,29 @@ describe('track', () => {
     _setConsentForTest({ decided: true, analytics: false, ads: false });
     await track('page_view');
     expect(gtagSpy).toHaveBeenCalledWith('event', 'page_view', expect.any(Object));
+  });
+});
+
+describe('hasAdsConsent', () => {
+  beforeEach(() => _resetTrackerForTest());
+
+  it('is false before the visitor decides', () => {
+    _setConsentForTest({ decided: false, analytics: false, ads: false });
+    expect(hasAdsConsent()).toBe(false);
+  });
+
+  it('is false after Reject all', () => {
+    _setConsentForTest({ decided: true, analytics: false, ads: false });
+    expect(hasAdsConsent()).toBe(false);
+  });
+
+  it('is false when only analytics is on', () => {
+    _setConsentForTest({ decided: true, analytics: true, ads: false });
+    expect(hasAdsConsent()).toBe(false);
+  });
+
+  it('is true after Accept all', () => {
+    _setConsentForTest({ decided: true, analytics: true, ads: true });
+    expect(hasAdsConsent()).toBe(true);
   });
 });
