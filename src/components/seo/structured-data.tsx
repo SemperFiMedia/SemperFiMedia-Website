@@ -1,9 +1,11 @@
 import { env } from '@/lib/env';
+import { seoAreaServed } from '@/lib/seo-cities';
 
 export function LocalBusinessJsonLd() {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
+    additionalType: 'https://schema.org/ProfessionalService',
     '@id': `${env.siteUrl}/#business`,
     name: 'Semper Fi Media',
     description:
@@ -24,22 +26,7 @@ export function LocalBusinessJsonLd() {
       latitude: 32.818504,
       longitude: -96.7320961,
     },
-    areaServed: [
-      'Dallas, TX',
-      'Fort Worth, TX',
-      'Forney, TX',
-      'Plano, TX',
-      'Frisco, TX',
-      'Arlington, TX',
-      'McKinney, TX',
-      'Mesquite, TX',
-      'Garland, TX',
-      'Irving, TX',
-      'Carrollton, TX',
-      'Richardson, TX',
-      'Addison, TX',
-      'Rockwall, TX',
-    ],
+    areaServed: seoAreaServed(),
     sameAs: [
       'https://www.facebook.com/SemperFiMedia',
       'https://www.instagram.com/semperfimediallc/',
@@ -88,11 +75,13 @@ type ServiceProps = {
   name: string;
   description: string;
   url: string;
+  /** What is being filmed, e.g. "Wedding videography". */
+  serviceType?: string;
   /** Optional priced offers attached to this service. */
   offers?: ServiceOffer[];
 };
 
-export function ServiceJsonLd({ name, description, url, offers }: ServiceProps) {
+export function ServiceJsonLd({ name, description, url, serviceType, offers }: ServiceProps) {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -100,7 +89,8 @@ export function ServiceJsonLd({ name, description, url, offers }: ServiceProps) 
     name,
     description,
     url,
-    areaServed: { '@type': 'City', name: 'Dallas' },
+    ...(serviceType ? { serviceType } : {}),
+    areaServed: seoAreaServed(),
     ...(offers && offers.length > 0
       ? {
           offers: offers.map((offer) => ({
