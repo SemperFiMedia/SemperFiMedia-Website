@@ -45,6 +45,10 @@ const SPANISH_ROUTES = [
   '/es/contact',
 ];
 
+// Without this the sitemap is frozen at build time, so posts published in
+// Sanity stay out of it until the next deploy.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [cases, posts, reviews] = await Promise.all([
     getAllCaseStudies().then((cs) => cs.filter((c) => !c.isPlaceholder)),
