@@ -15,6 +15,9 @@ export const REDIRECTS = [
   // misspelled slug; the old addresses keep their links and search standing.
   { source: '/work/aaron-michael-make-it-work', destination: '/work/arron-michael-make-it-work', permanent: true },
   { source: '/work/aaron-michael-feels-like-the-first-time', destination: '/work/arron-michael-feels-like-the-first-time', permanent: true },
+  // The on-set case study was renamed to the production's working title; the
+  // show it was later said to belong to could not be confirmed, so the name came off.
+  { source: '/work/the-chosen-joseph-on-set-production', destination: '/work/joseph-on-set-production', permanent: true },
   // Revision policy moved from two rounds to three; the article was rewritten and renamed with it.
   { source: '/blog/two-revision-rounds-is-generous', destination: '/blog/three-revision-rounds-is-generous', permanent: true },
 ];
