@@ -99,14 +99,21 @@ export type Client = {
   order?: number;
 };
 
-export type BlogCategory = 'gear' | 'weddings' | 'bts' | 'industry' | 'how-to';
+export type BlogCategory =
+  | 'gear'
+  | 'weddings'
+  | 'bts'
+  | 'industry'
+  | 'how-to'
+  | 'events'
+  | 'conventions';
 
 export type BlogPost = {
   _id: string;
   title: string;
   slug: { current: string };
   excerpt?: string;
-  coverImage?: { asset: { _ref: string } };
+  coverImage?: { asset: { _ref: string }; alt?: string };
   body?: unknown;
   publishedAt: string;
   category: BlogCategory;

@@ -19,11 +19,37 @@ export const blogPost = defineType({
       rows: 3,
       description: 'One-to-two sentence summary that renders on the blog index and as the meta description.',
     }),
-    defineField({ name: 'coverImage', type: 'image', options: { hotspot: true } }),
+    defineField({
+      name: 'coverImage',
+      type: 'image',
+      options: { hotspot: true },
+      fields: [
+        defineField({
+          name: 'alt',
+          type: 'string',
+          title: 'Alt text',
+          description: 'Describe the image for accessibility and search',
+        }),
+      ],
+    }),
     defineField({
       name: 'body',
       type: 'array',
-      of: [portableTextBlock, { type: 'image', options: { hotspot: true } }],
+      of: [
+        portableTextBlock,
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({
+              name: 'alt',
+              type: 'string',
+              title: 'Alt text',
+              description: 'Describe the image for accessibility and search',
+            }),
+          ],
+        },
+      ],
     }),
     defineField({ name: 'publishedAt', type: 'datetime', validation: (r) => r.required() }),
     defineField({
@@ -36,6 +62,8 @@ export const blogPost = defineType({
           { title: 'Behind the Scenes', value: 'bts' },
           { title: 'Industry & Craft', value: 'industry' },
           { title: 'How-To', value: 'how-to' },
+          { title: 'Event Guides', value: 'events' },
+          { title: 'Conventions & Conferences', value: 'conventions' },
         ],
       },
       validation: (r) => r.required(),

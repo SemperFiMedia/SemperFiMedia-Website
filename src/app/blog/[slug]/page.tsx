@@ -11,27 +11,13 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { getBlogPostBySlug, getAllBlogPosts, getRelatedBlogPosts } from '@/sanity/queries';
 import { urlForImage } from '@/sanity/image';
 import { env } from '@/lib/env';
-import type { BlogCategory } from '@/sanity/types';
+import { BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { coverAlt, formatPostDate } from '@/components/blog/post-card';
+import { BLOG_CATEGORIES, blogCategoryHref } from '@/lib/blog-categories';
 
 type RouteProps = { params: Promise<{ slug: string }> };
 
 export const revalidate = 60;
-
-const CATEGORY_LABELS: Record<BlogCategory, string> = {
-  gear: 'GEAR & CAMERAS',
-  weddings: 'WEDDING GUIDES',
-  bts: 'BEHIND THE SCENES',
-  industry: 'INDUSTRY & CRAFT',
-  'how-to': 'HOW-TO',
-};
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
 
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();
@@ -55,12 +41,14 @@ export async function generateMetadata({ params }: RouteProps): Promise<Metadata
       type: 'article',
       publishedTime: post.publishedAt,
       authors: post.author ? [post.author] : undefined,
-      images: builder ? [builder.width(1200).height(630).url()] : [],
+      images: builder
+        ? [{ url: builder.width(1200).height(630).url(), alt: coverAlt(post) }]
+        : [],
     },
   };
 }
 
-const portableComponents = {
+const portableComponents = (fallbackAlt: string) => ({
   types: {
     image: ({ value }: { value: { asset?: { _ref: string }; alt?: string } }) => {
       if (!value?.asset) return null;
@@ -71,7 +59,7 @@ const portableComponents = {
           <div className="relative aspect-video w-full overflow-hidden rounded">
             <Image
               src={url}
-              alt={value.alt ?? ''}
+              alt={value.alt?.trim() || fallbackAlt}
               fill
               sizes="(min-width: 1024px) 900px, 100vw"
               className="object-cover"
@@ -123,7 +111,7 @@ const portableComponents = {
       <ol className="mb-5 list-decimal space-y-2 pl-6 text-bone-muted">{children}</ol>
     ),
   },
-};
+});
 
 export default async function BlogPostPage({ params }: RouteProps) {
   const { slug } = await params;
@@ -134,6 +122,9 @@ export default async function BlogPostPage({ params }: RouteProps) {
   const body = Array.isArray(post.body) ? (post.body as PortableTextBlock[]) : null;
   const coverBuilder = post.coverImage ? urlForImage(post.coverImage) : null;
   const coverUrl = coverBuilder ? coverBuilder.width(2000).url() : null;
+  // Posts written before a category existed in the schema still render.
+  const hub = BLOG_CATEGORIES[post.category];
+  const hubHref = hub ? blogCategoryHref(post.category) : '/blog';
 
   const articleSchema = {
     '@context': 'https://schema.org',
@@ -164,12 +155,34 @@ export default async function BlogPostPage({ params }: RouteProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Blog', href: '/blog' },
+          ...(hub ? [{ name: hub.h1, href: hubHref }] : []),
+          { name: post.title, href: `/blog/${post.slug.current}` },
+        ]}
+      />
       <main>
         <article>
           <header className="bg-black px-6 pt-28 pb-10 md:px-12 md:pt-36">
             <div className="mx-auto max-w-[900px]">
+              <nav aria-label="Breadcrumb" className="data-label mb-6 text-[11px] text-bone-muted">
+                <Link href="/blog" className="transition-colors hover:text-brass">
+                  Blog
+                </Link>
+                {hub && (
+                  <>
+                    {' › '}
+                    <Link href={hubHref} className="transition-colors hover:text-brass">
+                      {hub.label}
+                    </Link>
+                  </>
+                )}
+                {' › '}
+                <span aria-current="page">{post.title}</span>
+              </nav>
               <DataLabel className="mb-5">
-                {CATEGORY_LABELS[post.category]} · {formatDate(post.publishedAt)}
+                {hub?.label} · {formatPostDate(post.publishedAt, 'long')}
                 {post.readingTime ? ` · ${post.readingTime} min read` : ''}
               </DataLabel>
               <h1 className="font-serif text-4xl italic leading-[1.05] md:text-6xl">
@@ -195,7 +208,7 @@ export default async function BlogPostPage({ params }: RouteProps) {
                 <div className="relative aspect-video w-full overflow-hidden rounded">
                   <Image
                     src={coverUrl}
-                    alt={post.title}
+                    alt={coverAlt(post)}
                     fill
                     sizes="(min-width: 1200px) 1200px, 100vw"
                     className="object-cover"
@@ -209,7 +222,7 @@ export default async function BlogPostPage({ params }: RouteProps) {
           {body && (
             <section className="bg-gunpowder px-6 py-16 md:px-12 md:py-24">
               <div className="mx-auto max-w-[720px] text-lg">
-                <PortableText value={body} components={portableComponents} />
+                <PortableText value={body} components={portableComponents(post.title)} />
               </div>
             </section>
           )}
@@ -218,7 +231,17 @@ export default async function BlogPostPage({ params }: RouteProps) {
         {related.length > 0 && (
           <section className="border-t border-brass/15 bg-black px-6 py-20 md:px-12 md:py-24">
             <div className="mx-auto max-w-[1200px]">
-              <DataLabel className="mb-8">KEEP READING</DataLabel>
+              <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4">
+                <DataLabel>KEEP READING</DataLabel>
+                {hub && (
+                  <Link
+                    href={hubHref}
+                    className="text-sm font-medium uppercase tracking-wider text-brass transition-colors hover:text-golden-hour"
+                  >
+                    More {hub.name.toLowerCase()} guides →
+                  </Link>
+                )}
+              </div>
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                 {related.map((r) => (
                   <Link key={r._id} href={`/blog/${r.slug.current}`} className="group flex flex-col">
@@ -226,7 +249,7 @@ export default async function BlogPostPage({ params }: RouteProps) {
                       <div className="relative aspect-video overflow-hidden rounded">
                         <Image
                           src={urlForImage(r.coverImage)?.width(600).height(338).url() ?? ''}
-                          alt={r.title}
+                          alt={coverAlt(r)}
                           fill
                           sizes="(min-width: 768px) 33vw, 100vw"
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -236,7 +259,7 @@ export default async function BlogPostPage({ params }: RouteProps) {
                       <div className="aspect-video rounded bg-gradient-to-br from-dusk-teal to-texas-umber" />
                     )}
                     <DataLabel tone="muted" className="mt-3 text-[10px]">
-                      {CATEGORY_LABELS[r.category]} · {formatDate(r.publishedAt)}
+                      {BLOG_CATEGORIES[r.category]?.label} · {formatPostDate(r.publishedAt, 'long')}
                     </DataLabel>
                     <h3 className="mt-2 font-serif text-lg italic transition-colors group-hover:text-brass">
                       {r.title}

@@ -174,6 +174,19 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
   );
 }
 
+/** Newest first. Selects the same fields as getAllBlogPosts. */
+export async function getBlogPostsByCategory(category: string, limit = 200): Promise<BlogPost[]> {
+  if (!sanityClient) return [];
+  return sanityClient.fetch(
+    groq`*[_type == "blogPost" && category == $category && defined(publishedAt)]
+      | order(publishedAt desc)[0...$limit]{
+      _id, title, slug, excerpt, coverImage, publishedAt, category,
+      author, authorTitle, featured, readingTime
+    }`,
+    { category, limit },
+  );
+}
+
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
   if (!sanityClient) return null;
   return sanityClient.fetch(
