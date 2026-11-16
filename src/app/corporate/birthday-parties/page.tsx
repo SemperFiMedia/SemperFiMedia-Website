@@ -40,7 +40,7 @@ const WHY = [
   },
   {
     title: 'Social reels the family actually shares.',
-    body: "The hero film is the heirloom. The vertical social cuts are how the family shares the night with friends the next morning. Both come out of the same coverage, at the same cost.",
+    body: "The hero film is the heirloom. The vertical social cuts are how the family shares the night with friends the next morning. Both come out of the same coverage. Vertical cuts come with Brand Film and can be added to any job.",
   },
   {
     title: 'Discreet on the ground.',

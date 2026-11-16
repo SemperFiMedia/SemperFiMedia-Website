@@ -26,7 +26,7 @@ const QUE_CAPTURAMOS = [
   'El baile sorpresa con todos los chambelanes',
   'Los brindis, el pastel, y los momentos en familia',
   'La recepción completa — DJ, banda, mariachi, lo que sea',
-  'Reels verticales para Instagram, TikTok y compartir con la familia',
+  'Reels verticales para Instagram, TikTok y compartir con la familia (con Brand Film o como complemento)',
 ];
 
 const POR_QUE = [
@@ -40,7 +40,7 @@ const POR_QUE = [
   },
   {
     title: 'Reels sociales que las primas comparten.',
-    body: 'Película principal para la familia. Reels verticales para la quinceañera. La cumpleañera de quince quiere algo para postear al día siguiente — eso lo construimos en cada paquete.',
+    body: 'Película principal para la familia. Reels verticales para la quinceañera. La cumpleañera de quince quiere algo para postear al día siguiente: los cortes verticales vienen con Brand Film y se pueden agregar a cualquier trabajo.',
   },
   {
     title: 'Hablamos español. Filmamos para tu familia.',

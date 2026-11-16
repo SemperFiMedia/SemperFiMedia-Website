@@ -37,7 +37,7 @@ const WHY = [
   },
   {
     title: 'Recap reels cut for social, not just YouTube.',
-    body: 'Your con recap has to live on Instagram, TikTok, and X if it\'s going to move tickets. Every coverage package includes vertical social cuts alongside the hero recap — same color treatment, same momentum, same cost.',
+    body: 'Your con recap has to live on Instagram, TikTok, and X if it\'s going to move tickets. Vertical social cuts come with Brand Film and can be added to any job, in the same color treatment and momentum as the hero recap.',
   },
   {
     title: 'Respect for attendees in costume.',

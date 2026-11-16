@@ -40,7 +40,7 @@ const WHY = [
   },
   {
     title: 'Social reels that make the cousins share.',
-    body: 'Hero film for the family. Vertical social reels for the quinceañera. The fifteen-year-old wants something to post the next morning — we build that into every package.',
+    body: 'Hero film for the family. Vertical social reels for the quinceañera. The fifteen-year-old wants something to post the next morning, so vertical cuts come with Brand Film and can be added to any job.',
   },
   {
     title: 'Scalable coverage for the day.',
