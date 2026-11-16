@@ -8,9 +8,6 @@ const SERVICES = [
   { href: '/weddings', label: 'Cinema Weddings' },
   { href: '/corporate/music-videos', label: 'Music Videos' },
   { href: '/corporate/mission-and-tactical', label: 'Mission & Tactical' },
-  { href: '/corporate/conventions', label: 'Conventions' },
-  { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
-  { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
   { href: '/social-reels', label: 'Social Media Reels' },
   { href: '/session-capture', label: 'Session Capture' },
   { href: '/corporate/drone', label: 'Drone & Aerial' },
@@ -19,6 +16,16 @@ const SERVICES = [
   { href: '/filmmaking', label: 'Filmmaking' },
   { href: '/film-production', label: 'Film Production Crew' },
   { href: '/pricing', label: 'Pricing' },
+] as const;
+
+const EVENTS = [
+  { href: '/weddings', label: 'Weddings' },
+  { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
+  { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
+  { href: '/corporate/dj-events', label: 'DJ & Live Music' },
+  { href: '/corporate/arena-events', label: 'Arena Events' },
+  { href: '/corporate/galas-and-fundraisers', label: 'Galas & Fundraisers' },
+  { href: '/corporate/conventions', label: 'Conventions & Conferences' },
 ] as const;
 
 const COMPANY = [
@@ -62,6 +69,16 @@ export function Footer() {
           <div className="data-label mb-4 text-brass">Services</div>
           <ul className="space-y-2 text-sm">
             {SERVICES.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-bone">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="data-label mb-4 mt-8 text-brass">Events</div>
+          <ul className="space-y-2 text-sm">
+            {EVENTS.map((link) => (
               <li key={link.href}>
                 <Link href={link.href} className="hover:text-bone">
                   {link.label}

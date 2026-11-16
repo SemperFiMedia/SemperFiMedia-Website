@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { env } from '@/lib/env';
 import { getAllCaseStudies, getAllBlogPosts, getAllReelReconReviews } from '@/sanity/queries';
+import { BLOG_CATEGORY_SLUGS, blogCategoryHref } from '@/lib/blog-categories';
 
 const STATIC_ROUTES = [
   '',
@@ -19,6 +20,9 @@ const STATIC_ROUTES = [
   '/corporate/conventions',
   '/corporate/quinceaneras',
   '/corporate/birthday-parties',
+  '/corporate/dj-events',
+  '/corporate/arena-events',
+  '/corporate/galas-and-fundraisers',
   '/weddings',
   '/social-reels',
   '/social-reels/fleming-photos',
@@ -26,6 +30,7 @@ const STATIC_ROUTES = [
   '/about',
   '/contact',
   '/blog',
+  ...BLOG_CATEGORY_SLUGS.map(blogCategoryHref),
   '/reel-recon',
   '/shoots',
   '/refer',

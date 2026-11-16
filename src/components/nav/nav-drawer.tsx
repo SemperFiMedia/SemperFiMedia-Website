@@ -32,6 +32,18 @@ const SECTIONS = [
     ],
   },
   {
+    label: 'Events',
+    links: [
+      { href: '/weddings', label: 'Weddings' },
+      { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
+      { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
+      { href: '/corporate/dj-events', label: 'DJ & Live Music' },
+      { href: '/corporate/arena-events', label: 'Arena Events' },
+      { href: '/corporate/galas-and-fundraisers', label: 'Galas & Fundraisers' },
+      { href: '/corporate/conventions', label: 'Conventions & Conferences' },
+    ],
+  },
+  {
     label: 'Niches',
     links: [
       { href: '/corporate/music-videos', label: 'Music Videos' },
@@ -41,9 +53,6 @@ const SECTIONS = [
       { href: '/corporate/mission-and-tactical', label: 'Mission & Tactical' },
       { href: '/corporate/faith-and-community', label: 'Faith & Community' },
       { href: '/corporate/small-business', label: 'Small Business' },
-      { href: '/corporate/conventions', label: 'Conventions' },
-      { href: '/corporate/quinceaneras', label: 'Quinceañeras' },
-      { href: '/corporate/birthday-parties', label: 'Birthday Parties' },
     ],
   },
 ] as const;
