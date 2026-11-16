@@ -7,6 +7,7 @@ import {
   weddingStartingPrice,
   weddingBundlePhrase,
   rawFootageDrivePrice,
+  weddingTierSummary,
 } from '@/lib/weddings';
 import { FX3_LENS, A7S3_LENS } from '@/lib/gear';
 import { Nav } from '@/components/nav/nav';
@@ -14,7 +15,10 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { PricingTier } from '@/components/pricing/pricing-tier';
-import { ServiceJsonLd } from '@/components/seo/structured-data';
+import { ServiceJsonLd, FaqJsonLd } from '@/components/seo/structured-data';
+import { ServingArea } from '@/components/seo/serving-area';
+import { FieldNotes } from '@/components/blog/field-notes';
+import { REVISIONS_FAQ, TRAVEL_FAQ } from '@/lib/event-faqs';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { TestimonialsGrid } from '@/components/social-proof/testimonials-grid';
 import { WeddingConfigurator } from '@/components/weddings/wedding-configurator';
@@ -24,9 +28,9 @@ import { getCaseStudiesByCategory, getAllTestimonials } from '@/sanity/queries';
 const WEDDING_FROM = formatPrice(weddingStartingPrice());
 
 export const metadata: Metadata = {
-  title: 'Netflix Documentary Wedding Films Dallas — Cinema Wedding Videography',
+  title: 'Wedding Videographer in Dallas–Fort Worth',
   description:
-    `Your wedding day, filmed like a Netflix documentary. Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Three packages from ${WEDDING_FROM} — full transparency, no hidden fees.`,
+    `Documentary-style wedding films in Dallas and Fort Worth, shot on cinema cameras. Three published packages from ${WEDDING_FROM}. No hidden fees.`,
   alternates: {
     canonical: 'https://semperfimedia.llc/weddings',
     languages: { 'es-US': 'https://semperfimedia.llc/es/weddings' },
@@ -52,6 +56,10 @@ const PROCESS = [
 ];
 
 const FAQ = [
+  {
+    q: 'How much does a wedding videographer cost in Dallas–Fort Worth?',
+    a: `Our three wedding packages are published: ${weddingTierSummary()}. Add-ons and travel are priced on this page too, so the quote matches what you read here.`,
+  },
   {
     q: 'How far in advance should we book?',
     a: 'For peak Texas wedding season (March–June, September–November), book 6–9 months out. Off-peak weddings can sometimes be booked 2–3 months out. The discovery call is free regardless of date.',
@@ -84,6 +92,8 @@ const FAQ = [
     q: 'Can we add packages or change tiers later?',
     a: `Yes. Upgrades and add-ons are welcome up to 30 days before the wedding day. Book two or more film add-ons (Proposal, Engagement, Wedding Teaser) and ${weddingBundlePhrase()}. The price builder applies it automatically.`,
   },
+  TRAVEL_FAQ,
+  REVISIONS_FAQ,
 ];
 
 const WEDDING_TIERS = TIERS.map((tier) => ({
@@ -130,21 +140,22 @@ export default async function WeddingsPage() {
     <>
       <Nav />
       <ServiceJsonLd
-        name="Netflix Documentary Wedding Films Dallas"
+        name="Wedding Videographer in Dallas–Fort Worth"
+        serviceType="Wedding videography"
         description={`Marine-led cinema wedding videography in Dallas–Fort Worth and destination. Documentary-style wedding films from ${WEDDING_FROM}.`}
         url="https://semperfimedia.llc/weddings"
       />
+      <FaqJsonLd items={FAQ} />
       <main>
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-6">CINEMA WEDDINGS · DALLAS / DFW / DESTINATION</DataLabel>
-            <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
-              Your wedding day,
-              <br />
-              filmed like a
-              <br />
-              Netflix documentary.
+            <h1 className="max-w-4xl font-serif text-4xl italic leading-[1.05] md:text-6xl">
+              Wedding Videographer in Dallas–Fort Worth
             </h1>
+            <p className="mt-5 font-serif text-2xl italic text-brass md:text-3xl">
+              Your wedding day, filmed like a Netflix documentary.
+            </p>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted md:text-xl">
               Cinema cameras. Real moments. The day rendered the way it actually felt — not a
               checklist highlight reel. Marine-led, owner-operator, transparently priced
@@ -327,6 +338,10 @@ export default async function WeddingsPage() {
             </div>
           </div>
         </section>
+
+        <FieldNotes category="weddings" />
+
+        <ServingArea eventType="weddings" />
 
         <section className="bg-gradient-to-br from-texas-umber via-golden-hour to-bone px-6 py-20 text-gunpowder md:px-12 md:py-28">
           <div className="mx-auto max-w-[900px] text-center">

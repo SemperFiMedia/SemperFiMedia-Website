@@ -5,15 +5,19 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { FaqSection } from '@/components/seo/faq-section';
+import { ServingArea } from '@/components/seo/serving-area';
+import { FieldNotes } from '@/components/blog/field-notes';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { BOOKING_FAQ, REVIEW_FAQ, TRAVEL_FAQ, corporateCostFaq } from '@/lib/event-faqs';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/corporate/birthday-parties' },
-  title: 'Birthday Party Videographer Dallas — Milestone & Private Events',
+  title: { absolute: 'Birthday Party Videographer in Dallas–Fort Worth' },
   description:
-    'Dallas birthday party videography. Cinema-grade coverage for 30th, 40th, 50th, 60th, and milestone birthday parties. Private celebrations filmed like the moments actually deserve.',
+    'Milestone birthday films in Dallas–Fort Worth. The toasts recorded clean, the night cut like a film, and vertical reels the family shares the next morning.',
 };
 
 const WHO = [
@@ -44,14 +48,30 @@ const WHY = [
   },
 ];
 
+const FAQS = [
+  corporateCostFaq('a birthday party film'),
+  {
+    q: 'What do we get?',
+    a: 'A finished film of the night, color graded with licensed music: 60–90 seconds on Spotlight, 2–3 minutes on Brand Film. Vertical cuts for social come with Brand Film and can be added to any job.',
+  },
+  {
+    q: 'Can you film a surprise party without tipping off the guest of honor?',
+    a: 'Yes. We plan with the host only, arrive before the guests, and stay out of sight until the reveal.',
+  },
+  TRAVEL_FAQ,
+  BOOKING_FAQ,
+  REVIEW_FAQ,
+];
+
 export default async function BirthdayPartiesPage() {
   const featured = await getCaseStudiesByCategory('birthday', 4);
   return (
     <>
       <Nav />
       <ServiceJsonLd
-        name="Birthday Party Videographer Dallas"
-        description="Cinema-grade birthday party videography in Dallas–Fort Worth. Milestone birthdays, surprise parties, themed celebrations, and private family events filmed with cinematic craft."
+        name="Birthday Party Videographer in Dallas–Fort Worth"
+        serviceType="Birthday party videography"
+        description="Cinema-grade videography for milestone birthdays, surprise parties and private celebrations in Dallas–Fort Worth."
         url="https://semperfimedia.llc/corporate/birthday-parties"
       />
       <BreadcrumbJsonLd items={[
@@ -63,13 +83,12 @@ export default async function BirthdayPartiesPage() {
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-6">SERVICE · BIRTHDAY PARTIES</DataLabel>
-            <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
-              The night
-              <br />
-              deserves a film,
-              <br />
-              not a phone clip.
+            <h1 className="max-w-4xl font-serif text-4xl italic leading-[1.05] md:text-6xl">
+              Birthday Party Videographer in Dallas–Fort Worth
             </h1>
+            <p className="mt-5 font-serif text-2xl italic text-brass md:text-3xl">
+              The night deserves a film, not a phone clip.
+            </p>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
               Cinema-grade videography for milestone birthdays, surprise parties, and private
               celebrations across Dallas–Fort Worth. Toasts captured clean, speeches that will
@@ -131,6 +150,12 @@ export default async function BirthdayPartiesPage() {
             </div>
           </div>
         </section>
+
+        <FieldNotes category="events" />
+
+        <FaqSection eyebrow="BIRTHDAY FILM FAQ" heading="What hosts ask first." items={FAQS} />
+
+        <ServingArea eventType="birthday parties" />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-4xl text-center">

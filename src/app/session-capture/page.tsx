@@ -8,6 +8,7 @@ import { BrassButton } from '@/components/primitives/brass-button';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { SessionCaptureConfigurator } from '@/components/session-capture/session-capture-configurator';
 import { ServiceJsonLd, BreadcrumbJsonLd, FaqJsonLd } from '@/components/seo/structured-data';
+import { ServingArea } from '@/components/seo/serving-area';
 import { ViewContent } from '@/components/analytics/view-content';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 import {
@@ -475,6 +476,8 @@ export default async function SessionCapturePage() {
             </p>
           </div>
         </section>
+
+        <ServingArea eventType="keynotes, panels and conference sessions" />
 
         {/* CTA */}
         <section className="border-t border-brass/15 bg-gunpowder px-6 py-20 text-center md:px-12 md:py-28">

@@ -8,9 +8,9 @@ import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 
 export const metadata: Metadata = {
-  title: 'Videógrafo de Quinceañeras Dallas — Garland, Mesquite, Oak Cliff',
+  title: { absolute: 'Videógrafo de Quinceañeras en Dallas–Fort Worth' },
   description:
-    'Videografía cinematográfica para quinceañeras en Dallas, Garland, Mesquite, Oak Cliff y todo DFW. Misa, vals, baile sorpresa, recepción — filmados con respeto a la tradición y calidad de cine. Liderado por un Marine.',
+    'Películas de quinceañera en Dallas y Fort Worth: misa, corte, vals, baile sorpresa y recepción, filmados con cámaras de cine y respeto a la tradición.',
   alternates: {
     canonical: 'https://semperfimedia.llc/es/quinceaneras',
     languages: {
@@ -55,7 +55,8 @@ export default async function EsQuinceanerasPage() {
     <div lang="es">
       <NavEs />
       <ServiceJsonLd
-        name="Videógrafo de Quinceañeras Dallas"
+        name="Videógrafo de Quinceañeras en Dallas–Fort Worth"
+        serviceType="Videografía de quinceañeras"
         description="Videografía cinematográfica de quinceañeras en Dallas–Fort Worth — Garland, Mesquite, Oak Cliff, Forney, Plano. Misa, corte, vals, baile sorpresa, recepción."
         url="https://semperfimedia.llc/es/quinceaneras"
       />
@@ -63,13 +64,12 @@ export default async function EsQuinceanerasPage() {
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-6">QUINCEAÑERAS · DALLAS / GARLAND / MESQUITE / OAK CLIFF</DataLabel>
-            <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
-              Una película
-              <br />
-              digna del día
-              <br />
-              que cumple quince.
+            <h1 className="max-w-4xl font-serif text-4xl italic leading-[1.05] md:text-6xl">
+              Videógrafo de Quinceañeras en Dallas–Fort Worth
             </h1>
+            <p className="mt-5 font-serif text-2xl italic text-brass md:text-3xl">
+              Una película digna del día que cumple quince.
+            </p>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
               Videografía de quinceañera con calidad de cine para familias hispanas en Dallas,
               Garland, Mesquite, Oak Cliff y todo el área DFW. La misa, la corte, el vals, el

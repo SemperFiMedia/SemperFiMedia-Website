@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { ServingArea } from '@/components/seo/serving-area';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
@@ -130,6 +131,8 @@ export default async function FaithAndCommunityPage() {
             </div>
           </div>
         </section>
+
+        <ServingArea eventType="church, ministry and nonprofit stories" />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-4xl text-center">

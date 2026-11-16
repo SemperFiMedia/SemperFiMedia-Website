@@ -13,9 +13,9 @@ import { getCaseStudiesByCategory } from '@/sanity/queries';
 const WEDDING_FROM = formatPrice(weddingStartingPrice());
 
 export const metadata: Metadata = {
-  title: 'Bodas Cinematográficas Dallas — Estilo Documental Netflix',
+  title: 'Videógrafo de Bodas en Dallas–Fort Worth',
   description:
-    `Bodas filmadas como documentales de Netflix en Dallas–Fort Worth. Liderado por un Marine, precios transparentes desde ${WEDDING_FROM}. Tres paquetes flat, sin sorpresas.`,
+    `Películas de boda estilo documental en Dallas y Fort Worth, filmadas con cámaras de cine. Tres paquetes publicados desde ${WEDDING_FROM}. Sin sorpresas.`,
   alternates: {
     canonical: 'https://semperfimedia.llc/es/weddings',
     languages: {
@@ -97,7 +97,8 @@ export default async function EsWeddingsPage() {
     <div lang="es">
       <NavEs />
       <ServiceJsonLd
-        name="Bodas Cinematográficas Dallas — Estilo Netflix"
+        name="Videógrafo de Bodas en Dallas–Fort Worth"
+        serviceType="Videografía de bodas"
         description={`Videografía de bodas con calidad de cine en Dallas–Fort Worth. Estilo documental Netflix. Tres paquetes desde ${WEDDING_FROM}.`}
         url="https://semperfimedia.llc/es/weddings"
       />
@@ -105,13 +106,12 @@ export default async function EsWeddingsPage() {
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-6">BODAS · DALLAS / FORT WORTH / DESTINO</DataLabel>
-            <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
-              Tu día de boda,
-              <br />
-              filmado como un
-              <br />
-              <span className="text-brass">documental de Netflix.</span>
+            <h1 className="max-w-4xl font-serif text-4xl italic leading-[1.05] md:text-6xl">
+              Videógrafo de Bodas en Dallas–Fort Worth
             </h1>
+            <p className="mt-5 font-serif text-2xl italic text-brass md:text-3xl">
+              Tu día de boda, filmado como un documental de Netflix.
+            </p>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted md:text-xl">
               Cámaras de cine. Momentos reales. El día como realmente se sintió — no un highlight
               reel genérico. Liderado por un Marine, precios transparentes desde {WEDDING_FROM}.

@@ -5,15 +5,19 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { FaqSection } from '@/components/seo/faq-section';
+import { ServingArea } from '@/components/seo/serving-area';
+import { FieldNotes } from '@/components/blog/field-notes';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { BOOKING_FAQ, REVIEW_FAQ, TRAVEL_FAQ, corporateCostFaq } from '@/lib/event-faqs';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/corporate/quinceaneras' },
-  title: 'Quinceañera Videographer Dallas — Cinematic Quinces in DFW',
+  title: { absolute: 'Quinceañera Videographer in Dallas–Fort Worth' },
   description:
-    'Dallas–Fort Worth quinceañera videography. Cinema-grade quince films, father-daughter dance coverage, court choreography, and social reels. Marine-led craft at independent operator pricing.',
+    'Quinceañera films in Dallas and Fort Worth: Mass, court, vals, surprise dance and reception, filmed on cinema cameras with reels the family can share.',
 };
 
 const WHO = [
@@ -44,14 +48,30 @@ const WHY = [
   },
 ];
 
+const FAQS = [
+  corporateCostFaq('a quinceañera film'),
+  {
+    q: 'What parts of the day do you film?',
+    a: 'The Mass, the court entrance, the changing of the shoes, the vals, the surprise dance, the toast and the reception. Tell us on the discovery call which moments matter most to your family and they go on the shot list.',
+  },
+  {
+    q: '¿Hablan español?',
+    a: 'Sí. This page is available in Spanish at semperfimedia.llc/es/quinceaneras, and planning calls can be in Spanish or English.',
+  },
+  TRAVEL_FAQ,
+  BOOKING_FAQ,
+  REVIEW_FAQ,
+];
+
 export default async function QuinceanerasPage() {
   const featured = await getCaseStudiesByCategory('quinceanera', 4);
   return (
     <>
       <Nav />
       <ServiceJsonLd
-        name="Quinceañera Videographer Dallas"
-        description="Cinematic quinceañera videography in Dallas–Fort Worth. Cinema-grade quince films covering the Mass, court choreography, surprise dance, and reception."
+        name="Quinceañera Videographer in Dallas–Fort Worth"
+        serviceType="Quinceañera videography"
+        description="Cinema-grade quinceañera films for Dallas–Fort Worth families. Mass, court, vals, surprise dance and reception coverage with social reels."
         url="https://semperfimedia.llc/corporate/quinceaneras"
       />
       <BreadcrumbJsonLd items={[
@@ -63,13 +83,12 @@ export default async function QuinceanerasPage() {
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-6">SERVICE · QUINCEAÑERAS</DataLabel>
-            <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
-              A film worthy
-              <br />
-              of the day
-              <br />
-              she turns fifteen.
+            <h1 className="max-w-4xl font-serif text-4xl italic leading-[1.05] md:text-6xl">
+              Quinceañera Videographer in Dallas–Fort Worth
             </h1>
+            <p className="mt-5 font-serif text-2xl italic text-brass md:text-3xl">
+              A film worthy of the day she turns fifteen.
+            </p>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
               Cinema-grade quinceañera videography for Dallas–Fort Worth families. Mass, court,
               vals, surprise dance, reception — every tradition captured the way the family
@@ -130,6 +149,12 @@ export default async function QuinceanerasPage() {
             </div>
           </div>
         </section>
+
+        <FieldNotes category="events" />
+
+        <FaqSection eyebrow="QUINCEAÑERA FAQ" heading="What families ask first." items={FAQS} />
+
+        <ServingArea eventType="quinceañeras" />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-4xl text-center">

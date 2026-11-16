@@ -5,15 +5,20 @@ import { Footer } from '@/components/footer/footer';
 import { DataLabel } from '@/components/primitives/data-label';
 import { BrassButton } from '@/components/primitives/brass-button';
 import { ServiceJsonLd, BreadcrumbJsonLd } from '@/components/seo/structured-data';
+import { FaqSection } from '@/components/seo/faq-section';
+import { ServingArea } from '@/components/seo/serving-area';
+import { FieldNotes } from '@/components/blog/field-notes';
 import { NicheFeaturedWork } from '@/components/niche/featured-work';
 import { getCaseStudiesByCategory } from '@/sanity/queries';
+import { BOOKING_FAQ, REVIEW_FAQ, TRAVEL_FAQ, corporateCostFaq } from '@/lib/event-faqs';
+import { SESSION_CAPTURE_PRICE } from '@/lib/session-capture';
 import { corporateStartingPrice, corporateTierPhrase, formatPrice } from '@/lib/corporate';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/corporate/conventions' },
-  title: 'Convention Videographer Dallas — Cosplay, Horror, Comic, Gaming Cons',
+  title: { absolute: 'Convention & Conference Videographer in Dallas–Fort Worth' },
   description:
-    'Dallas convention videography. Recap reels, walkthroughs, cosplay highlights, and promo cuts for Texas Haunters, cosplay conventions, comic cons, horror cons, and gaming events. Cinema-grade coverage that actually gets shared.',
+    'Convention, conference and trade show video in Dallas–Fort Worth: recap reels, show-floor coverage, keynote recording and social cuts from one crew.',
 };
 
 const WHO = [
@@ -44,14 +49,30 @@ const WHY = [
   },
 ];
 
+const FAQS = [
+  corporateCostFaq('convention or conference video'),
+  {
+    q: 'Do you record keynotes and breakout sessions?',
+    a: `Yes. A single session is a flat ${formatPrice(SESSION_CAPTURE_PRICE)} through Session Capture: 4K camera, audio off the house board, slides cut in. Coverage of the whole event is quoted on the Corporate tiers.`,
+  },
+  {
+    q: 'Can an exhibitor hire you for booth video at a trade show?',
+    a: 'Yes. Exhibitor and sponsor videos are quoted on the same Corporate tiers, and can be added to an organizer’s coverage or booked on their own.',
+  },
+  TRAVEL_FAQ,
+  BOOKING_FAQ,
+  REVIEW_FAQ,
+];
+
 export default async function ConventionsPage() {
   const featured = await getCaseStudiesByCategory('convention', 4, { newestFirst: true });
   return (
     <>
       <Nav />
       <ServiceJsonLd
-        name="Convention Videographer Dallas"
-        description="Cinematic convention coverage in Dallas–Fort Worth for cosplay, horror, comic, gaming, and trade conventions. Recap reels, walkthroughs, promo cuts with social deliverables."
+        name="Convention, Conference & Trade Show Videographer in Dallas–Fort Worth"
+        serviceType="Convention, conference and trade show videography"
+        description="Convention, conference and trade show coverage in Dallas–Fort Worth: recap reels, show-floor walkthroughs, keynote recording and social cuts."
         url="https://semperfimedia.llc/corporate/conventions"
       />
       <BreadcrumbJsonLd items={[
@@ -63,17 +84,17 @@ export default async function ConventionsPage() {
         <section className="bg-gradient-to-br from-gunpowder via-dusk-teal to-black px-6 pt-28 pb-16 md:px-12 md:pt-36 md:pb-24">
           <div className="mx-auto max-w-[1200px]">
             <DataLabel className="mb-6">SERVICE · CONVENTIONS</DataLabel>
-            <h1 className="font-serif text-5xl italic leading-[0.95] md:text-7xl">
-              The recap reel
-              <br />
-              that sells next
-              <br />
-              year&apos;s tickets.
+            <h1 className="max-w-4xl font-serif text-4xl italic leading-[1.05] md:text-6xl">
+              Convention, Conference &amp; Trade Show Videographer in Dallas–Fort Worth
             </h1>
+            <p className="mt-5 font-serif text-2xl italic text-brass md:text-3xl">
+              The recap reel that sells next year&apos;s tickets.
+            </p>
             <p className="mt-8 max-w-2xl text-lg text-bone-muted">
-              Convention videography for Dallas–Fort Worth horror cons, cosplay and anime cons,
-              comic and pop culture expos, gaming events, and trade shows. Cinematic recap
-              footage that your promoters, exhibitors, and attendees will actually share.
+              Convention, conference and trade show videography for Dallas–Fort Worth: horror
+              cons, cosplay and anime cons, comic and pop culture expos, gaming events, industry
+              conferences and expo floors. Cinematic recap footage that your promoters,
+              exhibitors, and attendees will actually share.
             </p>
             <p className="mt-6 max-w-2xl text-sm text-bone-muted">
               <span className="text-brass">From {formatPrice(corporateStartingPrice())}.</span> Delivered on the Corporate
@@ -130,6 +151,48 @@ export default async function ConventionsPage() {
             </div>
           </div>
         </section>
+
+        <section className="border-t border-brass/15 bg-black px-6 py-20 md:px-12 md:py-24">
+          <div className="mx-auto max-w-[1200px]">
+            <DataLabel className="mb-5">CONFERENCES · TRADE SHOWS · KEYNOTES</DataLabel>
+            <h2 className="font-serif text-3xl italic md:text-4xl">
+              Conference, trade show and keynote video in Dallas.
+            </h2>
+            <div className="mt-10 grid grid-cols-1 gap-10 md:grid-cols-3">
+              <div>
+                <h3 className="font-serif text-xl italic">Conference videography</h3>
+                <p className="mt-2 leading-relaxed text-bone-muted">
+                  General sessions, breakouts, networking and attendee interviews, cut into a
+                  recap your marketing team can use to sell next year&apos;s registration.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-serif text-xl italic">Trade show videography</h3>
+                <p className="mt-2 leading-relaxed text-bone-muted">
+                  Show-floor coverage for organizers, plus booth and product videos for
+                  exhibitors who want something to post while the show is still open.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-serif text-xl italic">Keynote recording</h3>
+                <p className="mt-2 leading-relaxed text-bone-muted">
+                  One talk, recorded properly: 4K camera, audio off the house board, slides cut
+                  in. That is its own flat-rate service,{' '}
+                  <Link href="/session-capture" className="text-brass underline">
+                    Session Capture
+                  </Link>
+                  , from {formatPrice(SESSION_CAPTURE_PRICE)}.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <FieldNotes category="conventions" />
+
+        <FaqSection eyebrow="CONVENTION & CONFERENCE FAQ" heading="What organizers ask first." items={FAQS} />
+
+        <ServingArea eventType="conventions, conferences and trade shows" />
 
         <section className="bg-gunpowder px-6 py-20 md:px-12 md:py-24">
           <div className="mx-auto max-w-4xl text-center">
