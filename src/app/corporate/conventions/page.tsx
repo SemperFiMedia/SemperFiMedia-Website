@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 const WHO = [
   'Horror, haunt, and dark arts conventions (Texas Haunters Convention, regional haunt industry events)',
-  'Cosplay, anime, and pop culture cons (DFW and statewide)',
+  'Cosplay, anime, and pop culture cons (Otaku Odyssey, DFW and statewide)',
   'Comic cons, collectibles shows, and fan expos',
   'Gaming conventions, tabletop events, and esports tournaments',
   'Trade shows, industry expos, and professional conferences',
@@ -65,7 +65,7 @@ const FAQS = [
 ];
 
 export default async function ConventionsPage() {
-  const featured = await getCaseStudiesByCategory('convention', 4, { newestFirst: true });
+  const featured = await getCaseStudiesByCategory('convention', 7, { newestFirst: true });
   return (
     <>
       <Nav />
