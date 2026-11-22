@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 const WHO = [
   'Horror, haunt, and dark arts conventions (Texas Haunters Convention, regional haunt industry events)',
-  'Cosplay, anime, and pop culture cons (Otaku Odyssey, DFW and statewide)',
+  'Cosplay, anime, and pop culture cons (Otaku Odyssey, WeebCon, DFW and statewide)',
   'Comic cons, collectibles shows, and fan expos',
   'Gaming conventions, tabletop events, and esports tournaments',
   'Trade shows, industry expos, and professional conferences',
@@ -64,8 +64,23 @@ const FAQS = [
   REVIEW_FAQ,
 ];
 
+// TJ's order for this page (Nov 22, 2026). The first one plays on the page; anything
+// not listed follows, newest first.
+const WORK_ORDER = [
+  '2026-texas-haunters-convention',
+  'vidsummit-2026',
+  'otaku-odyssey-2026',
+  'weebcon-2026',
+];
+const workRank = (slug: string) => {
+  const i = WORK_ORDER.indexOf(slug);
+  return i < 0 ? WORK_ORDER.length : i;
+};
+
 export default async function ConventionsPage() {
-  const featured = await getCaseStudiesByCategory('convention', 7, { newestFirst: true });
+  const featured = (await getCaseStudiesByCategory('convention', 7, { newestFirst: true })).sort(
+    (x, y) => workRank(x.slug.current) - workRank(y.slug.current),
+  );
   return (
     <>
       <Nav />
